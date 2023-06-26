@@ -5,8 +5,8 @@ using UnityEngine.EventSystems;
 
 public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
 {
-    public float Horizontal { get { return (snapX) ? SnapFloat(input.x, AxisOptions.Horizontal) : input.x; } }
-    public float Vertical { get { return (snapY) ? SnapFloat(input.y, AxisOptions.Vertical) : input.y; } }
+    public float Horizontal { get { return (snapX) ? SnapFloat(Input.x, AxisOptions.Horizontal) : Input.x; } }
+    public float Vertical { get { return (snapY) ? SnapFloat(Input.y, AxisOptions.Vertical) : Input.y; } }
     public Vector2 Direction { get { return new Vector2(Horizontal, Vertical); } }
 
     public float HandleRange
@@ -38,7 +38,7 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
     private Canvas canvas;
     private Camera cam;
 
-    private Vector2 input = Vector2.zero;
+    public Vector2 Input { get; private set; }
 
     protected virtual void Start()
     {
@@ -70,10 +70,10 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
 
         Vector2 position = RectTransformUtility.WorldToScreenPoint(cam, background.position);
         Vector2 radius = background.sizeDelta / 2;
-        input = (eventData.position - position) / (radius * canvas.scaleFactor);
+        Input = (eventData.position - position) / (radius * canvas.scaleFactor);
         FormatInput();
-        HandleInput(input.magnitude, input.normalized, radius, cam);
-        handle.anchoredPosition = input * radius * handleRange;
+        HandleInput(Input.magnitude, Input.normalized, radius, cam);
+        handle.anchoredPosition = Input * radius * handleRange;
     }
 
     protected virtual void HandleInput(float magnitude, Vector2 normalised, Vector2 radius, Camera cam)
@@ -81,18 +81,18 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
         if (magnitude > deadZone)
         {
             if (magnitude > 1)
-                input = normalised;
+                Input = normalised;
         }
         else
-            input = Vector2.zero;
+            Input = Vector2.zero;
     }
 
     private void FormatInput()
     {
         if (axisOptions == AxisOptions.Horizontal)
-            input = new Vector2(input.x, 0f);
+            Input = new Vector2(Input.x, 0f);
         else if (axisOptions == AxisOptions.Vertical)
-            input = new Vector2(0f, input.y);
+            Input = new Vector2(0f, Input.y);
     }
 
     private float SnapFloat(float value, AxisOptions snapAxis)
@@ -102,7 +102,7 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
 
         if (axisOptions == AxisOptions.Both)
         {
-            float angle = Vector2.Angle(input, Vector2.up);
+            float angle = Vector2.Angle(Input, Vector2.up);
             if (snapAxis == AxisOptions.Horizontal)
             {
                 if (angle < 22.5f || angle > 157.5f)
@@ -131,7 +131,7 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
 
     public virtual void OnPointerUp(PointerEventData eventData)
     {
-        input = Vector2.zero;
+        Input = Vector2.zero;
         handle.anchoredPosition = Vector2.zero;
     }
 
