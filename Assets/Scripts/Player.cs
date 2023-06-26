@@ -20,6 +20,7 @@ public class Player : MonoBehaviour
     
     private Rigidbody rb;
     [SerializeField] private Transform weaponTrans;
+    [SerializeField] private Transform rotatorTrans;
     [SerializeField] private Transform objectTrans;
     
     
@@ -50,15 +51,13 @@ public class Player : MonoBehaviour
 
     void HandleMovement()
     {
-        rb.AddForce(weaponTrans.right*joystick.Horizontal, ForceMode.Acceleration);
-       // rb.AddForce(Vector3.right*joystick.Horizontal, ForceMode.Acceleration);
-        rb.AddForce(weaponTrans.forward*joystick.Vertical, ForceMode.Acceleration);
-        //rb.AddForce(Vector3.forward*joystick.Vertical, ForceMode.Acceleration);
-
+        rb.AddForce(rotatorTrans.right*joystick.Horizontal, ForceMode.Acceleration);
+        rb.AddForce(rotatorTrans.forward*joystick.Vertical, ForceMode.Acceleration);
+        
         Vector3 velocity = rb.velocity;
-        //:clown:
-        weaponTrans.position = objectTrans.position + velocity.normalized * 0.6f;
-        weaponTrans.forward = velocity.normalized;
+        Vector3 dir = Vector3.Lerp(Vector3.up, velocity.normalized, velocity.sqrMagnitude);
+        weaponTrans.position = objectTrans.position + dir * 0.6f;
+        weaponTrans.forward = dir;
     }
 
 
