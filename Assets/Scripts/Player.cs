@@ -20,6 +20,7 @@ public class Player : MonoBehaviour
     
     private Rigidbody rb;
     [SerializeField] private Transform weaponTrans;
+    [SerializeField] private Transform objectTrans;
     
     
     //When the ball awakes, let's access our components and check what exists...
@@ -50,9 +51,14 @@ public class Player : MonoBehaviour
     void HandleMovement()
     {
         rb.AddForce(weaponTrans.right*joystick.Horizontal, ForceMode.Acceleration);
+       // rb.AddForce(Vector3.right*joystick.Horizontal, ForceMode.Acceleration);
         rb.AddForce(weaponTrans.forward*joystick.Vertical, ForceMode.Acceleration);
-        weaponTrans.forward = rb.velocity.normalized;
+        //rb.AddForce(Vector3.forward*joystick.Vertical, ForceMode.Acceleration);
 
+        Vector3 velocity = rb.velocity;
+        //:clown:
+        weaponTrans.position = objectTrans.position + velocity.normalized * 0.6f;
+        weaponTrans.forward = velocity.normalized;
     }
 
 
