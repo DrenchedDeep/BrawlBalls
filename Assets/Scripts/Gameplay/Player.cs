@@ -1,4 +1,5 @@
-using System;
+using Cinemachine;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,37 +7,33 @@ using UnityEngine.UI;
 public class Player : MonoBehaviour
 {
     [Header("Ball Object")]
-    [SerializeField] private BallStats stats;
-    [SerializeField] private Weapon[] weapon;
-    [SerializeField] private SpecialAbility[] specialAbility;
+    [SerializeField] private Ball[] balls;
+    private Ball currentBall;
     
-    private Weapon currentWeapon;
-    private SpecialAbility currentAbility;
     
-    //TODO: only the current player needs this.
     [Header("UI")]
     [SerializeField] private Joystick joystick;
     [SerializeField] private Button abilityButton;
     [SerializeField] private Button attackButton;
     
-    private Rigidbody rb;
-    [SerializeField] private Transform weaponTrans;
-    [SerializeField] private Transform rotatorTrans;
-    [SerializeField] private Transform objectTrans;
+   
+    
+    //Controls for local player...
+    [SerializeField] private Transform camTrans;
+    private Transform weaponTrans;
+    private Transform sphereTrans;
+    private Rigidbody playerRb;
 
     public static Player LocalPlayer;
-    public float BallY => objectTrans.position.y;
+    public float BallY => sphereTrans.position.y;
+
+    [SerializeField] private LayerMask groundLayers;
     
     
     //When the ball awakes, let's access our components and check what exists...
     void Start()
     {
         LocalPlayer = this;
-        
-        //TODO: fix
-        rb = transform.GetChild(1).GetComponent<Rigidbody>();
-        
-        
         //TODO: This should activate, with UI
         SelectBall(0);
     }
@@ -44,83 +41,85 @@ public class Player : MonoBehaviour
     void StartUI()
     {
         //Toggle UI based on item abilites...
-        abilityButton.gameObject.SetActive(currentWeapon.HasAbility);
-        attackButton.gameObject.SetActive(currentAbility.HasAbility);
+        abilityButton.gameObject.SetActive(currentBall.HasSpecialAbility);
+        attackButton.gameObject.SetActive(currentBall.HasWeaponAbility);
     }
 
 
     // Update is called once per frame
     void Update()
     {
+        //Only the PLAYER can move their ball...
+        HandleDrag();
         HandleMovement();
+        
+    }
+
+    void HandleDrag()
+    {
+        playerRb.drag = Physics.Raycast(sphereTrans.position, Vector3.down, 2, groundLayers)? currentBall.Drag : 0;
 
     }
 
+    //Would this be an RPC?
     void HandleMovement()
     {
-       //Move player...
-        //rb.AddForce(joystick.Horizontal * stats.Acceleration * rotatorTrans.right, ForceMode.Acceleration );
-        //rb.AddForce(joystick.Vertical * stats.Acceleration * rotatorTrans.forward, ForceMode.Acceleration);
-        
-        //Instead of using the ball, let's use the camera..... The forward and right of the camera, based on the world 
-
-        Vector3 fwd = (objectTrans.position-rotatorTrans.position).normalized;
+        Vector3 spherePos = sphereTrans.position;
+        Vector3 fwd = (spherePos-camTrans.position).normalized;
         fwd.y = 0;
-        print(fwd);
         
+        print(joystick.Vertical * currentBall.Acceleration * fwd + ", " + joystick.Horizontal * currentBall.Acceleration * Vector3.Cross( Vector3.up,fwd));
+        playerRb.AddForce(joystick.Vertical * currentBall.Acceleration * fwd, ForceMode.Acceleration);
+        playerRb.AddForce(joystick.Horizontal * currentBall.Acceleration * Vector3.Cross( Vector3.up,fwd), ForceMode.Acceleration);
         
-            
-        rb.AddForce(joystick.Vertical * stats.Acceleration * fwd, ForceMode.Acceleration);
-        rb.AddForce(joystick.Horizontal * stats.Acceleration * Vector3.Cross( Vector3.up,fwd), ForceMode.Acceleration);
-        
-        Vector3 velocity = rb.velocity;
+        Vector3 velocity = playerRb.velocity;
 
+        float y = velocity.y;
+        velocity.y = 0;
+        //Limit velocity...
+        //Memory or CPU?
+        playerRb.velocity = Vector3.ClampMagnitude(velocity, currentBall.MaxSpeed) + Vector3.up * y; //maintain our Y
+        
         Vector3 dir = Vector3.Lerp(Vector3.up, velocity.normalized, velocity.sqrMagnitude);
-        weaponTrans.position = objectTrans.position + dir * 0.6f;
+        weaponTrans.position = spherePos + dir * 0.6f;
         weaponTrans.forward = dir;
     }
 
 
-    /*
-
-    private void OnCollisionStay(Collision other)
-    {
-        other.GetContact(0).normal
-    }*/
-
-
-    //For later (Selection)
+    #region UI_Button_Integration
     public void SelectBall(int i)
     {
         //Trust user
-        currentWeapon = weapon[i];
-        currentAbility = specialAbility[i];
+        currentBall = Instantiate(balls[i], (Level.Instance.IsRandomSpawning?SpawnPoint.ActiveSpawnPoints[Random.Range(0,SpawnPoint.ActiveSpawnPoints.Count)]:SpawnPoint.ActiveSpawnPoints[0]).transform.position + Vector3.up, Quaternion.identity);
+        playerRb = currentBall.PlayerRigidbody;
+        sphereTrans = currentBall.PlayerTransform;
+        weaponTrans = currentBall.PlayerWeaponTrans;
+
+        CinemachineVirtualCamera cvc = camTrans.GetComponent<CinemachineVirtualCamera>();
+        cvc.LookAt = currentBall.transform.GetChild(0);
+        cvc.Follow = currentBall.transform.GetChild(1);
+        
+        
         StartUI();
     }
 
     public void UseAbility()
     {
-        
+        currentBall.UseSpecialAbility();
     }
 
     public void UseAttack()
     {
-        
+        currentBall.UseWeaponAbility();
     }
-
-
-    public void TakeDamage(float i)
-    {
-        
-    }
+    #endregion
 
     public void Respawn(bool b)
     {
-        rb.velocity = Vector3.zero;
+        playerRb.velocity = Vector3.zero;
         if (!b)
         {
-            objectTrans.position = SpawnPoint.CurrentSpawnPoint.transform.position + Vector3.up;
+            sphereTrans.position = SpawnPoint.CurrentSpawnPoint.transform.position + Vector3.up;
         }
-        
     }
 }

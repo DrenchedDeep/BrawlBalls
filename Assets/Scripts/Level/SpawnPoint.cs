@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class SpawnPoint : MonoBehaviour
@@ -9,11 +10,19 @@ public class SpawnPoint : MonoBehaviour
     private static readonly int AmountID = Shader.PropertyToID("_amount");
     private const float ChangeTime = 0.6f;
 
-    private void Start()
+    public static readonly List<SpawnPoint> ActiveSpawnPoints = new();
+    
+    private void Awake()
     {
         mat = GetComponent<MeshRenderer>().material;
-        
+        ActiveSpawnPoints.Add(this);
     }
+
+    private void OnDestroy()
+    {
+        ActiveSpawnPoints.Remove(this);
+    }
+
 
     //Can only collide with owner ball
     private void OnTriggerEnter(Collider other)
