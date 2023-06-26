@@ -27,7 +27,6 @@ public class SpawnPoint : MonoBehaviour
     //Can only collide with owner ball
     private void OnTriggerEnter(Collider other)
     {
-        print("Hit");
         //If there is no spawn point
         if (!CurrentSpawnPoint)
         {

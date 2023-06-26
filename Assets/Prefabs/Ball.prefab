@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 8662859619074882874}
   - component: {fileID: 8361159867880625096}
   - component: {fileID: 1567893686767607198}
-  - component: {fileID: 7961882431736688699}
-  - component: {fileID: 8998485445642789922}
-  m_Layer: 0
+  - component: {fileID: 3468095914694244539}
+  - component: {fileID: 7700203717364101332}
+  m_Layer: 8
   m_Name: PlayerWeapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -28,8 +28,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3995138436716210254}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.60099983}
-  m_LocalScale: {x: 0.138, y: 0.138, z: 0.69}
+  m_LocalPosition: {x: 0, y: 0, z: 0.5}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6211394211350298311}
@@ -42,7 +42,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3995138436716210254}
-  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 9188603553798411242, guid: 87d6e93b8bfe3c94f9043c43e135116a, type: 3}
 --- !u!23 &1567893686767607198
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -85,7 +85,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &7961882431736688699
+--- !u!65 &3468095914694244539
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -98,15 +98,15 @@ BoxCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 0
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8998485445642789922
+  m_Size: {x: 1.2929748, y: 1.211702, z: 3.7882094}
+  m_Center: {x: -0.1400375, y: -0.044735607, z: 2.7264485}
+--- !u!114 &7700203717364101332
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -115,11 +115,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 3995138436716210254}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb872a0c9a8169748bb0be8acef19a50, type: 3}
+  m_Script: {fileID: 11500000, guid: e2fc370251589214697b676e4f46385f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   stats: {fileID: 11400000, guid: 755a13f205569034297c454613c7113b, type: 2}
   <HasAbility>k__BackingField: 1
+  hitLayers:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &4497140328567051286
 GameObject:
   m_ObjectHideFlags: 0
@@ -147,12 +150,12 @@ Transform:
   m_GameObject: {fileID: 4497140328567051286}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.69, y: 0.69, z: 0.69}
+  m_ConstrainProportionsScale: 1
   m_Children:
-  - {fileID: 8662859619074882874}
-  - {fileID: 6429765455171407847}
   - {fileID: 1737728743746355806}
+  - {fileID: 6429765455171407847}
+  - {fileID: 8662859619074882874}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -169,7 +172,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stats: {fileID: 11400000, guid: ffd7082a772ad974b823231b7d98aa3a, type: 2}
-  weapon: {fileID: 8998485445642789922}
+  weapon: {fileID: 7700203717364101332}
   ability: {fileID: 6806721740910021916}
 --- !u!114 &6235632274408360967
 MonoBehaviour:
@@ -294,7 +297,7 @@ Transform:
   m_GameObject: {fileID: 7800838486311707623}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.69, y: 0.69, z: 0.69}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6211394211350298311}

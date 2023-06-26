@@ -20,7 +20,6 @@ public class Player : MonoBehaviour
     
     //Controls for local player...
     [SerializeField] private Transform camTrans;
-    private Transform weaponTrans;
     private Transform sphereTrans;
     private Rigidbody playerRb;
 
@@ -64,11 +63,9 @@ public class Player : MonoBehaviour
     //Would this be an RPC?
     void HandleMovement()
     {
-        Vector3 spherePos = sphereTrans.position;
-        Vector3 fwd = (spherePos-camTrans.position).normalized;
+        Vector3 fwd = (sphereTrans.position-camTrans.position).normalized;
         fwd.y = 0;
         
-        print(joystick.Vertical * currentBall.Acceleration * fwd + ", " + joystick.Horizontal * currentBall.Acceleration * Vector3.Cross( Vector3.up,fwd));
         playerRb.AddForce(joystick.Vertical * currentBall.Acceleration * fwd, ForceMode.Acceleration);
         playerRb.AddForce(joystick.Horizontal * currentBall.Acceleration * Vector3.Cross( Vector3.up,fwd), ForceMode.Acceleration);
         
@@ -80,9 +77,7 @@ public class Player : MonoBehaviour
         //Memory or CPU?
         playerRb.velocity = Vector3.ClampMagnitude(velocity, currentBall.MaxSpeed) + Vector3.up * y; //maintain our Y
         
-        Vector3 dir = Vector3.Lerp(Vector3.up, velocity.normalized, velocity.sqrMagnitude);
-        weaponTrans.position = spherePos + dir * 0.6f;
-        weaponTrans.forward = dir;
+        
     }
 
 
@@ -93,7 +88,6 @@ public class Player : MonoBehaviour
         currentBall = Instantiate(balls[i], (Level.Instance.IsRandomSpawning?SpawnPoint.ActiveSpawnPoints[Random.Range(0,SpawnPoint.ActiveSpawnPoints.Count)]:SpawnPoint.ActiveSpawnPoints[0]).transform.position + Vector3.up, Quaternion.identity);
         playerRb = currentBall.PlayerRigidbody;
         sphereTrans = currentBall.PlayerTransform;
-        weaponTrans = currentBall.PlayerWeaponTrans;
 
         CinemachineVirtualCamera cvc = camTrans.GetComponent<CinemachineVirtualCamera>();
         cvc.LookAt = currentBall.transform.GetChild(0);
@@ -110,6 +104,7 @@ public class Player : MonoBehaviour
 
     public void UseAttack()
     {
+        print("Attack initiated");
         currentBall.UseWeaponAbility();
     }
     #endregion
@@ -121,5 +116,10 @@ public class Player : MonoBehaviour
         {
             sphereTrans.position = SpawnPoint.CurrentSpawnPoint.transform.position + Vector3.up;
         }
+    }
+
+    public void SetWeaponAbilityState(bool state)
+    {
+        attackButton.gameObject.SetActive(state);
     }
 }

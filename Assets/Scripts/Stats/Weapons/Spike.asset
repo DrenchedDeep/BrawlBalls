@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: Spike
   m_EditorClassIdentifier: 
   <Description>k__BackingField: 
-  <Damage>k__BackingField: 0
+  <Damage>k__BackingField: 5
   <Mass>k__BackingField: 1
-  <Range>k__BackingField: 0
+  <Range>k__BackingField: {x: 0.02, y: 0.02, z: 0.9}
+  <ForceBasedDamage>k__BackingField: 0
+  <BaseDist>k__BackingField: 0.4

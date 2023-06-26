@@ -1,3 +1,4 @@
+using System;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -20,7 +21,6 @@ public class Ball : NetworkBehaviour, IDamageAble
     private Player previousAttacker;
     public Rigidbody PlayerRigidbody => rb;
     public Transform PlayerTransform => ability.transform;
-    public Transform PlayerWeaponTrans => weapon.transform;
 
     private void Awake()
     {
@@ -39,10 +39,12 @@ public class Ball : NetworkBehaviour, IDamageAble
 
         currentHealth = stats.MaxHealth;
     }
+
     
+
     public void UseWeaponAbility()
     {
-        
+        weapon.UseAbility();
     }
     
     public void UseSpecialAbility()
@@ -71,4 +73,5 @@ public class Ball : NetworkBehaviour, IDamageAble
             //previousAttacker.AwardKill();
         }
     }
+    
 }
