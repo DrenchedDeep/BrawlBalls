@@ -56,7 +56,7 @@ public class Weapon : MonoBehaviour
             //FIX this doesn't consider speed...
             float dmg = Damage();
             print(b + "took damage --> " + dmg);
-            b.TakeDamage(dmg, dmg *  transform.forward, Player.LocalPlayer);
+            b.TakeDamage(dmg, dmg*0.1f *  transform.forward, Player.LocalPlayer);
             return true;
         }
 

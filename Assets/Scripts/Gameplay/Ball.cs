@@ -1,6 +1,8 @@
 using System;
+using Unity.Mathematics;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class Ball : NetworkBehaviour, IDamageAble
 {
@@ -10,6 +12,8 @@ public class Ball : NetworkBehaviour, IDamageAble
 
     private Rigidbody rb;
     private float currentHealth;
+
+    [SerializeField] private VisualEffect onDestroy;
     
     public bool HasWeaponAbility => weapon.HasAbility;
     public bool HasSpecialAbility => ability.HasAbility;
@@ -56,22 +60,30 @@ public class Ball : NetworkBehaviour, IDamageAble
     public void TakeDamage(float amount, Vector3 direction, Player attacker)
     {
         currentHealth = Mathf.Max(currentHealth-amount, stats.MaxHealth);
+        print( name + "Ouchie! I took damage: " + amount +",  " + direction);
         if (currentHealth <= 0)
         {
             previousAttacker = attacker;
             Die();
-            return;
+            //return;
         }
         rb.AddForce(direction, ForceMode.Impulse);
 
     }
 
+    private bool isDead;
+
     private void Die()
     {
+        if (!isDead) return;
+        isDead = true;
+        
         if (previousAttacker)
         {
             //previousAttacker.AwardKill();
+            //Instantiate(onDestroy,transform.position,previousAttacker.transform.rotation);
         }
+        //Destroy(gameObject);
     }
     
 }
