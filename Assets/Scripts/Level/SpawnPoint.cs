@@ -9,18 +9,18 @@ public class SpawnPoint : MonoBehaviour
     private Material mat;
     private static readonly int AmountID = Shader.PropertyToID("_amount");
     private const float ChangeTime = 0.6f;
-
-    public static readonly List<SpawnPoint> ActiveSpawnPoints = new();
+    [SerializeField] private int id;
+    public static readonly Dictionary<int ,SpawnPoint> ActiveSpawnPoints = new();
     
     private void Awake()
     {
         mat = GetComponent<MeshRenderer>().material;
-        ActiveSpawnPoints.Add(this);
+        ActiveSpawnPoints.Add(id,this);
     }
 
     private void OnDestroy()
     {
-        ActiveSpawnPoints.Remove(this);
+        ActiveSpawnPoints.Remove(id);
     }
 
 

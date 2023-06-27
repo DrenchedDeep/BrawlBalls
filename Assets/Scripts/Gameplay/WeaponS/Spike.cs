@@ -27,6 +27,7 @@ public class Spike : Weapon
         if (base.HitObject(hit)) return true;
         if (hit.transform.gameObject.layer == 0)
         {
+            GetComponent<BoxCollider>().enabled = true;
             transform.position = hit.point - transform.forward * (stats.Range.z*1.8f);
             Destroy(this);
             return true;
@@ -40,6 +41,7 @@ public class Spike : Weapon
         //Un parent self
         transform.parent = null;
         moving = true;
+        
         
         print(hitLayers.value);
         hitLayers += 1;
