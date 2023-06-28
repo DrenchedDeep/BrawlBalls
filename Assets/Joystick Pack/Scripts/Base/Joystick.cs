@@ -9,11 +9,6 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
     public float Vertical { get { return (snapY) ? SnapFloat(Input.y, AxisOptions.Vertical) : Input.y; } }
     public Vector2 Direction { get { return new Vector2(Horizontal, Vertical); } }
 
-    public float HandleRange
-    {
-        get { return handleRange; }
-        set { handleRange = Mathf.Abs(value); }
-    }
 
     public float DeadZone
     {
@@ -32,17 +27,18 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
     [SerializeField] private bool snapY = false;
 
     [SerializeField] protected RectTransform background = null;
-    [SerializeField] private RectTransform handle = null;
+    [SerializeField] protected RectTransform handle = null;
     private RectTransform baseRect = null;
 
     private Canvas canvas;
     private Camera cam;
 
+    protected Vector2 radius;
     public Vector2 Input { get; private set; }
 
     protected virtual void Start()
     {
-        HandleRange = handleRange;
+        radius = background.sizeDelta / 2;
         DeadZone = deadZone;
         baseRect = GetComponent<RectTransform>();
         canvas = GetComponentInParent<Canvas>();
@@ -69,14 +65,19 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
             cam = canvas.worldCamera;
 
         Vector2 position = RectTransformUtility.WorldToScreenPoint(cam, background.position);
-        Vector2 radius = background.sizeDelta / 2;
+        
         Input = (eventData.position - position) / (radius * canvas.scaleFactor);
         FormatInput();
-        HandleInput(Input.magnitude, Input.normalized, radius, cam);
-        handle.anchoredPosition = Input * radius * handleRange;
+        HandleInput(Input.magnitude, Input.normalized);
+        SetAnchorPosition(Input  * handleRange * radius);
     }
 
-    protected virtual void HandleInput(float magnitude, Vector2 normalised, Vector2 radius, Camera cam)
+    protected virtual void SetAnchorPosition(Vector2 pos)
+    {
+        handle.anchoredPosition = pos;
+    }
+
+    protected virtual void HandleInput(float magnitude, Vector2 normalised)
     {
         if (magnitude > deadZone)
         {
