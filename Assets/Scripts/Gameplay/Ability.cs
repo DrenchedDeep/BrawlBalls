@@ -2,16 +2,14 @@ using UnityEngine;
 
 public abstract class Ability // Cringe AF, need to expose Mono...
 {
-    protected Ball MyOwner;
-    protected Weapon MyWeapon; //Only for weapons
-    
     //Trust that our owner will properly dispose of us...
-    public void ActivateAbility(Ball owner, Weapon weapon)
+    public bool ActivateAbility(Ball owner, Weapon weapon, out string failText)
     {
-        MyOwner = owner;
-        MyWeapon = weapon;
-        UseAbility();
+        if (!CanUseAbility(owner, weapon, out failText)) return false;
+        UseAbility(owner, weapon);
+        return true;
     }
 
-    protected abstract void UseAbility();
+    protected abstract bool CanUseAbility(Ball owner, Weapon weapon, out string failText);
+    protected abstract void UseAbility(Ball owner, Weapon weapon);
 }

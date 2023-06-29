@@ -6,18 +6,17 @@ public class AbilityStats : ScriptableObject
 {
     [field: SerializeField,TextArea] public string Description { get; private set; }
     [field: SerializeField] public int Capacity { get; private set; }
-    [SerializeField] private float cooldown;
+    [field: SerializeField] public float Cooldown { get; private set; }
+    [field: SerializeField] public Sprite Icon { get; set; }
     [SerializeField] private string abilityFileName;
     
     
     public Ability MyAbility { get; private set; }
     
-    public WaitForSeconds Cooldown;
 
 
     private void OnEnable()
     {
-        Cooldown = new WaitForSeconds(cooldown);
         MyAbility = Activator.CreateInstance(Type.GetType(abilityFileName) ?? throw new InvalidOperationException()) as Ability;
     }
 }

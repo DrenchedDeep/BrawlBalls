@@ -1,7 +1,6 @@
 using Cinemachine;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.UI;
 
 //Player handles UI, and is the main interface for players...
 public class Player : MonoBehaviour
@@ -13,10 +12,9 @@ public class Player : MonoBehaviour
     
     [Header("UI")]
     [SerializeField] private Joystick joystick;
-    [SerializeField] private Button abilityButton;
-    [SerializeField] private Button attackButton;
-    
-   
+
+    [SerializeField] private AbilityHandler attackAbility;
+    [SerializeField] private AbilityHandler specialAbility;
     
     //Controls for local player...
     [SerializeField] private Transform camTrans;
@@ -35,13 +33,6 @@ public class Player : MonoBehaviour
         LocalPlayer = this;
         //TODO: This should activate, with UI
         SelectBall(0);
-    }
-
-    void StartUI()
-    {
-        //Toggle UI based on item abilites...
-        abilityButton.gameObject.SetActive(currentBall.HasSpecialAbility);
-        attackButton.gameObject.SetActive(currentBall.HasWeaponAbility);
     }
 
 
@@ -76,8 +67,6 @@ public class Player : MonoBehaviour
         //Limit velocity...
         //Memory or CPU?
         playerRb.velocity = Vector3.ClampMagnitude(velocity, currentBall.MaxSpeed) + Vector3.up * y; //maintain our Y
-        
-        
     }
 
 
@@ -92,20 +81,10 @@ public class Player : MonoBehaviour
         CinemachineVirtualCamera cvc = camTrans.GetComponent<CinemachineVirtualCamera>();
         cvc.LookAt = sphereTrans;
         cvc.Follow = currentBall.transform.GetChild(1);
+        Weapon w = currentBall.Weapon;
+        attackAbility.SetAbility(w.GetAbility, currentBall, w);
+        specialAbility.SetAbility(currentBall.SpecialAbility, currentBall, w);
         
-        
-        StartUI();
-    }
-
-    public void UseAbility()
-    {
-        currentBall.UseSpecialAbility();
-    }
-
-    public void UseAttack()
-    {
-        print("Attack initiated");
-        currentBall.UseWeaponAbility();
     }
     #endregion
 
@@ -117,12 +96,6 @@ public class Player : MonoBehaviour
             sphereTrans.position = SpawnPoint.CurrentSpawnPoint.transform.position + Vector3.up;
         }
     }
-
-    public void SetWeaponAbilityState(bool state)
-    {
-        attackButton.gameObject.SetActive(state);
-    }
-
     
 
 }

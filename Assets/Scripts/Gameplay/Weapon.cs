@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class Weapon : MonoBehaviour
@@ -17,11 +18,15 @@ public class Weapon : MonoBehaviour
     private Ball owner;
     private Rigidbody root;
     private bool isConnected = true;
+
+    public AbilityStats GetAbility => stats.Ability;
+    
+    // Ability stuffs
+    
     private void Start()
     {
         owner = transform.parent.GetComponent<Ball>();
         root = owner.transform.GetChild(0).GetComponent<Rigidbody>();
-        
     }
 
 
@@ -73,10 +78,6 @@ public class Weapon : MonoBehaviour
         return stats.ForceBasedDamage ? stats.Damage * root.mass * owner.Speed:stats.Damage;
     }
 
-    public void UseAbility()
-    {
-        stats.Ability.MyAbility.ActivateAbility(owner, this);
-    }
 
 #if UNITY_EDITOR
     private void OnDrawGizmos()

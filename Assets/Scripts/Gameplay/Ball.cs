@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Unity.Mathematics;
 using Unity.Netcode;
 using UnityEngine;
@@ -14,9 +15,8 @@ public class Ball : NetworkBehaviour, IDamageAble
     private float currentHealth;
 
     [SerializeField] private VisualEffect onDestroy;
-    
-    public bool HasWeaponAbility => weapon.HasAbility;
-    public bool HasSpecialAbility => ability != null;
+    public Weapon Weapon => weapon; // I really don't want to have to do this...
+    public AbilityStats SpecialAbility => ability;
     public float Acceleration => stats.Acceleration;
     public float MaxSpeed => stats.MaxSpeed;
     public float Drag => stats.Drag;
@@ -26,6 +26,8 @@ public class Ball : NetworkBehaviour, IDamageAble
 
 
     public float Speed => rb.velocity.magnitude;
+    
+    
 
     private void Awake()
     {
@@ -44,19 +46,9 @@ public class Ball : NetworkBehaviour, IDamageAble
 
         currentHealth = stats.MaxHealth;
     }
-
     
-
-    public void UseWeaponAbility()
-    {
-        weapon.UseAbility();
-    }
     
-    public void UseSpecialAbility()
-    {
-        ability.MyAbility.ActivateAbility(this, null);
-    }
-
+    
     public void AddVelocity(Vector3 dir)
     {
         rb.AddForce(dir, ForceMode.Impulse);

@@ -1,41 +1,41 @@
 using System.Collections;
-using System.Net;
 using UnityEngine;
 
 public class Spike : Ability
 {
-    protected override void UseAbility()
+    protected override bool CanUseAbility(Ball owner, Weapon weapon, out string failText)
+    {
+        failText = "move faster!";
+        return owner.Speed > 3;
+    }
+
+    protected override void UseAbility(Ball owner, Weapon weapon)
     {
         Debug.Log("Attacked!");
         //Un parent self
-        MyWeapon.Disconnect();
-       
-       
-        
-        Player.LocalPlayer.SetWeaponAbilityState(false);
-
-        MyOwner.StartCoroutine(ConnectionTime());
-        MyOwner.StartCoroutine(Move(MyOwner.Speed * 5));
+        weapon.Disconnect();
+        owner.StartCoroutine(ConnectionTime(weapon));
+        owner.StartCoroutine(Move(owner, weapon , owner.Speed * 5));
     }
     
-    private IEnumerator Move(float speed)
+    private IEnumerator Move(Ball owner, Weapon weapon, float speed)
     {
-        Transform ownerTrans = MyWeapon.transform;
+        Transform ownerTrans = weapon.transform;
         if (speed == 0)
         {
-            Object.Destroy(MyWeapon);
+            Object.Destroy(weapon);
             ownerTrans.GetComponent<BoxCollider>().enabled = true;
         }
 
-        while (true)
+        while (ownerTrans)
         {
             ownerTrans.position += speed * Time.deltaTime * ownerTrans.forward;
-            if (Physics.Raycast(ownerTrans.position, ownerTrans.forward, out RaycastHit hit, MyWeapon.Range.z * 2, 1)) // 1==Default
+            if (Physics.Raycast(ownerTrans.position, ownerTrans.forward, out RaycastHit hit, weapon.Range.z * 2, GameManager.GroundLayers)) // 1==Default
             {
                 
-                MyOwner.StopCoroutine(ConnectionTime());
-                ownerTrans.position = hit.point - ownerTrans.forward * (MyWeapon.Range.z * 1.8f);
-                Object.Destroy(MyWeapon);
+                owner.StopCoroutine(ConnectionTime(weapon));
+                ownerTrans.position = hit.point - ownerTrans.forward * (weapon.Range.z * 1.8f);
+                Object.Destroy(weapon);
                 ownerTrans.GetComponent<BoxCollider>().enabled = true;
                 yield break;
             }
@@ -43,11 +43,12 @@ public class Spike : Ability
         }
     }
 
-    private IEnumerator ConnectionTime()
+    private IEnumerator ConnectionTime(Weapon weapon)
     {
         yield return new WaitForSeconds(5);
-        MyOwner.StopCoroutine(Move(5));
-         if(MyWeapon) 
-             Object.Destroy(MyWeapon.gameObject);
+        if (weapon)
+        {
+            Object.Destroy(weapon.gameObject);
+        }
     }
 }
