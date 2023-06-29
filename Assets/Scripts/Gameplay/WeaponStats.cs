@@ -9,7 +9,9 @@ public class WeaponStats : ScriptableObject
     [field: SerializeField] public Vector3 Range { get; private set; }
     [field: SerializeField] public bool ForceBasedDamage { get; private set; }
     
-    [field: Header("In Game")]
+    [field: SerializeField] public AbilityStats Ability { get; private set; }
+    
+    [field: Header("Weapon")]
     [field: SerializeField] public float BaseDist { get; private set; }
     
 

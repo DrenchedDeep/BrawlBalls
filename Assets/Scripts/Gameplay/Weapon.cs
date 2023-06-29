@@ -4,26 +4,33 @@ using UnityEngine;
 public class Weapon : MonoBehaviour
 {
     
-    [SerializeField] protected WeaponStats stats;
+    [SerializeField] private WeaponStats stats;
 
     //[Header("Weapon Object")]
-    [field: SerializeField] public bool HasAbility { get; private set; }
-    [SerializeField] protected LayerMask hitLayers;
+    public bool HasAbility => stats.Ability.MyAbility != null;
+    [SerializeField] private LayerMask hitLayers;
 
-    protected readonly RaycastHit[] hits = new RaycastHit[10];
+    private readonly RaycastHit[] hits = new RaycastHit[10];
     
     public float Mass => stats.Mass;
-    protected Rigidbody root;
+    public Vector3 Range => stats.Range;
+    private Ball owner;
+    private Rigidbody root;
+    private bool isConnected = true;
     private void Start()
     {
-        root = transform.parent.GetChild(0).GetComponent<Rigidbody>();
+        owner = transform.parent.GetComponent<Ball>();
+        root = owner.transform.GetChild(0).GetComponent<Rigidbody>();
+        
     }
 
 
     //Default update, always check forward, and if hitting enemy then do thing...
     protected virtual void Update()
     {
-        Rotate();
+        if(isConnected)
+            Rotate();
+        CastForward();
     }
 
     private void Rotate()
@@ -37,10 +44,11 @@ public class Weapon : MonoBehaviour
     
     
 
-    protected void CastForward()
+    private void CastForward()
     {
-        int iterations = Physics.BoxCastNonAlloc(transform.position + transform.forward * stats.Range.z, stats.Range,
-            transform.forward, hits, Quaternion.identity, stats.Range.z, hitLayers);
+        Vector3 forward = transform.forward;
+        int iterations = Physics.BoxCastNonAlloc(transform.position + forward * stats.Range.z, stats.Range,
+            forward, hits, Quaternion.identity, stats.Range.z, hitLayers);
 
         while (--iterations >= 0)
         {
@@ -48,7 +56,7 @@ public class Weapon : MonoBehaviour
         }
     }
 
-    protected virtual bool HitObject(RaycastHit hit)
+    private void HitObject(RaycastHit hit)
     {
         Transform n = hit.transform.parent;
         if (n && n.TryGetComponent(out Ball b) && n != transform.parent)
@@ -57,20 +65,17 @@ public class Weapon : MonoBehaviour
             float dmg = Damage();
             print(b + "took damage --> " + dmg);
             b.TakeDamage(dmg, dmg*0.1f *  transform.forward, Player.LocalPlayer);
-            return true;
         }
-
-        return false;
     }
 
-    public virtual float Damage()
+    public float Damage()
     {
-        return stats.Damage;
+        return stats.ForceBasedDamage ? stats.Damage * root.mass * owner.Speed:stats.Damage;
     }
 
-    public virtual void UseAbility()
+    public void UseAbility()
     {
-        
+        stats.Ability.MyAbility.ActivateAbility(owner, this);
     }
 
 #if UNITY_EDITOR
@@ -80,5 +85,10 @@ public class Weapon : MonoBehaviour
         ExtDebug.DrawBox(transform.position + transform.forward *stats.Range.z, stats.Range, transform.rotation, Color.red);
     }
     #endif
-    
+
+    public void Disconnect()
+    {
+        transform.parent = null;
+        isConnected = false;
+    }
 }

@@ -86,7 +86,7 @@ public class Player : MonoBehaviour
     {
         //Trust user
         currentBall = Instantiate(balls[i], (Level.Instance.IsRandomSpawning?SpawnPoint.ActiveSpawnPoints[Random.Range(0,SpawnPoint.ActiveSpawnPoints.Count)]:SpawnPoint.ActiveSpawnPoints[0]).transform.position + Vector3.up, Quaternion.identity);
-        playerRb = currentBall.PlayerRigidbody;
+        playerRb = currentBall.transform.GetChild(0).GetComponent<Rigidbody>();
         sphereTrans = currentBall.PlayerTransform;
 
         CinemachineVirtualCamera cvc = camTrans.GetComponent<CinemachineVirtualCamera>();
@@ -122,4 +122,7 @@ public class Player : MonoBehaviour
     {
         attackButton.gameObject.SetActive(state);
     }
+
+    
+
 }

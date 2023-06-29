@@ -23,8 +23,10 @@ public class Ball : NetworkBehaviour, IDamageAble
     
 
     private Player previousAttacker;
-    public Rigidbody PlayerRigidbody => rb;
     public Transform PlayerTransform => ability.transform;
+
+
+    public float Speed => rb.velocity.magnitude;
 
     private void Awake()
     {
@@ -35,7 +37,7 @@ public class Ball : NetworkBehaviour, IDamageAble
             print("Am I local?");
         }
 
-        rb = ability.transform.GetComponent<Rigidbody>();
+        rb = transform.GetChild(0).GetComponent<Rigidbody>();
 
         rb.drag = stats.Drag;
         rb.angularDrag = stats.AngularDrag;
@@ -56,6 +58,10 @@ public class Ball : NetworkBehaviour, IDamageAble
         
     }
 
+    public void AddVelocity(Vector3 dir)
+    {
+        rb.AddForce(dir, ForceMode.Impulse);
+    }
 
     public void TakeDamage(float amount, Vector3 direction, Player attacker)
     {

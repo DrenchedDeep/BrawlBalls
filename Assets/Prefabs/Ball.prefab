@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8361159867880625096}
   - component: {fileID: 1567893686767607198}
   - component: {fileID: 3468095914694244539}
-  - component: {fileID: 7700203717364101332}
+  - component: {fileID: 3012627246081837035}
   m_Layer: 8
   m_Name: PlayerWeapon
   m_TagString: Untagged
@@ -104,9 +104,9 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 0
   serializedVersion: 3
-  m_Size: {x: 1.2929748, y: 1.211702, z: 3.7882094}
-  m_Center: {x: -0.1400375, y: -0.044735607, z: 2.7264485}
---- !u!114 &7700203717364101332
+  m_Size: {x: 2.5002706, y: 2.083616, z: 5.9837675}
+  m_Center: {x: -0.1637276, y: -0.047878407, z: 2.0960371}
+--- !u!114 &3012627246081837035
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -115,14 +115,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 3995138436716210254}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2fc370251589214697b676e4f46385f, type: 3}
+  m_Script: {fileID: 11500000, guid: eb872a0c9a8169748bb0be8acef19a50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   stats: {fileID: 11400000, guid: 755a13f205569034297c454613c7113b, type: 2}
-  <HasAbility>k__BackingField: 1
   hitLayers:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 320
 --- !u!1 &4497140328567051286
 GameObject:
   m_ObjectHideFlags: 0
@@ -172,7 +171,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stats: {fileID: 11400000, guid: ffd7082a772ad974b823231b7d98aa3a, type: 2}
-  weapon: {fileID: 7700203717364101332}
+  weapon: {fileID: 3012627246081837035}
   ability: {fileID: 6806721740910021916}
   onDestroy: {fileID: 3574711559628801982, guid: b8582662ba76b8640a226888f1c45c90,
     type: 3}
