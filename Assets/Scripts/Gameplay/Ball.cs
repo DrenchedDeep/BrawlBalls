@@ -8,7 +8,7 @@ public class Ball : NetworkBehaviour, IDamageAble
 {
     [SerializeField] private BallStats stats;
     [SerializeField] private Weapon weapon;
-    [SerializeField] private SpecialAbility ability;
+    [SerializeField] private AbilityStats ability;
 
     private Rigidbody rb;
     private float currentHealth;
@@ -16,14 +16,13 @@ public class Ball : NetworkBehaviour, IDamageAble
     [SerializeField] private VisualEffect onDestroy;
     
     public bool HasWeaponAbility => weapon.HasAbility;
-    public bool HasSpecialAbility => ability.HasAbility;
+    public bool HasSpecialAbility => ability != null;
     public float Acceleration => stats.Acceleration;
     public float MaxSpeed => stats.MaxSpeed;
     public float Drag => stats.Drag;
     
 
     private Player previousAttacker;
-    public Transform PlayerTransform => ability.transform;
 
 
     public float Speed => rb.velocity.magnitude;
@@ -55,7 +54,7 @@ public class Ball : NetworkBehaviour, IDamageAble
     
     public void UseSpecialAbility()
     {
-        
+        ability.MyAbility.ActivateAbility(this, null);
     }
 
     public void AddVelocity(Vector3 dir)

@@ -87,10 +87,10 @@ public class Player : MonoBehaviour
         //Trust user
         currentBall = Instantiate(balls[i], (Level.Instance.IsRandomSpawning?SpawnPoint.ActiveSpawnPoints[Random.Range(0,SpawnPoint.ActiveSpawnPoints.Count)]:SpawnPoint.ActiveSpawnPoints[0]).transform.position + Vector3.up, Quaternion.identity);
         playerRb = currentBall.transform.GetChild(0).GetComponent<Rigidbody>();
-        sphereTrans = currentBall.PlayerTransform;
+        sphereTrans = currentBall.transform.GetChild(0);
 
         CinemachineVirtualCamera cvc = camTrans.GetComponent<CinemachineVirtualCamera>();
-        cvc.LookAt = currentBall.transform.GetChild(0);
+        cvc.LookAt = sphereTrans;
         cvc.Follow = currentBall.transform.GetChild(1);
         
         

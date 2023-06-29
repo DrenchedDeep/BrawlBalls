@@ -172,7 +172,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stats: {fileID: 11400000, guid: ffd7082a772ad974b823231b7d98aa3a, type: 2}
   weapon: {fileID: 3012627246081837035}
-  ability: {fileID: 6806721740910021916}
+  ability: {fileID: 11400000, guid: 2493407ab766d04488c1f70f1d734327, type: 2}
   onDestroy: {fileID: 3574711559628801982, guid: b8582662ba76b8640a226888f1c45c90,
     type: 3}
 --- !u!114 &6235632274408360967
@@ -280,7 +280,6 @@ GameObject:
   - component: {fileID: 6303614567667330537}
   - component: {fileID: 1436210919278591789}
   - component: {fileID: 20749516245420040}
-  - component: {fileID: 6806721740910021916}
   - component: {fileID: 8574082129130690765}
   m_Layer: 8
   m_Name: PlayerBall
@@ -375,19 +374,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.49999997
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6806721740910021916
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7800838486311707623}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2fe970e93f8cc4b4bb295212fd459dda, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <HasAbility>k__BackingField: 1
 --- !u!54 &8574082129130690765
 Rigidbody:
   m_ObjectHideFlags: 0

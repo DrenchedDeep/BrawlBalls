@@ -19,11 +19,5 @@ public class AbilityStats : ScriptableObject
     {
         Cooldown = new WaitForSeconds(cooldown);
         MyAbility = Activator.CreateInstance(Type.GetType(abilityFileName) ?? throw new InvalidOperationException()) as Ability;
-        if (MyAbility != null)
-        {
-            Debug.Log(MyAbility.GetType());
-           
-        }
-        Debug.Log(name);
     }
 }
