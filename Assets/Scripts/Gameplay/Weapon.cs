@@ -20,7 +20,14 @@ public class Weapon : MonoBehaviour
     private bool isConnected = true;
 
     public AbilityStats GetAbility => stats.Ability;
-    
+
+    private bool isActive = true;
+    public void ToggleActive()
+    {
+        isActive = !isActive;
+    }
+
+
     // Ability stuffs
     
     private void Start()
@@ -35,7 +42,8 @@ public class Weapon : MonoBehaviour
     {
         if(isConnected)
             Rotate();
-        CastForward();
+        if(isActive)
+            CastForward();
     }
 
     private void Rotate()
@@ -82,8 +90,14 @@ public class Weapon : MonoBehaviour
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
-        Debug.DrawRay(transform.position, Vector3.up * stats.BaseDist);
-        ExtDebug.DrawBox(transform.position + transform.forward *stats.Range.z, stats.Range, transform.rotation, Color.red);
+        Vector3 position = transform.position;
+        Debug.DrawRay(position, Vector3.up * stats.BaseDist);
+        Debug.DrawRay(position, Vector3.forward * stats.BaseDist);
+        Debug.DrawRay(position, Vector3.right * stats.BaseDist);
+        Debug.DrawRay(position, Vector3.down * stats.BaseDist);
+        Debug.DrawRay(position, Vector3.left * stats.BaseDist);
+        Debug.DrawRay(position, Vector3.back * stats.BaseDist);
+        ExtDebug.DrawBox(position + transform.forward *stats.Range.z, stats.Range, transform.rotation, Color.red);
     }
     #endif
 

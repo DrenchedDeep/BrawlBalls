@@ -1,18 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
+using Gameplay;
+using Gameplay.Object_Scripts;
 using UnityEngine;
 
-public class Caltrop : MonoBehaviour
+public class Caltrop : Ability
 {
-    // Start is called before the first frame update
-    void Start()
+    protected override bool CanUseAbility(Ball owner, Weapon weapon, out string failText)
     {
-        
+        //Not possible to fail...
+        failText = "";
+        return true;
     }
 
-    // Update is called once per frame
-    void Update()
+    protected override void UseAbility(Ball owner, Weapon weapon)
     {
-        
+        GameObject go = Object.Instantiate(ParticleManager.SummonObjects["Caltrop"], owner.transform.GetChild(0).position, Quaternion.identity);
+        Rigidbody rb = go.GetComponent<Rigidbody>();
+        rb.AddForce(Vector3.up * 10, ForceMode.Impulse);
+        rb.AddTorque(weapon.transform.forward * -10, ForceMode.Impulse);
+        go.transform.GetChild(0).GetComponent<PlaceableObject>().Init(owner);
+
     }
 }

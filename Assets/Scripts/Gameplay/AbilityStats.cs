@@ -1,4 +1,5 @@
 using System;
+using Gameplay;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Ability Stats", menuName = "Stats/AbilityStats", order = 2)]

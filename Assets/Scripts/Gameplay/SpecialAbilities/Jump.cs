@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Gameplay;
 using UnityEngine;
 
 public class Jump : Ability
@@ -15,5 +16,6 @@ public class Jump : Ability
     {
         owner.AddVelocity(50 * Vector3.up);
         ParticleManager.InvokeParticle("Jump", owner.transform.GetChild(0).position);
+        
     }
 }

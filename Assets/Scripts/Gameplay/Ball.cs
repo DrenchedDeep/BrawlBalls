@@ -1,5 +1,7 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using Unity.Mathematics;
 using Unity.Netcode;
 using UnityEngine;
@@ -17,17 +19,20 @@ public class Ball : NetworkBehaviour, IDamageAble
     [SerializeField] private VisualEffect onDestroy;
     public Weapon Weapon => weapon; // I really don't want to have to do this...
     public AbilityStats SpecialAbility => ability;
-    public float Acceleration => stats.Acceleration;
     public float MaxSpeed => stats.MaxSpeed;
     public float Drag => stats.Drag;
     
-
     private Player previousAttacker;
+
+    private MeshRenderer mr;
 
 
     public float Speed => rb.velocity.magnitude;
-    
-    
+
+
+     public float Acceleration { get; private set; }
+
+
 
     private void Awake()
     {
@@ -38,8 +43,10 @@ public class Ball : NetworkBehaviour, IDamageAble
             print("Am I local?");
         }
 
-        rb = transform.GetChild(0).GetComponent<Rigidbody>();
+        Acceleration = stats.Acceleration;
 
+        rb = transform.GetChild(0).GetComponent<Rigidbody>();
+        mr = transform.GetChild(0).GetComponent<MeshRenderer>();
         rb.drag = stats.Drag;
         rb.angularDrag = stats.AngularDrag;
         rb.mass = stats.Mass + weapon.Mass;
@@ -53,6 +60,13 @@ public class Ball : NetworkBehaviour, IDamageAble
     {
         rb.AddForce(dir, ForceMode.Impulse);
     }
+
+    /* Just take the collision point duh
+    public void TakeDamage(float amount, float forceMul, Player attacker)
+    {
+        //Just push in negative direction
+        TakeDamage(amount, -rb.velocity.normalized * forceMul, attacker);
+    } */
 
     public void TakeDamage(float amount, Vector3 direction, Player attacker)
     {
@@ -82,5 +96,17 @@ public class Ball : NetworkBehaviour, IDamageAble
         }
         //Destroy(gameObject);
     }
-    
+
+    public void ApplySlow(Ball attacker, Material m)
+    {
+        //previousAttacker = attacker.owner
+        Acceleration *= 0.7f;
+        List<Material> mats = mr.materials.ToList();
+        mats.Add(m);
+        mr.SetMaterials(mats);
+        
+        
+    }
+
+
 }
