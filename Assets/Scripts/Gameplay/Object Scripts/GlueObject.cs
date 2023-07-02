@@ -22,6 +22,9 @@ namespace Gameplay.Object_Scripts
             m.SetFloat(RandomColorID, Random.Range(0,1f));
             m.SetVector(RandomOffsetID, new Vector4(Random.Range(-0.25f,0.25f),Random.Range(-0.25f,0.25f)));
             dp.material = m;
+
+            transform.eulerAngles = new Vector3(90, Random.Range(0, 360), 0);
+
         }
 
         protected override void OnHit(Ball hit)
