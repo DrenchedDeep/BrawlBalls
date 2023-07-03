@@ -9326,6 +9326,151 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 5543587331258661293, guid: 1c5bce87de20a99459d967505b8bbd28,
+        type: 3}
+      propertyPath: w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5543587331258661293, guid: 1c5bce87de20a99459d967505b8bbd28,
+        type: 3}
+      propertyPath: time
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5543587331258661293, guid: 1c5bce87de20a99459d967505b8bbd28,
+        type: 3}
+      propertyPath: useEnd
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5543587331258661293, guid: 1c5bce87de20a99459d967505b8bbd28,
+        type: 3}
+      propertyPath: TEMPBeam.m_Curve.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5543587331258661293, guid: 1c5bce87de20a99459d967505b8bbd28,
+        type: 3}
+      propertyPath: initBeam.m_Curve.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5543587331258661293, guid: 1c5bce87de20a99459d967505b8bbd28,
+        type: 3}
+      propertyPath: TEMPBeam.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5543587331258661293, guid: 1c5bce87de20a99459d967505b8bbd28,
+        type: 3}
+      propertyPath: TEMPBeam.m_Curve.Array.data[1].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5543587331258661293, guid: 1c5bce87de20a99459d967505b8bbd28,
+        type: 3}
+      propertyPath: initBeam.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5543587331258661293, guid: 1c5bce87de20a99459d967505b8bbd28,
+        type: 3}
+      propertyPath: initBeam.m_Curve.Array.data[1].time
+      value: 0.9967346
+      objectReference: {fileID: 0}
+    - target: {fileID: 5543587331258661293, guid: 1c5bce87de20a99459d967505b8bbd28,
+        type: 3}
+      propertyPath: TEMPBeam.m_Curve.Array.data[0].value
+      value: 0.9952698
+      objectReference: {fileID: 0}
+    - target: {fileID: 5543587331258661293, guid: 1c5bce87de20a99459d967505b8bbd28,
+        type: 3}
+      propertyPath: TEMPBeam.m_Curve.Array.data[1].value
+      value: 0.009433746
+      objectReference: {fileID: 0}
+    - target: {fileID: 5543587331258661293, guid: 1c5bce87de20a99459d967505b8bbd28,
+        type: 3}
+      propertyPath: initBeam.m_Curve.Array.data[0].value
+      value: 0.5047035
+      objectReference: {fileID: 0}
+    - target: {fileID: 5543587331258661293, guid: 1c5bce87de20a99459d967505b8bbd28,
+        type: 3}
+      propertyPath: initBeam.m_Curve.Array.data[1].value
+      value: 0.0047187805
+      objectReference: {fileID: 0}
+    - target: {fileID: 5543587331258661293, guid: 1c5bce87de20a99459d967505b8bbd28,
+        type: 3}
+      propertyPath: TEMPBeam.m_Curve.Array.data[0].inSlope
+      value: -0.985836
+      objectReference: {fileID: 0}
+    - target: {fileID: 5543587331258661293, guid: 1c5bce87de20a99459d967505b8bbd28,
+        type: 3}
+      propertyPath: TEMPBeam.m_Curve.Array.data[1].inSlope
+      value: -0.985836
+      objectReference: {fileID: 0}
+    - target: {fileID: 5543587331258661293, guid: 1c5bce87de20a99459d967505b8bbd28,
+        type: 3}
+      propertyPath: initBeam.m_Curve.Array.data[0].inSlope
+      value: -0.50162274
+      objectReference: {fileID: 0}
+    - target: {fileID: 5543587331258661293, guid: 1c5bce87de20a99459d967505b8bbd28,
+        type: 3}
+      propertyPath: initBeam.m_Curve.Array.data[1].inSlope
+      value: -0.50162274
+      objectReference: {fileID: 0}
+    - target: {fileID: 5543587331258661293, guid: 1c5bce87de20a99459d967505b8bbd28,
+        type: 3}
+      propertyPath: TEMPBeam.m_Curve.Array.data[0].outSlope
+      value: -0.985836
+      objectReference: {fileID: 0}
+    - target: {fileID: 5543587331258661293, guid: 1c5bce87de20a99459d967505b8bbd28,
+        type: 3}
+      propertyPath: TEMPBeam.m_Curve.Array.data[1].inWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 5543587331258661293, guid: 1c5bce87de20a99459d967505b8bbd28,
+        type: 3}
+      propertyPath: TEMPBeam.m_Curve.Array.data[1].outSlope
+      value: -0.985836
+      objectReference: {fileID: 0}
+    - target: {fileID: 5543587331258661293, guid: 1c5bce87de20a99459d967505b8bbd28,
+        type: 3}
+      propertyPath: initBeam.m_Curve.Array.data[0].outSlope
+      value: -0.50162274
+      objectReference: {fileID: 0}
+    - target: {fileID: 5543587331258661293, guid: 1c5bce87de20a99459d967505b8bbd28,
+        type: 3}
+      propertyPath: initBeam.m_Curve.Array.data[1].inWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 5543587331258661293, guid: 1c5bce87de20a99459d967505b8bbd28,
+        type: 3}
+      propertyPath: initBeam.m_Curve.Array.data[1].outSlope
+      value: -0.50162274
+      objectReference: {fileID: 0}
+    - target: {fileID: 5543587331258661293, guid: 1c5bce87de20a99459d967505b8bbd28,
+        type: 3}
+      propertyPath: TEMPBeam.m_Curve.Array.data[0].outWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 5543587331258661293, guid: 1c5bce87de20a99459d967505b8bbd28,
+        type: 3}
+      propertyPath: initBeam.m_Curve.Array.data[0].outWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 5543587331258661293, guid: 1c5bce87de20a99459d967505b8bbd28,
+        type: 3}
+      propertyPath: TEMPBeam.m_Curve.Array.data[0].tangentMode
+      value: 34
+      objectReference: {fileID: 0}
+    - target: {fileID: 5543587331258661293, guid: 1c5bce87de20a99459d967505b8bbd28,
+        type: 3}
+      propertyPath: TEMPBeam.m_Curve.Array.data[1].tangentMode
+      value: 34
+      objectReference: {fileID: 0}
+    - target: {fileID: 5543587331258661293, guid: 1c5bce87de20a99459d967505b8bbd28,
+        type: 3}
+      propertyPath: initBeam.m_Curve.Array.data[0].tangentMode
+      value: 34
+      objectReference: {fileID: 0}
+    - target: {fileID: 5543587331258661293, guid: 1c5bce87de20a99459d967505b8bbd28,
+        type: 3}
+      propertyPath: initBeam.m_Curve.Array.data[1].tangentMode
+      value: 34
+      objectReference: {fileID: 0}
     - target: {fileID: 6037393459197905531, guid: 1c5bce87de20a99459d967505b8bbd28,
         type: 3}
       propertyPath: m_TranslationOffset.z
@@ -9474,7 +9619,7 @@ PrefabInstance:
     - target: {fileID: 9034699665175054334, guid: 1c5bce87de20a99459d967505b8bbd28,
         type: 3}
       propertyPath: m_Parameters.widthCurve.m_Curve.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 9034699665175054334, guid: 1c5bce87de20a99459d967505b8bbd28,
         type: 3}
@@ -9484,7 +9629,7 @@ PrefabInstance:
     - target: {fileID: 9034699665175054334, guid: 1c5bce87de20a99459d967505b8bbd28,
         type: 3}
       propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].time
-      value: 0.95832527
+      value: 0.9761904
       objectReference: {fileID: 0}
     - target: {fileID: 9034699665175054334, guid: 1c5bce87de20a99459d967505b8bbd28,
         type: 3}
@@ -9494,7 +9639,7 @@ PrefabInstance:
     - target: {fileID: 9034699665175054334, guid: 1c5bce87de20a99459d967505b8bbd28,
         type: 3}
       propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].value
-      value: 0.078125
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 9034699665175054334, guid: 1c5bce87de20a99459d967505b8bbd28,
         type: 3}

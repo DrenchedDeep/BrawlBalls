@@ -9,7 +9,16 @@ public class LaserEffectHandler : MonoBehaviour
     [SerializeField] private LineRenderer lineRenderer;
     [SerializeField] private VisualEffect myEffect;
     [SerializeField] private AnimationCurve initBeam;
-    
+    [SerializeField] private AnimationCurve TEMPBeam;
+    [SerializeField] private float time;
+    [SerializeField] private float w;
+    [SerializeField] private bool useEnd;
+
+
+    private void Start()
+    {
+        StartCoroutine(HandleSizeChange(time, w));
+    }
 
     //This needs to be a networked function... Client RPC?
     public void Begin(float timeToActivate, float width, float distance)
@@ -29,9 +38,14 @@ public class LaserEffectHandler : MonoBehaviour
         {
             curTime += Time.deltaTime;
             lineRenderer.startWidth = Mathf.Lerp(0.01f, width, initBeam.Evaluate(curTime / timeToActivate));
+            
+            lineRenderer.endWidth = useEnd?Mathf.Lerp(0.01f, width, TEMPBeam.Evaluate(curTime / timeToActivate)):lineRenderer.startWidth;
             yield return null;
         }
     }
+    
+    
+    
 
 
     public void End()
