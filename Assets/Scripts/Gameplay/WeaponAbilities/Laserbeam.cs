@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Gameplay.WeaponAbilities
 {
@@ -21,12 +22,31 @@ namespace Gameplay.WeaponAbilities
 
         protected override void UseAbility(Ball owner, Weapon weapon)
         {
-            weapon.StartCoroutine(BeginBeam());
+            weapon.StartCoroutine(BeginBeam(weapon));
         }
 
         //Run this on our owner
-        private IEnumerator BeginBeam()
+        private IEnumerator BeginBeam(Weapon w)
         {
+            //We can create show the effects range and capabilities...
+            GameObject beam = w.transform.GetChild(0).gameObject;
+            beam.SetActive(true);
+            
+            //On awake, it'll play the intro animation for X seconds...
+            
+            //(Set the width of the beam)
+            //(Set this distance of the beam)
+            //(set duration here)
+            
+            //Then set the weapon to active.
+            w.ToggleActive();
+            yield return Duration;
+            //If w is not null.
+            if(w)
+                w.ToggleActive();
+            
+            beam.SetActive(false);
+            
             yield return null;
         }
 

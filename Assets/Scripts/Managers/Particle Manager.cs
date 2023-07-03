@@ -6,8 +6,8 @@ using UnityEngine.VFX;
 
 public class ParticleManager : MonoBehaviour //Better called AbilityHelper
 {
-    private static readonly int PositionID = Shader.PropertyToID("Position");
-    private static readonly int ActivateID = Shader.PropertyToID("Activate");
+    public static readonly int PositionID = Shader.PropertyToID("Position");
+    public static readonly int ActivateID = Shader.PropertyToID("Activate");
     [SerializeField] private VisualEffect[] effects;
     [SerializeField] private GameObject[] summonObjects;
     public static readonly Dictionary<string, VisualEffect> VFX = new();

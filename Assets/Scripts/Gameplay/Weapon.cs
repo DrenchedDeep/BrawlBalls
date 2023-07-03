@@ -34,6 +34,7 @@ public class Weapon : MonoBehaviour
     {
         owner = transform.parent.GetComponent<Ball>();
         root = owner.transform.GetChild(0).GetComponent<Rigidbody>();
+
     }
 
 
