@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Spike : Ability
 {
-    protected override bool CanUseAbility(Ball owner, Weapon weapon, out string failText)
+
+    public override bool CanUseAbility(Ball owner, Weapon weapon)
     {
-        failText = "move faster!";
         return owner.Speed > 3;
     }
 
@@ -31,11 +31,11 @@ public class Spike : Ability
         while (ownerTrans)
         {
             ownerTrans.position += speed * Time.deltaTime * ownerTrans.forward;
-            if (Physics.Raycast(ownerTrans.position, ownerTrans.forward, out RaycastHit hit, weapon.Range.z * 2, GameManager.GroundLayers)) // 1==Default
+            if (Physics.Raycast(ownerTrans.position, ownerTrans.forward, out RaycastHit hit, weapon.Range.y * 2, GameManager.GroundLayers)) // 1==Default
             {
                 
                 owner.StopCoroutine(ConnectionTime(weapon));
-                ownerTrans.position = hit.point - ownerTrans.forward * (weapon.Range.z * 1.8f);
+                ownerTrans.position = hit.point - ownerTrans.forward * (weapon.Range.y * 1.8f);
                 Object.Destroy(weapon);
                 ownerTrans.GetComponent<BoxCollider>().enabled = true;
                 yield break;

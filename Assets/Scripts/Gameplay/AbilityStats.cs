@@ -18,6 +18,6 @@ public class AbilityStats : ScriptableObject
 
     private void OnEnable()
     {
-        MyAbility = Activator.CreateInstance(Type.GetType(abilityFileName) ?? throw new InvalidOperationException()) as Ability;
+        MyAbility = Activator.CreateInstance(Type.GetType(abilityFileName) ?? throw new InvalidOperationException("Cannot convert to ability: " + abilityFileName)) as Ability;
     }
 }

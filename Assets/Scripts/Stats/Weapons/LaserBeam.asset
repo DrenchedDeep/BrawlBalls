@@ -15,8 +15,11 @@ MonoBehaviour:
   <Description>k__BackingField: 
   <Damage>k__BackingField: 33
   <Mass>k__BackingField: 0.4
-  <Range>k__BackingField: {x: 0.2, y: 0.2, z: 10}
+  <Range>k__BackingField: {x: 50, y: 0.05}
   <ForceBasedDamage>k__BackingField: 0
+  <HitLayers>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 321
   <Ability>k__BackingField: {fileID: 11400000, guid: 725729b57116c8a4cb22a83d9bdad642,
     type: 2}
-  <BaseDist>k__BackingField: 0
+  <BaseDist>k__BackingField: 0.3

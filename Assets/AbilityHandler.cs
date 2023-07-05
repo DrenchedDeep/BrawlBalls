@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using Gameplay;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,22 +12,25 @@ public class AbilityHandler : MonoBehaviour
     [SerializeField] private Image fillImg;
     [SerializeField] private Image icon;
     [SerializeField] private TextMeshProUGUI remainingNum;
-    [SerializeField] private TextMeshProUGUI failTex;
     
     private int capacity;
-    private bool useAbility = true;
-    [SerializeField] private AnimationCurve failTexDisplayAlpha;
-    private Coroutine spamPrevention;
-    
+    private bool isUpdating=true;
+    private Ability ab;
+    private Ball ball;
+    private Weapon weapon;
     
     //Discard temporary information and prevent leaks.
-    public void SetAbility(AbilityStats ability, Ball owner, Weapon weapon)
+    public void SetAbility(AbilityStats ability, Ball owner, Weapon weap)
     {
         if (!ability)
         {
             gameObject.SetActive(false);
             return;
         }
+
+        ab = ability.MyAbility;
+        ball = owner;
+        weapon = weap;
         
         gameObject.SetActive(true);
 
@@ -34,46 +39,28 @@ public class AbilityHandler : MonoBehaviour
         else remainingNum.text = capacity.ToString();
         
         icon.sprite = ability.Icon;
-        string failText = "";
+        
         button.onClick.AddListener(() =>
         {
-            if (useAbility && ability.MyAbility.ActivateAbility(owner, weapon, out failText))
+            if (ability.MyAbility.ActivateAbility(owner, weapon))
             {
                 capacity -= 1;
                 StartCoroutine(AbilityCooldown(ability.Cooldown));
             }
-            else
-            {
-                failTex.text = "Can't Use Ability<br>";
-                if (!useAbility) failTex.text += "On cooldown";
-                else failTex.text += failText;
-                //If the button is being spammed, restart it.
-                if(spamPrevention!=null) StopCoroutine(spamPrevention);
-                spamPrevention = StartCoroutine(ShowFailText());
-            }
         });
     }
 
-    private IEnumerator ShowFailText()
+    private void Update()
     {
-        float curTime = 0;
-        Color c = failTex.color;
-        while (curTime < 1)
-        {
-            curTime += Time.deltaTime;
-            c.a = failTexDisplayAlpha.Evaluate(curTime);
-            failTex.color = c;
-            yield return null;
-        }
-        c.a = 0;
-        failTex.color = c;
-        spamPrevention = null;
-
+        if (!isUpdating) return;
+        button.interactable = ab.CanUseAbility(ball, weapon);
     }
-    
-    
+
+
     private IEnumerator AbilityCooldown(float dur)
     {
+        button.interactable = false;
+        isUpdating = false;
         if(capacity == 1) remainingNum.gameObject.SetActive(false);
         else if (capacity == 0) //weird format but cope
         {
@@ -81,7 +68,6 @@ public class AbilityHandler : MonoBehaviour
             yield break;
         }
         else remainingNum.text = capacity.ToString();
-        useAbility = false;
         float curTime = 0;
         while (curTime < dur)
         {
@@ -90,8 +76,9 @@ public class AbilityHandler : MonoBehaviour
             yield return null;
         }
 
+        button.interactable = true;
         fillImg.fillAmount = 1;
-        useAbility = capacity > 0;
+        isUpdating = true;
     }
 
     

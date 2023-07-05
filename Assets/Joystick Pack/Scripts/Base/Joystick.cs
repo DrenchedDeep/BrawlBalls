@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
 {
@@ -35,6 +37,9 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
 
     protected Vector2 radius;
     public Vector2 Input { get; private set; }
+
+    [SerializeField] private Image colorImg;
+    
 
     protected virtual void Start()
     {
@@ -130,15 +135,18 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
         return 0;
     }
 
+
+
     public virtual void OnPointerUp(PointerEventData eventData)
     {
         Input = Vector2.zero;
         handle.anchoredPosition = Vector2.zero;
+        
     }
 
     protected Vector2 ScreenPointToAnchoredPosition(Vector2 screenPosition)
     {
-        Vector2 localPoint = Vector2.zero;
+        Vector2 localPoint;
         if (RectTransformUtility.ScreenPointToLocalPointInRectangle(baseRect, screenPosition, cam, out localPoint))
         {
             Vector2 pivotOffset = baseRect.pivot * baseRect.sizeDelta;
@@ -146,6 +154,20 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
         }
         return Vector2.zero;
     }
+
+    private void OnEnable()
+    {
+        colorImg.color = Color.white;
+        Input = Vector2.zero;
+        SetAnchorPosition(Input  * handleRange * radius);
+    }
+
+    private void OnDisable()
+    {
+        colorImg.color = Color.grey;
+        SetAnchorPosition(Input  * handleRange * radius);
+    }
+    
 }
 
 public enum AxisOptions { Both, Horizontal, Vertical }

@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.VFX;
 
@@ -9,47 +7,70 @@ public class LaserEffectHandler : MonoBehaviour
     [SerializeField] private LineRenderer lineRenderer;
     [SerializeField] private VisualEffect myEffect;
     [SerializeField] private AnimationCurve initBeam;
-    [SerializeField] private AnimationCurve TEMPBeam;
-    [SerializeField] private float time;
-    [SerializeField] private float w;
-    [SerializeField] private bool useEnd;
+    private const float TimeToActivate = 0.6f;
 
+    private float width;
+    [SerializeField] private Weapon w;
+    private float lifeTime;
+
+    private void OnEnable()
+    {
+        
+        StartCoroutine(HandleSizeChange());
+        myEffect.SendEvent(ParticleManager.ActivateID);
+        lifeTime = w.GetAbility.Cooldown * 0.6f;
+        
+    }
 
     private void Start()
     {
-        StartCoroutine(HandleSizeChange(time, w));
+        width = w.Range.y;
+        myEffect.SetFloat(ParticleManager.DelayID, TimeToActivate);
+        myEffect.SetVector4(ParticleManager.ColorID, lineRenderer.material.GetColor(ParticleManager.ColorID));
     }
 
-    //This needs to be a networked function... Client RPC?
-    public void Begin(float timeToActivate, float width, float distance)
+    private void LateUpdate()
     {
+        //This sucks but cope
+        float maxDist = 0;
+        for(int i = 0; i < w.HitCount; ++i)
+        {
+            float d = w.Hits[i].distance;
+            if (maxDist < d)
+            {
+                maxDist = d;
+            }
+        }
+
+        if (maxDist == 0) maxDist = w.Range.x;
+        maxDist *= 3;
+        myEffect.SetFloat(ParticleManager.PositionID, maxDist);
+        lineRenderer.SetPosition(1,maxDist*Vector3.forward);
         
-        myEffect.SendEvent(ParticleManager.ActivateID);
-        myEffect.SetVector3(ParticleManager.PositionID, Vector3.forward * distance);
-        lineRenderer.SetPosition(1,Vector3.forward * distance);
-        StartCoroutine(HandleSizeChange(timeToActivate, width));
+        lifeTime -= Time.deltaTime;
+        if (lifeTime <= 0)
+        {
+            Player.LocalPlayer.EnableControls();
+            w.ToggleActive();
+            gameObject.SetActive(false);
+        }
     }
 
-    private IEnumerator HandleSizeChange(float timeToActivate, float width)
+
+
+    private IEnumerator HandleSizeChange()
     {
         float curTime = 0;
 
-        while (curTime < timeToActivate)
+        while (curTime < TimeToActivate)
         {
             curTime += Time.deltaTime;
-            lineRenderer.startWidth = Mathf.Lerp(0.01f, width, initBeam.Evaluate(curTime / timeToActivate));
-            
-            lineRenderer.endWidth = useEnd?Mathf.Lerp(0.01f, width, TEMPBeam.Evaluate(curTime / timeToActivate)):lineRenderer.startWidth;
+            lineRenderer.startWidth = Mathf.Lerp(0.01f, width, initBeam.Evaluate(curTime / TimeToActivate));
             yield return null;
         }
+        w.ToggleActive();
+        lineRenderer.startWidth = width;
+        Player.LocalPlayer.DisableControls();
     }
     
-    
-    
-
-
-    public void End()
-    {
-        
-    }
 }

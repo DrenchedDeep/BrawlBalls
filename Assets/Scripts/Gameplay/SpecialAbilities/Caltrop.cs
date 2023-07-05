@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class Caltrop : Ability
 {
-    protected override bool CanUseAbility(Ball owner, Weapon weapon, out string failText)
+    public override bool CanUseAbility(Ball owner, Weapon weapon)
     {
         //Not possible to fail...
-        failText = "";
         return true;
     }
 

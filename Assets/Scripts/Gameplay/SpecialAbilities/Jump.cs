@@ -5,10 +5,9 @@ using UnityEngine;
 
 public class Jump : Ability
 {
-    protected override bool CanUseAbility(Ball owner, Weapon weapon, out string failText)
+    public override bool CanUseAbility(Ball owner, Weapon weapon)
     {
         //Only allow jump if grounded.
-        failText = "must be on ground!";
         return Physics.Raycast(owner.transform.GetChild(0).position, Vector3.down, 1, GameManager.GroundLayers); 
     }
 

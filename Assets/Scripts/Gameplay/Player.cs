@@ -33,6 +33,7 @@ public class Player : MonoBehaviour
         LocalPlayer = this;
         //TODO: This should activate, with UI
         SelectBall(0);
+        
     }
 
 
@@ -96,6 +97,16 @@ public class Player : MonoBehaviour
             sphereTrans.position = SpawnPoint.CurrentSpawnPoint.transform.position + Vector3.up;
         }
     }
-    
 
+
+    public void EnableControls()
+    {
+        joystick.enabled = true;
+        
+    }
+    
+    public void DisableControls()
+    {
+        joystick.enabled = false;
+    }
 }

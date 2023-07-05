@@ -101,11 +101,25 @@ public class Ball : NetworkBehaviour, IDamageAble
     {
         //previousAttacker = attacker.owner
         Acceleration *= 0.7f;
-        List<Material> mats = mr.materials.ToList();
-        mats.Add(m);
-        mr.SetMaterials(mats);
+        int l = mr.materials.Length;
+        Material[] mats = new Material[l+1];
+        for (int index = 0; index < l; index++)
+        {
+            mats [index]= mr.materials[index];
+        }
+
+        Material createdMat = new Material(ParticleManager.GlueBallMat);
         
+        //Kill me :(
+        createdMat.SetFloat(ParticleManager.ColorID, m.GetFloat(ParticleManager.ColorID));
+        createdMat.SetInt(ParticleManager.RandomTexID, m.GetInt(ParticleManager.RandomTexID));
+        createdMat.SetVector(ParticleManager.RandomOffsetID, m.GetVector(ParticleManager.RandomOffsetID));
         
+        mats[l]=createdMat;
+
+        mr.materials = mats;
+
+
     }
 
 

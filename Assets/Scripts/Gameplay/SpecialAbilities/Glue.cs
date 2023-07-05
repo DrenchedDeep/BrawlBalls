@@ -7,9 +7,8 @@ using UnityEngine;
 public class Glue : Ability
 {
 
-    protected override bool CanUseAbility(Ball owner, Weapon weapon, out string failText)
+    public override bool CanUseAbility(Ball owner, Weapon weapon)
     {
-        failText = "must be on ground!";
         return Physics.Raycast(owner.transform.GetChild(0).position, Vector3.down, 1, GameManager.GroundLayers);
     }
 

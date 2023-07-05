@@ -15,9 +15,10 @@ namespace Gameplay.Object_Scripts
         //Can only collide with other players...
         private void OnTriggerEnter(Collider other)
         {
+            
             Ball b =other.transform.parent.GetComponent<Ball>();
-
-            if (!canCollideWithSelf && b == owner) return;
+            print(b);
+            if (b == null || (!canCollideWithSelf && b == owner)) return;
         
             OnHit(b);
 
