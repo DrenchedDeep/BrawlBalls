@@ -34,7 +34,7 @@ namespace Gameplay.Object_Scripts
             //if the change is allowed...
             //Apply duplicate material...
             print(hit);
-            hit.ApplySlow(owner, m);
+            hit.ApplySlow(Owner, m);
             Destroy(transform.parent.gameObject);
         }
     }

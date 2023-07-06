@@ -53,6 +53,7 @@ public class LaserEffectHandler : MonoBehaviour
             Player.LocalPlayer.EnableControls();
             w.ToggleActive();
             gameObject.SetActive(false);
+            myEffect.SendEvent(ParticleManager.EndID);
         }
     }
 

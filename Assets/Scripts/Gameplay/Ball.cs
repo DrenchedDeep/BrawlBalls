@@ -27,7 +27,8 @@ public class Ball : NetworkBehaviour, IDamageAble
     private MeshRenderer mr;
 
 
-    public float Speed => rb.velocity.magnitude;
+    public float Speed => Velocity.magnitude;
+    public Vector3 Velocity => rb.velocity;
 
 
      public float Acceleration { get; private set; }

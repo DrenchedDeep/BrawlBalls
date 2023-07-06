@@ -15,6 +15,7 @@ public class ParticleManager : MonoBehaviour //Better called AbilityHelper
     //Particle
     public static readonly int PositionID = Shader.PropertyToID("Position");
     public static readonly int ActivateID = Shader.PropertyToID("Activate");
+    public static readonly int EndID = Shader.PropertyToID("End");
     public static readonly int DelayID = Shader.PropertyToID("initDelay");
     
     [SerializeField] private VisualEffect[] effects;

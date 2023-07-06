@@ -5,21 +5,21 @@ namespace Gameplay.Object_Scripts
     public abstract class PlaceableObject : MonoBehaviour
     {
         [SerializeField] private bool canCollideWithSelf;
-        protected Ball owner;
+        protected Ball Owner;
     
         public void Init(Ball myOwner)
         {
-            owner = myOwner;
+            Owner = myOwner;
         }
 
         //Can only collide with other players...
         private void OnTriggerEnter(Collider other)
         {
+            Transform p = other.transform.parent;
+            if (p == null) return;
+            Ball b =p.GetComponent<Ball>();
             
-            Ball b =other.transform.parent.GetComponent<Ball>();
-            print(b);
-            if (b == null || (!canCollideWithSelf && b == owner)) return;
-        
+            if (b == null || (!canCollideWithSelf && b == Owner)) return;
             OnHit(b);
 
         }
