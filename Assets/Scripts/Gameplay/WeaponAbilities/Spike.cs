@@ -31,11 +31,12 @@ public class Spike : Ability
         while (ownerTrans)
         {
             ownerTrans.position += speed * Time.deltaTime * ownerTrans.forward;
-            if (Physics.Raycast(ownerTrans.position, ownerTrans.forward, out RaycastHit hit, weapon.Range.y * 2, GameManager.GroundLayers)) // 1==Default
+            if (Physics.Raycast(ownerTrans.position, ownerTrans.forward, out RaycastHit hit, weapon.Range.y * 10, GameManager.GroundLayers)) // 1==Default
             {
                 
                 owner.StopCoroutine(ConnectionTime(weapon));
-                ownerTrans.position = hit.point - ownerTrans.forward * (weapon.Range.y * 1.8f);
+                ownerTrans.position = hit.point - ownerTrans.forward * (weapon.Range.y * 10f);
+                weapon.gameObject.layer = 0;
                 Object.Destroy(weapon);
                 ownerTrans.GetComponent<BoxCollider>().enabled = true;
                 yield break;
