@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        GroundLayers = (1 << LayerMask.NameToLayer("Default")) + (1 << LayerMask.NameToLayer("Bouncy"));
+        GroundLayers = (1 << LayerMask.NameToLayer("Default"));
+        Application.targetFrameRate = -1; // native default... (BIND IN SETTINGS LATER)
     }
 }

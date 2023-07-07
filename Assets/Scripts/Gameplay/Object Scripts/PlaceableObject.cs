@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 namespace Gameplay.Object_Scripts
@@ -6,11 +7,25 @@ namespace Gameplay.Object_Scripts
     {
         [SerializeField] private bool canCollideWithSelf;
         protected Ball Owner;
+        private bool canCollide;
+        private static readonly WaitForSeconds Delay = new (0.4f);
     
         public void Init(Ball myOwner)
         {
             Owner = myOwner;
         }
+
+        private void Awake()
+        {
+            StartCoroutine(Spawn());
+        }
+
+        private IEnumerator Spawn()
+        {
+            yield return Delay;
+            canCollide = true;
+        }
+
 
         //Can only collide with other players...
         private void OnTriggerEnter(Collider other)

@@ -4857,6 +4857,11 @@ PrefabInstance:
       propertyPath: m_AngularDrag
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7276471715032040660, guid: c62ad9c03215860419b871602d94b0aa,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7457110129561139847, guid: c62ad9c03215860419b871602d94b0aa,
         type: 3}
       propertyPath: field of view
@@ -27309,6 +27314,16 @@ PrefabInstance:
     - target: {fileID: 2522917459628715348, guid: 1c5bce87de20a99459d967505b8bbd28,
         type: 3}
       propertyPath: m_RotationOffset.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3352041091284430616, guid: 1c5bce87de20a99459d967505b8bbd28,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3717879225535642072, guid: 1c5bce87de20a99459d967505b8bbd28,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3995138436716210254, guid: 1c5bce87de20a99459d967505b8bbd28,

@@ -20,12 +20,12 @@ public class Ball : NetworkBehaviour, IDamageAble
     public Weapon Weapon => weapon; // I really don't want to have to do this...
     public AbilityStats SpecialAbility => ability;
     public float MaxSpeed => stats.MaxSpeed;
-    public float Drag => stats.Drag;
     
     private Player previousAttacker;
 
     private MeshRenderer mr;
-
+    private int ballLayer;
+    private int groundlayers;
 
     public float Speed => Velocity.magnitude;
     public Vector3 Velocity => rb.velocity;
@@ -34,8 +34,7 @@ public class Ball : NetworkBehaviour, IDamageAble
      public float Acceleration { get; private set; }
 
 
-
-    private void Awake()
+     private void Awake()
     {
         //if the ball is the local player?
         //if the PLAYER is the local player, then it should move THIS ball...
@@ -44,20 +43,26 @@ public class Ball : NetworkBehaviour, IDamageAble
             print("Am I local?");
         }
 
+        Transform t = transform.GetChild(0);
+        
+        groundlayers = GameManager.GroundLayers +  (1<< t.gameObject.layer);
         Acceleration = stats.Acceleration;
 
-        rb = transform.GetChild(0).GetComponent<Rigidbody>();
-        mr = transform.GetChild(0).GetComponent<MeshRenderer>();
+        rb = t.GetComponent<Rigidbody>();
+        mr = t.GetComponent<MeshRenderer>();
         rb.drag = stats.Drag;
         rb.angularDrag = stats.AngularDrag;
         rb.mass = stats.Mass + weapon.Mass;
 
         currentHealth = stats.MaxHealth;
     }
-    
-    
-    
-    public void AddVelocity(Vector3 dir)
+
+     private void FixedUpdate()
+     {
+         HandleDrag();
+     }
+
+     public void AddVelocity(Vector3 dir)
     {
         rb.AddForce(dir, ForceMode.Impulse);
     }
@@ -81,6 +86,35 @@ public class Ball : NetworkBehaviour, IDamageAble
         }
         rb.AddForce(direction, ForceMode.Impulse);
 
+    }
+
+    private void HandleDrag()
+    {
+        bool hit = Physics.Raycast(rb.position, Vector3.down, out RaycastHit h, 1.5f, groundlayers);
+        //#if UNITY_EDITOR
+        Debug.DrawRay(rb.position, Vector3.down * 1.5f, hit?Color.blue:Color.yellow);
+        //#endif
+        //Handle squishing
+        if (hit)
+        {
+            Transform n = h.transform.parent;
+            if (n && n.TryGetComponent(out Ball b))
+            {
+                Debug.LogWarning("LANDED ON EM: " + b.name +", " + name);
+                b.TakeDamage(1000000, Vector3.zero, Player.LocalPlayer);
+                rb.drag = stats.Drag;
+            }
+            else
+            {
+                rb.drag =  0;
+            }
+        }
+        else
+        {
+            rb.drag =  0;
+        }
+
+        
     }
 
     private bool isDead;

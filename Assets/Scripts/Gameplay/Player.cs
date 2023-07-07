@@ -24,8 +24,6 @@ public class Player : MonoBehaviour
     public static Player LocalPlayer;
     public float BallY => sphereTrans.position.y;
 
-    [SerializeField] private LayerMask groundLayers;
-    
     
     //When the ball awakes, let's access our components and check what exists...
     void Start()
@@ -41,16 +39,11 @@ public class Player : MonoBehaviour
     void FixedUpdate()
     {
         //Only the PLAYER can move their ball...
-        HandleDrag();
+        
         HandleMovement();
         
     }
 
-    void HandleDrag()
-    {
-        playerRb.drag = Physics.Raycast(sphereTrans.position, Vector3.down, 2, groundLayers)? currentBall.Drag : 0;
-
-    }
 
     //Would this be an RPC?
     void HandleMovement()
@@ -81,7 +74,7 @@ public class Player : MonoBehaviour
 
         CinemachineVirtualCamera cvc = camTrans.GetComponent<CinemachineVirtualCamera>();
         cvc.LookAt = sphereTrans;
-        cvc.Follow = currentBall.transform.GetChild(1);
+        cvc.Follow =  currentBall.transform.GetChild(1);
         Weapon w = currentBall.Weapon;
         attackAbility.SetAbility(w.GetAbility, currentBall, w);
         specialAbility.SetAbility(currentBall.SpecialAbility, currentBall, w);

@@ -17,8 +17,10 @@ public class Weapon : MonoBehaviour
     private Ball owner;
     private Rigidbody root;
     private bool isConnected = true;
-
     public AbilityStats GetAbility => stats.Ability;
+    private Transform connector;
+
+    
 
     [SerializeField] private bool isActive = true;
     public void ToggleActive()
@@ -32,26 +34,34 @@ public class Weapon : MonoBehaviour
     private void Start()
     {
         owner = transform.parent.GetComponent<Ball>();
-        root = owner.transform.GetChild(0).GetComponent<Rigidbody>();
+        connector = owner.transform.GetChild(0);
+        root = connector.GetComponent<Rigidbody>();
 
     }
 
 
     //Default update, always check forward, and if hitting enemy then do thing...
-    protected virtual void Update()
+    private void Update()
+    {
+        if(isActive)
+            CastForward();
+        
+        
+    }
+
+    private void LateUpdate()
     {
         if(isConnected)
             Rotate();
-        if(isActive)
-            CastForward();
     }
+
 
     private void Rotate()
     {
         Vector3 velocity = root.velocity;
         Vector3 dir = Vector3.Lerp(Vector3.up, velocity.normalized, velocity.sqrMagnitude);
         
-        transform.position = root.position + dir * stats.BaseDist;
+        transform.position = connector.position + dir * stats.BaseDist;
         transform.forward = dir;
     }
 
@@ -62,11 +72,11 @@ public class Weapon : MonoBehaviour
         Vector3 position = transform.position;
         Vector3 forward = transform.forward;
         
-        Physics.Raycast(position, forward, out RaycastHit wallCheck,  stats.Range.x, GameManager.GroundLayers);
-        float dist = wallCheck.distance;
+        float dist = Physics.Raycast(position, forward, out RaycastHit wallCheck,  stats.Range.x, GameManager.GroundLayers)?wallCheck.distance:stats.Range.x;
 
         HitCount = Physics.SphereCastNonAlloc(position, stats.Range.y, forward, Hits, dist, stats.HitLayers);
-
+        
+        
         
         for (int i = 0; i < HitCount; ++i)
         {
@@ -76,31 +86,28 @@ public class Weapon : MonoBehaviour
             if (n && n.TryGetComponent(out Ball b) && n != transform.parent)
             {
                 //FIX this doesn't consider speed...
-                float dmg = Damage();
-                print(b + "took damage --> " + dmg);
-                b.TakeDamage(dmg, dmg * 0.1f * transform.forward, Player.LocalPlayer);
+                float dmg = stats.Damage;
+                if (stats.ForceBasedDamage)
+                    dmg *= root.mass * (owner.Velocity - b.Velocity).magnitude;
+                    
+                b.TakeDamage(dmg, dmg * 0.1f * forward, Player.LocalPlayer);
             }
         }
     }
 
-
-    public float Damage()
-    {
-        return stats.ForceBasedDamage ? stats.Damage * root.mass * owner.Speed:stats.Damage;
-    }
 
 
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
         Vector3 position = transform.position;
+        DebugExtensions.DebugSphereCast(transform.position, transform.forward,  stats.Range.x, Color.green, stats.Range.y,0, CastDrawType.Minimal, PreviewCondition.Editor, true);
         Debug.DrawRay(position, Vector3.up * stats.BaseDist);
         Debug.DrawRay(position, Vector3.forward * stats.BaseDist);
         Debug.DrawRay(position, Vector3.right * stats.BaseDist);
         Debug.DrawRay(position, Vector3.down * stats.BaseDist);
         Debug.DrawRay(position, Vector3.left * stats.BaseDist);
         Debug.DrawRay(position, Vector3.back * stats.BaseDist);
-        DebugExtensions.DebugSphereCast(transform.position, transform.forward,  stats.Range.x, Color.red, stats.Range.y,0, CastDrawType.Minimal, PreviewCondition.Editor, false);
     }
     #endif
 
