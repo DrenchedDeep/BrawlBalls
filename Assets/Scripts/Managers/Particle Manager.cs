@@ -1,8 +1,6 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Animations;
-using UnityEngine.Serialization;
+using UnityEngine.SceneManagement;
 using UnityEngine.VFX;
 
 public class ParticleManager : MonoBehaviour //Better called AbilityHelper
@@ -11,6 +9,8 @@ public class ParticleManager : MonoBehaviour //Better called AbilityHelper
     public static readonly int RandomTexID = Shader.PropertyToID("_Tex");
     public static readonly int ColorID = Shader.PropertyToID("_Color");
     public static readonly int RandomOffsetID = Shader.PropertyToID("_Offset");
+    public static readonly int SpeedID = Shader.PropertyToID("_Speed");
+    public static readonly int SecondaryColorID = Shader.PropertyToID("_SecondaryColor");
     
     //Particle
     public static readonly int PositionID = Shader.PropertyToID("Position");
@@ -21,6 +21,22 @@ public class ParticleManager : MonoBehaviour //Better called AbilityHelper
     [SerializeField] private VisualEffect[] effects;
     [SerializeField] private GameObject[] summonObjects;
     [SerializeField] private Material glueBallMat;
+
+
+    [Header("Portal")]
+    [SerializeField, ColorUsage(false, true)] private Color[] primaryColors;
+    [SerializeField, ColorUsage(false, true)] private Color[] secondaryColors;
+    private static int _prv;
+    public static Color GetRandomPrimaryColor => _pm.primaryColors[Random.Range(0, _pm.primaryColors.Length)];
+
+    public static Color GetRandomSecondaryColor => _pm.secondaryColors[Random.Range(0, _pm.secondaryColors.Length)];
+
+    private static ParticleManager _pm;
+    
+     
+    
+
+    
     public static Material GlueBallMat { get; private set; }
     public static readonly Dictionary<string, VisualEffect> VFX = new();
     public static readonly Dictionary<string, GameObject> SummonObjects = new();
@@ -31,7 +47,8 @@ public class ParticleManager : MonoBehaviour //Better called AbilityHelper
     {
         if(_created)
             Destroy(gameObject);
-
+        _pm = this;
+        
         GlueBallMat = glueBallMat;
         
         _created = true;
@@ -45,7 +62,8 @@ public class ParticleManager : MonoBehaviour //Better called AbilityHelper
         {
             SummonObjects.Add(effect.name, effect);
         }
-       
+
+
         DontDestroyOnLoad(gameObject);
     }
 

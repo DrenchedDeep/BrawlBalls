@@ -62,9 +62,11 @@ public class Ball : NetworkBehaviour, IDamageAble
          HandleDrag();
      }
 
-     public void AddVelocity(Vector3 dir)
-    {
-        rb.AddForce(dir, ForceMode.Impulse);
+     public void ChangeVelocity(Vector3 dir, ForceMode forceMode = ForceMode.Impulse, bool stop = false)
+     {
+         if (stop)
+             rb.velocity = Vector3.zero;
+        rb.AddForce(dir, forceMode);
     }
 
     /* Just take the collision point duh

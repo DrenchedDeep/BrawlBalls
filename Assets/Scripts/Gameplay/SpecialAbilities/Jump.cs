@@ -13,7 +13,7 @@ public class Jump : Ability
 
     protected override void UseAbility(Ball owner, Weapon weapon)
     {
-        owner.AddVelocity(50 * Vector3.up);
+        owner.ChangeVelocity(50 * Vector3.up);
         ParticleManager.InvokeParticle("Jump", owner.transform.GetChild(0).position);
         
     }

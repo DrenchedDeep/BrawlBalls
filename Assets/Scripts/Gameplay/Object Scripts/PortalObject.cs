@@ -1,19 +1,59 @@
-using System;
+using System.Collections;
 using System.Collections.Generic;
 using Gameplay.Object_Scripts;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using Random = UnityEngine.Random;
 
 public class PortalObject : PlaceableObject
 {
     private PortalObject boundPortal;
     private const int Precision = 12;
+
+    private const int ChanceToGetLucky = 100; // ;) 1 in 100
+    private static bool _someoneGotLucky;
+    private bool isOnCooldown;
+
+    private static readonly WaitForSeconds CoolDownDuration = new WaitForSeconds(3);
+
+    [SerializeField] private int forcedIDX = -1;
     // Start is called before the first frame update
 
-    private void Bind(PortalObject portal)
+    private static readonly List<PortalObject> Portals = new();
+    private static readonly List<int> ActivePortalIds = new();
+    private int myId;
+    private Material myMat;
+
+    private void Start()
     {
-        boundPortal = portal;
+        myId = forcedIDX==-1?Portals.Count:forcedIDX;
+        Portals.Add(this);
+
+        DecalProjector dp = GetComponent<DecalProjector>();
+        myMat = new Material(dp.material);
+        dp.material = myMat;
+        
+        
+        myMat.SetColor(ParticleManager.ColorID, ParticleManager.GetRandomPrimaryColor);
+        myMat.SetColor(ParticleManager.SecondaryColorID, ParticleManager.GetRandomSecondaryColor);
+        
+        switch (myId)
+        {
+            case 2:
+                myMat.SetFloat(ParticleManager.SpeedID, 0.5f);
+                break;
+            //First two portals are used for special zone...
+            case 3:
+                
+                Portals[2].StartCooldown();
+                Portals[3].StartCooldown();
+                break;
+            case > 3:
+                StartCooldown();
+                break;
+        }
     }
+
 
     //There's really two choices here, either cut a hole in the mesh collider
     //OR
@@ -22,7 +62,7 @@ public class PortalObject : PlaceableObject
     //ref https://www.youtube.com/watch?v=5qGE2PL9wwU
     [ContextMenu("MoveCollider")]
     
-    private void Start()
+    private void OldStart()
     {
         transform.lossyScale.Set(1,1,1);
         //Only collide with default layer...
@@ -31,6 +71,8 @@ public class PortalObject : PlaceableObject
         BoxCollider collider  = GetComponent<BoxCollider>();
 
 
+        
+       
 
         Transform host;
         if (!h.transform)
@@ -121,11 +163,6 @@ public class PortalObject : PlaceableObject
         Mesh m = groundCollider2D.CreateMesh(true, true);
         m.Optimize();
         generatedMeshCollider.sharedMesh = m;
-        
-        
-        
-        
-
     }
 
 
@@ -135,8 +172,66 @@ public class PortalObject : PlaceableObject
     }
 
 
+    
+    //TODO: While the owners camera catches up... So like, dist 8, the player is in the shadow realm.
+    //Keep the player hidden until the camera is in range, and apply a screen space shader to that player.
+    //Remove the effect and fire the player once in range...
     protected override void OnHit(Ball hit)
     {
-        //Actually probably don't want this to do anything...
+        print("hit ball: " + isOnCooldown + ", " + ActivePortalIds.Count);
+        if (isOnCooldown || ActivePortalIds.Count <= 1) return;
+
+        int toID;
+        ActivePortalIds.Remove(myId);
+
+        if (!_someoneGotLucky && Random.Range(0, ChanceToGetLucky) == 69)
+        {
+            toID = 0;
+        }
+        else
+        {
+            toID = ActivePortalIds[Random.Range(0, ActivePortalIds.Count)];
+        }
+
+        //Choose another portal
+        PortalObject outPortal = Portals[toID];
+        Transform outPortalTrans = outPortal.transform;
+        hit.transform.position = outPortalTrans.position;
+        Vector3 direction = -outPortalTrans.forward;
+        direction.Scale(hit.Velocity);
+        hit.ChangeVelocity(direction, ForceMode.Impulse, true);
+
+        StartCooldown();
+        PlayParticles();
+        if (toID < 2) return;
+        outPortal.StartCooldown();
+        outPortal.PlayParticles();
     }
+
+    private void PlayParticles()
+    {
+        
+    }
+
+    private void StartCooldown()
+    {
+        if (isOnCooldown) return; // prevent issues where being called twice.
+        StartCoroutine(CoolDown());
+        if(ActivePortalIds.Count == 1) Portals[ActivePortalIds[0]].StartCooldown();
+    }
+
+    private IEnumerator CoolDown()
+    {
+        
+        isOnCooldown = true;
+        ActivePortalIds.Remove(myId);
+        myMat.SetFloat(ParticleManager.SpeedID, 0.5f);
+
+        yield return CoolDownDuration;
+        myMat.SetFloat(ParticleManager.SpeedID, 3f);
+
+        ActivePortalIds.Add(myId);
+        isOnCooldown = false;
+    }
+
 }

@@ -6,6 +6,7 @@ namespace Gameplay.Object_Scripts
     public abstract class PlaceableObject : MonoBehaviour
     {
         [SerializeField] private bool canCollideWithSelf;
+        [SerializeField] private bool bindToSurface;
         protected Ball Owner;
         private bool canCollide;
         private static readonly WaitForSeconds Delay = new (0.4f);
@@ -17,6 +18,13 @@ namespace Gameplay.Object_Scripts
 
         private void Awake()
         {
+            if (bindToSurface)
+            {
+                Physics.Raycast(transform.position, Vector3.down,  out RaycastHit h,3, 1);
+                //transform.parent = h.transform; Parenting literally breaks fucking everything. Unity is garbage
+                transform.forward = h.normal;
+            }
+
             StartCoroutine(Spawn());
         }
 
