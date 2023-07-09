@@ -53,6 +53,7 @@ MonoBehaviour:
   - {fileID: 2315529364227250698, guid: 38a93a2591cf01a4ebb2129d5fe6d768, type: 3}
   - {fileID: 198881308915305689, guid: 772e8d082a7bdfd408d0749d251b7df2, type: 3}
   glueBallMat: {fileID: 2100000, guid: 86084cf970a794241ad22c0b7e9c8485, type: 2}
+  protectMat: {fileID: 2100000, guid: e8dd8fa014698b34ca7e477455e6b1a1, type: 2}
   primaryColors:
   - {r: 95.874504, g: 89.912094, b: 20.350721, a: 0}
   - {r: 13.114913, g: 69.77125, b: 95.87451, a: 0}
@@ -63,48 +64,6 @@ MonoBehaviour:
   - {r: 29.585535, g: 0, b: 766.9959, a: 0}
   - {r: 766.9959, g: 0, b: 303.46774, a: 0}
   - {r: 766.9961, g: 429.33588, b: 56.21958, a: 0}
-  portalAnimCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 3
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.11398872
-      value: 0.5
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.81976086
-      value: 0.5
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 3
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!114 &1968248954129409223
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125,6 +84,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3885355149854194630}
     m_Modifications:
+    - target: {fileID: 1182810889150173799, guid: cb3b10f6604ff7747b162f42a4ba6258,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 951099334
+      objectReference: {fileID: 0}
     - target: {fileID: 1390884127944257831, guid: cb3b10f6604ff7747b162f42a4ba6258,
         type: 3}
       propertyPath: m_RootOrder
@@ -185,12 +149,19 @@ PrefabInstance:
       propertyPath: GlobalObjectIdHash
       value: 951099334
       objectReference: {fileID: 0}
+    - target: {fileID: 5869112939044575297, guid: cb3b10f6604ff7747b162f42a4ba6258,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 951099334
+      objectReference: {fileID: 0}
     - target: {fileID: 8273927018729816993, guid: cb3b10f6604ff7747b162f42a4ba6258,
         type: 3}
       propertyPath: m_Name
       value: Moon
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 286631074488929623, guid: cb3b10f6604ff7747b162f42a4ba6258, type: 3}
+    - {fileID: 3387959286828693270, guid: cb3b10f6604ff7747b162f42a4ba6258, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

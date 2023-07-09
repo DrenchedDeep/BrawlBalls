@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.VFX;
 
 public class ParticleManager : MonoBehaviour //Better called AbilityHelper
@@ -21,6 +20,7 @@ public class ParticleManager : MonoBehaviour //Better called AbilityHelper
     [SerializeField] private VisualEffect[] effects;
     [SerializeField] private GameObject[] summonObjects;
     [SerializeField] private Material glueBallMat;
+    [SerializeField] private Material protectMat;
 
 
     [Header("Portal")]
@@ -32,27 +32,26 @@ public class ParticleManager : MonoBehaviour //Better called AbilityHelper
     public static Color GetRandomSecondaryColor => _pm.secondaryColors[Random.Range(0, _pm.secondaryColors.Length)];
 
     private static ParticleManager _pm;
-    
-     
-    
 
-    
-    public static Material GlueBallMat { get; private set; }
+
+    [SerializeField] private AnimationCurve ExplosiveDropoff;
+
+    public static float EvalauteExplosiveDistance(float percent) => _pm.ExplosiveDropoff.Evaluate(percent);
+
+    public static Material GlueBallMat => _pm.glueBallMat;
+    public static Material ProtectMat => _pm.protectMat;
     public static readonly Dictionary<string, VisualEffect> VFX = new();
     public static readonly Dictionary<string, GameObject> SummonObjects = new();
-    private static bool _created;
 
 
     private void Awake()
     {
-        if(_created)
+        if(_pm)
             Destroy(gameObject);
         _pm = this;
-        
-        GlueBallMat = glueBallMat;
-        
-        _created = true;
+
         //Compile in main menu... Can be slow if massive...
+        //Pooling...
         foreach (VisualEffect effect in effects)
         {
             VFX.Add(effect.name, Instantiate(effect,transform)); // Array Pool local...
@@ -75,4 +74,5 @@ public class ParticleManager : MonoBehaviour //Better called AbilityHelper
         VFX[id].SendEvent(ActivateID);
     }
 
+    
 }

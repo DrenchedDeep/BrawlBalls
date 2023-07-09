@@ -5,7 +5,7 @@ public class Portal : Ability
 {
     public override bool CanUseAbility(Ball owner, Weapon weapon)
     {
-        return Physics.Raycast(owner.transform.GetChild(0).position, Vector3.down, 1, GameManager.GroundLayers); 
+        return Physics.CheckSphere(owner.transform.GetChild(0).position, 1, GameManager.GroundLayers); 
     }
 
     protected override void UseAbility(Ball owner, Weapon weapon)

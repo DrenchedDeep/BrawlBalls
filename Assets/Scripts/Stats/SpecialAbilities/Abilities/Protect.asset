@@ -10,11 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7fbe5080b81a8eb4fbc1595208784f88, type: 3}
-  m_Name: PortalAbility
+  m_Name: Protect
   m_EditorClassIdentifier: 
-  <Description>k__BackingField: Place a vortex, when there are more than two active
-    vortexes, entering a vortex will bring you to another vortex.
-  <Capacity>k__BackingField: 20
-  <Cooldown>k__BackingField: 1
+  <Description>k__BackingField: Immortality is only a bit unfair.
+  <Capacity>k__BackingField: 1
+  <Cooldown>k__BackingField: 0
   <Icon>k__BackingField: {fileID: 0}
-  abilityFileName: Portal
+  abilityFileName: Protect

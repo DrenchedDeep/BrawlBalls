@@ -1,8 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using Unity.Mathematics;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.VFX;
@@ -16,7 +11,7 @@ public class Ball : NetworkBehaviour, IDamageAble
     private Rigidbody rb;
     private float currentHealth;
 
-    [SerializeField] private VisualEffect onDestroy;
+    [SerializeField] private VisualEffect destructionParticle;
     public Weapon Weapon => weapon; // I really don't want to have to do this...
     public AbilityStats SpecialAbility => ability;
     public float MaxSpeed => stats.MaxSpeed;
@@ -78,8 +73,8 @@ public class Ball : NetworkBehaviour, IDamageAble
 
     public void TakeDamage(float amount, Vector3 direction, Player attacker)
     {
-        currentHealth = Mathf.Max(currentHealth-amount, stats.MaxHealth);
-        print( name + "Ouchie! I took damage: " + amount +",  " + direction);
+        currentHealth = Mathf.Min(currentHealth-amount, stats.MaxHealth);
+        print( name + "Ouchie! I took damage: " + amount +",  " + direction +", I have reamining health: " + currentHealth);
         if (currentHealth <= 0)
         {
             previousAttacker = attacker;
@@ -123,7 +118,7 @@ public class Ball : NetworkBehaviour, IDamageAble
 
     private void Die()
     {
-        if (!isDead) return;
+        if (isDead) return;
         isDead = true;
         
         if (previousAttacker)
@@ -131,33 +126,47 @@ public class Ball : NetworkBehaviour, IDamageAble
             //previousAttacker.AwardKill();
             //Instantiate(onDestroy,transform.position,previousAttacker.transform.rotation);
         }
-        //Destroy(gameObject);
+        print("Destroy!");
+        Destroy(gameObject);
     }
 
     public void ApplySlow(Ball attacker, Material m)
     {
         //previousAttacker = attacker.owner
         Acceleration *= 0.7f;
+        AddMaterial(m);
+    }
+
+    public int AddMaterial(Material mat)
+    {
         int l = mr.materials.Length;
         Material[] mats = new Material[l+1];
         for (int index = 0; index < l; index++)
         {
             mats [index]= mr.materials[index];
         }
-
-        Material createdMat = new Material(ParticleManager.GlueBallMat);
-        
-        //Kill me :(
-        createdMat.SetFloat(ParticleManager.ColorID, m.GetFloat(ParticleManager.ColorID));
-        createdMat.SetInt(ParticleManager.RandomTexID, m.GetInt(ParticleManager.RandomTexID));
-        createdMat.SetVector(ParticleManager.RandomOffsetID, m.GetVector(ParticleManager.RandomOffsetID));
-        
-        mats[l]=createdMat;
-
+        mats[l]=mat;
         mr.materials = mats;
-
-
+        return l;
     }
 
+    public void RemoveMaterial(int id)
+    {
+        int l = mr.materials.Length;
+        Material[] mats = new Material[l-1];
+        int m = 0;
+        for (int index = 0; index < l; index++)
+        {
+            if(index != id)
+                mats [index] = mr.materials[m];
+            m+=1;
+        }
+        mr.materials = mats;
+    }
 
+    public override void OnDestroy()
+    {
+        base.OnDestroy();
+        
+    }
 }

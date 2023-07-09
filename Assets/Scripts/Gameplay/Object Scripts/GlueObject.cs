@@ -20,9 +20,6 @@ namespace Gameplay.Object_Scripts
             m.SetFloat(ParticleManager.ColorID, Random.Range(0,1f));
             m.SetVector(ParticleManager.RandomOffsetID, new Vector4(Random.Range(-0.25f,0.25f),Random.Range(-0.25f,0.25f)));
             dp.material = m;
-
-            transform.eulerAngles = new Vector3(90, Random.Range(0, 360), 0);
-
         }
 
         protected override void OnHit(Ball hit)
@@ -34,7 +31,15 @@ namespace Gameplay.Object_Scripts
             //if the change is allowed...
             //Apply duplicate material...
             print(hit);
-            hit.ApplySlow(Owner, m);
+            
+            Material createdMat = new Material(ParticleManager.GlueBallMat);
+        
+            //Kill me :(
+            createdMat.SetFloat(ParticleManager.ColorID, m.GetFloat(ParticleManager.ColorID));
+            createdMat.SetInt(ParticleManager.RandomTexID, m.GetInt(ParticleManager.RandomTexID));
+            createdMat.SetVector(ParticleManager.RandomOffsetID, m.GetVector(ParticleManager.RandomOffsetID));
+            
+            hit.ApplySlow(Owner, createdMat);
             Destroy(transform.parent.gameObject);
         }
     }
