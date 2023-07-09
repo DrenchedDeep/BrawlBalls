@@ -50,6 +50,7 @@ public class Ball : NetworkBehaviour, IDamageAble
         rb.mass = stats.Mass + weapon.Mass;
 
         currentHealth = stats.MaxHealth;
+        print("HP: " + currentHealth);
     }
 
      private void FixedUpdate()

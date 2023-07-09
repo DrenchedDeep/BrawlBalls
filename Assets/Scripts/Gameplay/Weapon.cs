@@ -20,6 +20,8 @@ public class Weapon : MonoBehaviour
     public AbilityStats GetAbility => stats.Ability;
     private Transform connector;
 
+    private float curDamage;
+    
     
 
     [SerializeField] private bool isActive = true;
@@ -36,12 +38,12 @@ public class Weapon : MonoBehaviour
         owner = transform.parent.GetComponent<Ball>();
         connector = owner.transform.GetChild(0);
         root = connector.GetComponent<Rigidbody>();
-
+        curDamage = stats.Damage;
     }
 
 
     //Default update, always check forward, and if hitting enemy then do thing...
-    private void Update()
+    private void FixedUpdate()
     {
         if(isActive)
             CastForward();
@@ -86,11 +88,11 @@ public class Weapon : MonoBehaviour
             if (n && n.TryGetComponent(out Ball b) && n != transform.parent)
             {
                 //FIX this doesn't consider speed...
-                float dmg = stats.Damage;
+                float dmg = curDamage;
                 if (stats.ForceBasedDamage)
                     dmg *= root.mass * (owner.Velocity - b.Velocity).magnitude;
                     
-                b.TakeDamage(dmg, dmg * 0.1f * forward, Player.LocalPlayer);
+                b.TakeDamage(Mathf.Max(0,dmg), dmg * stats.PushMul * forward, Player.LocalPlayer);
             }
         }
     }
@@ -115,5 +117,10 @@ public class Weapon : MonoBehaviour
     {
         transform.parent = null;
         isConnected = false;
+    }
+
+    public void MultiplyDamage(int i)
+    {
+        curDamage *= -1;
     }
 }

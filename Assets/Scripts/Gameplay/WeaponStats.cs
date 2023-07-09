@@ -7,6 +7,7 @@ public class WeaponStats : ScriptableObject
     [field: SerializeField] public float Damage { get; private set; }
     [field: SerializeField] public float Mass { get; private set; }
     [field: SerializeField] public Vector2 Range { get; private set; }
+    [field: SerializeField] public float PushMul { get; private set; }
     [field: SerializeField] public bool ForceBasedDamage { get; private set; }
     
     [field: SerializeField] public LayerMask HitLayers { get; private set; }

@@ -13,7 +13,7 @@ public class CannonBall : Ball
         {
             Vector3 ePos = c.ClosestPoint(pos);
             Vector3 dir = ePos - pos;
-            float damage = ParticleManager.EvalauteExplosiveDistance(dir.magnitude / MaxDist)*50;
+            float damage = ParticleManager.EvalauteExplosiveDistance(dir.magnitude / MaxDist)*200;
             c.transform.parent.GetComponent<Ball>().TakeDamage(damage, damage * dir, Player.LocalPlayer);
         }
     }

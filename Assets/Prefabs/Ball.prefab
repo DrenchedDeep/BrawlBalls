@@ -571,7 +571,18 @@ PrefabInstance:
     - target: {fileID: 1237172088616537670, guid: 28499b9429cb508488d9163f952d10cf,
         type: 3}
       propertyPath: m_Name
-      value: Beam
+      value: Abductor
+      objectReference: {fileID: 0}
+    - target: {fileID: 5373212313689324578, guid: 28499b9429cb508488d9163f952d10cf,
+        type: 3}
+      propertyPath: stats
+      value: 
+      objectReference: {fileID: 11400000, guid: b002dc0d39aed04458f25bd2cddd4d2f,
+        type: 2}
+    - target: {fileID: 5373212313689324578, guid: 28499b9429cb508488d9163f952d10cf,
+        type: 3}
+      propertyPath: isActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6746151550964268357, guid: 28499b9429cb508488d9163f952d10cf,
         type: 3}

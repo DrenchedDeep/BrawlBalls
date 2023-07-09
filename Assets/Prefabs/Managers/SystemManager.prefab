@@ -64,6 +64,30 @@ MonoBehaviour:
   - {r: 29.585535, g: 0, b: 766.9959, a: 0}
   - {r: 766.9959, g: 0, b: 303.46774, a: 0}
   - {r: 766.9961, g: 429.33588, b: 56.21958, a: 0}
+  ExplosiveDropoff:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.9976425
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!114 &1968248954129409223
 MonoBehaviour:
   m_ObjectHideFlags: 0
