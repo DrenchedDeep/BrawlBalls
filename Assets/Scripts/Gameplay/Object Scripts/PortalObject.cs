@@ -45,15 +45,15 @@ public class PortalObject : PlaceableObject
 
         
 
-        myMat.SetColor(ParticleManager.ColorID, ParticleManager.GetRandomPrimaryColor);
-        myMat.SetColor(ParticleManager.SecondaryColorID, ParticleManager.GetRandomSecondaryColor);
+        myMat.SetColor(StaticUtilities.ColorID, ParticleManager.GetRandomPrimaryColor);
+        myMat.SetColor(StaticUtilities.SecondaryColorID, ParticleManager.GetRandomSecondaryColor);
         
 
         switch (myId)
         {
             case 2:
                 SetState(true);
-                myMat.SetFloat(ParticleManager.SpeedID, 0.5f);
+                myMat.SetFloat(StaticUtilities.SpeedID, 0.5f);
                 break;
             //First two portals are used for special zone...
             case 3:
@@ -142,12 +142,12 @@ public class PortalObject : PlaceableObject
         if (cooldown)
         {
             ActivePortalIds.Remove(myId);
-            myMat.SetFloat(ParticleManager.SpeedID, 0.5f);
+            myMat.SetFloat(StaticUtilities.SpeedID, 0.5f);
         }
         else
         {
             ActivePortalIds.Add(myId);
-            myMat.SetFloat(ParticleManager.SpeedID, 3f);
+            myMat.SetFloat(StaticUtilities.SpeedID, 3f);
         }
         
     }

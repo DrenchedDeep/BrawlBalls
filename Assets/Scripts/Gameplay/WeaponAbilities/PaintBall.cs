@@ -12,9 +12,9 @@ public class PaintBall : Ball
             Material createdMat = new Material(ParticleManager.GlueBallMat);
         
             //Kill me :(
-            createdMat.SetFloat(ParticleManager.ColorID, Random.Range(0,1f));
-            createdMat.SetInt(ParticleManager.RandomTexID, Random.Range(0,4));
-            createdMat.SetVector(ParticleManager.RandomOffsetID, new Vector4(Random.Range(-0.25f,0.25f),Random.Range(-0.25f,0.25f)));
+            createdMat.SetFloat(StaticUtilities.ColorID, Random.Range(0,1f));
+            createdMat.SetInt(StaticUtilities.RandomTexID, Random.Range(0,4));
+            createdMat.SetVector(StaticUtilities.RandomOffsetID, new Vector4(Random.Range(-0.25f,0.25f),Random.Range(-0.25f,0.25f)));
             c.transform.parent.GetComponent<Ball>().ApplySlow(this, createdMat);
         }
     }

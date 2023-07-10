@@ -16,9 +16,9 @@ namespace Gameplay.Object_Scripts
             DecalProjector dp = GetComponent<DecalProjector>();
             m = new Material(dp.material);
         
-            m.SetInt(ParticleManager.RandomTexID, Random.Range(0,4));
-            m.SetFloat(ParticleManager.ColorID, Random.Range(0,1f));
-            m.SetVector(ParticleManager.RandomOffsetID, new Vector4(Random.Range(-0.25f,0.25f),Random.Range(-0.25f,0.25f)));
+            m.SetInt(StaticUtilities.RandomTexID, Random.Range(0,4));
+            m.SetFloat(StaticUtilities.ColorID, Random.Range(0,1f));
+            m.SetVector(StaticUtilities.RandomOffsetID, new Vector4(Random.Range(-0.25f,0.25f),Random.Range(-0.25f,0.25f)));
             dp.material = m;
         }
 
@@ -35,9 +35,9 @@ namespace Gameplay.Object_Scripts
             Material createdMat = new Material(ParticleManager.GlueBallMat);
         
             //Kill me :(
-            createdMat.SetFloat(ParticleManager.ColorID, m.GetFloat(ParticleManager.ColorID));
-            createdMat.SetInt(ParticleManager.RandomTexID, m.GetInt(ParticleManager.RandomTexID));
-            createdMat.SetVector(ParticleManager.RandomOffsetID, m.GetVector(ParticleManager.RandomOffsetID));
+            createdMat.SetFloat(StaticUtilities.ColorID, m.GetFloat(StaticUtilities.ColorID));
+            createdMat.SetInt(StaticUtilities.RandomTexID, m.GetInt(StaticUtilities.RandomTexID));
+            createdMat.SetVector(StaticUtilities.RandomOffsetID, m.GetVector(StaticUtilities.RandomOffsetID));
             
             hit.ApplySlow(Owner, createdMat);
             Destroy(transform.parent.gameObject);

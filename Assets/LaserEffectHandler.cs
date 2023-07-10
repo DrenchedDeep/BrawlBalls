@@ -17,7 +17,7 @@ public class LaserEffectHandler : MonoBehaviour
     {
         
         StartCoroutine(HandleSizeChange());
-        myEffect.SendEvent(ParticleManager.ActivateID);
+        myEffect.SendEvent(StaticUtilities.ActivateID);
         lifeTime = w.GetAbility.Cooldown * 0.6f;
         
     }
@@ -25,8 +25,8 @@ public class LaserEffectHandler : MonoBehaviour
     private void Start()
     {
         width = w.Range.y;
-        myEffect.SetFloat(ParticleManager.DelayID, TimeToActivate);
-        myEffect.SetVector4(ParticleManager.ColorID, lineRenderer.material.GetColor(ParticleManager.ColorID));
+        myEffect.SetFloat(StaticUtilities.DelayID, TimeToActivate);
+        myEffect.SetVector4(StaticUtilities.ColorID, lineRenderer.material.GetColor(StaticUtilities.ColorID));
     }
 
     private void LateUpdate()
@@ -44,7 +44,7 @@ public class LaserEffectHandler : MonoBehaviour
 
         if (maxDist == 0) maxDist = w.Range.x;
         maxDist *= 3;
-        myEffect.SetFloat(ParticleManager.PositionID, maxDist);
+        myEffect.SetFloat(StaticUtilities.PositionID, maxDist);
         lineRenderer.SetPosition(1,maxDist*Vector3.forward);
         
         lifeTime -= Time.deltaTime;
@@ -53,7 +53,7 @@ public class LaserEffectHandler : MonoBehaviour
             Player.LocalPlayer.EnableControls();
             w.ToggleActive();
             gameObject.SetActive(false);
-            myEffect.SendEvent(ParticleManager.EndID);
+            myEffect.SendEvent(StaticUtilities.EndID);
         }
     }
 

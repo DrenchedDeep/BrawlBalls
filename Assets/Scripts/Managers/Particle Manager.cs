@@ -5,17 +5,7 @@ using UnityEngine.VFX;
 public class ParticleManager : MonoBehaviour //Better called AbilityHelper
 {
     
-    public static readonly int RandomTexID = Shader.PropertyToID("_Tex");
-    public static readonly int ColorID = Shader.PropertyToID("_Color");
-    public static readonly int RandomOffsetID = Shader.PropertyToID("_Offset");
-    public static readonly int SpeedID = Shader.PropertyToID("_Speed");
-    public static readonly int SecondaryColorID = Shader.PropertyToID("_SecondaryColor");
-    
-    //Particle
-    public static readonly int PositionID = Shader.PropertyToID("Position");
-    public static readonly int ActivateID = Shader.PropertyToID("Activate");
-    public static readonly int EndID = Shader.PropertyToID("End");
-    public static readonly int DelayID = Shader.PropertyToID("initDelay");
+
     
     [SerializeField] private VisualEffect[] effects;
     [SerializeField] private GameObject[] summonObjects;
@@ -43,6 +33,17 @@ public class ParticleManager : MonoBehaviour //Better called AbilityHelper
     public static readonly Dictionary<string, VisualEffect> VFX = new();
     public static readonly Dictionary<string, GameObject> SummonObjects = new();
 
+    public enum ECollectableType
+    {
+        Gems,
+        //TOKEN TYPES
+        Cosmetic,
+        Ability,
+        Weapon,
+        Ball,
+        Special
+    }
+
 
     private void Awake()
     {
@@ -60,6 +61,7 @@ public class ParticleManager : MonoBehaviour //Better called AbilityHelper
         foreach (GameObject effect in summonObjects)
         {
             SummonObjects.Add(effect.name, effect);
+            print(effect.name);
         }
 
 
@@ -70,8 +72,8 @@ public class ParticleManager : MonoBehaviour //Better called AbilityHelper
     {
         print("Invoking particle: " + id);
         
-        VFX[id].SetVector3(PositionID, position);
-        VFX[id].SendEvent(ActivateID);
+        VFX[id].SetVector3(StaticUtilities.PositionID, position);
+        VFX[id].SendEvent(StaticUtilities.ActivateID);
     }
 
     
