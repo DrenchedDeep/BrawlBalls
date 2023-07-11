@@ -30,7 +30,7 @@ public class RelayHandler : MonoBehaviour
             onlineSectionBtn.enabled = true;
         };
 
-        //Access Authentication sercices
+        //Access Authentication services
         await AuthenticationService.Instance.SignInAnonymouslyAsync();
 
     }
