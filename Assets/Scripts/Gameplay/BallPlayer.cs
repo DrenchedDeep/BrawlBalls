@@ -1,12 +1,10 @@
 using Cinemachine;
-using Unity.Netcode;
 using UnityEngine;
 
 //Player handles UI, and is the main interface for players...
 public class BallPlayer : MonoBehaviour
 {
-    [Header("Ball Object")]
-    [SerializeField] private Ball[] balls;
+    private Ball[] balls;
     private Ball currentBall;
     
     
@@ -23,6 +21,7 @@ public class BallPlayer : MonoBehaviour
 
     public static BallPlayer LocalBallPlayer;
     public float BallY => sphereTrans.position.y;
+    
 
     
     //When the ball awakes, let's access our components and check what exists...
@@ -30,8 +29,9 @@ public class BallPlayer : MonoBehaviour
     {
         LocalBallPlayer = this;
         //TODO: This should activate, with UI
+
+        balls = GameManager.ConstructBalls();
         SelectBall(0);
-        
     }
 
 
@@ -68,7 +68,11 @@ public class BallPlayer : MonoBehaviour
     public void SelectBall(int i)
     {
         //Trust user
-        currentBall = Instantiate(balls[i], (Level.Instance.IsRandomSpawning?SpawnPoint.ActiveSpawnPoints[Random.Range(0,SpawnPoint.ActiveSpawnPoints.Count)]:SpawnPoint.ActiveSpawnPoints[0]).transform.position + Vector3.up, Quaternion.identity);
+        //currentBall = Instantiate(balls[i], (Level.Instance.IsRandomSpawning?SpawnPoint.ActiveSpawnPoints[Random.Range(0,SpawnPoint.ActiveSpawnPoints.Count)]:SpawnPoint.ActiveSpawnPoints[0]).transform.position + Vector3.up, Quaternion.identity);
+        balls[i].Spawn();
+        currentBall = balls[i];
+        currentBall.transform.position = (Level.Instance.IsRandomSpawning?SpawnPoint.ActiveSpawnPoints[Random.Range(0,SpawnPoint.ActiveSpawnPoints.Count)]:SpawnPoint.ActiveSpawnPoints[0]).transform
+            .position + Vector3.up;
         playerRb = currentBall.transform.GetChild(0).GetComponent<Rigidbody>();
         sphereTrans = currentBall.transform.GetChild(0);
 

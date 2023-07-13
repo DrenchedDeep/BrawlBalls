@@ -47,8 +47,12 @@ public class ParticleManager : MonoBehaviour //Better called AbilityHelper
 
     private void Awake()
     {
-        if(_pm)
+        if (_pm)
+        {
             Destroy(gameObject);
+            return;
+        }
+
         _pm = this;
 
         //Compile in main menu... Can be slow if massive...

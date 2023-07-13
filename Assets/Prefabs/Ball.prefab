@@ -256,8 +256,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stats: {fileID: 11400000, guid: ffd7082a772ad974b823231b7d98aa3a, type: 2}
-  weapon: {fileID: 7650081755563551555}
-  ability: {fileID: 11400000, guid: c94f99a979977064db6bd383d86ba477, type: 2}
   destructionParticle: {fileID: 0}
 --- !u!1 &5106728202548578482
 GameObject:
@@ -568,6 +566,91 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3463510690022097799}
     m_Modifications:
+    - target: {fileID: 452515150291709040, guid: 28499b9429cb508488d9163f952d10cf,
+        type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 452515150291709040, guid: 28499b9429cb508488d9163f952d10cf,
+        type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 452515150291709040, guid: 28499b9429cb508488d9163f952d10cf,
+        type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].time
+      value: 0.0018867925
+      objectReference: {fileID: 0}
+    - target: {fileID: 452515150291709040, guid: 28499b9429cb508488d9163f952d10cf,
+        type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[2].time
+      value: 0.016981132
+      objectReference: {fileID: 0}
+    - target: {fileID: 452515150291709040, guid: 28499b9429cb508488d9163f952d10cf,
+        type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[3].time
+      value: 0.09056791
+      objectReference: {fileID: 0}
+    - target: {fileID: 452515150291709040, guid: 28499b9429cb508488d9163f952d10cf,
+        type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].value
+      value: 0.108826905
+      objectReference: {fileID: 0}
+    - target: {fileID: 452515150291709040, guid: 28499b9429cb508488d9163f952d10cf,
+        type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].value
+      value: 0.82040817
+      objectReference: {fileID: 0}
+    - target: {fileID: 452515150291709040, guid: 28499b9429cb508488d9163f952d10cf,
+        type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[2].value
+      value: 0.21632653
+      objectReference: {fileID: 0}
+    - target: {fileID: 452515150291709040, guid: 28499b9429cb508488d9163f952d10cf,
+        type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[3].value
+      value: 0.9346966
+      objectReference: {fileID: 0}
+    - target: {fileID: 452515150291709040, guid: 28499b9429cb508488d9163f952d10cf,
+        type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].inSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 452515150291709040, guid: 28499b9429cb508488d9163f952d10cf,
+        type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[2].inSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 452515150291709040, guid: 28499b9429cb508488d9163f952d10cf,
+        type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].inWeight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 452515150291709040, guid: 28499b9429cb508488d9163f952d10cf,
+        type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].outSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 452515150291709040, guid: 28499b9429cb508488d9163f952d10cf,
+        type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[2].inWeight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 452515150291709040, guid: 28499b9429cb508488d9163f952d10cf,
+        type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[2].outSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 452515150291709040, guid: 28499b9429cb508488d9163f952d10cf,
+        type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].outWeight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 452515150291709040, guid: 28499b9429cb508488d9163f952d10cf,
+        type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[2].outWeight
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1237172088616537670, guid: 28499b9429cb508488d9163f952d10cf,
         type: 3}
       propertyPath: m_Name
@@ -596,7 +679,7 @@ PrefabInstance:
     - target: {fileID: 6801117843190864690, guid: 28499b9429cb508488d9163f952d10cf,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.5
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 6801117843190864690, guid: 28499b9429cb508488d9163f952d10cf,
         type: 3}
@@ -633,23 +716,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8085065267604368467, guid: 28499b9429cb508488d9163f952d10cf,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8521107657914660152, guid: 28499b9429cb508488d9163f952d10cf,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.06
+      objectReference: {fileID: 0}
+    - target: {fileID: 8521107657914660152, guid: 28499b9429cb508488d9163f952d10cf,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.99
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 28499b9429cb508488d9163f952d10cf, type: 3}
---- !u!114 &7650081755563551555 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5373212313689324578, guid: 28499b9429cb508488d9163f952d10cf,
-    type: 3}
-  m_PrefabInstance: {fileID: 2358743753561937761}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb872a0c9a8169748bb0be8acef19a50, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &9140508814687947859 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6801117843190864690, guid: 28499b9429cb508488d9163f952d10cf,

@@ -12,6 +12,8 @@ public class Level : NetworkBehaviour
     [SerializeField] private bool offMapKills;
     [field: SerializeField] public bool IsRandomSpawning { get; private set; }
     public static Level Instance { get; private set; }
+    
+    [field: SerializeField] public Transform [] PodiumPoints { get; private set; }
 
     [SerializeField] private float distance;
     [SerializeField] private float travelTime;
@@ -19,8 +21,10 @@ public class Level : NetworkBehaviour
     
     private Transform coin;
 
-    private void SpawnCoin()
+    [ServerRpc]
+    private void SpawnCoinServerRpc()
     {
+        Debug.Log("Spawning Map Coin");
         int r = Random.Range(0, 100);
         GameObject spawned;
         switch (r)
@@ -43,6 +47,7 @@ public class Level : NetworkBehaviour
         }
         coin = Instantiate(spawned, coinStart.position, Quaternion.identity).transform;
         coin.GetComponent<PositionConstraint>().constraintActive = false;
+        coin.GetComponent<NetworkObject>().Spawn(true);
         if (!IsLocalPlayer)
         {
             StartCoroutine(CoinTravel());
@@ -63,7 +68,7 @@ public class Level : NetworkBehaviour
 
     private void Start()
     {
-        SpawnCoin();
+        SpawnCoinServerRpc();
     }
 
 

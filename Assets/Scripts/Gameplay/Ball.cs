@@ -5,15 +5,26 @@ using UnityEngine.VFX;
 public class Ball : NetworkBehaviour, IDamageAble
 {
     [SerializeField] private BallStats stats;
-    [SerializeField] private Weapon weapon;
-    [SerializeField] private AbilityStats ability;
-
-    private Rigidbody rb;
-    private float currentHealth;
+    
+    private AbilityStats _ability;
+    private Weapon _weapon;
+    private Rigidbody _rb;
+    private float _currentHealth;
 
     [SerializeField] private VisualEffect destructionParticle;
-    public Weapon Weapon => weapon; // I really don't want to have to do this...
-    public AbilityStats SpecialAbility => ability;
+    public Weapon Weapon => _weapon; // I really don't want to have to do this...
+
+    public void SetWeapon(Weapon w)
+    {
+        _weapon = w;
+        _weapon.transform.parent = transform;
+    }
+
+    public AbilityStats SpecialAbility => _ability;
+    public void SetAbility(AbilityStats s) => _ability = s;
+    
+    
+    
     public float MaxSpeed => stats.MaxSpeed;
     
     private BallPlayer previousAttacker;
@@ -23,35 +34,40 @@ public class Ball : NetworkBehaviour, IDamageAble
     private int groundlayers;
 
     public float Speed => Velocity.magnitude;
-    public Vector3 Velocity => rb.velocity;
+    public Vector3 Velocity => _rb.velocity;
 
 
      public float Acceleration { get; private set; }
 
+     public override void OnNetworkSpawn()
+     {
+         base.OnNetworkSpawn();
+         //if the ball is the local player?
+         //if the PLAYER is the local player, then it should move THIS ball...
+         if (IsLocalPlayer)
+         {
+             print("Am I local?");
+         }
 
-     private void Awake()
-    {
-        //if the ball is the local player?
-        //if the PLAYER is the local player, then it should move THIS ball...
-        if (IsLocalPlayer)
-        {
-            print("Am I local?");
-        }
-
-        Transform t = transform.GetChild(0);
+         Transform t = transform.GetChild(0);
         
-        groundlayers = GameManager.GroundLayers +  (1<< t.gameObject.layer);
-        Acceleration = stats.Acceleration;
+         groundlayers = GameManager.GroundLayers +  (1<< t.gameObject.layer);
+         Acceleration = stats.Acceleration;
 
-        rb = t.GetComponent<Rigidbody>();
-        mr = t.GetComponent<MeshRenderer>();
-        rb.drag = stats.Drag;
-        rb.angularDrag = stats.AngularDrag;
-        rb.mass = stats.Mass + weapon.Mass;
+         _rb = t.GetComponent<Rigidbody>();
+         mr = t.GetComponent<MeshRenderer>();
+         _rb.drag = stats.Drag;
+         _rb.angularDrag = stats.AngularDrag;
+         _rb.mass = stats.Mass + _weapon.Mass;
 
-        currentHealth = stats.MaxHealth;
-        print("HP: " + currentHealth);
-    }
+         _currentHealth = stats.MaxHealth;
+         print("HP: " + _currentHealth);
+     }
+
+     public void Spawn()
+     {
+         NetworkObject.SpawnWithOwnership(NetworkManager.LocalClientId, true);
+     }
 
      private void FixedUpdate()
      {
@@ -61,8 +77,8 @@ public class Ball : NetworkBehaviour, IDamageAble
      public void ChangeVelocity(Vector3 dir, ForceMode forceMode = ForceMode.Impulse, bool stop = false)
      {
          if (stop)
-             rb.velocity = Vector3.zero;
-        rb.AddForce(dir, forceMode);
+             _rb.velocity = Vector3.zero;
+        _rb.AddForce(dir, forceMode);
     }
 
     /* Just take the collision point duh
@@ -74,23 +90,23 @@ public class Ball : NetworkBehaviour, IDamageAble
 
     public void TakeDamage(float amount, Vector3 direction, BallPlayer attacker)
     {
-        currentHealth = Mathf.Min(currentHealth-amount, stats.MaxHealth);
-        print( name + "Ouchie! I took damage: " + amount +",  " + direction +", I have reamining health: " + currentHealth);
-        if (currentHealth <= 0)
+        _currentHealth = Mathf.Min(_currentHealth-amount, stats.MaxHealth);
+        print( name + "Ouchie! I took damage: " + amount +",  " + direction +", I have reamining health: " + _currentHealth);
+        if (_currentHealth <= 0)
         {
             previousAttacker = attacker;
             Die();
             //return;
         }
-        rb.AddForce(direction, ForceMode.Impulse);
+        _rb.AddForce(direction, ForceMode.Impulse);
 
     }
 
     private void HandleDrag()
     {
-        bool hit = Physics.Raycast(rb.position, Vector3.down, out RaycastHit h, 1.5f, groundlayers);
+        bool hit = Physics.Raycast(_rb.position, Vector3.down, out RaycastHit h, 1.5f, groundlayers);
         //#if UNITY_EDITOR
-        Debug.DrawRay(rb.position, Vector3.down * 1.5f, hit?Color.blue:Color.yellow);
+        Debug.DrawRay(_rb.position, Vector3.down * 1.5f, hit?Color.blue:Color.yellow);
         //#endif
         //Handle squishing
         if (hit)
@@ -100,16 +116,16 @@ public class Ball : NetworkBehaviour, IDamageAble
             {
                 Debug.LogWarning("LANDED ON EM: " + b.name +", " + name);
                 b.TakeDamage(1000000, Vector3.zero, BallPlayer.LocalBallPlayer);
-                rb.drag = stats.Drag;
+                _rb.drag = stats.Drag;
             }
             else
             {
-                rb.drag =  0;
+                _rb.drag =  0;
             }
         }
         else
         {
-            rb.drag =  0;
+            _rb.drag =  0;
         }
 
         

@@ -118,9 +118,10 @@ public class Weapon : MonoBehaviour
         transform.parent = null;
         isConnected = false;
     }
-
-    public void MultiplyDamage(int i)
+    
+    public float MultiplyDamage(int i)
     {
-        curDamage *= -1;
+        curDamage *= i;
+        return curDamage;
     }
 }
