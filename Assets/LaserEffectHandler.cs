@@ -50,7 +50,7 @@ public class LaserEffectHandler : MonoBehaviour
         lifeTime -= Time.deltaTime;
         if (lifeTime <= 0)
         {
-            Player.LocalPlayer.EnableControls();
+            BallPlayer.LocalBallPlayer.EnableControls();
             w.ToggleActive();
             gameObject.SetActive(false);
             myEffect.SendEvent(StaticUtilities.EndID);
@@ -71,7 +71,7 @@ public class LaserEffectHandler : MonoBehaviour
         }
         w.ToggleActive();
         lineRenderer.startWidth = width;
-        Player.LocalPlayer.DisableControls();
+        BallPlayer.LocalBallPlayer.DisableControls();
     }
     
 }

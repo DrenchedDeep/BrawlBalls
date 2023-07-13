@@ -16,7 +16,7 @@ public class Ball : NetworkBehaviour, IDamageAble
     public AbilityStats SpecialAbility => ability;
     public float MaxSpeed => stats.MaxSpeed;
     
-    private Player previousAttacker;
+    private BallPlayer previousAttacker;
 
     private MeshRenderer mr;
     private int ballLayer;
@@ -72,7 +72,7 @@ public class Ball : NetworkBehaviour, IDamageAble
         TakeDamage(amount, -rb.velocity.normalized * forceMul, attacker);
     } */
 
-    public void TakeDamage(float amount, Vector3 direction, Player attacker)
+    public void TakeDamage(float amount, Vector3 direction, BallPlayer attacker)
     {
         currentHealth = Mathf.Min(currentHealth-amount, stats.MaxHealth);
         print( name + "Ouchie! I took damage: " + amount +",  " + direction +", I have reamining health: " + currentHealth);
@@ -99,7 +99,7 @@ public class Ball : NetworkBehaviour, IDamageAble
             if (n && n.TryGetComponent(out Ball b))
             {
                 Debug.LogWarning("LANDED ON EM: " + b.name +", " + name);
-                b.TakeDamage(1000000, Vector3.zero, Player.LocalPlayer);
+                b.TakeDamage(1000000, Vector3.zero, BallPlayer.LocalBallPlayer);
                 rb.drag = stats.Drag;
             }
             else

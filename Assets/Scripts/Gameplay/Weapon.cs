@@ -92,7 +92,7 @@ public class Weapon : MonoBehaviour
                 if (stats.ForceBasedDamage)
                     dmg *= root.mass * (owner.Velocity - b.Velocity).magnitude;
                     
-                b.TakeDamage(Mathf.Max(0,dmg), dmg * stats.PushMul * forward, Player.LocalPlayer);
+                b.TakeDamage(Mathf.Max(0,dmg), dmg * stats.PushMul * forward, BallPlayer.LocalBallPlayer);
             }
         }
     }

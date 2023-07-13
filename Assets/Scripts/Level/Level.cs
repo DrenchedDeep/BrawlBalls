@@ -71,7 +71,7 @@ public class Level : NetworkBehaviour
     {
         if (!IsOwner) return;
         //Every player is responsible for checking if they've fallen off the map? Or should it be the server... probably the server...
-        if (Player.LocalPlayer.BallY < bottomY)
+        if (BallPlayer.LocalBallPlayer.BallY < bottomY)
         {
             if (offMapKills)
             {
@@ -79,7 +79,7 @@ public class Level : NetworkBehaviour
             }
             else
             {
-                Player.LocalPlayer.Respawn(false);
+                BallPlayer.LocalBallPlayer.Respawn(false);
             }
         }
     }

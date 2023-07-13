@@ -3,7 +3,7 @@ using Unity.Netcode;
 using UnityEngine;
 
 //Player handles UI, and is the main interface for players...
-public class Player : MonoBehaviour
+public class BallPlayer : MonoBehaviour
 {
     [Header("Ball Object")]
     [SerializeField] private Ball[] balls;
@@ -21,14 +21,14 @@ public class Player : MonoBehaviour
     private Transform sphereTrans;
     private Rigidbody playerRb;
 
-    public static Player LocalPlayer;
+    public static BallPlayer LocalBallPlayer;
     public float BallY => sphereTrans.position.y;
 
     
     //When the ball awakes, let's access our components and check what exists...
     void Start()
     {
-        LocalPlayer = this;
+        LocalBallPlayer = this;
         //TODO: This should activate, with UI
         SelectBall(0);
         

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18239254, g: 0.22810318, b: 0.3072914, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2745,13 +2745,13 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1270850120}
+  m_Father: {fileID: 1075103058}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -52}
-  m_SizeDelta: {x: 2500, y: 2000}
+  m_SizeDelta: {x: 580, y: 920}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &554847294
 MonoBehaviour:
@@ -5292,6 +5292,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 554847293}
   - {fileID: 1270850120}
   - {fileID: 2043342089}
   - {fileID: 401771861}
@@ -5320,6 +5321,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lobbyCode: {fileID: 0}
   lobbyInput: {fileID: 643893847}
+  background: {fileID: 554847294}
+  cam: {fileID: 2044124140}
 --- !u!1 &1084527533
 GameObject:
   m_ObjectHideFlags: 0
@@ -6968,7 +6971,6 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 554847293}
   - {fileID: 1328652394}
   - {fileID: 1367584752}
   - {fileID: 739006997}
@@ -7082,6 +7084,18 @@ MonoBehaviour:
       - m_Target: {fileID: 2043342088}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 1075103059}
+        m_TargetAssemblyTypeName: UIHelper, Assembly-CSharp
+        m_MethodName: TransitionBg
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7680,6 +7694,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 998c0ea14246f7a4194f43a862a36f57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerCards: []
+  readyButton: {fileID: 0}
 --- !u!1 &1391399769
 GameObject:
   m_ObjectHideFlags: 0
@@ -8211,14 +8227,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1481764130}
-  m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
+  m_LocalRotation: {x: 0.33581457, y: 0.28060308, z: -0.10552766, w: 0.8929471}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+  m_LocalEulerAnglesHint: {x: 41.22, y: 34.89, z: 0}
 --- !u!114 &1481764133
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8503,7 +8519,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c6f53c1a4053a14b9b1f492c6829013, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onlineSectionBtn: {fileID: 1663269411}
   lobbyCode: {fileID: 0}
 --- !u!114 &1544778564
 MonoBehaviour:
@@ -8517,6 +8532,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 998c0ea14246f7a4194f43a862a36f57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerCards: []
+  readyButton: {fileID: 0}
 --- !u!4 &1544778565
 Transform:
   m_ObjectHideFlags: 0
@@ -10528,10 +10545,10 @@ RectTransform:
   m_Father: {fileID: 1270850120}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 4, y: -80.00001}
-  m_SizeDelta: {x: 543.4, y: 50}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -689}
+  m_SizeDelta: {x: -400, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2019188929
 MonoBehaviour:
@@ -10553,8 +10570,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '[TEMP] The balls are clickable and will take the player to the customization
-    menu.'
+  m_text: '[TEMP]: The balls are clickable and will take the player to the customization
+    menu.
+
+    [TODO]: Add lighting and effects to make this scene prettier'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -10588,8 +10607,8 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -10617,7 +10636,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: -2.4378662, y: 0, z: 0.0648804, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -11050,6 +11069,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ad56f48b8068d246b0cd1c124e0d55e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: {x: 0, y: 0, z: 1}
 --- !u!1 &2081989397
 GameObject:
   m_ObjectHideFlags: 0
@@ -11132,7 +11152,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2081989400}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1075103059}
+        m_TargetAssemblyTypeName: UIHelper, Assembly-CSharp
+        m_MethodName: OpenDiscord
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2081989400
 MonoBehaviour:
   m_ObjectHideFlags: 0

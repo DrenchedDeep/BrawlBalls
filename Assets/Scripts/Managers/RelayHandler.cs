@@ -1,46 +1,37 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using System.Threading.Tasks;
 using TMPro;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using Unity.Networking.Transport.Relay;
-using Unity.Services.Authentication;
-using Unity.Services.Core;
+using Unity.Services.Lobbies.Models;
 using Unity.Services.Relay;
 using Unity.Services.Relay.Models;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class RelayHandler : MonoBehaviour
 {
-    [SerializeField] private Button onlineSectionBtn;
+    
     [SerializeField] private TextMeshProUGUI lobbyCode;
+
+    private float x = 1.1f;
     
-    // Start is called before the first frame update
-    private async void Start()
+
+
+    public static RelayHandler Instance { get; private set; }
+
+    private void Start()
     {
-        await UnityServices.InitializeAsync();
-
-        AuthenticationService.Instance.SignedIn += () =>
-        {
-            Debug.Log("Signed in: " + AuthenticationService.Instance.PlayerId);
-            
-            //If successful, allow access to online services section...
-            onlineSectionBtn.enabled = true;
-        };
-
-        //Access Authentication services
-        await AuthenticationService.Instance.SignInAnonymouslyAsync();
-
+        if(Instance) Destroy(gameObject);
+        Instance = this;
     }
-    
-    public async void CreateRelay()
+
+
+    public async Task CreateRelay(Lobby lobby)
     {
         // Decides the region
         try
         {
-            Allocation alloc = await RelayService.Instance.CreateAllocationAsync(8);
+            Allocation alloc = await RelayService.Instance.CreateAllocationAsync(lobby.MaxPlayers);
             
             //Get the join code so they can connect to the same relay
             string joinCode = await RelayService.Instance.GetJoinCodeAsync(alloc.AllocationId);
@@ -62,7 +53,6 @@ public class RelayHandler : MonoBehaviour
                 );
             */
             NetworkManager.Singleton.StartHost();
-
         }
         catch (RelayServiceException e)
         {
@@ -70,13 +60,19 @@ public class RelayHandler : MonoBehaviour
         }
     }
 
-    public async void JoinRelay(string joinCode)
+    public async Task JoinRelay(Lobby lb)
+    {
+        await JoinRelay(lb.LobbyCode);
+    }
+
+
+    public async Task JoinRelay(string joinCode)
     {
         try
         {
-            Debug.Log("Joining with code: "+ joinCode);
+            Debug.Log("Joining with code: " + joinCode);
             JoinAllocation alloc = await RelayService.Instance.JoinAllocationAsync(joinCode);
-            
+
             RelayServerData relayServerData = new RelayServerData(alloc, "dtls");
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
             /*
@@ -88,7 +84,7 @@ public class RelayHandler : MonoBehaviour
                 alloc.ConnectionData,
                 alloc.HostConnectionData
                 );*/
-            
+
             NetworkManager.Singleton.StartClient();
         }
         catch (RelayServiceException e)
@@ -96,5 +92,4 @@ public class RelayHandler : MonoBehaviour
             Debug.LogError(e);
         }
     }
-
 }

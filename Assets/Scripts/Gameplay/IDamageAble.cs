@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface IDamageAble
 {
-    public void TakeDamage(float amount, Vector3 direction, Player attacker);
+    public void TakeDamage(float amount, Vector3 direction, BallPlayer attacker);
 
 
 }

@@ -8,7 +8,7 @@ public class CaltropObject : PlaceableObject
     {
         //Again verify with upgrades and whatnot...
         //hit.TakeDamage(50, 15, owner.player);
-        hit.TakeDamage(hit.Speed*3, hit.Velocity * -5f + Vector3.up*20, Player.LocalPlayer);
+        hit.TakeDamage(hit.Speed*3, hit.Velocity * -5f + Vector3.up*20, BallPlayer.LocalBallPlayer);
         
 
     }
