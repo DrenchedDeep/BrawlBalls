@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-3036439893111273389
+--- !u!114 &-3709390552224435216
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,15 +20,15 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MPortal
-  m_Shader: {fileID: -6465566751694194690, guid: 456b43beacaec9f4ebe09c95f0db4799,
+  m_Name: SpaltRotate
+  m_Shader: {fileID: -6465566751694194690, guid: 6aa481f6f07c7bf4fb3b93de0c5f1994,
     type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
-  m_EnableInstancingVariants: 1
+  m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
@@ -37,6 +37,14 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 787d61c03f6b8d7419ab67237976bd33, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _mainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -51,21 +59,8 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _CellDensity: 5
-    - _DecalMeshBiasType: 0
-    - _DecalMeshDepthBias: 0
-    - _DecalMeshViewBias: 0
-    - _DrawOrder: 0
-    - _Intensity: 1
-    - _Radius: 0.8
-    - _Rim: 0.1
-    - _SecondaryIntensity: 1
-    - _Sharpness: 2.72
-    - _Speed: 0.5
-    - _Strength: 10
+    - _QueueControl: 0
+    - _QueueOffset: 0
     m_Colors:
-    - _Color: {r: 0, g: 256, b: 54.00896, a: 0}
-    - _Primary: {r: 10.566039, g: 0.16595843, b: 0.26889044, a: 0}
-    - _Secondary: {r: 83.46362, g: 46.71983, b: 6.117749, a: 0}
-    - _SecondaryColor: {r: 766.9962, g: 711.7848, b: 278.57877, a: 0}
+    - _Vector3: {r: -100, g: -0.1, b: 0, a: 0}
   m_BuildTextureStacks: []

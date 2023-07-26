@@ -22,15 +22,24 @@ public class AbilityHandler : MonoBehaviour
     //Discard temporary information and prevent leaks.
     public void SetAbility(AbilityStats ability, Ball owner, Weapon weap)
     {
+
+        ball = owner;
+        ab = ability.MyAbility;
+        weapon = weap;
+
+        button.onClick.RemoveAllListeners();
+        StopAllCoroutines();
+        AbilityCooldown(0);
+
+        
+        button.interactable = true;
+        
         if (!ability)
         {
             gameObject.SetActive(false);
             return;
         }
 
-        ab = ability.MyAbility;
-        ball = owner;
-        weapon = weap;
         
         gameObject.SetActive(true);
 

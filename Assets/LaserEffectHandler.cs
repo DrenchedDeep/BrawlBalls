@@ -12,21 +12,10 @@ public class LaserEffectHandler : MonoBehaviour
     private float width;
     [SerializeField] private Weapon w;
     private float lifeTime;
-    private bool firstTimeAwake = true;
     
 
     private void OnEnable()
     {
-        if(firstTimeAwake)
-        {
-            
-            //Network behaviour children need to start enabled :(
-            transform.GetChild(0).gameObject.SetActive(false);
-            gameObject.SetActive(false);
-            
-            firstTimeAwake = false;
-            return;
-        }
         StartCoroutine(HandleSizeChange());
         myEffect.SendEvent(StaticUtilities.ActivateID);
         lifeTime = w.GetAbility.Cooldown * 0.6f;
@@ -35,6 +24,8 @@ public class LaserEffectHandler : MonoBehaviour
 
     private void Start()
     {
+        gameObject.SetActive(false);
+        
         width = w.Range.y;
         myEffect.SetFloat(StaticUtilities.DelayID, TimeToActivate);
         myEffect.SetVector4(StaticUtilities.ColorID, lineRenderer.material.GetColor(StaticUtilities.ColorID));

@@ -10,6 +10,7 @@ public class GameManager : NetworkBehaviour
     public static int GroundLayers { get; private set; }
     public static int ImmortalLayer { get; private set; }
     public static int PlayerLayers { get; private set; }
+    public static bool IsOnline { get; set; } //Netamanager. ..?
 
 
     // Start is called before the first frame update
@@ -33,7 +34,6 @@ public class GameManager : NetworkBehaviour
             b.SetWeapon(w);
             balls[i] = b;
         }
-
         return balls;
 
     }

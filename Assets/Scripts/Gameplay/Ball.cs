@@ -1,6 +1,8 @@
+using System;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.VFX;
+using Random = UnityEngine.Random;
 
 public class Ball : NetworkBehaviour, IDamageAble
 {
@@ -35,6 +37,7 @@ public class Ball : NetworkBehaviour, IDamageAble
 
     public float Speed => Velocity.magnitude;
     public Vector3 Velocity => _rb.velocity;
+    
 
 
      public float Acceleration { get; private set; }
@@ -49,24 +52,51 @@ public class Ball : NetworkBehaviour, IDamageAble
              print("Am I local?");
          }
 
+         Initialize();
+     }
+
+     private void Awake()
+     {
+         enabled = false;
+     }
+
+     private void Initialize()
+     {
          Transform t = transform.GetChild(0);
-        
+         
          groundlayers = GameManager.GroundLayers +  (1<< t.gameObject.layer);
          Acceleration = stats.Acceleration;
 
          _rb = t.GetComponent<Rigidbody>();
          mr = t.GetComponent<MeshRenderer>();
+         _rb.useGravity = true;
          _rb.drag = stats.Drag;
          _rb.angularDrag = stats.AngularDrag;
          _rb.mass = stats.Mass + _weapon.Mass;
 
          _currentHealth = stats.MaxHealth;
          print("HP: " + _currentHealth);
+         enabled = true;
+         //This isn't going to work because the object is a network object
+         
      }
 
      public void Spawn()
      {
-         NetworkObject.SpawnWithOwnership(NetworkManager.LocalClientId, true);
+         
+         if (GameManager.IsOnline)
+         {
+             NetworkObject.SpawnWithOwnership(NetworkManager.LocalClientId, true);
+         }
+         else
+         {
+             Initialize();
+         }
+
+         
+         //transform.position = (Level.Instance.IsRandomSpawning ? SpawnPoint.ActiveSpawnPoints[Random.Range(0, SpawnPoint.ActiveSpawnPoints.Count)] : SpawnPoint.ActiveSpawnPoints[0]).transform.position + Vector3.up;
+         Debug.Log(transform.position);
+         
      }
 
      private void FixedUpdate()
@@ -111,12 +141,17 @@ public class Ball : NetworkBehaviour, IDamageAble
         //Handle squishing
         if (hit)
         {
+            if ((1<<h.transform.gameObject.layer & GameManager.GroundLayers) != 0)
+            {
+                print("Hitting the floor...");
+                _rb.drag = stats.Drag;
+                return;
+            }
             Transform n = h.transform.parent;
             if (n && n.TryGetComponent(out Ball b))
             {
                 Debug.LogWarning("LANDED ON EM: " + b.name +", " + name);
                 b.TakeDamage(1000000, Vector3.zero, BallPlayer.LocalBallPlayer);
-                _rb.drag = stats.Drag;
             }
             else
             {

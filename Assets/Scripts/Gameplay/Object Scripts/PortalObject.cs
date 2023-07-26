@@ -65,6 +65,8 @@ public class PortalObject : PlaceableObject
                 SetState(false);
                 break;
         }
+
+        transform.eulerAngles = new Vector3(90, 0, 0); //???
     }
     
     private void OnDestroy()
@@ -104,7 +106,7 @@ public class PortalObject : PlaceableObject
 
         hit.transform.GetChild(0).position = outPortalTrans.position + direction;
 
-        hit.ChangeVelocity(direction*hit.Speed*2f, ForceMode.Impulse, true);
+        hit.ChangeVelocity(direction*hit.Speed*-2f, ForceMode.Impulse, true);
         
         StartCooldown();
         PlayParticles();

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unity.Netcode;
@@ -276,7 +275,7 @@ public class LobbyHandler : MonoBehaviour
                 },
                 Player = _playerObject
             };
-
+            GameManager.IsOnline = true;
             myLobby = await LobbyService.Instance.QuickJoinLobbyAsync(options);
             
             //Only hosts can do this
@@ -299,10 +298,14 @@ public class LobbyHandler : MonoBehaviour
                    }
                 });
                     //myLobby.LobbyCode
+                    GameManager.IsOnline = true;
+
                 HeartBeat();
             }
             else
             {
+                GameManager.IsOnline = false;
+                print("Failed to connect to internet...");
                 return;
             }
             HandleChanges();
@@ -315,6 +318,13 @@ public class LobbyHandler : MonoBehaviour
 
     public async void StartGame(string m)
     {
+
+        if (!GameManager.IsOnline)
+        {
+            SceneManager.LoadScene(m);
+            return;            
+        }
+
         if (myLobby.HostId != AuthenticationService.Instance.PlayerId) return;
 
         startGameTemp.interactable = false;
