@@ -316,12 +316,13 @@ public class LobbyHandler : MonoBehaviour
         print("Lobby succeeded? " + myLobby.Name);
     }
 
+
     public async void StartGame(string m)
     {
 
         if (!GameManager.IsOnline)
         {
-            SceneManager.LoadScene(m);
+            NetworkManager.Singleton.SceneManager.LoadScene(m, LoadSceneMode.Single);
             return;            
         }
 

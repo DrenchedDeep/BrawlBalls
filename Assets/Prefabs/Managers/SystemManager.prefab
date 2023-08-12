@@ -105,6 +105,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2313cee0ddba9144b82fc4fed9f9ee9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ballIds:
+  - {fileID: 8935662810218945689, guid: 335c889d4695e4b4c988be474f5f51bc, type: 3}
+  - {fileID: 3956657969123065818, guid: 7a95f0c79b19312438088e7de7400df3, type: 3}
+  - {fileID: 2733264057978803992, guid: 34b804030d23fb24bbbf4d12f1ce7435, type: 3}
+  weaponIds:
+  - {fileID: 9208004507855296710, guid: a07fedf0cbef4ce4d8e08bba89453a68, type: 3}
+  - {fileID: 5373212313689324578, guid: 28499b9429cb508488d9163f952d10cf, type: 3}
+  - {fileID: 3822595573599920963, guid: 2eb11c6d7a662e844b1cfe1a6cf771f0, type: 3}
+  abilityIds:
+  - {fileID: 11400000, guid: a3eaf93b0c8119d44a91086410ec8533, type: 2}
+  - {fileID: 11400000, guid: e6088096f03290a4aab5ed384e380fab, type: 2}
+  - {fileID: 11400000, guid: 2493407ab766d04488c1f70f1d734327, type: 2}
+  - {fileID: 11400000, guid: c94f99a979977064db6bd383d86ba477, type: 2}
+  - {fileID: 11400000, guid: 21bf334f8d522d94a81488e86451f8c2, type: 2}
+  hull: {fileID: 3741352870139435088, guid: 4a5dbd81b0f2a2940bc1d1d8149c34d8, type: 3}
 --- !u!1001 &5081856783867952031
 PrefabInstance:
   m_ObjectHideFlags: 0

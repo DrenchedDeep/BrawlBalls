@@ -1,6 +1,7 @@
-
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using Cinemachine;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Animations;
@@ -12,17 +13,20 @@ public class Level : NetworkBehaviour
     [SerializeField] private bool offMapKills;
     [field: SerializeField] public bool IsRandomSpawning { get; private set; }
     public static Level Instance { get; private set; }
-    
     [field: SerializeField] public Transform [] PodiumPoints { get; private set; }
+    [field: SerializeField] public Transform [] SpawnPoints { get; private set; }
+    
 
     [SerializeField] private float distance;
     [SerializeField] private float travelTime;
     [SerializeField] private Transform coinStart;
     
-    private Transform coin;
+    private Transform _coin;
 
-    [ServerRpc]
-    private void SpawnCoinServerRpc()
+    private static int spawnedIdx;
+    public static Vector3 GetNextSpawnPoint() => Instance.SpawnPoints[spawnedIdx++ % Instance.SpawnPoints.Length].position;
+    
+    private void SpawnCoin()
     {
         Debug.Log("Spawning Map Coin");
         int r = Random.Range(0, 100);
@@ -45,9 +49,9 @@ public class Level : NetworkBehaviour
                 spawned = ParticleManager.SummonObjects["CosmeticCoin"];
                 break;
         }
-        coin = Instantiate(spawned, coinStart.position, Quaternion.identity).transform;
-        coin.GetComponent<PositionConstraint>().constraintActive = false;
-        coin.GetComponent<NetworkObject>().Spawn(true);
+        _coin = Instantiate(spawned, coinStart.position, Quaternion.identity).transform;
+        _coin.GetComponent<PositionConstraint>().constraintActive = false;
+        _coin.GetComponent<NetworkObject>().Spawn(true);
         if (!IsLocalPlayer)
         {
             StartCoroutine(CoinTravel());
@@ -56,25 +60,67 @@ public class Level : NetworkBehaviour
     }
 
     //All levels drop coins from center...
-    
-    
-
+    private readonly HashSet<ulong> _readyPlayers = new();
     private void Awake()
     {
-        if(Instance) Destroy(gameObject);
+        if(Instance != null) Destroy(Instance.gameObject);
         Instance = this;
-       
+
+        
+        //When the player awakes... the server will   
     }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void CheckGameStartServerRpc(ServerRpcParams @params = default)
+    {
+        _readyPlayers.Add(@params.Receive.SenderClientId);
+        CheckStartGame();
+    }
+
+    void CheckStartGame()
+    {
+        print("Checking players connected: " + _readyPlayers.Count + " == " + NetworkManager.ConnectedClients.Count);
+        if (_readyPlayers.Count == NetworkManager.ConnectedClients.Count)
+        {
+            StartGameClientRpc();
+            SpawnCoin();
+        }
+        
+    }
+
+
+
+
 
     private void Start()
     {
-        SpawnCoinServerRpc();
+        
+        print("Level awake");
+        
+        _readyPlayers.Add(OwnerClientId);
+        CheckGameStartServerRpc();
+        
+        if(!IsOwner) return;
+        print("SpawningCoin");
+        
+        
+        
+        NetworkManager.OnClientConnectedCallback += id =>
+        {
+            print("Player connected: " + id);
+        };
+       
+        NetworkManager.OnClientDisconnectCallback += id =>
+        {
+            print("Player disconnected: " + id);
+            _readyPlayers.Remove(id);
+            CheckStartGame();
+        };
     }
-
 
     void Update()
     {
-        if ((GameManager.IsOnline && !IsOwner) || !BallPlayer.alive) return;
+        if (!BallPlayer.Alive) return;
         //Every player is responsible for checking if they've fallen off the map? Or should it be the server... probably the server...
         if (BallPlayer.LocalBallPlayer.BallY < bottomY)
         {
@@ -86,14 +132,24 @@ public class Level : NetworkBehaviour
     {
         float curTravelTime = 0;
         float y = coinStart.position.y;
-        while (curTravelTime < travelTime && coin) //Logic to just check that the coin hasn't been destroyed, or reached it's destination
+        while (curTravelTime < travelTime && _coin) //Logic to just check that the coin hasn't been destroyed, or reached it's destination
         {
             
             curTravelTime += Time.deltaTime;
-            coin.position = y * Vector3.up +(distance * (curTravelTime / travelTime) * Vector3.down);
+            _coin.position = y * Vector3.up +(distance * (curTravelTime / travelTime) * Vector3.down);
             yield return null;
         }
     }
+    
+   
+
+    [ClientRpc]
+    private void StartGameClientRpc()
+    {
+        BallPlayer.LocalBallPlayer.Initialize();
+        GameManager.GameStarted = true;
+    }
+
 
 #if UNITY_EDITOR
     [SerializeField] private bool display;

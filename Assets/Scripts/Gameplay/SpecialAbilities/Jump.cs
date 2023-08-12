@@ -8,7 +8,7 @@ public class Jump : Ability
     public override bool CanUseAbility(Ball owner, Weapon weapon)
     {
         //Only allow jump if grounded.
-        return Physics.Raycast(owner.transform.GetChild(0).position, Vector3.down, 1, GameManager.GroundLayers); 
+        return Physics.Raycast(owner.transform.GetChild(1).position, Vector3.down, 1, GameManager.GroundLayers); 
     }
 
     protected override void UseAbility(Ball owner, Weapon weapon)

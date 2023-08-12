@@ -1,10 +1,11 @@
 using System;
 using System.Collections;
 using RotaryHeart.Lib.PhysicsExtension;
+using Unity.Netcode;
 using UnityEngine;
 using Physics = UnityEngine.Physics;
 
-public class Weapon : MonoBehaviour
+public class Weapon : NetworkBehaviour
 {
     
     [SerializeField] private WeaponStats stats;
@@ -14,56 +15,57 @@ public class Weapon : MonoBehaviour
 
     public float Mass => stats.Mass;
     public Vector2 Range => stats.Range;
-    private Ball owner;
-    private Rigidbody root;
-    private bool isConnected = true;
+    private Ball _owner;
+    private Rigidbody _root;
+    private bool _isConnected = true;
     public AbilityStats GetAbility => stats.Ability;
-    private Transform connector;
+    private Transform _connector;
 
-    private float curDamage;
+    private float _curDamage;
     
     
 
     [SerializeField] private bool isActive = true;
     public void ToggleActive()
     {
-        isActive = !isActive;
+        isActive = !isActive && IsOwner;
     }
-
-
-    // Ability stuffs
-    
-    private void Start()
+    private void OnTransformParentChanged()
     {
-        owner = transform.parent.GetComponent<Ball>();
-        connector = owner.transform.GetChild(0);
-        root = connector.GetComponent<Rigidbody>();
-        curDamage = stats.Damage;
+        if (transform.parent == null || !GameManager.GameStarted) return;
+        _owner = transform.parent.GetComponent<Ball>();
+        _connector = _owner.transform.GetChild(1);
+        _root = _connector.GetComponent<Rigidbody>();
+        _curDamage = stats.Damage;
+        enabled = true; 
+        NetworkObject.enabled = true;
+        
+        if (!IsOwner)
+            isActive = false;
     }
-
 
     //Default update, always check forward, and if hitting enemy then do thing...
     private void FixedUpdate()
     {
-        if(isActive)
+        if(isActive) //This is inheriently an owner only call.
             CastForward();
-        
-        
+        //if(IsOwner && _isConnected)
+            //Rotate();
     }
 
+    
     private void LateUpdate()
     {
-        if(isConnected)
+        if(_isConnected)
             Rotate();
     }
 
-
+    
     private void Rotate()
     {
-        Vector3 velocity = root.velocity;
-        Vector3 dir = Vector3.Lerp(Vector3.up, velocity.normalized, velocity.sqrMagnitude);
-        
-        transform.position = connector.position + dir * stats.BaseDist;
+        print("Check: " + _owner.Velocity.normalized +", " + _owner.Speed);
+        Vector3 dir = Vector3.Lerp(Vector3.up, _owner.Velocity.normalized, _owner.Speed);
+        transform.position = _connector.position + dir * stats.BaseDist;
         transform.forward = dir;
     }
 
@@ -88,11 +90,11 @@ public class Weapon : MonoBehaviour
             if (n && n.TryGetComponent(out Ball b) && n != transform.parent)
             {
                 //FIX this doesn't consider speed...
-                float dmg = curDamage;
+                float dmg = _curDamage;
                 if (stats.ForceBasedDamage)
-                    dmg *= root.mass * (owner.Velocity - b.Velocity).magnitude;
+                    dmg *= _root.mass * (_owner.Velocity - b.Velocity).magnitude;
                     
-                b.TakeDamage(Mathf.Max(0,dmg), dmg * stats.PushMul * forward, BallPlayer.LocalBallPlayer);
+                b.TakeDamage(Mathf.Max(0,dmg), dmg * stats.PushMul * forward, NetworkManager.LocalClient.ClientId);
             }
         }
     }
@@ -113,15 +115,32 @@ public class Weapon : MonoBehaviour
     }
     #endif
 
+    [ServerRpc(RequireOwnership = false)]
+    private void DisconnectServerRpc()
+    {
+        NetworkObject.TryRemoveParent();
+        DisconnectClientRpc();
+    }
+
+    [ClientRpc]
+    private void DisconnectClientRpc()
+    {
+        //Stop rotating and following player..
+        _isConnected = false;
+        // :(
+        _owner.StartCoroutine(Spike.ConnectionTime(this));
+        _owner.StartCoroutine(Spike.Move(_owner, this , _owner.Speed * 5));
+    }
+
     public void Disconnect()
     {
-        transform.parent = null;
-        isConnected = false;
+        DisconnectServerRpc();
+        
     }
     
     public float MultiplyDamage(int i)
     {
-        curDamage *= i;
-        return curDamage;
+        _curDamage *= i;
+        return _curDamage;
     }
 }

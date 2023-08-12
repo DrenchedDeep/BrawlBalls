@@ -15,11 +15,10 @@ public class Spike : Ability
         Debug.Log("Attacked!");
         //Un parent self
         weapon.Disconnect();
-        owner.StartCoroutine(ConnectionTime(weapon));
-        owner.StartCoroutine(Move(owner, weapon , owner.Speed * 5));
+        
     }
     
-    private IEnumerator Move(Ball owner, Weapon weapon, float speed)
+    public static IEnumerator Move(Ball owner, Weapon weapon, float speed)
     {
         Transform ownerTrans = weapon.transform;
         if (speed == 0)
@@ -45,7 +44,7 @@ public class Spike : Ability
         }
     }
 
-    private IEnumerator ConnectionTime(Weapon weapon)
+    public static IEnumerator ConnectionTime(Weapon weapon)
     {
         yield return new WaitForSeconds(5);
         if (weapon)

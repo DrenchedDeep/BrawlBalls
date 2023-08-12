@@ -273,10 +273,9 @@ MonoBehaviour:
   camTrans: {fileID: 4506004229133575118}
   inGameUI: {fileID: 3782570986698243775}
   selectionUI: {fileID: 817862059243303247}
-  ballItemUIs:
-  - {fileID: 2726769791414439699}
-  - {fileID: 1264978250341036408}
-  - {fileID: 5407733527479374995}
+  cinemachinePrecam: {fileID: 0}
+  cinemachineSelectcam: {fileID: 0}
+  cinemachinePostcam: {fileID: 97005878423851603}
 --- !u!1 &2726769791414439699
 GameObject:
   m_ObjectHideFlags: 0

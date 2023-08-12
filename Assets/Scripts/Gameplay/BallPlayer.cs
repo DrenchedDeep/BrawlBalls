@@ -1,3 +1,4 @@
+using System;
 using Cinemachine;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -8,7 +9,6 @@ public class BallPlayer : MonoBehaviour
 {
     private Ball[] balls;
     private Ball currentBall;
-    private CinemachineVirtualCamera cvc;
     
     [Header("UI")]
     [SerializeField] private Joystick joystick;
@@ -22,45 +22,64 @@ public class BallPlayer : MonoBehaviour
     [SerializeField] private GameObject inGameUI;
     [SerializeField] private GameObject selectionUI;
     
+    [Header("Cinemachine")]
+    [SerializeField] private GameObject cinemachinePrecam;
+    [SerializeField] private GameObject cinemachineSelectcam;
+    [SerializeField] private CinemachineVirtualCamera cinemachinePostcam;
+    
     private Transform sphereTrans;
     private Rigidbody playerRb;
 
     public static BallPlayer LocalBallPlayer;
     public float BallY => sphereTrans.position.y;
 
-    private int remainingBalls;
+    private int _remainingBalls;
     private Vector3 initPos;
     private Vector3 rotation;
 
-    public static bool alive { get; private set; }
-    
+    public static bool Alive { get; private set; }
 
-    
-    //When the ball awakes, let's access our components and check what exists...
-    void Start()
+    private void Awake()
     {
         LocalBallPlayer = this;
+        HandleCams(0);
+    }
+
+    private void HandleCams(int currentCam)
+    {
+        switch (currentCam)
+        {
+            case 0:
+                cinemachinePrecam.SetActive(true);
+                cinemachineSelectcam.SetActive(false);
+                cinemachinePostcam.gameObject.SetActive(false);
+                break;
+            case 1:
+                cinemachinePrecam.SetActive(false);
+                cinemachineSelectcam.SetActive(true);
+                cinemachinePostcam.gameObject.SetActive(false);
+                break;
+            case 2:
+                cinemachinePrecam.SetActive(false);
+                cinemachineSelectcam.SetActive(false);
+                cinemachinePostcam.gameObject.SetActive(true);
+                break;
+        }
+    }
+
+    //When the ball awakes, let's access our components and check what exists...
+    public void Initialize()
+    {
         //TODO: This should activate, with UI
-
-        balls = GameManager.ConstructBalls();
-        remainingBalls = balls.Length;
-        cvc = camTrans.GetComponent<CinemachineVirtualCamera>();
-        initPos = cvc.transform.position;
-        rotation = cvc.transform.eulerAngles;
-
-        //Camera stays in initial starting position, perhaps play a particle...
-
-        //When a ball is selected, that's when we should call SelectBall(idx);
-
-        //SelectBall(0);
+        HandleCams(1);
+        balls = BallHandler.Instance.SpawnBalls();
     }
 
 
-    // Update is called once per frame
     void FixedUpdate()
     {
         //Only the PLAYER can move their ball...
-        if (!alive) return;
+        if (!Alive) return;
         HandleMovement();
         
     }
@@ -86,32 +105,28 @@ public class BallPlayer : MonoBehaviour
 
 
     #region UI_Button_Integration
+
+    private int sel;
     public void SelectBall(int i)
     {
         //Trust user
-        
+        sel = i;
+        print("Selecting ball: " +PlayerBallInfo.Balls[i].Ball );
         inGameUI.SetActive(true);
         selectionUI.SetActive(false);
+        
+        BallHandler.Instance.SpawnBallServerRpc(PlayerBallInfo.Balls[i].Ball,PlayerBallInfo.Balls[i].Weapon);
+        
         //currentBall = Instantiate(balls[i], (Level.Instance.IsRandomSpawning?SpawnPoint.ActiveSpawnPoints[Random.Range(0,SpawnPoint.ActiveSpawnPoints.Count)]:SpawnPoint.ActiveSpawnPoints[0]).transform.position + Vector3.up, Quaternion.identity);
-        balls[i].Spawn();
-        currentBall = balls[i];
-        playerRb = currentBall.transform.GetChild(0).GetComponent<Rigidbody>();
-        sphereTrans = currentBall.transform.GetChild(0);
-
-       
-
-        cvc.LookAt = sphereTrans;
-        cvc.Follow =  currentBall.transform.GetChild(1);
-        Weapon w = currentBall.Weapon;
-        attackAbility.SetAbility(w.GetAbility, currentBall, w);
-        specialAbility.SetAbility(currentBall.SpecialAbility, currentBall, w);
-        alive = true;
+        //balls[i].SetAbility();
+        
     }
     #endregion
 
     public void Respawn(bool death)
     {
-        alive = false;
+        
+        Alive = false;
         if(currentBall.gameObject)
             Destroy(currentBall.gameObject);
         //Start a timer
@@ -120,16 +135,12 @@ public class BallPlayer : MonoBehaviour
            //Remove the current ball from the pool...
            //At this point the object is already destroyed..
            
-           if (--remainingBalls <= 0)
+           if (--_remainingBalls <= 0)
            {
                print("Game ended, ran out of balls... Create UI");
                SceneManager.LoadScene(0);
            }
         }
-        
-        cvc.transform.position = initPos;
-        cvc.transform.eulerAngles = rotation;
-        
         inGameUI.SetActive(false);
         selectionUI.SetActive(true);
         
@@ -147,4 +158,25 @@ public class BallPlayer : MonoBehaviour
     {
         joystick.enabled = false;
     }
+
+    public void SetBall(Ball ball)
+    {
+        currentBall = ball;
+        playerRb = currentBall.transform.GetChild(1).GetComponent<Rigidbody>();
+        sphereTrans = currentBall.transform.GetChild(1);
+        
+        cinemachinePostcam.LookAt = sphereTrans;
+        cinemachinePostcam.Follow =  currentBall.transform.GetChild(1);
+        Alive = true;
+        
+        HandleCams(2);
+    }
+
+    public void SetWeapon(Weapon w)
+    {
+        attackAbility.SetAbility(w.GetAbility, currentBall, w);
+        currentBall.SetAbility(GameManager.Abilities[PlayerBallInfo.Balls[sel].Ability]);
+        specialAbility.SetAbility(currentBall.SpecialAbility, currentBall, w);
+    }
+
 }

@@ -1,9 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
-public class GameManager : NetworkBehaviour
+public class GameManager : MonoBehaviour
 {
 
     //Includes both ground (default) and bouncey layers.
@@ -11,31 +10,52 @@ public class GameManager : NetworkBehaviour
     public static int ImmortalLayer { get; private set; }
     public static int PlayerLayers { get; private set; }
     public static bool IsOnline { get; set; } //Netamanager. ..?
+    public static bool GameStarted { get; set; }
+    
+    
 
+
+    [SerializeField] private Ball[] ballIds;
+    [SerializeField] private Weapon[] weaponIds;
+    [SerializeField] private AbilityStats[] abilityIds;
+
+    public static Dictionary<string, Ball> Balls = new();
+    public static Dictionary<string, Weapon> Weapons = new();
+    public static Dictionary<string, AbilityStats> Abilities =  new();
+
+    [SerializeField] private NetworkObject hull;
+    public static NetworkObject Hull { get; private set; }
 
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
+        Hull = hull;
         GroundLayers = (1 << LayerMask.NameToLayer("Default"));
         PlayerLayers = (1 << LayerMask.NameToLayer("Enemy")) + (1 << LayerMask.NameToLayer("Ball"));
         ImmortalLayer = (LayerMask.NameToLayer("Immortal"));
         Application.targetFrameRate = -1; // native default... (BIND IN SETTINGS LATER)
-    }
 
-    public static Ball[] ConstructBalls()
-    {
-
-        Ball[] balls = new Ball[3];
-        for (int i = 0; i < 3; ++i)
+        Balls = new();
+        foreach (Ball b in ballIds)
         {
-            Ball b = Instantiate(PlayerBallInfo.GetBall(i), Level.Instance.PodiumPoints[i].position, Level.Instance.PodiumPoints[i].rotation);
-            Weapon w = Instantiate(PlayerBallInfo.GetWeapon(i));
-            b.SetAbility(PlayerBallInfo.GetAbility(i));
-            b.SetWeapon(w);
-            balls[i] = b;
+            Balls.Add(b.name, b);
         }
-        return balls;
-
+        
+        Weapons = new();
+        foreach (Weapon b in weaponIds)
+        {
+            Weapons.Add(b.name, b);
+        }
+        
+        Abilities = new();
+        foreach (AbilityStats b in abilityIds)
+        {
+            Abilities.Add(b.name, b);
+        }
+        
+        
     }
+
+    
 
 }

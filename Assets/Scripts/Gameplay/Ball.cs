@@ -1,26 +1,20 @@
 using System;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Animations;
 using UnityEngine.VFX;
-using Random = UnityEngine.Random;
 
 public class Ball : NetworkBehaviour, IDamageAble
 {
     [SerializeField] private BallStats stats;
-    
+    [SerializeField] private Material baseMaterial;
+    public Material BaseMaterial => baseMaterial; // :(
     private AbilityStats _ability;
-    private Weapon _weapon;
     private Rigidbody _rb;
     private float _currentHealth;
 
     [SerializeField] private VisualEffect destructionParticle;
-    public Weapon Weapon => _weapon; // I really don't want to have to do this...
 
-    public void SetWeapon(Weapon w)
-    {
-        _weapon = w;
-        _weapon.transform.parent = transform;
-    }
 
     public AbilityStats SpecialAbility => _ability;
     public void SetAbility(AbilityStats s) => _ability = s;
@@ -29,40 +23,26 @@ public class Ball : NetworkBehaviour, IDamageAble
     
     public float MaxSpeed => stats.MaxSpeed;
     
-    private BallPlayer previousAttacker;
+    private ulong previousAttacker;
 
     private MeshRenderer mr;
     private int ballLayer;
     private int groundlayers;
 
-    public float Speed => Velocity.magnitude;
-    public Vector3 Velocity => _rb.velocity;
+    private Vector3 _previousPosition;
+    private Vector3 curPos;
+    public float Speed => Velocity.magnitude / Time.deltaTime;
+    public Vector3 Velocity => curPos - _previousPosition;
     
 
 
      public float Acceleration { get; private set; }
 
-     public override void OnNetworkSpawn()
-     {
-         base.OnNetworkSpawn();
-         //if the ball is the local player?
-         //if the PLAYER is the local player, then it should move THIS ball...
-         if (IsLocalPlayer)
-         {
-             print("Am I local?");
-         }
 
-         Initialize();
-     }
-
-     private void Awake()
-     {
-         enabled = false;
-     }
 
      private void Initialize()
      {
-         Transform t = transform.GetChild(0);
+         Transform t = transform.GetChild(1);
          
          groundlayers = GameManager.GroundLayers +  (1<< t.gameObject.layer);
          Acceleration = stats.Acceleration;
@@ -72,40 +52,34 @@ public class Ball : NetworkBehaviour, IDamageAble
          _rb.useGravity = true;
          _rb.drag = stats.Drag;
          _rb.angularDrag = stats.AngularDrag;
-         _rb.mass = stats.Mass + _weapon.Mass;
-
+         Weapon w = transform.GetChild(2).GetComponent<Weapon>();
+         _rb.mass = stats.Mass + w.Mass;
          _currentHealth = stats.MaxHealth;
          print("HP: " + _currentHealth);
          enabled = true;
+         mr.material = baseMaterial;
+         NetworkObject.enabled = true;
+         if (IsOwner)
+         {
+             print("I'm owned by local");
+             BallPlayer.LocalBallPlayer.SetBall(this);
+             BallPlayer.LocalBallPlayer.SetWeapon(w);
+         }
          //This isn't going to work because the object is a network object
-         
+
      }
 
-     public void Spawn()
-     {
-         
-         if (GameManager.IsOnline)
-         {
-             NetworkObject.SpawnWithOwnership(NetworkManager.LocalClientId, true);
-         }
-         else
-         {
-             Initialize();
-         }
-
-         
-         //transform.position = (Level.Instance.IsRandomSpawning ? SpawnPoint.ActiveSpawnPoints[Random.Range(0, SpawnPoint.ActiveSpawnPoints.Count)] : SpawnPoint.ActiveSpawnPoints[0]).transform.position + Vector3.up;
-         Debug.Log(transform.position);
-         
-     }
 
      private void FixedUpdate()
      {
          HandleDrag();
+         _previousPosition = curPos;
+         curPos = _rb.position;
      }
 
      public void ChangeVelocity(Vector3 dir, ForceMode forceMode = ForceMode.Impulse, bool stop = false)
      {
+         if (!IsOwner) return;
          if (stop)
              _rb.velocity = Vector3.zero;
         _rb.AddForce(dir, forceMode);
@@ -118,8 +92,10 @@ public class Ball : NetworkBehaviour, IDamageAble
         TakeDamage(amount, -rb.velocity.normalized * forceMul, attacker);
     } */
 
-    public void TakeDamage(float amount, Vector3 direction, BallPlayer attacker)
+    public void TakeDamage(float amount, Vector3 direction, ulong attacker)
     {
+        if (!IsOwner) return;
+        
         _currentHealth = Mathf.Min(_currentHealth-amount, stats.MaxHealth);
         print( name + "Ouchie! I took damage: " + amount +",  " + direction +", I have reamining health: " + _currentHealth);
         if (_currentHealth <= 0)
@@ -129,7 +105,6 @@ public class Ball : NetworkBehaviour, IDamageAble
             //return;
         }
         _rb.AddForce(direction, ForceMode.Impulse);
-
     }
 
     private void HandleDrag()
@@ -143,7 +118,6 @@ public class Ball : NetworkBehaviour, IDamageAble
         {
             if ((1<<h.transform.gameObject.layer & GameManager.GroundLayers) != 0)
             {
-                print("Hitting the floor...");
                 _rb.drag = stats.Drag;
                 return;
             }
@@ -151,7 +125,7 @@ public class Ball : NetworkBehaviour, IDamageAble
             if (n && n.TryGetComponent(out Ball b))
             {
                 Debug.LogWarning("LANDED ON EM: " + b.name +", " + name);
-                b.TakeDamage(1000000, Vector3.zero, BallPlayer.LocalBallPlayer);
+                b.TakeDamage(1000000, Vector3.zero, ulong.MaxValue);
             }
             else
             {
@@ -166,21 +140,18 @@ public class Ball : NetworkBehaviour, IDamageAble
         
     }
 
-    private bool isDead;
 
     private void Die()
     {
-        if (isDead) return;
-        isDead = true;
         
-        if (previousAttacker)
-        {
-            //previousAttacker.AwardKill();
-            //Instantiate(onDestroy,transform.position,previousAttacker.transform.rotation);
-        }
-        print("Destroy!");
-        Destroy(gameObject);
+        //previousAttacker.AwardKill();
+        //Instantiate(onDestroy,transform.position,previousAttacker.transform.rotation);
+        print("Destroyed!");
+        NetworkObject.Despawn();
     }
+
+    
+
 
     public void ApplySlow(Ball attacker, Material m)
     {
@@ -215,10 +186,15 @@ public class Ball : NetworkBehaviour, IDamageAble
         }
         mr.materials = mats;
     }
+    [ClientRpc]
 
-    public override void OnDestroy()
+    public void FinalizeClientRpc()
     {
-        base.OnDestroy();
+        print("Loaded fully.");
         
+        Initialize();
+
+        transform.GetChild(0).GetComponent<PositionConstraint>().SetSource(0,new ConstraintSource{sourceTransform = transform.GetChild(1)});
+
     }
 }

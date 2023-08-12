@@ -7,14 +7,15 @@ public class CannonBall : Ball
     public override void OnDestroy()
     {
         base.OnDestroy();
+        if (!IsOwner) return;
         Vector3 pos = transform.GetChild(0).position;
-        Collider[] cols=Physics.OverlapSphere(pos, 5, GameManager.PlayerLayers);
+        Collider[] cols = Physics.OverlapSphere(pos, 5, GameManager.PlayerLayers);
         foreach (Collider c in cols)
         {
             Vector3 ePos = c.ClosestPoint(pos);
             Vector3 dir = ePos - pos;
             float damage = ParticleManager.EvalauteExplosiveDistance(dir.magnitude / MaxDist)*200;
-            c.transform.parent.GetComponent<Ball>().TakeDamage(damage, damage * dir, BallPlayer.LocalBallPlayer);
+            c.transform.parent.GetComponent<Ball>().TakeDamage(damage, damage * dir, OwnerClientId);
         }
     }
 }

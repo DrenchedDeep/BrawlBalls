@@ -14,22 +14,23 @@ public class AbilityHandler : MonoBehaviour
     [SerializeField] private TextMeshProUGUI remainingNum;
     
     private int capacity;
-    private bool isUpdating=true;
     private Ability ab;
     private Ball ball;
     private Weapon weapon;
+    private bool isUpdating = true;
     
     //Discard temporary information and prevent leaks.
     public void SetAbility(AbilityStats ability, Ball owner, Weapon weap)
     {
-
+        print("Active!");
+        enabled = true;
         ball = owner;
         ab = ability.MyAbility;
         weapon = weap;
 
         button.onClick.RemoveAllListeners();
         StopAllCoroutines();
-        AbilityCooldown(0);
+        AbilityCooldown(0); //??? What was going on here?
 
         
         button.interactable = true;
@@ -59,9 +60,15 @@ public class AbilityHandler : MonoBehaviour
         });
     }
 
+    private void Start()
+    {
+        enabled = false;
+    }
+
     private void Update()
     {
         if (!isUpdating) return;
+        print("Updating ability handler");
         button.interactable = ab.CanUseAbility(ball, weapon);
     }
 
