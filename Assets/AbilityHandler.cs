@@ -68,7 +68,6 @@ public class AbilityHandler : MonoBehaviour
     private void Update()
     {
         if (!isUpdating) return;
-        print("Updating ability handler");
         button.interactable = ab.CanUseAbility(ball, weapon);
     }
 

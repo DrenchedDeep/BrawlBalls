@@ -28,7 +28,7 @@ public class Weapon : NetworkBehaviour
     [SerializeField] private bool isActive = true;
     public void ToggleActive()
     {
-        isActive = !isActive && IsOwner;
+        isActive = !isActive && IsHost;
     }
     private void OnTransformParentChanged()
     {
@@ -40,7 +40,7 @@ public class Weapon : NetworkBehaviour
         enabled = true; 
         NetworkObject.enabled = true;
         
-        if (!IsOwner)
+        if (!IsHost)
             isActive = false;
     }
 
@@ -63,14 +63,13 @@ public class Weapon : NetworkBehaviour
     
     private void Rotate()
     {
-        print("Check: " + _owner.Velocity.normalized +", " + _owner.Speed);
         Vector3 dir = Vector3.Lerp(Vector3.up, _owner.Velocity.normalized, _owner.Speed);
         transform.position = _connector.position + dir * stats.BaseDist;
         transform.forward = dir;
     }
 
 
-
+    //The server should just process this?
     private void CastForward()
     {
         Vector3 position = transform.position;
@@ -92,9 +91,9 @@ public class Weapon : NetworkBehaviour
                 //FIX this doesn't consider speed...
                 float dmg = _curDamage;
                 if (stats.ForceBasedDamage)
-                    dmg *= _root.mass * (_owner.Velocity - b.Velocity).magnitude;
-                    
-                b.TakeDamage(Mathf.Max(0,dmg), dmg * stats.PushMul * forward, NetworkManager.LocalClient.ClientId);
+                    dmg *= _root.mass * _owner.Speed;
+                print("Doing damage: " + dmg);
+                b.TakeDamageClientRpc(Mathf.Max(0,dmg), forward * (dmg * stats.PushMul), NetworkManager.LocalClient.ClientId);
             }
         }
     }
@@ -116,25 +115,28 @@ public class Weapon : NetworkBehaviour
     #endif
 
     [ServerRpc(RequireOwnership = false)]
-    private void DisconnectServerRpc()
+    private void DisconnectServerRpc(float speed)
     {
         NetworkObject.TryRemoveParent();
         DisconnectClientRpc();
+        _isConnected = false;
+        _owner.StartCoroutine(Spike.Move(this , speed * 5)); // Owner is just the object running the coroutine
     }
 
     [ClientRpc]
     private void DisconnectClientRpc()
     {
-        //Stop rotating and following player..
-        _isConnected = false;
-        // :(
-        _owner.StartCoroutine(Spike.ConnectionTime(this));
-        _owner.StartCoroutine(Spike.Move(_owner, this , _owner.Speed * 5));
+        gameObject.layer = 0;
+        GetComponent<BoxCollider>().enabled = true;
+        if (!IsHost)
+        {
+            enabled = false;
+        }
     }
 
-    public void Disconnect()
+    public void Disconnect(float speed)
     {
-        DisconnectServerRpc();
+        DisconnectServerRpc(speed);
         
     }
     

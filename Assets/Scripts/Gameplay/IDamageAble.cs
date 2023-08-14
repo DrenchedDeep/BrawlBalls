@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface IDamageAble
 {
-    public void TakeDamage(float amount, Vector3 direction, ulong attacker);
+    public void TakeDamageClientRpc(float amount, Vector3 direction, ulong attacker);
 
 
 }

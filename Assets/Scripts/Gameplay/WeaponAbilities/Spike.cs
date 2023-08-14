@@ -1,5 +1,6 @@
 using System.Collections;
 using Gameplay;
+using Unity.Netcode;
 using UnityEngine;
 
 public class Spike : Ability
@@ -14,42 +15,26 @@ public class Spike : Ability
     {
         Debug.Log("Attacked!");
         //Un parent self
-        weapon.Disconnect();
+        weapon.Disconnect(owner.Speed);
         
     }
     
-    public static IEnumerator Move(Ball owner, Weapon weapon, float speed)
+    public static IEnumerator Move(Weapon weapon, float speed)
     {
         Transform ownerTrans = weapon.transform;
-        if (speed == 0)
+        float duration = 5;
+        while (duration > 0)
         {
-            Object.Destroy(weapon);
-            ownerTrans.GetComponent<BoxCollider>().enabled = true;
-        }
-
-        while (ownerTrans)
-        {
+            duration -= Time.deltaTime;
             ownerTrans.position += speed * Time.deltaTime * ownerTrans.forward;
             if (Physics.Raycast(ownerTrans.position, ownerTrans.forward, out RaycastHit hit, weapon.Range.y * 10, GameManager.GroundLayers)) // 1==Default
             {
-                
-                owner.StopCoroutine(ConnectionTime(weapon));
                 ownerTrans.position = hit.point - ownerTrans.forward * (weapon.Range.y * 10f);
-                weapon.gameObject.layer = 0;
-                Object.Destroy(weapon);
-                ownerTrans.GetComponent<BoxCollider>().enabled = true;
+                weapon.enabled = false;
                 yield break;
             }
             yield return null;
         }
-    }
-
-    public static IEnumerator ConnectionTime(Weapon weapon)
-    {
-        yield return new WaitForSeconds(5);
-        if (weapon)
-        {
-            Object.Destroy(weapon.gameObject);
-        }
+        weapon.NetworkObject.Despawn();
     }
 }

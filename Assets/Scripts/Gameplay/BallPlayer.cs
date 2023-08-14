@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 //Player handles UI, and is the main interface for players...
 public class BallPlayer : MonoBehaviour
 {
-    private Ball[] balls;
+    private Ball[] _balls;
     private Ball currentBall;
     
     [Header("UI")]
@@ -72,7 +72,7 @@ public class BallPlayer : MonoBehaviour
     {
         //TODO: This should activate, with UI
         HandleCams(1);
-        balls = BallHandler.Instance.SpawnBalls();
+        _balls = BallHandler.Instance.SpawnBalls();
     }
 
 

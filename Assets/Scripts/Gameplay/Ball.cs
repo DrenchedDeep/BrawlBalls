@@ -1,5 +1,6 @@
 using System;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.VFX;
@@ -31,8 +32,8 @@ public class Ball : NetworkBehaviour, IDamageAble
 
     private Vector3 _previousPosition;
     private Vector3 curPos;
-    public float Speed => Velocity.magnitude / Time.deltaTime;
-    public Vector3 Velocity => curPos - _previousPosition;
+    public float Speed { get; private set; }
+    public Vector3 Velocity { get; private set; }
     
 
 
@@ -68,13 +69,26 @@ public class Ball : NetworkBehaviour, IDamageAble
          //This isn't going to work because the object is a network object
 
      }
-
-
      private void FixedUpdate()
      {
+         if (!IsOwner) return;
+
          HandleDrag();
+         //Works only for client
          _previousPosition = curPos;
          curPos = _rb.position;
+         Velocity = curPos - _previousPosition;
+         Speed  = Velocity.magnitude / Time.deltaTime;
+     }
+
+     private void Update()
+     {
+         if (IsOwner) return;
+         
+         _previousPosition = curPos;
+         curPos = _rb.position;
+         Velocity = curPos - _previousPosition;
+         Speed  = Velocity.magnitude / Time.deltaTime;
      }
 
      public void ChangeVelocity(Vector3 dir, ForceMode forceMode = ForceMode.Impulse, bool stop = false)
@@ -92,16 +106,18 @@ public class Ball : NetworkBehaviour, IDamageAble
         TakeDamage(amount, -rb.velocity.normalized * forceMul, attacker);
     } */
 
-    public void TakeDamage(float amount, Vector3 direction, ulong attacker)
+    [ClientRpc]
+    public void TakeDamageClientRpc(float amount, Vector3 direction, ulong attacker)
     {
+        print("Check damage: " + amount);
         if (!IsOwner) return;
         
-        _currentHealth = Mathf.Min(_currentHealth-amount, stats.MaxHealth);
+        _currentHealth -= amount;
         print( name + "Ouchie! I took damage: " + amount +",  " + direction +", I have reamining health: " + _currentHealth);
         if (_currentHealth <= 0)
         {
             previousAttacker = attacker;
-            Die();
+            DieServerRpc();
             //return;
         }
         _rb.AddForce(direction, ForceMode.Impulse);
@@ -125,7 +141,7 @@ public class Ball : NetworkBehaviour, IDamageAble
             if (n && n.TryGetComponent(out Ball b))
             {
                 Debug.LogWarning("LANDED ON EM: " + b.name +", " + name);
-                b.TakeDamage(1000000, Vector3.zero, ulong.MaxValue);
+                b.TakeDamageClientRpc(1000000, Vector3.zero, ulong.MaxValue);
             }
             else
             {
@@ -141,16 +157,29 @@ public class Ball : NetworkBehaviour, IDamageAble
     }
 
 
-    private void Die()
+    [ServerRpc (RequireOwnership = true)]
+    private void DieServerRpc()
     {
         
         //previousAttacker.AwardKill();
         //Instantiate(onDestroy,transform.position,previousAttacker.transform.rotation);
         print("Destroyed!");
+        
+        //Because it needs to be parent last :(
+        transform.GetChild(1).GetComponent<NetworkObject>().Despawn();
+        transform.GetChild(2).GetComponent<NetworkObject>().Despawn();
         NetworkObject.Despawn();
+        
+
     }
 
-    
+    public override void OnNetworkDespawn()
+    {
+        base.OnNetworkDespawn();
+        if (!IsOwner) return;
+        //TODO: change to true.
+        BallPlayer.LocalBallPlayer.Respawn(false);
+    }
 
 
     public void ApplySlow(Ball attacker, Material m)
