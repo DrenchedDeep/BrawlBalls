@@ -7,7 +7,10 @@ public class CannonBall : Ball
     public override void OnDestroy()
     {
         base.OnDestroy();
-        if (!IsOwner) return;
+        if (!IsHost) return; // Only the host should be able to handle this logic.
+        
+        Level.Instance.PlayParticleGlobally_ServerRpc("Explosion", transform.position);
+        
         Vector3 pos = transform.GetChild(0).position;
         Collider[] cols = Physics.OverlapSphere(pos, 5, GameManager.PlayerLayers);
         foreach (Collider c in cols)

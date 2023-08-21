@@ -12,7 +12,6 @@ public class Glue : Ability
 
     protected override void UseAbility(Ball owner, Weapon weapon)
     {
-        GameObject go = Object.Instantiate(ParticleManager.SummonObjects["Glue"], owner.transform.GetChild(0).position, Quaternion.identity);
-        go.transform.GetChild(0).GetComponent<PlaceableObject>().Init(owner);
+        Level.Instance.SpawnObjectGlobally_ServerRpc("Glue", owner.transform.GetChild(0).position);
     }
 }

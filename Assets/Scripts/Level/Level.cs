@@ -1,7 +1,5 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using Cinemachine;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Animations;
@@ -11,7 +9,6 @@ public class Level : NetworkBehaviour
 {
     [SerializeField] private float bottomY;
     [SerializeField] private bool offMapKills;
-    [field: SerializeField] public bool IsRandomSpawning { get; private set; }
     public static Level Instance { get; private set; }
     [field: SerializeField] public Transform [] PodiumPoints { get; private set; }
     [field: SerializeField] public Transform [] SpawnPoints { get; private set; }
@@ -23,8 +20,8 @@ public class Level : NetworkBehaviour
     
     private Transform _coin;
 
-    private static int spawnedIdx;
-    public static Vector3 GetNextSpawnPoint() => Instance.SpawnPoints[spawnedIdx++ % Instance.SpawnPoints.Length].position;
+    private static int _spawnedIdx;
+    public static Vector3 GetNextSpawnPoint() => Instance.SpawnPoints[_spawnedIdx++ % Instance.SpawnPoints.Length].position;
     
     private void SpawnCoin()
     {
@@ -33,31 +30,32 @@ public class Level : NetworkBehaviour
         GameObject spawned;
         switch (r)
         {
-            case 0:
+            case <= 10:
                 spawned = ParticleManager.SummonObjects["SpecialCoin"];
                 break;
-            case <= 20:
+            case <= 35:
                 spawned = ParticleManager.SummonObjects["WeaponCoin"];
                 break;
-            case <= 40:
+            case <= 70:
                 spawned = ParticleManager.SummonObjects["BallCoin"];
                 break;
-            case <= 60:
+            default:
                 spawned = ParticleManager.SummonObjects["AbilityCoin"];
                 break;
-           default:
-                spawned = ParticleManager.SummonObjects["CosmeticCoin"];
-                break;
-        }
-        _coin = Instantiate(spawned, coinStart.position, Quaternion.identity).transform;
-        _coin.GetComponent<PositionConstraint>().constraintActive = false;
-        _coin.GetComponent<NetworkObject>().Spawn(true);
-        if (!IsLocalPlayer)
-        {
-            StartCoroutine(CoinTravel());
         }
 
+        //This is only running on server anyways.
+        SendMessageClientRpc("A <color=#d4bb00>coin</color> has spawned", 2);
+        _coin = Instantiate(spawned, coinStart.position, Quaternion.identity).transform;
+        
+        _coin.GetComponent<PositionConstraint>().constraintActive = false;
+        _coin.GetComponent<NetworkObject>().Spawn();
     }
+    public void SendMessage(string s, float d) => MessageHandler.SetScreenMessage(s, d);
+
+    [ClientRpc]
+    public void SendMessageClientRpc(string s, float d) => MessageHandler.SetScreenMessage(s, d);
+
 
     //All levels drop coins from center...
     private readonly HashSet<ulong> _readyPlayers = new();
@@ -83,14 +81,11 @@ public class Level : NetworkBehaviour
         if (_readyPlayers.Count == NetworkManager.ConnectedClients.Count)
         {
             StartGameClientRpc();
-            SpawnCoin();
+            StartCoroutine(CoinTravel());
+            
         }
         
     }
-
-
-
-
 
     private void Start()
     {
@@ -130,6 +125,8 @@ public class Level : NetworkBehaviour
 
     private IEnumerator CoinTravel()
     {
+        yield return new WaitForSeconds(30);
+        SpawnCoin();
         float curTravelTime = 0;
         float y = coinStart.position.y;
         while (curTravelTime < travelTime && _coin) //Logic to just check that the coin hasn't been destroyed, or reached it's destination
@@ -140,8 +137,21 @@ public class Level : NetworkBehaviour
             yield return null;
         }
     }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void PlayParticleGlobally_ServerRpc(string particleName, Vector3 location) => PlayParticleGlobally_ClientRpc(particleName, location);
     
-   
+    [ServerRpc(RequireOwnership = false)]
+    public void SpawnObjectGlobally_ServerRpc(string objectName, Vector3 location, ServerRpcParams @params = default)
+    {
+        GameObject go = Instantiate(ParticleManager.SummonObjects[objectName], location, Quaternion.identity).gameObject;
+        go.GetComponent<NetworkObject>().SpawnWithOwnership(@params.Receive.SenderClientId);
+    }
+
+    [ClientRpc]
+    private void PlayParticleGlobally_ClientRpc(string particleName, Vector3 location) => ParticleManager.InvokeParticle(particleName, location);
+
+
 
     [ClientRpc]
     private void StartGameClientRpc()
@@ -159,8 +169,9 @@ public class Level : NetworkBehaviour
         Gizmos.color = Color.black;
         Gizmos.DrawCube(Vector3.up * bottomY, new Vector3(100000f,0.1f,100000f));
         Gizmos.color = Color.green;
-        Gizmos.DrawRay(coinStart.position, Vector3.down * distance);
-        Gizmos.DrawSphere(coinStart.position, 4);
+        Vector3 position = coinStart.position;
+        Gizmos.DrawRay(position, Vector3.down * distance);
+        Gizmos.DrawSphere(position, 4);
     }
     #endif
 }

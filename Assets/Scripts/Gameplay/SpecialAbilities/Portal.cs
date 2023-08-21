@@ -10,6 +10,6 @@ public class Portal : Ability
 
     protected override void UseAbility(Ball owner, Weapon weapon)
     {
-        Object.Instantiate(ParticleManager.SummonObjects["Portal"], owner.transform.GetChild(0).position, Quaternion.Euler(0,0,0));
+        Level.Instance.SpawnObjectGlobally_ServerRpc("Portal", owner.transform.GetChild(0).position);
     }
 }

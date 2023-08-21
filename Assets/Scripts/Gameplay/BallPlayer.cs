@@ -43,6 +43,7 @@ public class BallPlayer : MonoBehaviour
     {
         LocalBallPlayer = this;
         HandleCams(0);
+        selectionUI.SetActive(false);
     }
 
     private void HandleCams(int currentCam)
@@ -73,6 +74,7 @@ public class BallPlayer : MonoBehaviour
         //TODO: This should activate, with UI
         HandleCams(1);
         _balls = BallHandler.Instance.SpawnBalls();
+        selectionUI.SetActive(true);
     }
 
 
@@ -127,8 +129,8 @@ public class BallPlayer : MonoBehaviour
     {
         
         Alive = false;
-        if(currentBall.gameObject)
-            Destroy(currentBall.gameObject);
+        //if(currentBall.gameObject)
+        //    Destroy(currentBall.gameObject);
         //Start a timer
         if (death)
         {

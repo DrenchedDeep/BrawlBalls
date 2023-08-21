@@ -23,17 +23,14 @@ public class Protect : Ability
     private IEnumerator ImmortalityTimer(Ball owner)
     {
         Debug.Log("Im_Start");
-        int id = owner.AddMaterial(ParticleManager.ProtectMat);
-
-        GameObject t = owner.transform.GetChild(0).gameObject;
-        int prvL = t.layer;
-        t.layer = GameManager.ImmortalLayer;
         
+        int refMat = ParticleManager.ProtectMat.GetHashCode();
+        owner.ApplyEffectServerRpc(1);
+
         yield return new WaitForSeconds(3);
         Debug.Log("Im_End");
         
-        t.layer = prvL;
-        owner.RemoveMaterial(id);
+        owner.RemoveEffectServerRpc(refMat);
     }
 
 }

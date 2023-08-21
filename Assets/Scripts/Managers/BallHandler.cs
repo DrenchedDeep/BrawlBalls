@@ -1,5 +1,4 @@
 using Unity.Netcode;
-using Unity.Netcode.Components;
 using UnityEngine;
 
 public class BallHandler : NetworkBehaviour
@@ -23,7 +22,9 @@ public class BallHandler : NetworkBehaviour
         {
             Vector3 p = Level.Instance.PodiumPoints[i].position;
             Ball b = Instantiate(GameManager.Balls[bs.Ball], p, Quaternion.LookRotation(Vector3.up));
-            Instantiate(GameManager.Hull, b.transform).GetComponent<MeshRenderer>().material = b.BaseMaterial;
+            NetworkObject g = Instantiate(GameManager.Hull, b.transform);
+            g.GetComponent<MeshRenderer>().material = b.BaseMaterial;
+            g.GetComponent<MeshFilter>().mesh = b.BaseMesh;
             Instantiate(GameManager.Weapons[bs.Weapon],b.transform);
             b.SetAbility(GameManager.Abilities[bs.Ability]);
             balls[i++] = b;
@@ -48,11 +49,12 @@ public class BallHandler : NetworkBehaviour
         Ball b = Instantiate(GameManager.Balls[ball]);
         NetworkObject nb = b.GetComponent<NetworkObject>();
         nb.SpawnAsPlayerObject(id.Receive.SenderClientId, true);
-        
-        NetworkObject hull = Instantiate(GameManager.Hull, Level.GetNextSpawnPoint(), Quaternion.LookRotation(Vector3.zero));
+        Vector3 spawnPoint = Level.GetNextSpawnPoint();
+        Debug.Log("Spawning at: " + spawnPoint);
+        NetworkObject hull = Instantiate(GameManager.Hull, spawnPoint, Quaternion.LookRotation(Vector3.zero));
         hull.SpawnWithOwnership(id.Receive.SenderClientId, true);
         hull.TrySetParent(nb);
-        hull.ChangeOwnership(id.Receive.SenderClientId); //?
+        //hull.ChangeOwnership(id.Receive.SenderClientId); //?
         
         Weapon w = Instantiate(GameManager.Weapons[weapon]);
         NetworkObject nw = w.GetComponent<NetworkObject>();

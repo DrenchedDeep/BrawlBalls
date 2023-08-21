@@ -44,7 +44,7 @@ public class PlayerBallInfo : MonoBehaviour
         Balls[2].Ball = "CannonBall";
         
         Balls[0].Ability = "Jump";
-        Balls[1].Ability = "Portal";
+        Balls[1].Ability = "Glue";
         Balls[2].Ability = "Protect";
         
         Balls[0].Weapon = "Spike";

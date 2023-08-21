@@ -1,13 +1,13 @@
 using System.Collections;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace Gameplay.Object_Scripts
 {
-    public abstract class PlaceableObject : MonoBehaviour
+    public abstract class PlaceableObject : NetworkBehaviour
     {
         [SerializeField] private bool canCollideWithSelf;
         [SerializeField] private ESurfaceBindMethod bindToSurface;
-        protected Ball Owner;
         private bool canCollide;
         private static readonly WaitForSeconds Delay = new (0.4f);
 
@@ -19,14 +19,17 @@ namespace Gameplay.Object_Scripts
         }
 
         protected virtual bool UseDelay => true;
-
-        public void Init(Ball myOwner)
-        {
-            Owner = myOwner;
-        }
-
         private void Awake()
         {
+
+            print("PlacableObject deployed.");
+            if (!IsOwnedByServer)
+            {
+                enabled = false;
+                return;
+            }
+            print("Is owner of said object");
+            
             Vector3 position = transform.position;
             switch (bindToSurface)
             {
@@ -87,7 +90,7 @@ namespace Gameplay.Object_Scripts
             
             Ball b = other.transform.parent.GetComponent<Ball>();
             
-            if (b == null || (!canCollideWithSelf && b == Owner)) return;
+            if (b == null || (!canCollideWithSelf && b.OwnerClientId == OwnerClientId)) return;
             OnHit(b);
 
         }

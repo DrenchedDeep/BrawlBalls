@@ -1,6 +1,9 @@
+using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,6 +12,8 @@ public class GameManager : MonoBehaviour
     public static int GroundLayers { get; private set; }
     public static int ImmortalLayer { get; private set; }
     public static int PlayerLayers { get; private set; }
+    public static int LocalLayer { get; private set; }
+    public static int EnemyLayer { get; private set; }
     public static bool IsOnline { get; set; } //Netamanager. ..?
     public static bool GameStarted { get; set; }
     
@@ -24,17 +29,21 @@ public class GameManager : MonoBehaviour
     public static Dictionary<string, AbilityStats> Abilities =  new();
 
     [SerializeField] private NetworkObject hull;
+    
+
+
     public static NetworkObject Hull { get; private set; }
 
     // Start is called before the first frame update
     void Start()
     {
         Hull = hull;
-        GroundLayers = (1 << LayerMask.NameToLayer("Default"));
-        PlayerLayers = (1 << LayerMask.NameToLayer("Enemy")) + (1 << LayerMask.NameToLayer("Ball"));
-        ImmortalLayer = (LayerMask.NameToLayer("Immortal"));
+        GroundLayers = 1<<LayerMask.NameToLayer("Default"); // 1<< for raycast
+        LocalLayer = LayerMask.NameToLayer("Ball");
+        EnemyLayer = LayerMask.NameToLayer("Enemy");
+        PlayerLayers = (1<<LocalLayer) + (1<<EnemyLayer);
+        ImmortalLayer = LayerMask.NameToLayer("Immortal");
         Application.targetFrameRate = -1; // native default... (BIND IN SETTINGS LATER)
-
         Balls = new();
         foreach (Ball b in ballIds)
         {
@@ -52,10 +61,9 @@ public class GameManager : MonoBehaviour
         {
             Abilities.Add(b.name, b);
         }
-        
-        
     }
 
-    
+
+   
 
 }

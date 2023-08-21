@@ -1,13 +1,11 @@
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.VFX;
+using Random = UnityEngine.Random;
 
 public class ParticleManager : MonoBehaviour //Better called AbilityHelper
 {
     
-
-    
-    [SerializeField] private VisualEffect[] effects;
     [SerializeField] private GameObject[] summonObjects;
     [SerializeField] private Material glueBallMat;
     [SerializeField] private Material protectMat;
@@ -23,6 +21,8 @@ public class ParticleManager : MonoBehaviour //Better called AbilityHelper
 
     private static ParticleManager _pm;
 
+  
+
 
     [SerializeField] private AnimationCurve ExplosiveDropoff;
 
@@ -30,7 +30,7 @@ public class ParticleManager : MonoBehaviour //Better called AbilityHelper
 
     public static Material GlueBallMat => _pm.glueBallMat;
     public static Material ProtectMat => _pm.protectMat;
-    public static readonly Dictionary<string, VisualEffect> VFX = new();
+    private static readonly Dictionary<string, ParticleSystem> Particles = new();
     public static readonly Dictionary<string, GameObject> SummonObjects = new();
 
     public enum ECollectableType
@@ -55,11 +55,13 @@ public class ParticleManager : MonoBehaviour //Better called AbilityHelper
 
         _pm = this;
 
-        //Compile in main menu... Can be slow if massive...
-        //Pooling...
-        foreach (VisualEffect effect in effects)
+        Transform parent = transform.GetChild(1);
+        int n = parent.childCount;
+        for(int i =0; i < n; ++i)
         {
-            VFX.Add(effect.name, Instantiate(effect,transform)); // Array Pool local...
+            Transform t = parent.GetChild(i);
+            print("Registed particle: " + t.name);
+            Particles.Add(t.name, t.GetComponent<ParticleSystem>());
         }
         
         foreach (GameObject effect in summonObjects)
@@ -71,14 +73,26 @@ public class ParticleManager : MonoBehaviour //Better called AbilityHelper
 
         DontDestroyOnLoad(gameObject);
     }
-
     public static void InvokeParticle(string id, Vector3 position)
     {
-        print("Invoking particle: " + id);
-        
-        VFX[id].SetVector3(StaticUtilities.PositionID, position);
-        VFX[id].SendEvent(StaticUtilities.ActivateID);
+        print("Invoking particle: " + id + " at position: " + position);
+        Particles[id].transform.position = position;
+        Particles[id].Play();
+    }
+}
+
+public struct MaterialInfo<T>
+{
+    public enum EMessageType
+    {
+        Int,
+        Float,
+        Vec4,
+        Vec3
     }
 
-    
+    public EMessageType MessageType;
+    public int hash;
+    public T value;
+
 }
