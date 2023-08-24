@@ -54,6 +54,7 @@ public class BallHandler : NetworkBehaviour
         NetworkObject hull = Instantiate(GameManager.Hull, spawnPoint, Quaternion.LookRotation(Vector3.zero));
         hull.SpawnWithOwnership(id.Receive.SenderClientId, true);
         hull.TrySetParent(nb);
+        hull.transform.position = spawnPoint;
         //hull.ChangeOwnership(id.Receive.SenderClientId); //?
         
         Weapon w = Instantiate(GameManager.Weapons[weapon]);

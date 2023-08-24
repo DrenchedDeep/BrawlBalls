@@ -17,6 +17,7 @@ public class Level : NetworkBehaviour
     [SerializeField] private float distance;
     [SerializeField] private float travelTime;
     [SerializeField] private Transform coinStart;
+    [SerializeField] private Scoreboard scoreboard;
     
     private Transform _coin;
 
@@ -80,9 +81,9 @@ public class Level : NetworkBehaviour
         print("Checking players connected: " + _readyPlayers.Count + " == " + NetworkManager.ConnectedClients.Count);
         if (_readyPlayers.Count == NetworkManager.ConnectedClients.Count)
         {
+            
             StartGameClientRpc();
             StartCoroutine(CoinTravel());
-            
         }
         
     }
@@ -156,6 +157,8 @@ public class Level : NetworkBehaviour
     [ClientRpc]
     private void StartGameClientRpc()
     {
+        //Then we go back to a server rpc :(
+        scoreboard.Initialize();
         BallPlayer.LocalBallPlayer.Initialize();
         GameManager.GameStarted = true;
     }
