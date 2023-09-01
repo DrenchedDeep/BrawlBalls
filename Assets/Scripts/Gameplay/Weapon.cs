@@ -93,7 +93,7 @@ public class Weapon : NetworkBehaviour
                 if (stats.ForceBasedDamage)
                     dmg *= _root.mass * _owner.Speed;
                 print("Doing damage: " + dmg);
-                b.TakeDamageClientRpc(Mathf.Max(0,dmg), forward * (dmg * stats.PushMul), NetworkManager.LocalClient.ClientId);
+                b.TakeDamageClientRpc(Mathf.Max(0,dmg), forward * (dmg * stats.PushMul), OwnerClientId);
             }
         }
     }

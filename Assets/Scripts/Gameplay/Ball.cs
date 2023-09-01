@@ -92,13 +92,6 @@ public class Ball : NetworkBehaviour, IDamageAble
         _rb.AddForce(dir, forceMode);
     }
 
-    /* Just take the collision point duh
-    public void TakeDamage(float amount, float forceMul, Player attacker)
-    {
-        //Just push in negative direction
-        TakeDamage(amount, -rb.velocity.normalized * forceMul, attacker);
-    } */
-
     [ClientRpc]
     public void TakeDamageClientRpc(float amount, Vector3 direction, ulong attacker)
     {
@@ -111,8 +104,8 @@ public class Ball : NetworkBehaviour, IDamageAble
         if (_currentHealth <= 0)
         {
             previousAttacker = attacker;
-            DieServerRpc();
-            Level.Instance.SendMessage("Died to: " + attacker);
+            MessageHandler.SetScreenMessage("Died to: <color=#ff000>" + attacker + "</color>", 3f);
+            DieServerRpc(attacker);
             BallPlayer.LocalBallPlayer.Respawn(false);
             //return;
         }
@@ -154,18 +147,18 @@ public class Ball : NetworkBehaviour, IDamageAble
 
 
     [ServerRpc]
-    private void DieServerRpc()
+    private void DieServerRpc(ulong killer)
     {
         //previousAttacker.AwardKill();
         //Instantiate(onDestroy,transform.position,previousAttacker.transform.rotation);
-        print("Destroyed!");
-
         //Because it needs to be parent last :(
         Level.Instance.PlayParticleGlobally_ServerRpc("Confetti", _rb.position);
+        Scoreboard.UpdateScore(killer, 1);
         transform.GetChild(1).GetComponent<NetworkObject>().Despawn();
         transform.GetChild(2).GetComponent<NetworkObject>().Despawn();
         NetworkObject.Despawn();
     }
+
 
     [ServerRpc]
     public void ApplyEffectServerRpc(int type, ServerRpcParams @params = default)

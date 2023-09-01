@@ -10,8 +10,6 @@ public class RelayHandler : MonoBehaviour
 {
     private float x = 1.1f;
     
-
-
     public static RelayHandler Instance { get; private set; }
 
     private void Start()
@@ -20,6 +18,7 @@ public class RelayHandler : MonoBehaviour
         Instance = this;
         NetworkManager.Singleton.OnClientConnectedCallback += (id) =>
         {
+            
             print("I connected as: " + id);
             if (!NetworkManager.Singleton.IsHost) return;
             foreach (var variable in  NetworkManager.Singleton.ConnectedClientsIds)
@@ -38,6 +37,7 @@ public class RelayHandler : MonoBehaviour
         // Decides the region
         try
         {
+            LoadingHelper.Activate();
             Allocation alloc = await RelayService.Instance.CreateAllocationAsync(players);
             
             //Get the join code so they can connect to the same relay
@@ -49,6 +49,7 @@ public class RelayHandler : MonoBehaviour
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(relayServerData);
             NetworkManager.Singleton.StartHost();
             print("Connected to Relay: " + NetworkManager.Singleton.IsHost);
+            
             return joinCode;
         }
         catch (RelayServiceException e)
@@ -63,6 +64,7 @@ public class RelayHandler : MonoBehaviour
     {
         try
         {
+            LoadingHelper.Activate();
             Debug.Log("Joining with code: " + joinCode);
             JoinAllocation alloc = await RelayService.Instance.JoinAllocationAsync(joinCode);
             RelayServerData relayServerData = new RelayServerData(alloc, "dtls");

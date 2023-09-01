@@ -23,7 +23,7 @@ public class Level : NetworkBehaviour
 
     private static int _spawnedIdx;
     public static Vector3 GetNextSpawnPoint() => Instance.SpawnPoints[_spawnedIdx++ % Instance.SpawnPoints.Length].position;
-    
+
     private void SpawnCoin()
     {
         Debug.Log("Spawning Map Coin");
@@ -48,14 +48,13 @@ public class Level : NetworkBehaviour
         //This is only running on server anyways.
         SendMessageClientRpc("A <color=#d4bb00>coin</color> has spawned", 2);
         _coin = Instantiate(spawned, coinStart.position, Quaternion.identity).transform;
-        
+
         _coin.GetComponent<PositionConstraint>().constraintActive = false;
         _coin.GetComponent<NetworkObject>().Spawn();
     }
-    public void SendMessage(string s, float d) => MessageHandler.SetScreenMessage(s, d);
 
     [ClientRpc]
-    public void SendMessageClientRpc(string s, float d) => MessageHandler.SetScreenMessage(s, d);
+    public void SendMessageClientRpc(string s, float d, ClientRpcParams x = default) => MessageHandler.SetScreenMessage(s, d);
 
 
     //All levels drop coins from center...
@@ -160,6 +159,7 @@ public class Level : NetworkBehaviour
         //Then we go back to a server rpc :(
         scoreboard.Initialize();
         BallPlayer.LocalBallPlayer.Initialize();
+        LoadingHelper.Deactivate();
         GameManager.GameStarted = true;
     }
 
@@ -177,4 +177,5 @@ public class Level : NetworkBehaviour
         Gizmos.DrawSphere(position, 4);
     }
     #endif
+    
 }

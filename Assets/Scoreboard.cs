@@ -1,6 +1,5 @@
 using TMPro;
 using Unity.Netcode;
-using Unity.Services.Authentication;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,13 +9,14 @@ public class Scoreboard : NetworkBehaviour
     private static readonly ScoreHolders[] Holders = new ScoreHolders[8];
     private static int _playerCount;
     private static ulong _myID;
+    private static Scoreboard _sb;
 
     [SerializeField] private Color myColor;
     [SerializeField] private Color otherColor;
 
     private static Color _myColor;
     private static Color _otherColor;
-    
+
     
     void Start()
     {
@@ -25,6 +25,7 @@ public class Scoreboard : NetworkBehaviour
         
         //Store all objects & Reset.
         _playerCount = 0;
+        _sb = this;
         for (int i = 0; i < Holders.Length; ++i)
         {
             Holders[i] = new ScoreHolders(transform.GetChild(i));
@@ -36,7 +37,7 @@ public class Scoreboard : NetworkBehaviour
         if (NetworkManager.Singleton.IsHost)
         {
             NetworkManager.Singleton.OnClientConnectedCallback += ctx =>
-                AddUserToScoreboardClientRpc(ctx, AuthenticationService.Instance.PlayerName);
+                AddUserToScoreboardClientRpc(ctx, PlayerBallInfo.UserName);
             NetworkManager.Singleton.OnClientDisconnectCallback += RemoveUserFromScoreboardClientRpc;
         }
         //Unfortunate
@@ -73,18 +74,21 @@ public class Scoreboard : NetworkBehaviour
         Holders[_playerCount++].ChangeTo(playerName, id, 0); //TODO: value will be given by game manager in the future
     }
 
-
-    //Update scores using a bubble up approach.
-    public static void UpdateScore(ulong playerID, int newScore)
+    [ClientRpc]
+    private void UpdateScoreClientRpc(ulong playerID, int change)
     {
+
         for (int index = 0; index < Holders.Length; index++)
         {
             ScoreHolders current = Holders[index];
             if ( current.Id == playerID)
             {
+                print("Updating score: " + (current.Value+change) + " for ID: " + playerID);
+
+                current.ModifyScoreHolder(current.Value+change, index+1);
                 
                 //Length back down
-                while (index-- > 0)
+                while (--index >= 0)
                 {
                     ScoreHolders above = Holders[index];
                     if (current.Value > above.Value)
@@ -94,17 +98,26 @@ public class Scoreboard : NetworkBehaviour
                         Holders[index] = current;
                     }
                 }
-                current.UpdateScore(newScore, index+1);
+                
                 return;
             }
         }
     }
 
 
+
+    //Update scores using a bubble up approach.
+    public static void UpdateScore(ulong playerID, int change)
+    {
+        _sb.UpdateScoreClientRpc(playerID, change);
+    }
+
+
     public void Initialize()
     {
         transform.parent.gameObject.SetActive(true);
-        InitializeServerRpc(AuthenticationService.Instance.PlayerName);
+        print("Initializing Scoreboard: " + PlayerBallInfo.UserName);
+        InitializeServerRpc(PlayerBallInfo.UserName);
     }
 
     //Anyone can call this.
@@ -117,7 +130,7 @@ public class Scoreboard : NetworkBehaviour
     }
 
     #region ScoreHolderInfo
-    private struct ScoreHolders
+    private class ScoreHolders
     {
         
         public int Value { get; private set; }
@@ -145,7 +158,7 @@ public class Scoreboard : NetworkBehaviour
             _root.gameObject.SetActive(true);
             _playerName = playerName;
             _nameText.text = playerName;
-            UpdateScore(value, _root.transform.GetSiblingIndex()+1);
+            ModifyScoreHolder(value, _root.transform.GetSiblingIndex()+1);
 
             _root.color = id == _myID ? _myColor : _otherColor; 
                 
@@ -158,7 +171,7 @@ public class Scoreboard : NetworkBehaviour
         }
 
 
-        public void UpdateScore(int newValue, int rank)
+        public void ModifyScoreHolder(int newValue, int rank)
         {
             Value = newValue;
             _rankText.text = rank + ".";

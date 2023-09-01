@@ -16,7 +16,6 @@ public class LobbyHandler : MonoBehaviour
     private Lobby myLobby;
     private const int HeartbeatTimer = 15000;
     private const int PollTimer = 1100;
-    private string _nameTest = "G";
 
     [SerializeField] private PlayerCard[] playerCards;
     [SerializeField] private ReadyButton readyButton;
@@ -31,7 +30,18 @@ public class LobbyHandler : MonoBehaviour
 
     private async void Start()
     {
-        await UnityServices.InitializeAsync();
+        LoadingHelper.Activate();
+        try
+        {
+            await UnityServices.InitializeAsync();
+        }
+        catch (ServicesInitializationException e)
+        {
+            Debug.LogError("Failed to connect, implement UI");
+            LoadingHelper.Deactivate();
+            return;
+        }
+
         BeginLobbySystem();
 
         AuthenticationService.Instance.SignedIn += () =>
@@ -52,17 +62,18 @@ public class LobbyHandler : MonoBehaviour
 #endif
         //Access Authentication services
         await AuthenticationService.Instance.SignInAnonymouslyAsync();
+        LoadingHelper.Deactivate();
     }
 
     private void BeginLobbySystem()
     {
-        _nameTest += Random.Range(0, 100);
+        PlayerBallInfo.UserName += Random.Range(0, 100);
         Dictionary<string, PlayerDataObject> d = new Dictionary<string, PlayerDataObject>()
         {
             //Member is visible for everyone in lobby.
             //Private is visible to self
             //Public is visible to everyone
-            { "Name", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, _nameTest) },
+            { "Name", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, PlayerBallInfo.UserName) },
             { "Ready", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, "0") }
         };
 /*
@@ -246,7 +257,6 @@ public class LobbyHandler : MonoBehaviour
         });
         HandleChanges();
     }
-
     public async void LeaveLobby()
     {
         try

@@ -7,6 +7,7 @@ public class PlayerBallInfo : MonoBehaviour
     //private const string WeaponDirectory = "Weapons/";
     
     public static readonly BallStructure[] Balls = new BallStructure[3];
+    public static string UserName = "Player";
     
     /*
     public static Ball GetBall(int index) => Resources.Load<Ball>(BallDirectory + Balls[index].Ball);
