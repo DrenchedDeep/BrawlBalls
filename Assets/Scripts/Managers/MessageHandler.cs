@@ -1,64 +1,41 @@
-using System.Collections;
+using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 
-public class MessageHandler : MonoBehaviour
+namespace Managers
 {
-    
-    
-    
-    [Header("Screen messages")]
-    [SerializeField] private TextMeshProUGUI tmp;
-    private static TextMeshProUGUI _popUpText;
-    [SerializeField] private AnimationCurve animCurve;
-    private static AnimationCurve _popUpAnimCurve;
-    private static MessageHandler _mh;
-
-    
-    
-    
-    [SerializeField] private TextMeshProUGUI[] scores;
-    [SerializeField] private TextMeshProUGUI prefab;
-    
-    [RuntimeInitializeOnLoadMethod]
-    private static void RuntimeInit()
+    public class MessageHandler : MonoBehaviour
     {
-        _popUpText = null;
-        _popUpAnimCurve = null;
-        _mh = null;
-    }
-    
-    
-    // Start is called before the first frame update
-    private void Start()
-    {
-        print("NessageHandlerAwake");
-        _mh = this;
-        _popUpText = tmp;
-        _popUpAnimCurve = animCurve;
         
+        [Header("Screen messages")]
+        [SerializeField] private TextMeshProUGUI tmp;
+        [SerializeField] private AnimationCurve animCurve;
         
-    }
+        public static MessageHandler Instance  { get; private set; }
     
-    public static void SetScreenMessage(string words, float duration)
-    {
-        _mh.StartCoroutine(HandleScreenMessage(words, duration));
-    }
-
-    private static IEnumerator HandleScreenMessage(string words, float duration)
-    {
-        float ct = 0;
-        Color c = _popUpText.color;
-        _popUpText.text = words;
-        c.a = 1;
-        while (ct < duration)
+    
+        // Start is called before the first frame update
+        private void Awake()
         {
-            ct += Time.deltaTime;
-            c.a = _popUpAnimCurve.Evaluate(ct / duration);
-            _popUpText.color = c;
-            yield return null;
+            print("Message Handler is Awake!");
+            Instance = this;
         }
-        _popUpText.color = c;
-    }
+    
+        public async UniTask HandleScreenMessage(string words, float duration)
+        {
+            float ct = 0;
+            Color c = tmp.color;
+            tmp.text = words;
+            c.a = 1;
+            while (ct < duration)
+            {
+                ct += Time.deltaTime;
+                c.a = animCurve.Evaluate(ct / duration);
+                tmp.color = c;
+                await UniTask.Yield();
+            }
+            tmp.color = c;
+        }
 
+    }
 }

@@ -1,31 +1,34 @@
 using System.Collections;
-using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ReadyButton : MonoBehaviour
+namespace UI
 {
-
-    [SerializeField] private Button readyButton;
-    [SerializeField] private Image readyBackground;
-    private const float ReadyDelay = 1.5f;
-    public void StartDelay()
+    public class ReadyButton : MonoBehaviour
     {
-        StartCoroutine(PauseButton());
-    }
 
-    private IEnumerator PauseButton()
-    {
-        readyButton.interactable = false;
-        float curTime = 0;
-        while (curTime < ReadyDelay)
+        [SerializeField] private Button readyButton;
+        [SerializeField] private Image readyBackground;
+        private const float ReadyDelay = 1.5f;
+        public void StartDelay()
         {
-            curTime += Time.deltaTime;
-            readyBackground.fillAmount = curTime / ReadyDelay;
-            yield return null;
+            _ = PauseButton();
         }
 
-        readyButton.interactable = true;
-    }
+        private async UniTask PauseButton()
+        {
+            readyButton.interactable = false;
+            float curTime = 0;
+            while (curTime < ReadyDelay)
+            {
+                curTime += Time.deltaTime;
+                readyBackground.fillAmount = curTime / ReadyDelay;
+                await UniTask.Yield();
+            }
 
+            readyButton.interactable = true;
+        }
+
+    }
 }

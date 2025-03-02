@@ -1,4 +1,4 @@
-using System;
+using Managers;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
@@ -9,7 +9,7 @@ namespace Gameplay.Object_Scripts
     public class GlueObject : PlaceableObject
     {
         
-        private Material m;
+        private Material _material;
 
         private void Start()
         {
@@ -27,18 +27,18 @@ namespace Gameplay.Object_Scripts
         private void SetMaterialClientRpc(int a, float b, Vector2 c)
         {
             DecalProjector dp = GetComponent<DecalProjector>();
-            m = new Material(dp.material);
+            _material = new Material(dp.material);
             
-            m.SetInt(StaticUtilities.RandomTexID, a);
-            m.SetFloat(StaticUtilities.ColorID, b);
-            m.SetVector(StaticUtilities.RandomOffsetID, c);
+            _material.SetInt(StaticUtilities.RandomTexID, a);
+            _material.SetFloat(StaticUtilities.ColorID, b);
+            _material.SetVector(StaticUtilities.RandomOffsetID, c);
             
-            dp.material = m;
+            dp.material = _material;
         }
 
 
 
-        protected override void OnHit(Ball hit)
+        protected override void OnHit(Balls.NetworkBall hit)
         {
             //Verify that both the host and the person getting hit are affected by the same owner stats...
             //The Local player would store their stats in their script (Jagged array)
@@ -54,9 +54,9 @@ namespace Gameplay.Object_Scripts
             Material createdMat = new Material(ParticleManager.GlueBallMat);
         
             //Kill me :(
-            createdMat.SetFloat(StaticUtilities.ColorID, m.GetFloat(StaticUtilities.ColorID));
-            createdMat.SetInt(StaticUtilities.RandomTexID, m.GetInt(StaticUtilities.RandomTexID));
-            createdMat.SetVector(StaticUtilities.RandomOffsetID, m.GetVector(StaticUtilities.RandomOffsetID));
+            createdMat.SetFloat(StaticUtilities.ColorID, _material.GetFloat(StaticUtilities.ColorID));
+            createdMat.SetInt(StaticUtilities.RandomTexID, _material.GetInt(StaticUtilities.RandomTexID));
+            createdMat.SetVector(StaticUtilities.RandomOffsetID, _material.GetVector(StaticUtilities.RandomOffsetID));
             
             hit.ApplyEffectServerRpc(0);
 

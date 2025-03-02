@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -18,18 +17,18 @@ namespace UI.Gabes_Custom_UI
         [Header("Snapping")] [SerializeField] private bool isSnappy;
         [SerializeField] private float smoothTime;
 
-        private Vector2 itemSize;
-        private int numItems;
-        private float spacing;
-        private bool isSnappin;
-        private bool selected;
-        private float offset;
+        private Vector2 _itemSize;
+        private int _numItems;
+        private float _spacing;
+        private bool _isSnapping;
+        private bool _selected;
+        private float _offset;
 
 
         protected override void Start()
         {
             onValueChanged.RemoveAllListeners();
-            itemSize = itemTemplate.rect.size;
+            _itemSize = itemTemplate.rect.size;
             /*
             if (content.childCount > 0 && content.GetChild(content.childCount - 1).name.Contains("(Clone)"))
             {
@@ -52,20 +51,20 @@ namespace UI.Gabes_Custom_UI
             } */
            
 
-            numItems = content.childCount;
+            _numItems = content.childCount;
             Vector2 size = content.sizeDelta;
             content.localPosition = new Vector3(0, 0);
 
             if (content.TryGetComponent(out VerticalLayoutGroup vlg))
             {
 
-                if (horizontal) size.x = itemSize.x * numItems + vlg.padding.horizontal;
-                if (vertical) size.y = itemSize.y * numItems + vlg.spacing * (numItems - 1) + vlg.padding.vertical;
+                if (horizontal) size.x = _itemSize.x * _numItems + vlg.padding.horizontal;
+                if (vertical) size.y = _itemSize.y * _numItems + vlg.spacing * (_numItems - 1) + vlg.padding.vertical;
             }
             else if (content.TryGetComponent(out HorizontalLayoutGroup hlg))
             {
-                if (horizontal) size.x = itemSize.x * numItems + hlg.spacing * (numItems - 1) + hlg.padding.horizontal;
-                if (vertical) size.y = itemSize.y * numItems + hlg.padding.vertical;
+                if (horizontal) size.x = _itemSize.x * _numItems + hlg.spacing * (_numItems - 1) + hlg.padding.horizontal;
+                if (vertical) size.y = _itemSize.y * _numItems + hlg.padding.vertical;
             }
 
             else
@@ -77,20 +76,20 @@ namespace UI.Gabes_Custom_UI
             content.sizeDelta = size;
             if (vertical)
             {
-                visible = Mathf.CeilToInt(viewRect.rect.height / (itemSize.y + vlg.padding.top));
+                visible = Mathf.CeilToInt(viewRect.rect.height / (_itemSize.y + vlg.padding.top));
                 //We need to factor spacing, yet it's only the spacing of the object that's actually visible.
                 visible = Mathf.CeilToInt(viewRect.rect.height /
-                                          (itemSize.y + vlg.spacing * (visible - 1) + vlg.padding.top)) +
+                                          (_itemSize.y + vlg.spacing * (visible - 1) + vlg.padding.top)) +
                           1; // and one?
                     
                 size.y += viewRect.rect.height;
             }
             else
             {
-                visible = Mathf.CeilToInt(viewRect.rect.width / (itemSize.x + vlg.padding.left));
+                visible = Mathf.CeilToInt(viewRect.rect.width / (_itemSize.x + vlg.padding.left));
                 //We need to factor spacing, yet it's only the spacing of the object that's actually visible.
                 visible = Mathf.CeilToInt(viewRect.rect.width /
-                                          (itemSize.x + vlg.spacing * (visible - 1) + vlg.padding.left)) +
+                                          (_itemSize.x + vlg.spacing * (visible - 1) + vlg.padding.left)) +
                           1; // and one?
                 size.x += viewRect.rect.width;
 
@@ -110,8 +109,8 @@ namespace UI.Gabes_Custom_UI
             {
                 HorizontalOrVerticalLayoutGroup horizontalOrVerticalLayoutGroup =
                     content.GetComponent<HorizontalOrVerticalLayoutGroup>();
-                spacing = horizontalOrVerticalLayoutGroup.spacing;
-                offset = horizontalOrVerticalLayoutGroup.padding.top;
+                _spacing = horizontalOrVerticalLayoutGroup.spacing;
+                _offset = horizontalOrVerticalLayoutGroup.padding.top;
             }
 
             if (infiniteScrollbar)
@@ -125,7 +124,7 @@ namespace UI.Gabes_Custom_UI
                 
 
                 #if UNITY_EDITOR
-                if (!content.GetChild(numItems-1).name.Contains("(Clone)"))
+                if (!content.GetChild(_numItems-1).name.Contains("(Clone)"))
                 {
                     print("No Clones detected, not adding more...");
                     for (int i = 0; i < visible; ++i)
@@ -141,7 +140,7 @@ namespace UI.Gabes_Custom_UI
                     }
                 content.sizeDelta = size;
                 #endif
-                numItems = content.childCount;
+                _numItems = content.childCount;
 
 
                 print($"Duplicating {visible} elements for infinite scrolling");
@@ -152,21 +151,21 @@ namespace UI.Gabes_Custom_UI
 
             
 
-            print($"There are {numItems} items, occupying a size of: {content.rect.size}, based on the item size of ({itemSize}) * {numItems}");
+            print($"There are {_numItems} items, occupying a size of: {content.rect.size}, based on the item size of ({_itemSize}) * {_numItems}");
         }
 
         private IEnumerator Snap()
         {
-            selected = true;
+            _selected = true;
 
             float curTime = 0;
-            isSnappin = true;
+            _isSnapping = true;
             
             
             Vector3 localPosition = content.localPosition;
             Vector3 newPos = localPosition;
-            float size = itemSize.y + spacing;
-            float target = localPosition.y + size-(localPosition.y % size) - offset - spacing/2; // This only ever goes down...
+            float size = _itemSize.y + _spacing;
+            float target = localPosition.y + size-(localPosition.y % size) - _offset - _spacing/2; // This only ever goes down...
             //Todo... add going up aswell...
             
             while (curTime < smoothTime)
@@ -181,16 +180,16 @@ namespace UI.Gabes_Custom_UI
             //This is actually necessary because changing just the position moves the velocity :(
             //yield return new WaitUntil(() => velocity.y < 10);
             velocity = Vector2.zero;
-            isSnappin = false;
+            _isSnapping = false;
             
             //Item at index based on height + 3, wrapped around...
-            int itemNum = (int)((content.localPosition.y+offset) / itemSize.y + 2) % numItems;
+            int itemNum = (int)((content.localPosition.y+_offset) / _itemSize.y + 2) % _numItems;
 
             //So lazy it's crazy
             //Problems...
             //1) When scrolling, it still has the repeat issue where it jams up :)
             //2) Color all instances of an item... Materials? Do I color them at all? Does it make more sense to just have an item over them
-            for(int i = 0; i < numItems; ++ i)
+            for(int i = 0; i < _numItems; ++ i)
             {
                 content.GetChild(i).GetComponent<Image>().color = Color.black;
                 
@@ -205,18 +204,18 @@ namespace UI.Gabes_Custom_UI
         {
             base.OnBeginDrag(eventData);
             StopAllCoroutines();
-            isSnappin = false;
+            _isSnapping = false;
         }
 
         public override void OnEndDrag(PointerEventData eventData)
         {
             base.OnEndDrag(eventData);
-            selected = false;
+            _selected = false;
         }
 
         private void Update()
         {
-            if (!isSnappy || isSnappin || selected || velocity.sqrMagnitude > 100) return;
+            if (!isSnappy || _isSnapping || _selected || velocity.sqrMagnitude > 100) return;
             StartCoroutine(Snap());
 
         }
@@ -269,8 +268,8 @@ namespace UI.Gabes_Custom_UI
         {
             print("adding force: " + amount);
             velocity += new Vector2(amount, amount);
-            isSnappin = false;
-            selected = false;
+            _isSnapping = false;
+            _selected = false;
             StopAllCoroutines();
         }
 

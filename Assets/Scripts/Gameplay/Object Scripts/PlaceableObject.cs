@@ -1,4 +1,5 @@
-using System.Collections;
+using Cysharp.Threading.Tasks;
+using Managers;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -8,7 +9,6 @@ namespace Gameplay.Object_Scripts
     {
         [SerializeField] private bool canCollideWithSelf;
         [SerializeField] private ESurfaceBindMethod bindToSurface;
-        private static readonly WaitForSeconds Delay = new (0.4f);
 
         private enum ESurfaceBindMethod
         {
@@ -33,7 +33,7 @@ namespace Gameplay.Object_Scripts
             switch (bindToSurface)
             {
                 case ESurfaceBindMethod.Down:
-                    Physics.Raycast(position, Vector3.down,  out RaycastHit h,3, GameManager.GroundLayers);
+                    Physics.Raycast(position, Vector3.down,  out RaycastHit h,3, StaticUtilities.GroundLayers);
                     //transform.parent = h.transform; Parenting literally breaks fucking everything. Unity is garbage
                     transform.forward = h.normal;
                     Debug.Log(transform.position);
@@ -41,7 +41,7 @@ namespace Gameplay.Object_Scripts
                     Debug.Log(transform.position);
                     break;
                 case ESurfaceBindMethod.Sphere:
-                    Collider[] cols = Physics.OverlapSphere(position, 3f, GameManager.GroundLayers);
+                    Collider[] cols = Physics.OverlapSphere(position, 3f, StaticUtilities.GroundLayers);
                     float dist = float.MaxValue;
                     Vector3 best = Vector3.zero;
                    
@@ -68,14 +68,14 @@ namespace Gameplay.Object_Scripts
                     
                     break;
             }
-
-            StartCoroutine(Spawn());
+            
+            Debug.LogWarning("Spawned a portal? There may be some incomplete code here?");
+            _ =Spawn();
         }
 
-        private IEnumerator Spawn()
+        private async UniTask Spawn()
         {
-            if(UseDelay)
-                yield return Delay;
+            if(UseDelay) await UniTask.Delay(400);
         }
 
 
@@ -83,17 +83,17 @@ namespace Gameplay.Object_Scripts
         private void OnTriggerEnter(Collider other)
         {
             int layer = 1<<other.gameObject.layer;
-            print(layer +", " + GameManager.PlayerLayers);
-            if ((layer & GameManager.PlayerLayers) == 0) return; // If it's not a player, we can't hit it...
+            print(layer +", " + StaticUtilities.PlayerLayers);
+            if ((layer & StaticUtilities.PlayerLayers) == 0) return; // If it's not a player, we can't hit it...
             
-            Ball b = other.transform.parent.GetComponent<Ball>();
+            Balls.NetworkBall b = other.transform.parent.GetComponent<Balls.NetworkBall>();
             
             if (b == null || (!canCollideWithSelf && b.OwnerClientId == OwnerClientId)) return;
             OnHit(b);
 
         }
 
-        protected abstract void OnHit(Ball hit);
+        protected abstract void OnHit(Balls.NetworkBall hit);
 
     }
 }
