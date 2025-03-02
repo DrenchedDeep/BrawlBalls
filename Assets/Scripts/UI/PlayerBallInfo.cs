@@ -7,7 +7,7 @@ public class PlayerBallInfo : MonoBehaviour
     //private const string WeaponDirectory = "Weapons/";
     
     public static readonly BallStructure[] Balls = new BallStructure[3];
-    public static string UserName = "Player";
+    public static string UserName;
     
     /*
     public static Ball GetBall(int index) => Resources.Load<Ball>(BallDirectory + Balls[index].Ball);
@@ -20,6 +20,13 @@ public class PlayerBallInfo : MonoBehaviour
     //public static AbilityStats GetAbility(string value) => Resources.Load<AbilityStats>(AbilityDirectory + value);
 
     // Start is called before the first frame update
+        
+    [RuntimeInitializeOnLoadMethod]
+    private static void RuntimeInit()
+    {
+        UserName = "Player";
+    }
+    
     void Awake()
     {
 

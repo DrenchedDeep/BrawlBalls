@@ -3,10 +3,16 @@ using UnityEngine;
 
 public class BallHandler : NetworkBehaviour
 {
-
+    private static int _ballsSpawned;
     public static BallHandler Instance { get; private set; }
     
-    
+    [RuntimeInitializeOnLoadMethod]
+
+    private static void RuntimeInit()
+    {
+        _ballsSpawned = 0;
+    }
+
 
     // Start is called before the first frame update
     void Awake()
@@ -40,7 +46,7 @@ public class BallHandler : NetworkBehaviour
     }
 
 
-    private static int _ballsSpawned;
+
     [ServerRpc(RequireOwnership = false)]
     public void SpawnBallServerRpc(string ball, string weapon, ServerRpcParams id =default)
     {

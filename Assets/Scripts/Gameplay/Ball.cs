@@ -42,8 +42,8 @@ public class Ball : NetworkBehaviour, IDamageAble
         _rb = t.GetComponent<Rigidbody>();
         mr = t.GetComponent<MeshRenderer>();
         _rb.useGravity = true;
-        _rb.drag = stats.Drag;
-        _rb.angularDrag = stats.AngularDrag;
+        _rb.linearDamping = stats.Drag;
+        _rb.angularDamping = stats.AngularDrag;
         Weapon w = transform.GetChild(2).GetComponent<Weapon>();
         _rb.mass = stats.Mass + w.Mass;
         _currentHealth = stats.MaxHealth;
@@ -88,7 +88,7 @@ public class Ball : NetworkBehaviour, IDamageAble
     {
         if (!IsOwner) return;
         if (stop)
-            _rb.velocity = Vector3.zero;
+            _rb.linearVelocity = Vector3.zero;
         _rb.AddForce(dir, forceMode);
     }
 
@@ -124,7 +124,7 @@ public class Ball : NetworkBehaviour, IDamageAble
         {
             if ((1 << h.transform.gameObject.layer & GameManager.GroundLayers) != 0)
             {
-                _rb.drag = stats.Drag;
+                _rb.linearDamping = stats.Drag;
                 return;
             }
 
@@ -136,12 +136,12 @@ public class Ball : NetworkBehaviour, IDamageAble
             }
             else
             {
-                _rb.drag = 0;
+                _rb.linearDamping = 0;
             }
         }
         else
         {
-            _rb.drag = 0;
+            _rb.linearDamping = 0;
         }
     }
 

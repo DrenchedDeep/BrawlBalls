@@ -14,8 +14,20 @@ public class MessageHandler : MonoBehaviour
     private static AnimationCurve _popUpAnimCurve;
     private static MessageHandler _mh;
 
+    
+    
+    
     [SerializeField] private TextMeshProUGUI[] scores;
     [SerializeField] private TextMeshProUGUI prefab;
+    
+    [RuntimeInitializeOnLoadMethod]
+    private static void RuntimeInit()
+    {
+        _popUpText = null;
+        _popUpAnimCurve = null;
+        _mh = null;
+    }
+    
     
     // Start is called before the first frame update
     private void Start()

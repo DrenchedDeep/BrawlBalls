@@ -1,6 +1,4 @@
-using System;
-using Cinemachine;
-using Unity.VisualScripting;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -25,7 +23,7 @@ public class BallPlayer : MonoBehaviour
     [Header("Cinemachine")]
     [SerializeField] private GameObject cinemachinePrecam;
     [SerializeField] private GameObject cinemachineSelectcam;
-    [SerializeField] private CinemachineVirtualCamera cinemachinePostcam;
+    [SerializeField] private CinemachineCamera cinemachinePostcam;
     
     private Transform sphereTrans;
     private Rigidbody playerRb;
@@ -38,6 +36,13 @@ public class BallPlayer : MonoBehaviour
     private Vector3 rotation;
 
     public static bool Alive { get; private set; }
+    
+       
+    [RuntimeInitializeOnLoadMethod]
+    private static void RuntimeInit()
+    {
+        LocalBallPlayer = null;
+    }
 
     private void Awake()
     {
@@ -96,13 +101,13 @@ public class BallPlayer : MonoBehaviour
         playerRb.AddForce(joystick.Vertical * currentBall.Acceleration * fwd, ForceMode.Acceleration);
         playerRb.AddForce(joystick.Horizontal * currentBall.Acceleration * Vector3.Cross( Vector3.up,fwd), ForceMode.Acceleration);
         
-        Vector3 velocity = playerRb.velocity;
+        Vector3 velocity = playerRb.linearVelocity;
 
         float y = velocity.y;
         velocity.y = 0;
         //Limit velocity...
         //Memory or CPU?
-        playerRb.velocity = Vector3.ClampMagnitude(velocity, currentBall.MaxSpeed) + Vector3.up * y; //maintain our Y
+        playerRb.linearVelocity = Vector3.ClampMagnitude(velocity, currentBall.MaxSpeed) + Vector3.up * y; //maintain our Y
     }
 
 

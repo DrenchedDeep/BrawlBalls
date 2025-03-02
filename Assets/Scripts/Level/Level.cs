@@ -23,6 +23,12 @@ public class Level : NetworkBehaviour
 
     private static int _spawnedIdx;
     public static Vector3 GetNextSpawnPoint() => Instance.SpawnPoints[_spawnedIdx++ % Instance.SpawnPoints.Length].position;
+    
+    [RuntimeInitializeOnLoadMethod]
+    private static void RuntimeInit()
+    {
+        _spawnedIdx = 0;
+    }
 
     private void SpawnCoin()
     {

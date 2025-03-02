@@ -8,7 +8,6 @@ namespace Gameplay.Object_Scripts
     {
         [SerializeField] private bool canCollideWithSelf;
         [SerializeField] private ESurfaceBindMethod bindToSurface;
-        private bool canCollide;
         private static readonly WaitForSeconds Delay = new (0.4f);
 
         private enum ESurfaceBindMethod
@@ -77,7 +76,6 @@ namespace Gameplay.Object_Scripts
         {
             if(UseDelay)
                 yield return Delay;
-            canCollide = true;
         }
 
 

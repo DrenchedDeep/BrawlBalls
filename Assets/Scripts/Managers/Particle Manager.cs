@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Unity.Netcode;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -14,7 +13,6 @@ public class ParticleManager : MonoBehaviour //Better called AbilityHelper
     [Header("Portal")]
     [SerializeField, ColorUsage(false, true)] private Color[] primaryColors;
     [SerializeField, ColorUsage(false, true)] private Color[] secondaryColors;
-    private static int _prv;
     public static Color GetRandomPrimaryColor => _pm.primaryColors[Random.Range(0, _pm.primaryColors.Length)];
 
     public static Color GetRandomSecondaryColor => _pm.secondaryColors[Random.Range(0, _pm.secondaryColors.Length)];
@@ -42,6 +40,12 @@ public class ParticleManager : MonoBehaviour //Better called AbilityHelper
         Weapon,
         Ball,
         Special
+    }
+    
+    [RuntimeInitializeOnLoadMethod]
+    private static void RuntimeInitialize()
+    {
+        _pm = null;
     }
 
 

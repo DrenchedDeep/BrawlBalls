@@ -8,7 +8,7 @@ using UnityEngine;
 
 public class RelayHandler : MonoBehaviour
 {
-    private float x = 1.1f;
+    //private float x = 1.1f;
     
     public static RelayHandler Instance { get; private set; }
 

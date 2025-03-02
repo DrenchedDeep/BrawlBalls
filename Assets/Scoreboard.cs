@@ -17,7 +17,18 @@ public class Scoreboard : NetworkBehaviour
     private static Color _myColor;
     private static Color _otherColor;
 
-    
+
+    [RuntimeInitializeOnLoadMethod]
+    private static void RuntimeInitialize()
+    {
+        _playerCount = 0;
+        _myID = 0;
+        _sb = null;
+        _myColor = new Color32(255, 255, 255, 255);
+        _otherColor = new Color32(255, 0, 0, 255);
+    }
+
+
     void Start()
     {
         _myColor = myColor;

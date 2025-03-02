@@ -23,6 +23,12 @@ public class PortalObject : PlaceableObject
     private Material myMat;
 
     protected override bool UseDelay => false;
+    
+    [RuntimeInitializeOnLoadMethod]
+    private static void RuntimeInit()
+    {
+        _someoneGotLucky = false;
+    }
 
 
     private void Start()
@@ -68,8 +74,8 @@ public class PortalObject : PlaceableObject
 
         transform.eulerAngles = new Vector3(90, 0, 0); //???
     }
-    
-    private void OnDestroy()
+
+    public override void OnDestroy()
     {
         if(boundPortal) Destroy(boundPortal);
     }

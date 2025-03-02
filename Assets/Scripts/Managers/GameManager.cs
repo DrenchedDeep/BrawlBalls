@@ -24,15 +24,24 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Weapon[] weaponIds;
     [SerializeField] private AbilityStats[] abilityIds;
 
-    public static Dictionary<string, Ball> Balls = new();
-    public static Dictionary<string, Weapon> Weapons = new();
-    public static Dictionary<string, AbilityStats> Abilities =  new();
-
+    public static Dictionary<string, Ball> Balls;
+    public static Dictionary<string, Weapon> Weapons;
+    public static Dictionary<string, AbilityStats> Abilities;
+    
+    
     [SerializeField] private NetworkObject hull;
     
 
 
     public static NetworkObject Hull { get; private set; }
+    
+    [RuntimeInitializeOnLoadMethod]
+    private static void RuntimeInit()
+    {
+        Balls = new();
+        Weapons = new();
+        Abilities = new();
+    }
 
     // Start is called before the first frame update
     void Start()

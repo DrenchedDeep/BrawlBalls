@@ -13,7 +13,7 @@ using Random = UnityEngine.Random;
 
 public class LobbyHandler : MonoBehaviour
 {
-    private Lobby myLobby;
+    private Lobby _myLobby;
     private const int HeartbeatTimer = 15000;
     private const int PollTimer = 1100;
 
@@ -25,9 +25,16 @@ public class LobbyHandler : MonoBehaviour
     private Player _playerObject = new();
     private Player _curPlayer;
     private List<Player> _players = new();
-    private static int clientsConnected;
-    private static string map;
+    private static int _clientsConnected;
+    private static string _map;
 
+    [RuntimeInitializeOnLoadMethod]
+    private static void RuntimeInit()
+    {
+        _clientsConnected = 0;
+        _map = "";
+    }
+    
     private async void Start()
     {
         LoadingHelper.Activate();
@@ -35,7 +42,7 @@ public class LobbyHandler : MonoBehaviour
         {
             await UnityServices.InitializeAsync();
         }
-        catch (ServicesInitializationException e)
+        catch (ServicesInitializationException)
         {
             Debug.LogError("Failed to connect, implement UI");
             LoadingHelper.Deactivate();
@@ -99,26 +106,26 @@ public class LobbyHandler : MonoBehaviour
     private async void HeartBeat()
     {
         await Task.Delay(HeartbeatTimer);
-        if (myLobby == null) return;
-        await LobbyService.Instance.SendHeartbeatPingAsync(myLobby.Id);
+        if (_myLobby == null) return;
+        await LobbyService.Instance.SendHeartbeatPingAsync(_myLobby.Id);
         HeartBeat();
     }
 
     private async void PollForUpdates()
     {
         await Task.Delay(PollTimer);
-        if (myLobby == null) return;
-        myLobby = await LobbyService.Instance.GetLobbyAsync(myLobby.Id);
+        if (_myLobby == null) return;
+        _myLobby = await LobbyService.Instance.GetLobbyAsync(_myLobby.Id);
        
         HandleChanges();
 
 
         //Game starting!
-        if (myLobby.Data["RelayCode"].Value != "0")
+        if (_myLobby.Data["RelayCode"].Value != "0")
         {
             Debug.Log("HEARD: Game starting request: " + NetworkManager.ServerClientId);
-            await RelayHandler.Instance.JoinRelay(myLobby.Data["RelayCode"].Value );
-            myLobby = null;
+            await RelayHandler.Instance.JoinRelay(_myLobby.Data["RelayCode"].Value );
+            _myLobby = null;
             return;
         }
         PollForUpdates();
@@ -140,12 +147,12 @@ public class LobbyHandler : MonoBehaviour
 
     public static void ConnectedToRelay()
     {
-        clientsConnected--;
+        _clientsConnected--;
         //Why is this printing on the client?
-        print("Total Clients Connected: " + clientsConnected);
-        if (clientsConnected == 0)
+        print("Total Clients Connected: " + _clientsConnected);
+        if (_clientsConnected == 0)
         {
-            NetworkManager.Singleton.SceneManager.LoadScene(map, LoadSceneMode.Single);
+            NetworkManager.Singleton.SceneManager.LoadScene(_map, LoadSceneMode.Single);
         }
     }
 
@@ -158,7 +165,7 @@ public class LobbyHandler : MonoBehaviour
         //Iterate through all the players in the lobby, check if any are different...
         int readyPlayers = 0;
         
-        if (myLobby.Players.Count != _players.Count)
+        if (_myLobby.Players.Count != _players.Count)
         {
             LazyRegenCards();
             return;
@@ -167,10 +174,10 @@ public class LobbyHandler : MonoBehaviour
         
         
 
-        for (var index = 0; index < myLobby.Players.Count; index++)
+        for (var index = 0; index < _myLobby.Players.Count; index++)
         {
 
-            Player player = myLobby.Players[index];
+            Player player = _myLobby.Players[index];
             
             if (_curPlayer.Id == player.Id)
             {
@@ -194,7 +201,7 @@ public class LobbyHandler : MonoBehaviour
                 playerCards[index].UpdateReady(player.Data["Ready"].Value);
             }
         }
-        _players = myLobby.Players;
+        _players = _myLobby.Players;
         startGame.interactable = readyPlayers >= _players.Count / 2;
         startGameTemp.interactable = startGame.interactable;
     }
@@ -204,7 +211,7 @@ public class LobbyHandler : MonoBehaviour
     private void LazyRegenCards()
     {
         //Don't destroy cards.
-        _players = myLobby.Players;
+        _players = _myLobby.Players;
         
         for (int index = 0; index < playerCards.Length; index++)
         {
@@ -218,8 +225,8 @@ public class LobbyHandler : MonoBehaviour
             
         }
 
-        startGame.gameObject.SetActive(myLobby.HostId == AuthenticationService.Instance.PlayerId);
-        startGameTemp.gameObject.SetActive(myLobby.HostId == AuthenticationService.Instance.PlayerId);
+        startGame.gameObject.SetActive(_myLobby.HostId == AuthenticationService.Instance.PlayerId);
+        startGameTemp.gameObject.SetActive(_myLobby.HostId == AuthenticationService.Instance.PlayerId);
         
         
         OnLobbyUpdate();
@@ -230,7 +237,7 @@ public class LobbyHandler : MonoBehaviour
         string s = _curPlayer.Data["Ready"].Value=="0"?"1":"0";
         //print();
         print(s);
-        myLobby = await LobbyService.Instance.UpdatePlayerAsync(myLobby.Id, AuthenticationService.Instance.PlayerId, new UpdatePlayerOptions()
+        _myLobby = await LobbyService.Instance.UpdatePlayerAsync(_myLobby.Id, AuthenticationService.Instance.PlayerId, new UpdatePlayerOptions()
         {
             Data = new Dictionary<string, PlayerDataObject>()
             {
@@ -248,7 +255,7 @@ public class LobbyHandler : MonoBehaviour
 
     private async void OnLobbyUpdate()
     {
-        myLobby = await LobbyService.Instance.UpdatePlayerAsync(myLobby.Id, AuthenticationService.Instance.PlayerId, new UpdatePlayerOptions()
+        _myLobby = await LobbyService.Instance.UpdatePlayerAsync(_myLobby.Id, AuthenticationService.Instance.PlayerId, new UpdatePlayerOptions()
         {
             Data = new Dictionary<string, PlayerDataObject>()
             {
@@ -261,8 +268,8 @@ public class LobbyHandler : MonoBehaviour
     {
         try
         {
-            await LobbyService.Instance.RemovePlayerAsync(myLobby.Id, AuthenticationService.Instance.PlayerId);
-            myLobby = null;
+            await LobbyService.Instance.RemovePlayerAsync(_myLobby.Id, AuthenticationService.Instance.PlayerId);
+            _myLobby = null;
         }
         catch (LobbyServiceException e)
         {
@@ -286,7 +293,7 @@ public class LobbyHandler : MonoBehaviour
                 Player = _playerObject
             };
             GameManager.IsOnline = true;
-            myLobby = await LobbyService.Instance.QuickJoinLobbyAsync(options);
+            _myLobby = await LobbyService.Instance.QuickJoinLobbyAsync(options);
             
             //Only hosts can do this
             //TODO myLobby = await LobbyService.Instance.UpdateLobbyAsync(myLobby.Id, new ());
@@ -297,7 +304,7 @@ public class LobbyHandler : MonoBehaviour
 
             if (e.Reason == LobbyExceptionReason.NoOpenLobbies)
             {
-                myLobby = await LobbyService.Instance.CreateLobbyAsync(AuthenticationService.Instance.PlayerId+"'s lobby", 8, new CreateLobbyOptions()
+                _myLobby = await LobbyService.Instance.CreateLobbyAsync(AuthenticationService.Instance.PlayerId+"'s lobby", 8, new CreateLobbyOptions()
                 {
                    IsPrivate = false,
                    Player = _playerObject,
@@ -321,9 +328,9 @@ public class LobbyHandler : MonoBehaviour
             HandleChanges();
         }
 
-        _curPlayer = myLobby.Players[^1];
+        _curPlayer = _myLobby.Players[^1];
         PollForUpdates();
-        print("Lobby succeeded? " + myLobby.Name);
+        print("Lobby succeeded? " + _myLobby.Name);
     }
 
 
@@ -336,16 +343,16 @@ public class LobbyHandler : MonoBehaviour
             return;            
         }
 
-        if (myLobby.HostId != AuthenticationService.Instance.PlayerId) return;
+        if (_myLobby.HostId != AuthenticationService.Instance.PlayerId) return;
 
         startGameTemp.interactable = false;
         startGame.interactable = false;
         
         Debug.Log("Starting game!");
         
-        string relayCode = await RelayHandler.Instance.CreateRelay(myLobby.MaxPlayers);
+        string relayCode = await RelayHandler.Instance.CreateRelay(_myLobby.MaxPlayers);
         
-        myLobby = await LobbyService.Instance.UpdateLobbyAsync(myLobby.Id, new UpdateLobbyOptions()
+        _myLobby = await LobbyService.Instance.UpdateLobbyAsync(_myLobby.Id, new UpdateLobbyOptions()
         {
             Data = new Dictionary<string, DataObject>
             {
@@ -354,9 +361,9 @@ public class LobbyHandler : MonoBehaviour
             },
             IsLocked = true
         });
-        clientsConnected = myLobby.Players.Count-1;
-        map = myLobby.Data["Map"].Value;
-        myLobby = null;
+        _clientsConnected = _myLobby.Players.Count-1;
+        _map = _myLobby.Data["Map"].Value;
+        _myLobby = null;
         //StartCoroutine(WaitForAllConnections(map));
         
 

@@ -4,6 +4,13 @@ using UnityEngine.SceneManagement;
 public class LoadingHelper : MonoBehaviour
 {
     private static LoadingHelper _instance;
+    
+       
+    [RuntimeInitializeOnLoadMethod]
+    private static void RuntimeInit()
+    {
+        _instance = null;
+    }
 
     private void Awake()
     {
