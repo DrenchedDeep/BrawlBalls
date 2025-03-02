@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using MainMenu.UI;
 using UI;
 using Unity.Netcode;
@@ -102,7 +102,7 @@ namespace Managers.Network
         //This should be used only on host...?
         private async void HeartBeat()
         {
-            await Task.Delay(HeartbeatTimer);
+            await UniTask.Delay(HeartbeatTimer);
             if (_myLobby == null) return;
             await LobbyService.Instance.SendHeartbeatPingAsync(_myLobby.Id);
             HeartBeat();
@@ -110,13 +110,13 @@ namespace Managers.Network
 
         private async void PollForUpdates()
         {
-            await Task.Delay(PollTimer);
+            await UniTask.Delay(PollTimer);
             if (_myLobby == null) return;
             _myLobby = await LobbyService.Instance.GetLobbyAsync(_myLobby.Id);
        
             HandleChanges();
 
-
+            Debug.Log(_myLobby.Data["RelayCode"].Value);
             //Game starting!
             if (_myLobby.Data["RelayCode"].Value != "0")
             {
@@ -124,7 +124,8 @@ namespace Managers.Network
                 await RelayHandler.Instance.JoinRelay(_myLobby.Data["RelayCode"].Value );
                 _myLobby = null;
                 return;
-            }
+            } 
+
             PollForUpdates();
         }
 
@@ -141,19 +142,21 @@ namespace Managers.Network
         print("Remaining Connections: " + clientsConnected);
         
     }*/
-
+        
+/*
         public static void ConnectedToRelay()
         {
-            ClientsConnected--;
+            --ClientsConnected;
             //Why is this printing on the client?
             print("Total Clients Connected: " + ClientsConnected);
             if (ClientsConnected == 0)
             {
                 NetworkManager.Singleton.SceneManager.LoadScene(Map, LoadSceneMode.Single);
             }
+            else if(ClientsConnected < 0) Debug.LogError("Somehow negative client count!");
         }
 
-
+*/
 
 
 
@@ -307,7 +310,7 @@ namespace Managers.Network
                         Player = _playerObject,
                         Data = new()
                         {
-                            {"Map", new DataObject(DataObject.VisibilityOptions.Member, "Test")},
+                            {"Map", new DataObject(DataObject.VisibilityOptions.Member, "")},
                             {"RelayCode", new DataObject(DataObject.VisibilityOptions.Member, "0")}
                         }
                     });
@@ -333,22 +336,24 @@ namespace Managers.Network
 
         public async void StartGame(string m)
         {
-
             if (!GameManager.IsOnline)
             {
                 NetworkManager.Singleton.SceneManager.LoadScene(m, LoadSceneMode.Single);
-                return;            
+                return;
             }
 
-            if (_myLobby.HostId != AuthenticationService.Instance.PlayerId) return;
+            if (_myLobby.HostId != AuthenticationService.Instance.PlayerId)
+            {
+                return;
+            }
 
             startGameTemp.interactable = false;
             startGame.interactable = false;
-        
+
             Debug.Log("Starting game!");
-        
+
             string relayCode = await RelayHandler.Instance.CreateRelay(_myLobby.MaxPlayers);
-        
+
             _myLobby = await LobbyService.Instance.UpdateLobbyAsync(_myLobby.Id, new UpdateLobbyOptions()
             {
                 Data = new Dictionary<string, DataObject>
@@ -358,13 +363,31 @@ namespace Managers.Network
                 },
                 IsLocked = true
             });
-            ClientsConnected = _myLobby.Players.Count-1;
+
+            ClientsConnected = _myLobby.Players.Count;// - 1;
+            Debug.LogWarning($"There are {ClientsConnected} clients connected, but network manager says, {NetworkManager.Singleton.ConnectedClientsIds.Count}. The relay code is:   {relayCode}");
+            
             Map = _myLobby.Data["Map"].Value;
+            
+            int attempts = 10;
+            while (attempts-- >= 0)
+            {
+                if (ClientsConnected== NetworkManager.Singleton.ConnectedClientsIds.Count)
+                {
+                    Debug.Log("Finally synced and starting");
+                    NetworkManager.Singleton.SceneManager.LoadScene(Map, LoadSceneMode.Single);
+                }
+                else
+                {
+                    Debug.LogWarning($"Missing { ClientsConnected - NetworkManager.Singleton.ConnectedClientsIds.Count} clients");
+                    await UniTask.Delay(1000);
+                }
+            }
+
             _myLobby = null;
-            //StartCoroutine(WaitForAllConnections(map));
-        
 
         }
+
 
     }
 }

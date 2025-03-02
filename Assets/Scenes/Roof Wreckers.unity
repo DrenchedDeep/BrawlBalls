@@ -947,17 +947,17 @@ MonoBehaviour:
       TangentIn:
         x: 0
         y: 0
-        z: -57.702576
+        z: -59.3471
       TangentOut:
         x: 0
         y: 0
-        z: 57.702576
+        z: 59.3471
       Rotation:
         value:
-          x: -0.024880819
-          y: 0.868141
-          z: -0.043746136
-          w: -0.4937596
+          x: -0.012516195
+          y: 0.86896396
+          z: -0.022006305
+          w: -0.49422747
     - Position:
         x: -1.6156235
         y: -28.923676
@@ -965,17 +965,17 @@ MonoBehaviour:
       TangentIn:
         x: 0
         y: 0
-        z: -36.380596
+        z: -36.380592
       TangentOut:
         x: 0
         y: 0
-        z: 36.380596
+        z: 36.380592
       Rotation:
         value:
-          x: 0.26341963
-          y: 0.0804575
-          z: -0.02205265
-          w: 0.9610673
+          x: 0.13409281
+          y: 0.08266625
+          z: -0.011225814
+          w: 0.9874509
     - Position:
         x: 23.497597
         y: -38.905197
@@ -990,10 +990,10 @@ MonoBehaviour:
         z: 57.885525
       Rotation:
         value:
-          x: -0.042141154
-          y: 0.49404612
-          z: 0.023983503
-          w: 0.8680826
+          x: -0.02119806
+          y: 0.49448073
+          z: 0.012064314
+          w: 0.86884636
     - Position:
         x: 198.06265
         y: -17.540169
@@ -1001,17 +1001,17 @@ MonoBehaviour:
       TangentIn:
         x: 0
         y: 0
-        z: -36.287437
+        z: -36.28743
       TangentOut:
         x: 0
         y: 0
-        z: 36.287437
+        z: 36.28743
       Rotation:
         value:
-          x: 0.019140733
-          y: 0.961081
-          z: 0.2668415
-          w: -0.06893903
+          x: 0.009745965
+          y: 0.9881402
+          z: 0.13586769
+          w: -0.07087983
     m_MetaData:
     - Mode: 2
       Tension: 0.5
@@ -3703,6 +3703,10 @@ Transform:
   - {fileID: 1984762354}
   - {fileID: 781039832}
   - {fileID: 256942125}
+  - {fileID: 1101778021}
+  - {fileID: 1098745642}
+  - {fileID: 986459385}
+  - {fileID: 1793243388}
   m_Father: {fileID: 2143797049}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &930674350
@@ -3918,12 +3922,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 986459381}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.49999994, z: -0.86602545, w: 0}
+  m_LocalRotation: {x: -0, y: 0.49999994, z: -0.86602545, w: 0}
   m_LocalPosition: {x: -70, y: 7, z: -45.2}
   m_LocalScale: {x: 40, y: 12, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 923875564}
   m_LocalEulerAnglesHint: {x: 120, y: 180, z: 0}
 --- !u!1 &986824845
 GameObject:
@@ -4233,12 +4237,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1098745638}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.89493436, z: -0.44619772, w: 0}
+  m_LocalRotation: {x: -0, y: 0.8949344, z: -0.44619775, w: 0}
   m_LocalPosition: {x: 25, y: 2, z: -41}
   m_LocalScale: {x: 25, y: 10, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 923875564}
   m_LocalEulerAnglesHint: {x: 53, y: 180, z: 0}
 --- !u!1 &1101778017
 GameObject:
@@ -4342,12 +4346,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1101778017}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.89493436, z: -0.44619772, w: 0}
+  m_LocalRotation: {x: -0, y: 0.8949344, z: -0.44619775, w: 0}
   m_LocalPosition: {x: -25, y: 2, z: -41}
   m_LocalScale: {x: 25, y: 10, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 923875564}
   m_LocalEulerAnglesHint: {x: 53, y: 180, z: 0}
 --- !u!1001 &1107523353
 PrefabInstance:
@@ -6982,12 +6986,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1793243384}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.49999994, z: -0.86602545, w: 0}
+  m_LocalRotation: {x: -0, y: 0.49999994, z: -0.86602545, w: 0}
   m_LocalPosition: {x: 70, y: 7, z: -45.2}
   m_LocalScale: {x: 40, y: 12, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 923875564}
   m_LocalEulerAnglesHint: {x: 120, y: 180, z: 0}
 --- !u!1001 &1815141695
 PrefabInstance:
@@ -7661,8 +7665,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2143797049}
-  - component: {fileID: 2143797048}
   - component: {fileID: 2143797050}
+  - component: {fileID: 2143797048}
   m_Layer: 0
   m_Name: RoofWreckersLevel
   m_TagString: Untagged
@@ -33339,9 +33343,5 @@ SceneRoots:
   - {fileID: 1593457898}
   - {fileID: 265427658}
   - {fileID: 12543180}
-  - {fileID: 1101778021}
-  - {fileID: 1098745642}
-  - {fileID: 986459385}
-  - {fileID: 1793243388}
   - {fileID: 430609655}
   - {fileID: 1223190529}
