@@ -1,23 +1,23 @@
 using System.Collections;
 using Gameplay.Abilities.SpecialAbilities;
-using Gameplay.Balls;
 using Managers;
+using Managers.Local;
 using UnityEngine;
 
 namespace Gameplay.Abilities.WeaponAbilities
 {
     public class Spike : Ability
     {
-        public override bool CanUseAbility(NetworkBall owner, Weapon weapon)
+        public override bool CanUseAbility(BallPlayer owner)
         {
-            return owner.Speed > 3;
+            return owner.GetBall.Speed > 3;
         }
 
-        protected override void UseAbility(NetworkBall owner, Weapon weapon)
+        protected override void UseAbility(BallPlayer owner)
         {
             Debug.Log("Attacked!");
             //Un parent self
-            weapon.Disconnect(owner.Speed);
+            owner.GetWeapon.Disconnect(owner.GetBall.Speed);
         
         }
     

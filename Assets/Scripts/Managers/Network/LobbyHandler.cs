@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using MainMenu.UI;
-using UI;
+using Managers.Local;
 using Unity.Netcode;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
@@ -29,6 +29,8 @@ namespace Managers.Network
         private Player _playerObject = new();
         private Player _curPlayer;
         private List<Player> _players = new();
+        private bool _isOnline;
+
         private static int ClientsConnected { get; set; }
         private static string Map { get; set; }
 
@@ -202,6 +204,9 @@ namespace Managers.Network
                 }
             }
             _players = _myLobby.Players;
+
+            if (!startGame) return;
+            
             startGame.interactable = readyPlayers >= _players.Count / 2;
             startGameTemp.interactable = startGame.interactable;
         }
@@ -292,7 +297,7 @@ namespace Managers.Network
                     },
                     Player = _playerObject
                 };
-                GameManager.IsOnline = true;
+                _isOnline = true;
                 _myLobby = await LobbyService.Instance.QuickJoinLobbyAsync(options);
             
                 //Only hosts can do this
@@ -315,13 +320,13 @@ namespace Managers.Network
                         }
                     });
                     //myLobby.LobbyCode
-                    GameManager.IsOnline = true;
+                    _isOnline = true;
 
                     HeartBeat();
                 }
                 else
                 {
-                    GameManager.IsOnline = false;
+                    _isOnline = false;
                     print("Failed to connect to internet...");
                     return;
                 }
@@ -336,11 +341,13 @@ namespace Managers.Network
 
         public async void StartGame(string m)
         {
-            if (!GameManager.IsOnline)
+            
+            if (!_isOnline)
             {
                 NetworkManager.Singleton.SceneManager.LoadScene(m, LoadSceneMode.Single);
                 return;
             }
+            
 
             if (_myLobby.HostId != AuthenticationService.Instance.PlayerId)
             {
@@ -387,7 +394,6 @@ namespace Managers.Network
             _myLobby = null;
 
         }
-
 
     }
 }

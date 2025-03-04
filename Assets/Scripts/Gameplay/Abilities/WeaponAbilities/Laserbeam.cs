@@ -1,12 +1,11 @@
 using Gameplay.Abilities.SpecialAbilities;
-using Gameplay.Balls;
 using UnityEngine;
 
 namespace Gameplay.Abilities.WeaponAbilities
 {
     public class Laserbeam : Ability
     {
-        public override  bool CanUseAbility(NetworkBall owner,  Weapon weapon)
+        public override  bool CanUseAbility(BallPlayer owner)
         {
             //If the beam is not being used AND the beam is not on cooldown...
             //If the beam is being used, it is inherently on cooldown...
@@ -17,9 +16,9 @@ namespace Gameplay.Abilities.WeaponAbilities
 
         }
 
-        protected override void UseAbility(NetworkBall owner, Weapon weapon)
+        protected override void UseAbility(BallPlayer owner)
         {
-            GameObject beam = weapon.transform.GetChild(0).gameObject;
+            GameObject beam = owner.GetWeapon.transform.GetChild(0).gameObject;
             beam.SetActive(true);
             
         }

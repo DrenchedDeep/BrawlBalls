@@ -1,5 +1,5 @@
-using Gameplay.Balls;
 using Managers;
+using Managers.Local;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -12,7 +12,7 @@ namespace Gameplay.Object_Scripts
         [SerializeField] private ParticleManager.ECollectableType collectableType;
     
     
-        protected void Award(NetworkBall getComponent)
+        protected void Award(Ball getComponent)
         {
             //Award this collectable type to the owner.
         
@@ -27,7 +27,7 @@ namespace Gameplay.Object_Scripts
         {
             Debug.LogWarning("Object collected");
             //Play effect...
-            Award(other.transform.parent.GetComponent<NetworkBall>());
+            Award(other.transform.parent.GetComponent<Ball>());
        
         }
     

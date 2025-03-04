@@ -1,11 +1,11 @@
 using Gameplay;
-using Gameplay.Balls;
 using UnityEngine;
 
 namespace Managers.Controls
 {
     public static class PlayerControls
     {
+        /*
         private static GameControls _controls;
         private static BallPlayer _player;
             
@@ -56,6 +56,6 @@ namespace Managers.Controls
             _controls.UI.Disable();
             
             Debug.Log($"I've bound this player to the local controls: {owner.name} ", owner);
-        }
+        }*/
     }
 }

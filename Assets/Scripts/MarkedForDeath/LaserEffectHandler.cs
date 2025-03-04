@@ -1,6 +1,7 @@
 using System.Collections;
-using Gameplay.Balls;
+using Gameplay;
 using Managers;
+using Managers.Local;
 using UnityEngine;
 using UnityEngine.VFX;
 
@@ -58,7 +59,7 @@ namespace MarkedForDeath
             _lifeTime -= Time.deltaTime;
             if (_lifeTime <= 0)
             {
-                BallPlayer.LocalBallPlayer.EnableControls();
+                LocalPlayerController.LocalBallPlayer.EnableControls();
                 w.ToggleActive();
                 gameObject.SetActive(false);
                 myEffect.SendEvent(StaticUtilities.EndID);
@@ -79,7 +80,7 @@ namespace MarkedForDeath
             }
             w.ToggleActive();
             lineRenderer.startWidth = _width;
-            BallPlayer.LocalBallPlayer.DisableControls();
+            LocalPlayerController.LocalBallPlayer.DisableControls();
         }
 
         public void SetProperty(int id, float amount)

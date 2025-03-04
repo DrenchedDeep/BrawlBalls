@@ -1,0 +1,115 @@
+using Managers;
+using Managers.Network;
+using Unity.Netcode;
+using UnityEngine;
+using Utilities.General;
+using Random = UnityEngine.Random;
+
+namespace Gameplay.Map
+{
+    public class Level : NetworkBehaviour
+    {
+
+        
+        [Header("Coin")]
+        [SerializeField] private Transform coinStart;
+        [SerializeField] private float timeToSpawnCoin = 75;
+        
+        [Header("Map")]
+        [field: SerializeField] public Transform [] PodiumPoints { get; private set; }
+        [field: SerializeField] public Transform [] SpawnPoints { get; private set; }
+        [SerializeField] private float bottomY;
+        [SerializeField] private bool offMapKills;
+        
+        
+        
+        private static int SpawnedIdx { get; set; }
+        private static Level Instance { get; set; }
+
+        public static Vector3 GetNextSpawnPoint()
+        {
+            int index = SpawnedIdx++;
+
+            if (SpawnedIdx >= Instance.SpawnPoints.Length)
+            {
+                SpawnedIdx = 0;
+                Instance.SpawnPoints.Shuffle();
+            }
+            return Instance.SpawnPoints[index].position;
+        }
+        
+        public static Vector3 GetPodiumPoint(int index) => Instance.SpawnPoints[index].position;
+
+        //All levels drop coins from center...
+        private void Awake()
+        {
+            Instance = this;
+            
+            if (!IsServer)
+            {
+                enabled = false;
+                return;
+            }
+
+          
+            SpawnPoints.Shuffle();
+            
+            NetworkGameManager.Instance.AddTimedEvent(timeToSpawnCoin, SpawnCoin);
+        }
+        
+        private void SpawnCoin()
+        {
+            Debug.Log("Spawning Map Coin");
+            int r = Random.Range(0, 100);
+            string spawned;
+            switch (r)
+            {
+                case <= 10:
+                    spawned = "SpecialCoin";
+                    break;
+                case <= 35:
+                    spawned = "WeaponCoin";
+                    break;
+                case <= 70:
+                    spawned = "BallCoin";
+                    break;
+                default:
+                    spawned = "AbilityCoin";
+                    break;
+            }
+
+            //This is only running on server anyways.
+            NetworkGameManager.Instance.SendMessage_ClientRpc("A <color=#d4bb00>coin</color> has spawned", 2);
+            NetworkGameManager.Instance.SpawnObjectGlobally_ServerRpc(spawned, coinStart.position, Quaternion.identity);
+        }
+
+        void Update()
+        {
+            if (!offMapKills) return;
+            //Check if any of the player have fallen off the map
+            foreach (BallPlayer ball in BallHandler.ActiveBalls)
+            {
+                if (!ball.IsAlive) return;
+                if (ball.transform.position.y < bottomY)
+                {
+                    Debug.Log("Player died from falling out of map, atteker is 0?");
+                    ball.TakeDamage_ClientRpc(100000, Vector3.zero, 0);
+                }
+            }
+        }
+
+#if UNITY_EDITOR
+        [SerializeField] private bool display;
+        private void OnDrawGizmos()
+        {
+            if (!display) return;
+            Gizmos.color = new Color(0,0,0,0.5f);
+            Gizmos.DrawCube(Vector3.up * bottomY, new Vector3(100000f,0.1f,100000f));
+            Gizmos.color = Color.yellow;
+            Vector3 position = coinStart.position;
+            Gizmos.DrawSphere(position, 4);
+        }
+#endif
+    
+    }
+}

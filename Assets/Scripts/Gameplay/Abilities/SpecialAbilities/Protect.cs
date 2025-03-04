@@ -1,6 +1,6 @@
 using Cysharp.Threading.Tasks;
-using Gameplay.Balls;
 using Managers;
+using Managers.Local;
 using UnityEngine;
 
 namespace Gameplay.Abilities.SpecialAbilities
@@ -8,29 +8,29 @@ namespace Gameplay.Abilities.SpecialAbilities
     public class Protect : Ability
     {
     //
-        public override bool CanUseAbility(NetworkBall owner, Weapon weapon)
+        public override bool CanUseAbility(BallPlayer owner)
         {
             return true;
         }
 
-        protected override void UseAbility(NetworkBall owner, Weapon weapon)
+        protected override void UseAbility(BallPlayer owner)
         {
             Debug.LogWarning("We're not tracking the immortality timer. Will this cause issues?");
             _ = ImmortalityTimer(owner);
         }
 
-        private async UniTask ImmortalityTimer(NetworkBall owner)
+        private async UniTask ImmortalityTimer(BallPlayer owner)
         {
             Debug.Log("Immortality_Start");
         
             int refMat = ParticleManager.ProtectMat.GetHashCode();
-            owner.ApplyEffectServerRpc(1);
+            owner.GetBall.ApplyEffect_ServerRpc(1);
 
             await UniTask.Delay(3000);
             
             Debug.Log("Immortaltiy_End");
         
-            owner.RemoveEffectServerRpc(refMat);
+            owner.GetBall.RemoveEffectServerRpc(refMat);
         }
 
     }

@@ -1,19 +1,20 @@
-using Gameplay.Balls;
 using Managers;
+using Managers.Local;
+using Managers.Network;
 using UnityEngine;
 
 namespace Gameplay.Abilities.SpecialAbilities
 {
     public class Portal : Ability
     {
-        public override bool CanUseAbility(NetworkBall owner, Weapon weapon)
+        public override bool CanUseAbility(BallPlayer owner)
         {
             return Physics.CheckSphere(owner.transform.GetChild(0).position, 1, StaticUtilities.GroundLayers); 
         }
 
-        protected override void UseAbility(NetworkBall owner, Weapon weapon)
+        protected override void UseAbility(BallPlayer owner)
         {
-            Level.Level.Instance.SpawnObjectGlobally_ServerRpc("Portal", owner.transform.GetChild(0).position);
+            NetworkGameManager.Instance.SpawnObjectGlobally_ServerRpc("Portal", owner.transform.GetChild(0).position, Quaternion.identity);
         }
     }
 }

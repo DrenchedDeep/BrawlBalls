@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using Managers;
+using Managers.Local;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -86,14 +87,14 @@ namespace Gameplay.Object_Scripts
             print(layer +", " + StaticUtilities.PlayerLayers);
             if ((layer & StaticUtilities.PlayerLayers) == 0) return; // If it's not a player, we can't hit it...
             
-            Balls.NetworkBall b = other.transform.parent.GetComponent<Balls.NetworkBall>();
+            BallPlayer b = other.attachedRigidbody?.GetComponent<BallPlayer>();
             
             if (b == null || (!canCollideWithSelf && b.OwnerClientId == OwnerClientId)) return;
             OnHit(b);
 
         }
 
-        protected abstract void OnHit(Balls.NetworkBall hit);
+        protected abstract void OnHit(BallPlayer hit);
 
     }
 }

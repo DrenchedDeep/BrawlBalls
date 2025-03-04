@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Default Local Group
+  m_EditorClassIdentifier: 
+  m_GroupName: Default Local Group
+  m_GUID: 5a4f272d27c03cb4693ba8f6b1040516
+  m_SerializeEntries:
+  - m_GUID: 21bf334f8d522d94a81488e86451f8c2
+    m_Address: Assets/Scripts/Stats/SpecialAbilities/Protect.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2493407ab766d04488c1f70f1d734327
+    m_Address: Assets/Scripts/Stats/SpecialAbilities/Jump.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2ec90043fea1fae45affb88af40e50b1
+    m_Address: Assets/Scripts/Stats/WeaponAbilites/AbductorAbility.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 725729b57116c8a4cb22a83d9bdad642
+    m_Address: Assets/Scripts/Stats/WeaponAbilites/BeamAbility.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a3eaf93b0c8119d44a91086410ec8533
+    m_Address: Assets/Scripts/Stats/SpecialAbilities/Caltrop.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a4de1b1016212a6489a562c102067cd6
+    m_Address: Assets/Scripts/Stats/WeaponAbilites/SpikeAbility.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c94f99a979977064db6bd383d86ba477
+    m_Address: Assets/Scripts/Stats/SpecialAbilities/Portal.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e6088096f03290a4aab5ed384e380fab
+    m_Address: Assets/Scripts/Stats/SpecialAbilities/Glue.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 82fb385734d703944be3e2dd1cf2cfd6, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 34a304d5a67b9314fbcd5aa395e4f475, type: 2}
+    - {fileID: 11400000, guid: c108323553948964caa8666b8981f474, type: 2}

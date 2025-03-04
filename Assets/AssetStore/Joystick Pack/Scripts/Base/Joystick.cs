@@ -82,7 +82,7 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
         handle.anchoredPosition = pos;
     }
 
-    protected virtual void HandleInput(float magnitude, Vector2 normalised)
+    public virtual void HandleInput(float magnitude, Vector2 normalised)
     {
         if (magnitude > deadZone)
         {

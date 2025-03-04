@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
-using Gameplay.Balls;
-using Managers;
+using Managers.Local;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using Random = UnityEngine.Random;
@@ -83,7 +82,7 @@ namespace Gameplay.Object_Scripts
         //TODO: While the owners camera catches up... So like, dist 8, the player is in the shadow realm.
         //Keep the player hidden until the camera is in range, and apply a screen space shader to that player.
         //Remove the effect and fire the player once in range...
-        protected override void OnHit(NetworkBall hit)
+        protected override void OnHit(BallPlayer hit)
         {
             print("hit ball: " + _isOnCooldown + ", " + ActivePortalIds.Count);
             if (_isOnCooldown || ActivePortalIds.Count <= 1) return;
@@ -110,7 +109,7 @@ namespace Gameplay.Object_Scripts
 
             hit.transform.GetChild(0).position = outPortalTrans.position + direction;
 
-            hit.ChangeVelocity(direction*hit.Speed*-2f, ForceMode.Impulse, true);
+            hit.GetBall.ChangeVelocity(direction*hit.GetBall.Speed*-2f, ForceMode.Impulse, true);
         
             StartCooldown();
             PlayParticles();

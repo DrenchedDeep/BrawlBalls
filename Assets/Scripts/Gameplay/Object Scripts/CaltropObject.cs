@@ -1,4 +1,3 @@
-using Gameplay.Balls;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -15,11 +14,11 @@ namespace Gameplay.Object_Scripts
             rb.AddTorque(Random.insideUnitSphere * 10, ForceMode.Impulse);
         }
 
-        protected override void OnHit(NetworkBall hit)
+        protected override void OnHit(BallPlayer hit)
         {
             //Again verify with upgrades and whatnot...
             //hit.TakeDamage(50, 15, owner.player);
-            hit.TakeDamageClientRpc(hit.Speed*3, hit.Velocity * -5f + Vector3.up*20, NetworkManager.Singleton.LocalClientId);
+            hit.TakeDamage_ClientRpc(hit.GetBall.Speed*3, hit.GetBall.Velocity * -5f + Vector3.up*20, NetworkManager.Singleton.LocalClientId);
         }
     }
 }

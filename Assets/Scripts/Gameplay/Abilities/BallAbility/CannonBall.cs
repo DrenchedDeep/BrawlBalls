@@ -1,0 +1,33 @@
+using Managers;
+using Managers.Local;
+using Managers.Network;
+using UnityEngine;
+
+//Should probably commit to how we want abilities to work... either like in AbilityStats or like this.
+
+
+namespace Gameplay.Abilities.BallAbility
+{
+    public class CannonBall : Ball
+    {
+        private const float MaxDist = 10;
+
+        public override void OnDestroy()
+        {
+            base.OnDestroy();
+            if (!IsHost) return; // Only the host should be able to handle this logic.
+        
+            NetworkGameManager.Instance.PlayParticleGlobally_ServerRpc("Explosion", transform.position, transform.rotation);
+        
+            Vector3 pos = transform.GetChild(0).position;
+            Collider[] cols = Physics.OverlapSphere(pos, 5, StaticUtilities.PlayerLayers);
+            foreach (Collider c in cols)
+            {
+                Vector3 ePos = c.ClosestPoint(pos);
+                Vector3 dir = ePos - pos;
+                float damage = ParticleManager.EvalauteExplosiveDistance(dir.magnitude / MaxDist)*200;
+                c.attachedRigidbody.GetComponent<BallPlayer>().TakeDamage_ClientRpc(damage, damage * dir, OwnerClientId);
+            }
+        }
+    }
+}

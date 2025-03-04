@@ -1,21 +1,21 @@
 using Gameplay.Abilities.SpecialAbilities;
-using Gameplay.Balls;
 using Managers;
+using Managers.Local;
 using MarkedForDeath;
 
 namespace Gameplay.Abilities.WeaponAbilities
 {
     public class Abductor : Ability
     {
-        public override bool CanUseAbility(NetworkBall owner, Weapon weapon)
+        public override bool CanUseAbility(BallPlayer owner)
         {
             return true;
         }
 
-        protected override void UseAbility(NetworkBall owner, Weapon weapon)
+        protected override void UseAbility(BallPlayer owner)
         {
-            float d =weapon.MultiplyDamage(-1);
-            LaserEffectHandler beam = weapon.transform.GetChild(0).GetComponent<LaserEffectHandler>();
+            float d = owner.GetWeapon.MultiplyDamage(-1);
+            LaserEffectHandler beam =owner.GetWeapon.transform.GetChild(0).GetComponent<LaserEffectHandler>();
             beam.gameObject.SetActive(true);
             beam.SetProperty(StaticUtilities.SpeedID, d);
             beam.SetProperty(StaticUtilities.NoiseSpeedID, d*2);

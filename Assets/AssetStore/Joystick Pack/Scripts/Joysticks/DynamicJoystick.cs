@@ -29,7 +29,7 @@ public class DynamicJoystick : Joystick
         base.OnPointerUp(eventData);
     }
 
-    protected override void HandleInput(float magnitude, Vector2 normalised)
+    public override void HandleInput(float magnitude, Vector2 normalised)
     {
         if (magnitude > moveThreshold)
         {

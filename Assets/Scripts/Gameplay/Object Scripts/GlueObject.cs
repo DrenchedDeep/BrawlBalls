@@ -1,4 +1,5 @@
 using Managers;
+using Managers.Local;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
@@ -38,7 +39,7 @@ namespace Gameplay.Object_Scripts
 
 
 
-        protected override void OnHit(Balls.NetworkBall hit)
+        protected override void OnHit(BallPlayer hit)
         {
             //Verify that both the host and the person getting hit are affected by the same owner stats...
             //The Local player would store their stats in their script (Jagged array)
@@ -58,7 +59,7 @@ namespace Gameplay.Object_Scripts
             createdMat.SetInt(StaticUtilities.RandomTexID, _material.GetInt(StaticUtilities.RandomTexID));
             createdMat.SetVector(StaticUtilities.RandomOffsetID, _material.GetVector(StaticUtilities.RandomOffsetID));
             
-            hit.ApplyEffectServerRpc(0);
+            hit.GetBall.ApplyEffect_ServerRpc(0);
 
             NetworkObject.Despawn();
 

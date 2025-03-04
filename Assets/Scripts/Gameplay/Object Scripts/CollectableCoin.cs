@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
-using Gameplay.Balls;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Animations;
@@ -13,7 +12,7 @@ namespace Gameplay.Object_Scripts
         [SerializeField] private TextMeshPro text;
         [SerializeField] private PositionConstraint constraint;
         [SerializeField] private Collider col;
-        private NetworkBall _owner;
+        private Ball _owner;
         
         private async UniTask CoinTimer()
         {
