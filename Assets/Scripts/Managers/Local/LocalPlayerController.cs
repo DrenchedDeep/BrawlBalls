@@ -120,7 +120,6 @@ namespace Managers.Local
 
         private void SetAbilities(Weapon w, AbilityStats ballPlayerGetAbility)
         {
-            cam.LookAt =  w.transform;
             if(w.GetAbility) attackAbility.SetAbility(w.GetAbility, _currentBall);
             specialAbility.SetAbility(ballPlayerGetAbility, _currentBall);
         }

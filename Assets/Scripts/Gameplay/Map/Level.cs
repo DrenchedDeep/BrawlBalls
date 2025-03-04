@@ -54,6 +54,11 @@ namespace Gameplay.Map
           
             SpawnPoints.Shuffle();
             
+            Debug.Log("Spawn point shuffle: ");
+            foreach (var point in SpawnPoints)
+                Debug.Log("SpawnPoint: " + point, point);
+            
+            
             NetworkGameManager.Instance.AddTimedEvent(timeToSpawnCoin, SpawnCoin);
         }
         
@@ -93,7 +98,7 @@ namespace Gameplay.Map
                 if (ball.transform.position.y < bottomY)
                 {
                     Debug.Log("Player died from falling out of map, atteker is 0?");
-                    ball.TakeDamage_ClientRpc(100000, Vector3.zero, 0);
+                    ball.Die_ServerRpc(0);
                 }
             }
         }

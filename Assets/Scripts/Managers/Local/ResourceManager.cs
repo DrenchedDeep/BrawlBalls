@@ -75,6 +75,7 @@ namespace Managers.Local
             Ball createdBall = Instantiate(Balls[ball], cachedTransform);
             Weapon createdWeapon = Instantiate(Weapons[weapon], cachedTransform);
 
+            createdBallPlayer.enabled = false;
             createdBall.enabled = false;
             createdWeapon.enabled = false;
             
