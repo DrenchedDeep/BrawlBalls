@@ -17,6 +17,9 @@ namespace Gameplay.Object_Scripts
         protected override void OnHit(BallPlayer hit)
         {
             //Again verify with upgrades and whatnot...
+            
+            hit.TakeDamage_ServerRpc(new DamageProperties(hit.GetBall.Speed*3, hit.GetBall.Velocity * -5f + Vector3.up*20, NetworkManager.Singleton.LocalClientId));
+            
             //hit.TakeDamage(50, 15, owner.player);
          //   hit.TakeDamage_ClientRpc(hit.GetBall.Speed*3, hit.GetBall.Velocity * -5f + Vector3.up*20, NetworkManager.Singleton.LocalClientId);
         }

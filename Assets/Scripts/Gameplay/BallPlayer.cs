@@ -21,6 +21,13 @@ namespace Gameplay
             serializer.SerializeValue(ref Direction);
             serializer.SerializeValue(ref Attacker);
         }
+
+        public DamageProperties(float damage, Vector3 direction, ulong attacker)
+        {
+            Damage = damage;
+            Direction = direction;
+            Attacker = attacker;
+        }
     }
     
     public class BallPlayer : NetworkBehaviour, IDamageAble
