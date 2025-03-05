@@ -113,7 +113,7 @@ namespace Gameplay
                 if (n && n.TryGetComponent(out BallPlayer b))
                 {
                     Debug.LogWarning("LANDED ON EM: " + b.name + ", " + name);
-                    b.TakeDamage_ClientRpc(1000000, Vector3.zero, ulong.MaxValue);
+               //     b.TakeDamage_ClientRpc(1000000, Vector3.zero, ulong.MaxValue);
                 }
                 else
                 {

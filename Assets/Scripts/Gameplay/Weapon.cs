@@ -103,7 +103,12 @@ namespace Gameplay
                     float dmg = _curDamage;
                     if (stats.ForceBasedDamage) dmg *= _owner.Mass * _owner.GetBall.Speed;
                     print("Doing damage: " + dmg);
-                    b.TakeDamage_ClientRpc(Mathf.Max(0,dmg), forward * (dmg * stats.PushMul), OwnerClientId);
+                    
+                    DamageProperties damageProperties;
+                    damageProperties.Damage = Mathf.Max(0, dmg);
+                    damageProperties.Direction = forward * (dmg * stats.PushMul);
+                    damageProperties.Attacker = OwnerClientId;
+                    b.TakeDamage_ServerRpc(damageProperties);
                 }
             }
         }

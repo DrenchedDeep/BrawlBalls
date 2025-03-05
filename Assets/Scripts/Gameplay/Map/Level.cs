@@ -110,11 +110,10 @@ namespace Gameplay.Map
                     return;
                 }
                 
-                Debug.Log(ball.transform.position.y);
                 if (ball.transform.position.y < bottomY)
                 {
                     Debug.Log("Player died from falling out of map, atteker is 0?");
-                    ball.Die_ServerRpc(0);
+                    ball.Die_Server(0);
                 }
             }
         }

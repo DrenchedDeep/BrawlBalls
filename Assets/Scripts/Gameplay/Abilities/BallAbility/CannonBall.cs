@@ -15,7 +15,7 @@ namespace Gameplay.Abilities.BallAbility
         public override void OnDestroy()
         {
             base.OnDestroy();
-            if (!IsHost) return; // Only the host should be able to handle this logic.
+            if (!IsServer) return; // Only the server should be able to handle this logic.
         
             NetworkGameManager.Instance.PlayParticleGlobally_ServerRpc("Explosion", transform.position, transform.rotation);
         
@@ -26,7 +26,14 @@ namespace Gameplay.Abilities.BallAbility
                 Vector3 ePos = c.ClosestPoint(pos);
                 Vector3 dir = ePos - pos;
                 float damage = ParticleManager.EvalauteExplosiveDistance(dir.magnitude / MaxDist)*200;
-                c.attachedRigidbody.GetComponent<BallPlayer>().TakeDamage_ClientRpc(damage, damage * dir, OwnerClientId);
+                
+                DamageProperties damageProperties;
+                damageProperties.Damage = damage;
+                damageProperties.Direction = damage * dir;
+                damageProperties.Attacker = OwnerClientId;
+
+
+                c.attachedRigidbody.GetComponent<BallPlayer>().TakeDamage_ServerRpc(damageProperties);
             }
         }
     }
