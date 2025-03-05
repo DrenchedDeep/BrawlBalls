@@ -24,14 +24,11 @@ namespace Gameplay
 
 
         [ClientRpc]
-        private void Initialize_ClientRpc(string abilityId)
+        public void Initialize_ClientRpc(string abilityId)
         {
-            Initialize(abilityId);
-            if (IsOwner) LocalPlayerController.LocalBallPlayer.BindTo(this);
-        }
 
-        private void Initialize(string abilityId)
-        {
+
+            Debug.Log("We are now initialized", gameObject);
             GetAbility = ResourceManager.Abilities[abilityId];
             GetBall = GetComponentInChildren<Ball>();
             GetWeapon = GetComponentInChildren<Weapon>();
@@ -45,17 +42,14 @@ namespace Gameplay
             {
                 child.gameObject.layer = gameObject.layer;
             }
-        }
-        
-        //Runs on server
-        [ServerRpc]
-        public void Initialize_ServerRpc(string abilityID)
-        {
-             Initialize(abilityID);
-             Initialize_ClientRpc(abilityID);
-             _currentHealth.Value = GetBall.MaxHealth;
+            
+            if(IsHost) _currentHealth.Value = GetBall.MaxHealth;
 
+            
+            if (IsOwner) LocalPlayerController.LocalBallPlayer.BindTo(this);
         }
+
+        
 
  
 

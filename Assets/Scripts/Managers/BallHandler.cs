@@ -82,7 +82,7 @@ namespace Managers
                 ActiveBalls.Remove(player);
             };
             
-            player.Initialize_ServerRpc(ability);
+            player.Initialize_ClientRpc(ability);
         }
     }
 }
