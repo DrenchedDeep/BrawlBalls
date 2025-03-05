@@ -1,3 +1,4 @@
+using System;
 using Managers;
 using Managers.Network;
 using Unity.Netcode;
@@ -44,14 +45,19 @@ namespace Gameplay.Map
         private void Awake()
         {
             Instance = this;
-            
+        }
+
+        //isServer was returning false in Awake(), and it works here cuz we have to wait for OnNetworkSpawn to know if we the server or not?
+        public override void OnNetworkSpawn()
+        {
+            base.OnNetworkSpawn();
+                        
             if (!IsServer)
             {
                 enabled = false;
                 return;
             }
-
-          
+            
             SpawnPoints.Shuffle();
             
             Debug.Log("Spawn point shuffle: ");
@@ -61,7 +67,11 @@ namespace Gameplay.Map
             
             NetworkGameManager.Instance.AddTimedEvent(timeToSpawnCoin, SpawnCoin);
         }
-        
+
+        private void Start()
+        {
+        }
+
         private void SpawnCoin()
         {
             Debug.Log("Spawning Map Coin");
@@ -94,7 +104,13 @@ namespace Gameplay.Map
             //Check if any of the player have fallen off the map
             foreach (BallPlayer ball in BallHandler.ActiveBalls)
             {
-                if (!ball.IsAlive) return;
+                if (!ball.IsAlive)
+                {
+                    Debug.Log("ball isnt alive??");
+                    return;
+                }
+                
+                Debug.Log(ball.transform.position.y);
                 if (ball.transform.position.y < bottomY)
                 {
                     Debug.Log("Player died from falling out of map, atteker is 0?");
