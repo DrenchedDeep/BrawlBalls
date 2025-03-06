@@ -85,7 +85,7 @@ namespace Managers.Network
 
          public event Action OnHostDisconnected;
          public event Action OnAllPlayersJoined;
-         public event Action OnPlayerListUpdated;
+         public event Action<ulong, int> OnPlayerScoreUpdated;
 
          public event Action OnGameBegin;
          public event Action OnGameEnd;
@@ -138,9 +138,6 @@ namespace Managers.Network
              {
                  OnAllPlayersJoined?.Invoke();
              }
-             
-             OnPlayerListUpdated?.Invoke();
-             Debug.Log("player list updated");
          }
 
 
@@ -193,13 +190,20 @@ namespace Managers.Network
 
          public void IncreasePlayerScore(ulong clientID)
          {
-             Debug.Log("try update score");
              int index = GetPlayerBallInfoIndex(clientID);
 
              if (index != -1)
              {
                  Players[index].UpdateScore(1);
+                 OnPlayerScoreUpdated_ClientRpc(clientID);
              }
+         }
+
+         [ClientRpc(RequireOwnership = false)]
+         void OnPlayerScoreUpdated_ClientRpc(ulong clientID)
+         {
+             OnPlayerScoreUpdated?.Invoke(clientID, 1);
+
          }
         
          private void OnServerStopped(bool obj)

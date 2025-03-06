@@ -44,14 +44,14 @@ namespace Gameplay.UI
 
         private void OnEnable()
         {
-            NetworkGameManager.Instance.OnPlayerListUpdated += Initialize;
-        //    LocalPlayerController.OnScoreChanged += UpdateScore_ServerRpc;
+            NetworkGameManager.Instance.OnAllPlayersJoined += Initialize;
+            NetworkGameManager.Instance.OnPlayerScoreUpdated += UpdateScore;
         }
 
         private void OnDisable()
         {
-            NetworkGameManager.Instance.OnPlayerListUpdated -= Initialize;
-        //    LocalPlayerController.OnScoreChanged -= UpdateScore_ServerRpc;
+            NetworkGameManager.Instance.OnAllPlayersJoined -= Initialize;
+            NetworkGameManager.Instance.OnPlayerScoreUpdated -= UpdateScore;
         }
         
         private void Initialize()
@@ -76,18 +76,8 @@ namespace Gameplay.UI
             _holders[_playerCount++].ChangeTo(ballPlayerInfo.Username.ToString(), ballPlayerInfo.Score, ballPlayerInfo.ClientID, 0);
         }
         
-        //Update scores using a bubble up approach.
-        [ServerRpc(RequireOwnership = false)]
-        public void UpdateScore_ServerRpc(ulong playerID, int change)
+        private void UpdateScore(ulong playerID, int change)
         {
-            UpdateScore_ClientRpc(playerID, change);
-        }
-
-
-        [ClientRpc]
-        private void UpdateScore_ClientRpc(ulong playerID, int change)
-        {
-
             for (int index = 0; index < _holders.Length; index++)
             {
                 ScoreHolders current = _holders[index];
@@ -232,13 +222,11 @@ namespace Gameplay.UI
                 _root.gameObject.SetActive(true);
                 _playerName = playerName;
                 _nameText.text = playerName;
-                _scoreText.text = score.ToString(CultureInfo.CurrentCulture);
                 ModifyScoreHolder(value, _root.transform.GetSiblingIndex()+1);
                 
                 _root.color =  id == NetworkManager.Singleton.LocalClientId ? _myColor : _otherColor; 
                 
                 Id = id;
-                Score = score;
             }
 
             public void ChangeTo(ScoreHolders other)
