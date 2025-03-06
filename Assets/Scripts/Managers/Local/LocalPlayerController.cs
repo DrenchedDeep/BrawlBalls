@@ -32,7 +32,6 @@ namespace Managers.Local
         //We can't let this be static for local multiplayer.
         public static LocalPlayerController LocalBallPlayer { get; private set; }
         public bool IsActive => _currentBall;
-        public static event Action<ulong, int> OnScoreChanged;
 
         private void Awake()
         {
@@ -53,8 +52,6 @@ namespace Managers.Local
 
         public void IncreaseScore()
         {
-            Debug.LogWarning("Re-implement score...");
-            //OnScoreChanged?.Invoke(NetworkManager.Singleton.LocalClientId, _currentBall.Score);
         }
 
 

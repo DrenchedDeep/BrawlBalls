@@ -1,3 +1,4 @@
+using System.Globalization;
 using MainMenu.UI;
 using Managers.Local;
 using Managers.Network;
@@ -43,15 +44,77 @@ namespace Gameplay.UI
 
         private void OnEnable()
         {
-            NetworkGameManager.Instance.OnAllPlayersJoined += Initialize;
-            LocalPlayerController.OnScoreChanged += UpdateScore_ServerRpc;
+            NetworkGameManager.Instance.OnPlayerListUpdated += Initialize;
+        //    LocalPlayerController.OnScoreChanged += UpdateScore_ServerRpc;
         }
 
         private void OnDisable()
         {
-            NetworkGameManager.Instance.OnAllPlayersJoined -= Initialize;
-            LocalPlayerController.OnScoreChanged -= UpdateScore_ServerRpc;
+            NetworkGameManager.Instance.OnPlayerListUpdated -= Initialize;
+        //    LocalPlayerController.OnScoreChanged -= UpdateScore_ServerRpc;
         }
+        
+        private void Initialize()
+        {
+            transform.parent.gameObject.SetActive(true);
+            print("Initializing Scoreboard: " + PlayerBallInfo.UserName);
+
+            foreach (ScoreHolders scoreHolder in _holders)
+            {
+                scoreHolder.Disable();
+            }
+            
+            foreach (var ball in NetworkGameManager.Instance.Players)
+            {
+              //  InitializeServerRpc(ball.Username.ToString());
+                 AddPlayerToScoreboard(ball);
+            }
+        }
+
+        private void AddPlayerToScoreboard(BallPlayerInfo ballPlayerInfo)
+        {
+            _holders[_playerCount++].ChangeTo(ballPlayerInfo.Username.ToString(), ballPlayerInfo.Score, ballPlayerInfo.ClientID, 0);
+        }
+        
+        //Update scores using a bubble up approach.
+        [ServerRpc(RequireOwnership = false)]
+        public void UpdateScore_ServerRpc(ulong playerID, int change)
+        {
+            UpdateScore_ClientRpc(playerID, change);
+        }
+
+
+        [ClientRpc]
+        private void UpdateScore_ClientRpc(ulong playerID, int change)
+        {
+
+            for (int index = 0; index < _holders.Length; index++)
+            {
+                ScoreHolders current = _holders[index];
+                if (current.Id == playerID)
+                {
+                    print($"Updating score: {(current.Value + change)} for ID: {playerID}");
+
+                    current.ModifyScoreHolder(current.Value + change, index + 1);
+
+                    //Length back down
+                    while (--index >= 0)
+                    {
+                        ScoreHolders above = _holders[index];
+                        if (current.Value > above.Value)
+                        {
+                            //SWAP
+                            _holders[index + 1] = above;
+                            _holders[index] = current;
+                        }
+                    }
+
+                    return;
+                }
+            }
+        }
+        
+        /*/
 
         [ClientRpc]
         private void RemoveUserFromScoreboardClientRpc(ulong id)
@@ -121,19 +184,9 @@ namespace Gameplay.UI
                 }
             }
         }
+    
 
         
- 
-        private void Initialize()
-        {
-            transform.parent.gameObject.SetActive(true);
-            print("Initializing Scoreboard: " + PlayerBallInfo.UserName);
-
-            foreach (var ball in NetworkGameManager.Instance.Players)
-            {
-                InitializeServerRpc(ball.Username.ToString());
-            }
-        }
 
         //Anyone can call this.
         [ServerRpc(RequireOwnership = false)]
@@ -145,6 +198,7 @@ namespace Gameplay.UI
             //NetworkManager.Singleton.OnClientConnectedCallback += ctx => AddUserToScoreboardClientRpc(ctx, PlayerBallInfo.UserName);
             NetworkManager.Singleton.OnClientDisconnectCallback += RemoveUserFromScoreboardClientRpc;
         }
+        /*/
 
         #region ScoreHolderInfo
         private class ScoreHolders
@@ -153,6 +207,7 @@ namespace Gameplay.UI
             public int Value { get; private set; }
             public ulong InitialId { get; private set; }
             public ulong Id { get; private set; }
+            public float Score { get; private set; }
             private string _playerName;
         
             private readonly Image _root;
@@ -172,21 +227,23 @@ namespace Gameplay.UI
                 _playerName = null;
             }
 
-            public void ChangeTo(string playerName, ulong id, int value)
+            public void ChangeTo(string playerName, float score, ulong id, int value)
             {
                 _root.gameObject.SetActive(true);
                 _playerName = playerName;
                 _nameText.text = playerName;
+                _scoreText.text = score.ToString(CultureInfo.CurrentCulture);
                 ModifyScoreHolder(value, _root.transform.GetSiblingIndex()+1);
-
-                _root.color = id == InitialId ? _myColor : _otherColor; 
+                
+                _root.color =  id == NetworkManager.Singleton.LocalClientId ? _myColor : _otherColor; 
                 
                 Id = id;
+                Score = score;
             }
 
             public void ChangeTo(ScoreHolders other)
             {
-                ChangeTo(other._playerName, other.Id, other.Value);
+                ChangeTo(other._playerName, other.Score, other.Id, other.Value);
             }
 
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Gameplay;
@@ -8,25 +9,49 @@ using Managers.Local;
 using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 namespace Managers.Network
 {
+    
+    
     public struct BallPlayerInfo : INetworkSerializable, IEquatable<BallPlayerInfo>
     {
         public FixedString64Bytes  Username;
         public ulong ClientID;
+        public float Score;
         public int TeamID;
         
         //any other data that needs to be replicated...
         public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
         {
-            serializer.SerializeValue(ref Username);
-            serializer.SerializeValue(ref TeamID);
+            if (serializer.IsReader)
+            {
+                var reader = serializer.GetFastBufferReader();
+                reader.ReadValueSafe(out Username);
+                reader.ReadValueSafe(out ClientID);
+                reader.ReadValueSafe(out Score);
+                reader.ReadValueSafe(out TeamID);
+            }
+            else
+            {
+                var writer = serializer.GetFastBufferWriter();
+                writer.WriteValueSafe(Username);
+                writer.WriteValueSafe(ClientID);
+                writer.WriteValueSafe(Score);
+                writer.WriteValueSafe(TeamID);
+            }
         }
 
-        public BallPlayerInfo(FixedString64Bytes username, ulong clientID, int teamID)
+        public void UpdateScore(float amt)
+        {
+            Score += amt;
+        }
+
+        public BallPlayerInfo(FixedString64Bytes username, ulong clientID, float score, int teamID)
         {
             Username = username;
+            Score = score;
             TeamID = teamID;
             ClientID = clientID;
         }
@@ -60,7 +85,8 @@ namespace Managers.Network
 
          public event Action OnHostDisconnected;
          public event Action OnAllPlayersJoined;
-    
+         public event Action OnPlayerListUpdated;
+
          public event Action OnGameBegin;
          public event Action OnGameEnd;
     
@@ -78,20 +104,21 @@ namespace Managers.Network
          
 
         // public NetworkList<BallPlayerInfo> Players { get; private set; }; // = new NetworkVariable<List<BallPlayerInfo>>(new List<BallPlayerInfo>(), NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
-
+        
+        //the REPLICATED values every client should know about: username, score, teamid, etc...
         public NetworkList<BallPlayerInfo> Players { get; private set; } = new NetworkList<BallPlayerInfo>();
-         
-         
-         private void Awake()
-         {
+        
+
+        private void Awake() 
+        {
              //every client should make their own instance
              if (Instance != null && Instance != this)
              {
                  Destroy(gameObject);
                  return;
              }
-             Instance = this;
-         }
+             Instance = this; 
+        }
 
          public override void OnNetworkSpawn()
          {
@@ -100,8 +127,10 @@ namespace Managers.Network
              GameStarted.OnValueChanged += OnGameStarted_Multicast;
              CurrentTime.OnValueChanged += OnCurrentTime_Multicast;
              Players.OnListChanged += PlayersOnOnListChanged;
+             
              CheckGameStart_ServerRpc(PlayerBallInfo.UserName);
          }
+
 
          private void PlayersOnOnListChanged(NetworkListEvent<BallPlayerInfo> changeevent)
          {
@@ -109,6 +138,9 @@ namespace Managers.Network
              {
                  OnAllPlayersJoined?.Invoke();
              }
+             
+             OnPlayerListUpdated?.Invoke();
+             Debug.Log("player list updated");
          }
 
 
@@ -134,11 +166,13 @@ namespace Managers.Network
     
          void OnClientDisconnected(ulong clientId)
          {
+             Debug.Log("client disconnected");
              foreach (BallPlayerInfo player in Players)
              {
                  if (clientId == player.ClientID)
                  {
                      Players.Remove(player);
+                     Debug.Log("removing player");
                  }
              }
              _players.Remove(clientId);
@@ -152,9 +186,20 @@ namespace Managers.Network
 
              //server only list...
              _players.Add(@params.Receive.SenderClientId);
-             Players.Add(new BallPlayerInfo(playerName, @params.Receive.SenderClientId, 0));
+             Players.Add(new BallPlayerInfo(playerName, @params.Receive.SenderClientId,0, 0));
              
              CheckStartGame();
+         }
+
+         public void IncreasePlayerScore(ulong clientID)
+         {
+             Debug.Log("try update score");
+             int index = GetPlayerBallInfoIndex(clientID);
+
+             if (index != -1)
+             {
+                 Players[index].UpdateScore(1);
+             }
          }
         
          private void OnServerStopped(bool obj)
@@ -270,26 +315,71 @@ namespace Managers.Network
          {
              return Mathf.Approximately(CurrentTimePeriod.Value, matchTime);
          }
+
+
+         public int GetPlayerBallInfoIndex(ulong clientID)
+         {
+             for (int i = 0; i < Players.Count; i++)
+             {
+                 if (clientID == Players[i].ClientID)
+                 {
+                     return i;
+                 }
+             }
+
+             return -1;
+         }
+
+         public BallPlayerInfo GetLocalPlayerInfo()
+         {
+             foreach(var player in Players)
+             {
+                 if (player.ClientID == NetworkManager.LocalClientId)
+                 {
+                     return player;
+                 }
+             }
+
+             return new BallPlayerInfo();
+         }
+
+         public List<BallPlayerInfo> GetAllPlayersExcludingLocalPlayer()
+         {
+             ulong localClientID = NetworkManager.LocalClientId;
+             List<BallPlayerInfo> players = new List<BallPlayerInfo>();
+             
+             foreach(var player in Players)
+             {
+                 if (player.ClientID == localClientID)
+                 {
+                     continue;
+                 }
+                 
+                 players.Add(player);
+             }
+
+             return players;
+         }
     
     
-    //ideally particles shouldn't be spawned with RPC'S, they should be spawned with replicated variables... atleast in unreal, not sure in this.. so leaving it as is for now.
-    [ServerRpc(RequireOwnership = false)]
-    public void PlayParticleGlobally_ServerRpc(string particleName, Vector3 location, Quaternion rotation) => PlayParticleGlobally_ClientRpc(particleName, location,rotation);
+         //ideally particles shouldn't be spawned with RPC'S, they should be spawned with replicated variables... atleast in unreal, not sure in this.. so leaving it as is for now.
+         [ServerRpc(RequireOwnership = false)]
+         public void PlayParticleGlobally_ServerRpc(string particleName, Vector3 location, Quaternion rotation) => PlayParticleGlobally_ClientRpc(particleName, location,rotation);
     
                 
-    [ClientRpc]
-    private void PlayParticleGlobally_ClientRpc(string particleName, Vector3 location, Quaternion rotation) => ParticleManager.InvokeParticle(particleName, location, rotation);
+         [ClientRpc]
+         private void PlayParticleGlobally_ClientRpc(string particleName, Vector3 location, Quaternion rotation) => ParticleManager.InvokeParticle(particleName, location, rotation);
 
         
-    [ServerRpc(RequireOwnership = false)]
-    public void SpawnObjectGlobally_ServerRpc(string objectName, Vector3 location, Quaternion rotation, ServerRpcParams @params = default)
-    {
-        NetworkObject ngo = Instantiate(ResourceManager.SummonableObjects[objectName], location, rotation);
-        ngo.SpawnWithOwnership(@params.Receive.SenderClientId);
-    }
+         [ServerRpc(RequireOwnership = false)]
+         public void SpawnObjectGlobally_ServerRpc(string objectName, Vector3 location, Quaternion rotation, ServerRpcParams @params = default)
+         {
+             NetworkObject ngo = Instantiate(ResourceManager.SummonableObjects[objectName], location, rotation);
+             ngo.SpawnWithOwnership(@params.Receive.SenderClientId);
+         }
 
-    [ClientRpc]
-    public void SendMessage_ClientRpc(string s, float d, ClientRpcParams x = default) => _ = MessageManager.Instance.HandleScreenMessage(s, d);
+         [ClientRpc]
+         public void SendMessage_ClientRpc(string s, float d, ClientRpcParams x = default) => _ = MessageManager.Instance.HandleScreenMessage(s, d);
         
         /*/
         [SerializeField, Min(0)] private float matchTime = 300;
