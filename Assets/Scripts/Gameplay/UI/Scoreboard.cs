@@ -122,13 +122,17 @@ namespace Gameplay.UI
             }
         }
 
+        
  
         private void Initialize()
         {
             transform.parent.gameObject.SetActive(true);
             print("Initializing Scoreboard: " + PlayerBallInfo.UserName);
-            InitializeServerRpc(PlayerBallInfo.UserName);
-            
+
+            foreach (var ball in NetworkGameManager.Instance.Players)
+            {
+                InitializeServerRpc(ball.Username.ToString());
+            }
         }
 
         //Anyone can call this.
