@@ -162,25 +162,32 @@ namespace Utilities.Layout
             print($"There are {_numItems} items, occupying a size of: {content.rect.size}, based on the item size of ({_itemSize}) * {_numItems}");
         }
 
+        [ContextMenu("CreateInfiniteIllusion")]
         private void CreateInfiniteIllusion()
         {
             //We need to determine how many items SHOULD be visible, then we need to determine how many items we have.
             Vector2 viewportSize = viewport.rect.size;
             int numItems = content.childCount;
 
-            
-            int numItemsNeeded;
-            
-            
+
             if (content.TryGetComponent(out VerticalLayoutGroup vlg))
             {
-                numItemsNeeded = viewportSize.y - vlg.padding.vertical
+                //Calculate the number of items needs, (totalSpacing * totalItemSize) / (ViewportSize + Padding - Spacing) * 2
+                int numItemsNeeded = Mathf.FloorToInt(  1/ ((numItems * vlg.spacing + numItems * _itemSize.y) / ((viewportSize.y + vlg.padding.vertical - vlg.spacing) * 2)) );
+
+                for (int i = 0; i < numItemsNeeded; ++i)
+                {
+                    Instantiate(content.GetChild(i % numItems), content);
+                }
                 
-                size.y = _itemSize.y * _numItems + vlg.spacing * (_numItems - 1) + vlg.padding.vertical;
+                
+                Debug.Log($"I need {numItemsNeeded} -> {(numItems * vlg.spacing + numItems * _itemSize.y)} / {(viewportSize.y - vlg.padding.vertical - vlg.spacing) * 2}items for infinite scrolling");
+                
+                //size.y = _itemSize.y * _numItems + vlg.spacing * (_numItems - 1) + vlg.padding.vertical;
             }
             else if (content.TryGetComponent(out HorizontalLayoutGroup hlg))
             {
-                    size.x = _itemSize.x * _numItems + hlg.spacing * (_numItems - 1) + hlg.padding.horizontal;
+                   // size.x = _itemSize.x * _numItems + hlg.spacing * (_numItems - 1) + hlg.padding.horizontal;
             }
             
 
