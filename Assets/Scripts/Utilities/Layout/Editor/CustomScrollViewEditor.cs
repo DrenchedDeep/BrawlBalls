@@ -20,6 +20,7 @@ namespace Utilities.Layout.Editor
             scrollView.verticalScrollbarVisibility = ScrollRect.ScrollbarVisibility.Permanent;
             scrollView.horizontalScrollbarSpacing = 0;
             scrollView.verticalScrollbarSpacing = 0;
+            scrollView.elasticity = 0;
 
             // Draw ScrollRect properties that should be visible
             serializedObject.Update();

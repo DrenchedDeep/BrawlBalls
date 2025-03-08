@@ -1,8 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
+
 
 namespace Utilities.Layout
 {
@@ -26,10 +28,18 @@ namespace Utilities.Layout
         private bool _selected;
         private float _offset;
 
+        private int _numVisible;
+        private float _viewportSize;
+
+
         private Coroutine _snap;
+        
+        
         
         protected override void Start()
         {
+
+            
             base.Start();
 
             _itemSize = ((RectTransform)content.GetChild(0)).rect.size;
@@ -51,147 +61,97 @@ namespace Utilities.Layout
             }
             #endif
             
-            CreateInfiniteIllusion();
-            
-            
-            
-            
-            //HANDLING INFINITE ITEMS
-           //If we have enough, then duplicate THE FIRST ITEMS THAT SHOULD BE VISIBLE (They will be the restarting point)
-           //IF WE DO NOT HAVE ENOUGH, Clone until we have enough (Check after cloning a batch, not during the batch)
-           //DESTROY CLONES IF EDITOR ENDS
-           
-           
-           
-           
-            
-            
             //Get the number of child objects...
+            
+             HorizontalOrVerticalLayoutGroup horizontalOrVerticalLayoutGroup = content.GetComponent<HorizontalOrVerticalLayoutGroup>();
+            _spacing = horizontalOrVerticalLayoutGroup.spacing;
+            _offset = horizontalOrVerticalLayoutGroup.padding.vertical;
+            
+            FillScrollArea();
             _numItems = content.childCount;
-
-
-            Vector2 size = content.sizeDelta;
-            content.localPosition = new Vector3(0, 0);
-
-            if (content.TryGetComponent(out VerticalLayoutGroup vlg))
-            {
-                if (horizontal) size.x = _itemSize.x * _numItems + vlg.padding.horizontal;
-                if (vertical) size.y = _itemSize.y * _numItems + vlg.spacing * (_numItems - 1) + vlg.padding.vertical;
-            }
-            else if (content.TryGetComponent(out HorizontalLayoutGroup hlg))
-            {
-                if (horizontal) size.x = _itemSize.x * _numItems + hlg.spacing * (_numItems - 1) + hlg.padding.horizontal;
-                if (vertical) size.y = _itemSize.y * _numItems + hlg.padding.vertical;
-            }
-
-            else
-            {
-                Debug.LogError("Content not automatically sized as the object: " + content.name +
-                               " contains no layout group");
-            }
-            int visible;
-            content.sizeDelta = size;
-            if (vertical)
-            {
-                visible = Mathf.CeilToInt(viewRect.rect.height / (_itemSize.y + vlg.padding.top));
-                //We need to factor spacing, yet it's only the spacing of the object that's actually visible.
-                visible = Mathf.CeilToInt(viewRect.rect.height /
-                                          (_itemSize.y + vlg.spacing * (visible - 1) + vlg.padding.top)) +
-                          1; // and one?
-                    
-                size.y += viewRect.rect.height;
-            }
-            else
-            {
-                visible = Mathf.CeilToInt(viewRect.rect.width / (_itemSize.x + vlg.padding.left));
-                //We need to factor spacing, yet it's only the spacing of the object that's actually visible.
-                visible = Mathf.CeilToInt(viewRect.rect.width /
-                                          (_itemSize.x + vlg.spacing * (visible - 1) + vlg.padding.left)) +
-                          1; // and one?
-                size.x += viewRect.rect.width;
-
-            }
             
+            Debug.Log("Content Size: " + content.sizeDelta.x + ", " + content.sizeDelta.y);
+            CreateIllusion();
+            Debug.Log("Content Size: " + content.sizeDelta.x + ", " + content.sizeDelta.y);
             
-            if (isSnappy)
-            {
-                HorizontalOrVerticalLayoutGroup horizontalOrVerticalLayoutGroup = content.GetComponent<HorizontalOrVerticalLayoutGroup>();
-                _spacing = horizontalOrVerticalLayoutGroup.spacing;
-                _offset = horizontalOrVerticalLayoutGroup.padding.top;
-            }
-
-            //If the scroll bar is infinite... Then we should duplicate however many items are visible on the screen by default... Then we just loop back around...
-
-            //First determine how many objects are visible by default...
-            //Based on the viewport height... and the object size, spacing and padding...
-/*
-            #if UNITY_EDITOR
-            if (!content.GetChild(_numItems-1).name.Contains("(Clone)"))
-            {
-                print("No Clones detected, not adding more...");
-                for (int i = 0; i < visible; ++i)
-                {
-                    Instantiate(content.GetChild(i), content);
-                }
-                content.sizeDelta = size;
-            }
-            #else
-            for (int i = 0; i < visible; ++i)
-            {
-                Instantiate(content.GetChild(i), content);
-            }
-            content.sizeDelta = size;
-            #endif
-            */
-            
-
-            for (int i = 0; i < visible; ++i)
-            {
-                Instantiate(content.GetChild(i), content);
-            }
-            content.sizeDelta = size;
-            
-            
-            _numItems = content.childCount;
-
-
-            print($"Duplicating {visible} elements for infinite scrolling");
-            //BindScrollBar();
-                
-
-            print($"There are {_numItems} items, occupying a size of: {content.rect.size}, based on the item size of ({_itemSize}) * {_numItems}");
+            //Why the fuck?
+#if UNITY_EDITOR
+            WhyNotDeleting();
+#endif
         }
 
-        [ContextMenu("CreateInfiniteIllusion")]
-        private void CreateInfiniteIllusion()
+        //HANDLING INFINITE ITEMS
+        //If we have enough, then duplicate THE FIRST ITEMS THAT SHOULD BE VISIBLE (They will be the restarting point)
+        //IF WE DO NOT HAVE ENOUGH, Clone until we have enough (Check after cloning a batch, not during the batch)
+        //DESTROY CLONES IF EDITOR ENDS
+        private void FillScrollArea()
         {
             //We need to determine how many items SHOULD be visible, then we need to determine how many items we have.
             Vector2 viewportSize = viewport.rect.size;
             int numItems = content.childCount;
-
-
-            if (content.TryGetComponent(out VerticalLayoutGroup vlg))
+            
+            if (vertical)
             {
                 //Calculate the number of items needs, (totalSpacing * totalItemSize) / (ViewportSize + Padding - Spacing) * 2
-                int numItemsNeeded = Mathf.FloorToInt(  1/ ((numItems * vlg.spacing + numItems * _itemSize.y) / ((viewportSize.y + vlg.padding.vertical - vlg.spacing) * 2)) );
-
-                for (int i = 0; i < numItemsNeeded; ++i)
+                float desiredItemSize = _spacing + _itemSize.y; // Let's say is 1
+                float currentItemSize = numItems * desiredItemSize; //let's say this is 3
+                float scaledViewportSize = (viewportSize.y + _offset - _spacing); // let's say this is 10.
+                int numNeeded = Mathf.CeilToInt(Mathf.Max(0,(scaledViewportSize - currentItemSize + 1) / desiredItemSize)); // (10-3)/1 == 7
+                _numVisible = Mathf.CeilToInt(scaledViewportSize / desiredItemSize);
+                
+                
+                for (int i = 0; i < numNeeded; ++i)
                 {
                     Instantiate(content.GetChild(i % numItems), content);
                 }
                 
+                Debug.Log($"I need {numNeeded} -> (({viewportSize.y} + {_offset} - {_spacing}) - {currentItemSize}) / {desiredItemSize} items for infinite scrolling");
                 
-                Debug.Log($"I need {numItemsNeeded} -> {(numItems * vlg.spacing + numItems * _itemSize.y)} / {(viewportSize.y - vlg.padding.vertical - vlg.spacing) * 2}items for infinite scrolling");
-                
+                content.sizeDelta = new Vector2( content.sizeDelta.x , _itemSize.y * content.childCount + (content.childCount-1) * _spacing + _offset);
+                _viewportSize = scaledViewportSize;
+
                 //size.y = _itemSize.y * _numItems + vlg.spacing * (_numItems - 1) + vlg.padding.vertical;
             }
-            else if (content.TryGetComponent(out HorizontalLayoutGroup hlg))
+            else if (horizontal)
             {
                    // size.x = _itemSize.x * _numItems + hlg.spacing * (_numItems - 1) + hlg.padding.horizontal;
             }
-            
-
+            else
+            {
+                Debug.LogError("Content not automatically sized as the object: " + content.name +
+                               " contains no layout group");
+                
+            }
         }
+
+        private void CreateIllusion()
+        {
+            //Let's spawn the bottom half required at the top
+            int val = _numVisible;
+
+            Debug.Log("Creating Illusion with num objects: " + (val * 2));
+            
+            for (int i = 0; i < val; ++i)
+            {
+                Debug.Log($"Child: {i*2}, and {content.childCount - i*2 - 1}");
+                
+                var a = Instantiate(content.GetChild(content.childCount - i * 2 - 1), content);
+                var b = Instantiate(content.GetChild(i * 2), content);
+                
+                //b.GetComponent<Image>().color = Color.blue;
+                //a.GetComponent<Image>().color = Color.magenta;
+                
+                a.SetAsFirstSibling();
+
+                a.name = "Clone from end";
+                b.name = "Clone from beginning";
+            }
+
+            content.localPosition = Vector2.zero;
+            
+        }
+        
+        
 
         private IEnumerator Snap()
         {
@@ -269,59 +229,46 @@ namespace Utilities.Layout
             base.OnEndDrag(eventData);
             _selected = false;
         }
+        
+        public override void OnDrag(PointerEventData eventData)
+        {
+
+            if (eventData.button != PointerEventData.InputButton.Left)
+                Debug.Log("Failed 1");
+
+            if (!IsActive())
+                Debug.Log("Failed 2");
+
+            Vector2 localCursor;
+            if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(viewRect, eventData.position, eventData.pressEventCamera, out localCursor))
+                Debug.Log("Failed 3");
+
+            base.OnDrag(eventData);
+        }
 
         protected override void LateUpdate()
         {
             base.LateUpdate();
-            if (!isSnappy || _isSnapping || _selected || velocity.sqrMagnitude > 100) return;
-            _snap=StartCoroutine(Snap());
 
-        }
+            if (isSnappy && !_isSnapping && !_selected  && velocity.sqrMagnitude <= 100) 
+                _snap=StartCoroutine(Snap());
 
-        private void BindScrollBar()
-        {
-            Vector3 originPos = content.position;
-            if (vertical)
-            {
-                float h = viewport.rect.height;
-                Vector3 topside = new Vector3(0, content.rect.height -h, 0);
-                onValueChanged.AddListener(val =>
-                {
-                    //print((val.y * content.sizeDelta.y)+" <= " + (viewport.rect.height));
-                    if (val.y < 0)
-                    {
-                        content.position = originPos;// + offsetY;
-                    }
-                    else if (val.y > 1)
-                    {
-                        content.localPosition = topside;
-                    }
-                
-                    velocity = new Vector2(0,velocity.y);
-                });
+            if (content.localPosition.y < -_viewportSize)
+            { 
+                Vector3 bottom = new Vector3(content.localPosition.x,  content.sizeDelta.y -_viewportSize);
+                content.localPosition = bottom;// + offsetY;
+                OnEndDrag(new PointerEventData(EventSystem.current));
             }
-            else
+            else if (content.localPosition.y > content.sizeDelta.y)
             {
-                float w = viewport.rect.width;
-                Vector3 topside = new Vector3(content.rect.width -w, 0, 0);
-                onValueChanged.AddListener(val =>
-                {
-                    //print((val.y * content.sizeDelta.y)+" <= " + (viewport.rect.height));
-                    if (val.x < 0)
-                    {
-                        content.position = originPos;// + offsetY;
-                    }
-                    else if (val.x > 1)
-                    {
-                        content.localPosition = topside;
-                    }
-                
-                    velocity = new Vector2(velocity.x,0);
-                });
+                content.localPosition =  Vector3.zero;
+                OnEndDrag(new PointerEventData(EventSystem.current));
             }
         }
 
 
+
+        #region Control
         public void AddForce(Vector2 amount)
         {
             print("adding force: " + amount);
@@ -336,6 +283,7 @@ namespace Utilities.Layout
             }
         }
 
+        
         public void AddRandomForce(float amount)
         {
             AddForce(new Vector2(Random.Range(amount / 10, amount) * (Random.Range(0, 2) == 1 ? -1 : 1),Random.Range(amount / 10, amount) * (Random.Range(0, 2) == 1 ? -1 : 1)));
@@ -347,5 +295,23 @@ namespace Utilities.Layout
             Debug.Log("Registered a click");
             AddForce(new Vector2(horizontal?eventData.position.x - content.rect.width / 2 * 1f:0,vertical?eventData.position.y - content.rect.height / 2 * 1f:0));
         }
+        #endregion
+        
+        #if UNITY_EDITOR
+
+        private void WhyNotDeleting()
+        {
+            if (Application.isPlaying) return;
+    
+            for (int i = content.childCount - 1; i >= 0; i--)
+            {
+
+                GameObject go = content.GetChild(i).gameObject;
+                Debug.Log("On destroy: " + go.name);
+
+                if(go.name.ToLower().Contains("clone")) DestroyImmediate(go);
+            }
+        }
+        #endif
     }
 }
