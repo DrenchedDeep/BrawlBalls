@@ -8,6 +8,6 @@ namespace Utilities.Layout
         public void OnHover();
         public void OnUnHover();
 
-        public void SetCloneReciever(IInfiniteScrollItem clone);
+        public void ListenTo(IInfiniteScrollItem clone);
     }
 }

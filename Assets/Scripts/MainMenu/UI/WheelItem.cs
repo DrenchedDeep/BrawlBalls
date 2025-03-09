@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -18,49 +19,107 @@ namespace MainMenu.UI
 
 
         private bool _isSelected;
-        private IInfiniteScrollItem _myClone;
+        private bool _isClone;
+        private readonly List<WheelItem> _targets = new();
     
         public void OnSelected()
         {
-            _myClone?.OnSelected();
+            if (_isClone)
+            {
+                _targets[0].OnSelected();
+                return;
+            }
+            
+            foreach (var item in _targets)
+            {
+                item.OnSelectedImplementation();
+            }
+
+            OnSelectedImplementation();
+        }
+        
+        private void OnSelectedImplementation()
+        {
+            scaler.OnPointerEnter(new PointerEventData(EventSystem.current));
             outline.color = SelectedColor;
             _isSelected = true;
         }
 
         public void OnDeselected()
         {
-            _myClone?.OnDeselected();
+            if (_isClone)
+            {
+                _targets[0].OnDeselected();
+                return;
+            }
+            
+            foreach (var item in _targets)
+            {
+                item.OnDeselectedImplementation();
+            }
+
+            OnDeselectedImplementation();
+        }
+        
+        private void OnDeselectedImplementation()
+        {
+            scaler.OnPointerExit(new PointerEventData(EventSystem.current));
             outline.color = DefaultColor;
             _isSelected = false;
         }
 
         public void OnHover()
         {
-            _myClone?.OnHover();
+            if (_isClone)
+            {
+                _targets[0].OnHover();
+                return;
+            }
+            
+            foreach (var item in _targets)
+            {
+                item.OnHoverImplementation();
+            }
+
+            OnHoverImplementation();
+        }
+
+        private void OnHoverImplementation()
+        {
             scaler.OnPointerEnter(new PointerEventData(EventSystem.current));
             if (_isSelected) return;
             outline.color = HighlightColor;
         }
-
         public void OnUnHover()
-        {    
-            _myClone?.OnUnHover();
+        {
+            if (_isClone)
+            {
+                _targets[0].OnUnHover();
+                return;
+            }
+            
+            foreach (var item in _targets)
+            {
+                item.OnUnHoverImplementation();
+            }
+
+            OnUnHoverImplementation();
+        }
+
+        private void OnUnHoverImplementation()
+        {
             scaler.OnPointerExit(new PointerEventData(EventSystem.current));
             if (_isSelected) return;
             outline.color = DefaultColor;
         }
 
-        public void SetCloneReciever(IInfiniteScrollItem clone)
-        {
-            if (_myClone != null)
-            {
-                _myClone.SetCloneReciever(clone);
-            }
 
-            else
-            {
-                _myClone = clone;
-            }
+        public void ListenTo(IInfiniteScrollItem clone)
+        {
+            _isClone = true;
+            WheelItem item = ((WheelItem)clone);
+            item._targets.Add(this);
+            _targets.Add(item);
         }
     }
 }

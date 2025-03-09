@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using MainMenu.UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -23,6 +24,7 @@ namespace Utilities.Layout
 
         private Vector2 _itemSize;
         private int _numItems;
+        private int _numItemsOriginally;
         private float _spacing;
         private bool _isSnapping;
         private bool _selected;
@@ -82,7 +84,8 @@ namespace Utilities.Layout
             _spacing = horizontalOrVerticalLayoutGroup.spacing;
             _offset = -viewport.anchoredPosition.y;
             
-            _numItems = content.childCount;
+            _numItemsOriginally = content.childCount;
+            _numItems = _numItemsOriginally;
             
             _items = new IInfiniteScrollItem[_numItems];
             for(int i= 0; i< _numItems; ++i)
@@ -110,9 +113,7 @@ namespace Utilities.Layout
             }
             
             
-            Debug.Log("Content Size: " + content.sizeDelta.x + ", " + content.sizeDelta.y);
             CreateIllusion();
-            Debug.Log("Content Size: " + content.sizeDelta.x + ", " + content.sizeDelta.y);
 
             
 
@@ -219,7 +220,9 @@ namespace Utilities.Layout
                 
                 for (int i = 0; i < numNeeded; ++i)
                 {
-                    Instantiate(content.GetChild(i % numItems), content);
+                    
+                    IInfiniteScrollItem clone = Instantiate((MonoBehaviour)_items[i % numItems], content).GetComponent<IInfiniteScrollItem>();
+                    clone?.ListenTo(_items[i % numItems]);
                 }
                 
                 Debug.Log($"I need {numNeeded} -> (({viewportSize.y} + {_offset} - {_spacing}) - {currentItemSize}) / {desiredItemSize} items for infinite scrolling");
@@ -254,8 +257,16 @@ namespace Utilities.Layout
             {
                 Debug.Log($"Child: {i*2}, and {content.childCount - i*2 - 1}");
                 
+          
+                
                 var a = Instantiate(content.GetChild(content.childCount - i * 2 - 1), content);
                 var b = Instantiate(content.GetChild(i * 2), content);
+
+                int t = i % _numItemsOriginally; // 0, 1, 0, 1 | 0, 1, 2, 0
+                int k = _numItemsOriginally - t - 1; // 1, 0, 1, 0 | 2, 1, 0, 2
+                
+                a.GetComponent<IInfiniteScrollItem>()?.ListenTo(_items[k]);
+                b.GetComponent<IInfiniteScrollItem>()?.ListenTo(_items[t]);
                 
                 //b.GetComponent<Image>().color = Color.blue;
                 //a.GetComponent<Image>().color = Color.magenta;
@@ -273,16 +284,25 @@ namespace Utilities.Layout
         private IEnumerator Snap()
         {
             _selected = true;
-
             float curTime = 0;
             _isSnapping = true;
-            
-            
+
             Vector3 localPosition = content.anchoredPosition;
             Vector3 newPos = localPosition;
             float size = _itemSize.y + _spacing;
-            float target = localPosition.y + size-(localPosition.y % size) - _offset; // This only ever goes down...
-            //Todo... add going up aswell...
+
+            // Determine the closest snap target
+            float remainder = localPosition.y % size;
+            float target;
+
+            if (remainder < size / 2) // Closer to the previous item (snap down)
+            {
+                target = localPosition.y - remainder - _offset;
+            }
+            else // Closer to the next item (snap up)
+            {
+                target = localPosition.y + (size - remainder) - _offset;
+            }
 
             if (useAnimationCurve)
             {
@@ -298,20 +318,20 @@ namespace Utilities.Layout
             {
                 while (curTime < smoothTime)
                 {
-                
                     curTime += Time.deltaTime;
                     newPos.y = Mathf.Lerp(content.anchoredPosition.y, target, curTime / smoothTime);
                     content.anchoredPosition = newPos;
                     yield return null;
                 }
             }
-           
-    
-            //This is actually necessary because changing just the position moves the velocity :(
-            //yield return new WaitUntil(() => velocity.y < 10);
+
+            // Ensure it locks exactly to the target to avoid precision errors
+            newPos.y = target;
+            content.anchoredPosition = newPos;
+
             velocity = Vector2.zero;
             _isSnapping = false;
-            
+
             if (_currentSelectedNum != _currentItemNum)
             {
                 _items[_currentSelectedNum].OnDeselected();
@@ -319,6 +339,9 @@ namespace Utilities.Layout
                 _currentSelectedNum = _currentItemNum;
             }
         }
+
+
+
 
         public override void OnBeginDrag(PointerEventData eventData)
         {
@@ -381,7 +404,6 @@ namespace Utilities.Layout
             {
 
                 GameObject go = content.GetChild(i).gameObject;
-                Debug.Log("On destroy: " + go.name);
 
                 if(go.name.ToLower().Contains("clone")) DestroyImmediate(go);
             }
