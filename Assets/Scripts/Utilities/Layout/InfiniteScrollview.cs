@@ -158,8 +158,6 @@ namespace Utilities.Layout
             int itemNum = GetCurrentNum();
             
             
-            Debug.Log($"itemNum: {itemNum} => {(content.localPosition.y)}+{(_offset + _viewportHalfSize)} / {(_itemSize.y + _spacing)}");
-
             //return;
             if (itemNum != _currentItemNum)
             {

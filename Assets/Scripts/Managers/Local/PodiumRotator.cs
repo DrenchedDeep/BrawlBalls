@@ -1,24 +1,38 @@
 using Cysharp.Threading.Tasks;
-using Managers.Local;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 
-namespace MainMenu
+namespace Managers.Local
 {
     public class PodiumRotator : MonoBehaviour
     {
         [SerializeField] private Camera cam;
         [SerializeField] private float duration = 1;
         [SerializeField] private Transform [] podiums;
+        
+        [SerializeField] private UnityEvent onForwardSelected;
+        
+        [Header("ClusterRotation")]
         [SerializeField] private Transform camRotator;
+        [SerializeField] private Transform camRotatorStart;
+        [SerializeField] private Transform camRotatorEnd;
+        [SerializeField] private Transform podiumRoot;
+        [SerializeField] private Transform podiumRootStart;
+        [SerializeField] private Transform podiumRootEnd;
+        [SerializeField] private float transitionTime = 0.3f;
+
+        
+        
+        
         private bool _isRotating;
         private int _curForward = 1;
         private bool _isLowering;
         private bool _inCustomization;
+        private bool _isSide;
+        
 
-        [SerializeField] private UnityEvent onForwardSelected;
+    
         
         
         
@@ -36,6 +50,7 @@ namespace MainMenu
                 {
                     Debug.Log("Hit forward one");
                     onForwardSelected?.Invoke();
+                    
                     return;
                 }
 
@@ -58,7 +73,7 @@ namespace MainMenu
                 else if (start ==  podiums.Length) start = 0;
                 Vector3 temp = podiums[start].position;
                 Quaternion prvRotTemp = podiums[start].rotation;
-                _ = SlerpIt(prv, prvRot, podiums[start]);
+                _ = SlerpIt(prv, prvRot, podiums[start], duration);
                 prv = temp;
                 prvRot = prvRotTemp;
             } while (_curForward != start);
@@ -67,15 +82,15 @@ namespace MainMenu
             else if (_curForward ==  podiums.Length) _curForward = 0;
         }
 
-        private async UniTask SlerpIt(Vector3 next, Quaternion rotation, Transform id)
+        private async UniTask SlerpIt(Vector3 next, Quaternion rotation, Transform id, float time)
         {
             float curTime = 0;
             Vector3 origin = id.position;
             Quaternion rot = id.rotation;
-            while (curTime < duration)
+            while (curTime < time)
             {
                 curTime += Time.deltaTime;
-                float t = curTime / duration;
+                float t = curTime / time;
                 id.SetPositionAndRotation(Vector3.Slerp(origin, next, t), Quaternion.Slerp(rot, rotation, t));
                 await UniTask.Yield();
             }
@@ -83,5 +98,20 @@ namespace MainMenu
             _isRotating = false;
         }
 
+        public void ToggleViewState()
+        {
+            _isSide = !_isSide;
+
+            if (_isSide)
+            {
+                _ = SlerpIt(podiumRootEnd.position, podiumRootEnd.rotation, podiumRoot,transitionTime);
+                _ = SlerpIt(camRotatorEnd.position, camRotatorEnd.rotation, camRotator,transitionTime);
+            }
+            else
+            {
+                _ = SlerpIt(podiumRootStart.position, podiumRootStart.rotation, podiumRoot,transitionTime);
+                _ = SlerpIt(camRotatorStart.position, camRotatorStart.rotation, camRotator,transitionTime);
+            }
+        }
     }
 }
