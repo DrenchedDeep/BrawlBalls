@@ -35,6 +35,7 @@ namespace Managers.Local
         public static readonly int WaterLayer = 1 << LayerMask.NameToLayer("Water");
         public static readonly int InteractableLayer = 1 << LayerMask.NameToLayer("Interactable");
         public static readonly int BouncyLayer = 1 << LayerMask.NameToLayer("Bouncy");
+        public static readonly int PodiumLayer = 1 << LayerMask.NameToLayer("Podium");
         
         public static readonly int ImmortalLayer = 1 << ImmortalLayerLiteral;
         public static readonly int EnemyLayer= 1 << EnemyLayerLiteral;
