@@ -28,7 +28,6 @@ namespace Utilities.Hover
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            Debug.Log("OnPointerEnter");
             if (_hoverCoroutine != null)
             {
                 _currentTransitionTime = transitionDuration - _currentTransitionTime;

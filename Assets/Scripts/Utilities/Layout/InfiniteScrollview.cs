@@ -30,6 +30,7 @@ namespace Utilities.Layout
 
         private int _numVisible;
         private float _viewportHalfSize;
+        private float _itemScreenSpacing;
         private float _viewportOffset;
         
         private int _currentItemNum = Int32.MaxValue;
@@ -115,8 +116,6 @@ namespace Utilities.Layout
 
             
 
-            
-            
             _currentItemNum = GetCurrentNum();
             _currentSelectedNum = _currentItemNum;
             _items[_currentSelectedNum].OnSelected();
@@ -141,24 +140,26 @@ namespace Utilities.Layout
             
             base.LateUpdate();
 
-            if (isSnappy && !_isSnapping && !_selected  && velocity.sqrMagnitude <= 25) 
-                _snap=StartCoroutine(Snap());
+            if (isSnappy && !_isSnapping && !_selected  && velocity.sqrMagnitude <= 15) _snap=StartCoroutine(Snap());
             
-            Debug.Log(content.localPosition.y + " < " + -_viewportOffset + " or > " + (viewport.sizeDelta.y + _viewportOffset - _offset) + " zOffset it " + _offset);
-            if (content.localPosition.y < -_viewportOffset) //TOP: -95 * num items..
+            if (velocity.y < 0 && content.localPosition.y < -_viewportOffset + _itemScreenSpacing) //TOP: -95 * num items..
             { 
-                content.localPosition =  new Vector3(content.localPosition.x,  _viewportOffset);
+                content.localPosition =  new Vector3(content.localPosition.x,  _viewportOffset + _itemScreenSpacing);
                 OnEndDrag(new PointerEventData(EventSystem.current));
             }
-            else if (content.localPosition.y > _viewportOffset - _offset)
+            else if (velocity.y > 0 && content.localPosition.y > _viewportOffset - _offset + _itemScreenSpacing)
             {
                 // Overscrolled at the bottom: clamp to bottom limit.
-                content.localPosition = new Vector3(content.localPosition.x, -_viewportOffset + _offset);
+                content.localPosition = new Vector3(content.localPosition.x, -_viewportOffset + _offset + _itemScreenSpacing);
                 OnEndDrag(new PointerEventData(EventSystem.current));
             }
 
+            int itemNum = GetCurrentNum();
+            
+            
+            Debug.Log($"itemNum: {itemNum} => {(content.localPosition.y)}+{(_offset + _viewportHalfSize)} / {(_itemSize.y + _spacing)}");
 
-            int itemNum = 0;// GetCurrentNum();
+            //return;
             if (itemNum != _currentItemNum)
             {
                 _items[itemNum].OnHover();
@@ -166,10 +167,35 @@ namespace Utilities.Layout
                 _currentItemNum = itemNum;
             }
         }
+        
+        
+        // 10 (0 --> -580), 
 
 
-        private int GetCurrentNum() => (int)((content.localPosition.y + _offset + _viewportHalfSize) / (_itemSize.y + _spacing));// % _numItems; // This isn't factoring spacing...
-        //private int GetCurrentNum() => (int)((content.localPosition.y / content.sizeDelta.y));// - _numVisible;// % _numItems; // This isn't factoring spacing...
+        private int GetCurrentNum()
+        {
+            // Each item occupies its height plus spacing.
+            float itemSlot = _itemSize.y + _spacing;
+            // Determine the center of the viewport in the content’s coordinate space.
+            float centerInContent = content.anchoredPosition.y + _viewportHalfSize;
+            // Because CreateIllusion() prepends _numVisible cloned items at the top,
+            // subtract their total height to get a coordinate relative to the original items.
+            float adjustedCenter = centerInContent - _numVisible * itemSlot;
+            // Assuming the original first item’s center is at (_itemSize.y / 2),
+            // the index of the centered item is:
+            int index = Mathf.RoundToInt((adjustedCenter - (_itemSize.y * 0.5f)) / itemSlot) - _numItems/2;
+            // Wrap the index into the range [0, originalCount)
+            index = (index % _numItems + _numItems) % _numItems;
+            return index;
+        }
+
+
+
+
+
+
+
+
 
         //HANDLING INFINITE ITEMS
         //If we have enough, then duplicate THE FIRST ITEMS THAT SHOULD BE VISIBLE (They will be the restarting point)
@@ -200,6 +226,7 @@ namespace Utilities.Layout
                 
                 content.sizeDelta = new Vector2( content.sizeDelta.x , _itemSize.y * content.childCount + (content.childCount-1) * _spacing + _offset);
                 _viewportHalfSize = scaledViewportSize / 2;
+                _itemScreenSpacing = (Mathf.CeilToInt(_numVisible / 2f) + 1) * (_itemSize.y + _spacing);
 
 
             }
