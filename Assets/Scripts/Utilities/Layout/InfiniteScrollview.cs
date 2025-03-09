@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 
 namespace Utilities.Layout
 {
-    public class InfiniteScrollView : ScrollRect, IPointerClickHandler
+    public class InfiniteScrollView : ScrollRect//, IPointerClickHandler
     {
         [SerializeField, Tooltip("Insert the background image... This is used to get the width and height")]
         private RectTransform itemTemplate;
@@ -29,22 +29,36 @@ namespace Utilities.Layout
         private float _offset;
 
         private int _numVisible;
-        private float _viewportSize;
-
+        private float _viewportHalfSize;
+        private float _viewportOffset;
+        
+        private int _currentItemNum = Int32.MaxValue;
+        private int _currentSelectedNum = Int32.MaxValue;
+        private IInfiniteScrollItem[] _items;
+        
+        
+        
 
         private Coroutine _snap;
         
         
         
+        
         protected override void Start()
         {
-
+#if UNITY_EDITOR
+            if (!Application.isPlaying) return;
+#endif
             
             base.Start();
 
             _itemSize = ((RectTransform)content.GetChild(0)).rect.size;
 
-            #if UNITY_EDITOR
+            
+            
+            
+
+#if UNITY_EDITOR
             if (content.childCount == 0)
             {
                 Debug.LogWarning("Empty InfiniteScrollView is disabling itself", gameObject);
@@ -65,20 +79,97 @@ namespace Utilities.Layout
             
              HorizontalOrVerticalLayoutGroup horizontalOrVerticalLayoutGroup = content.GetComponent<HorizontalOrVerticalLayoutGroup>();
             _spacing = horizontalOrVerticalLayoutGroup.spacing;
-            _offset = horizontalOrVerticalLayoutGroup.padding.vertical;
+            _offset = -viewport.anchoredPosition.y;
+            
+            _numItems = content.childCount;
+            
+            _items = new IInfiniteScrollItem[_numItems];
+            for(int i= 0; i< _numItems; ++i)
+            {
+                _items[i] = content.GetChild(i).GetComponent<IInfiniteScrollItem>();
+                if (_items[i] == null)
+                {
+                    Debug.LogWarning("An item is not marked as infinite scroll and will not work properly: ", content.GetChild(0));
+                }
+            }
+            
             
             FillScrollArea();
+
             _numItems = content.childCount;
+            
+            _items = new IInfiniteScrollItem[_numItems];
+            for(int i= 0; i< _numItems; ++i)
+            {
+                _items[i] = content.GetChild(i).GetComponent<IInfiniteScrollItem>();
+                if (_items[i] == null)
+                {
+                    Debug.LogWarning("An item is not marked as infinite scroll and will not work properly: ", content.GetChild(0));
+                }
+            }
+            
             
             Debug.Log("Content Size: " + content.sizeDelta.x + ", " + content.sizeDelta.y);
             CreateIllusion();
             Debug.Log("Content Size: " + content.sizeDelta.x + ", " + content.sizeDelta.y);
+
             
+
+            
+            
+            _currentItemNum = GetCurrentNum();
+            _currentSelectedNum = _currentItemNum;
+            _items[_currentSelectedNum].OnSelected();
             //Why the fuck?
+            
+            
+            //size.y = _itemSize.y * _numItems + vlg.spacing * (_numItems - 1) + vlg.padding.vertical;
+            _viewportOffset = _numItems * ((_itemSize.y + _spacing)/2); // 10 * 
+                
+            Debug.Log($"Viewport offset: {_viewportOffset} = {_numItems} * ({_itemSize.y} + {_spacing})");
+            
 #if UNITY_EDITOR
             WhyNotDeleting();
 #endif
         }
+        
+        protected override void LateUpdate()
+        {
+#if UNITY_EDITOR
+            if (!Application.isPlaying) return;
+#endif
+            
+            base.LateUpdate();
+
+            if (isSnappy && !_isSnapping && !_selected  && velocity.sqrMagnitude <= 25) 
+                _snap=StartCoroutine(Snap());
+            
+            Debug.Log(content.localPosition.y + " < " + -_viewportOffset + " or > " + (viewport.sizeDelta.y + _viewportOffset - _offset) + " zOffset it " + _offset);
+            if (content.localPosition.y < -_viewportOffset) //TOP: -95 * num items..
+            { 
+                content.localPosition =  new Vector3(content.localPosition.x,  _viewportOffset);
+                OnEndDrag(new PointerEventData(EventSystem.current));
+            }
+            else if (content.localPosition.y > _viewportOffset - _offset)
+            {
+                // Overscrolled at the bottom: clamp to bottom limit.
+                content.localPosition = new Vector3(content.localPosition.x, -_viewportOffset + _offset);
+                OnEndDrag(new PointerEventData(EventSystem.current));
+            }
+
+
+            int itemNum = 0;// GetCurrentNum();
+            if (itemNum != _currentItemNum)
+            {
+                _items[itemNum].OnHover();
+                _items[_currentItemNum].OnUnHover();
+                _currentItemNum = itemNum;
+            }
+        }
+
+
+        private int GetCurrentNum() => (int)((content.localPosition.y + _offset + _viewportHalfSize) / (_itemSize.y + _spacing));// % _numItems; // This isn't factoring spacing...
+        //private int GetCurrentNum() => (int)((content.localPosition.y / content.sizeDelta.y));// - _numVisible;// % _numItems; // This isn't factoring spacing...
 
         //HANDLING INFINITE ITEMS
         //If we have enough, then duplicate THE FIRST ITEMS THAT SHOULD BE VISIBLE (They will be the restarting point)
@@ -108,9 +199,9 @@ namespace Utilities.Layout
                 Debug.Log($"I need {numNeeded} -> (({viewportSize.y} + {_offset} - {_spacing}) - {currentItemSize}) / {desiredItemSize} items for infinite scrolling");
                 
                 content.sizeDelta = new Vector2( content.sizeDelta.x , _itemSize.y * content.childCount + (content.childCount-1) * _spacing + _offset);
-                _viewportSize = scaledViewportSize;
+                _viewportHalfSize = scaledViewportSize / 2;
 
-                //size.y = _itemSize.y * _numItems + vlg.spacing * (_numItems - 1) + vlg.padding.vertical;
+
             }
             else if (horizontal)
             {
@@ -122,12 +213,13 @@ namespace Utilities.Layout
                                " contains no layout group");
                 
             }
+            
         }
 
         private void CreateIllusion()
         {
             //Let's spawn the bottom half required at the top
-            int val = _numVisible;
+            int val = _numVisible; // Add additional cushion
 
             Debug.Log("Creating Illusion with num objects: " + (val * 2));
             
@@ -146,10 +238,8 @@ namespace Utilities.Layout
                 a.name = "Clone from end";
                 b.name = "Clone from beginning";
             }
-
-            content.localPosition = Vector2.zero;
-            
         }
+        
         
         
 
@@ -161,10 +251,10 @@ namespace Utilities.Layout
             _isSnapping = true;
             
             
-            Vector3 localPosition = content.localPosition;
+            Vector3 localPosition = content.anchoredPosition;
             Vector3 newPos = localPosition;
             float size = _itemSize.y + _spacing;
-            float target = localPosition.y + size-(localPosition.y % size) - _offset - _spacing/2; // This only ever goes down...
+            float target = localPosition.y + size-(localPosition.y % size) - _offset; // This only ever goes down...
             //Todo... add going up aswell...
 
             if (useAnimationCurve)
@@ -172,8 +262,8 @@ namespace Utilities.Layout
                 while (curTime < smoothTime)
                 {
                     curTime += Time.deltaTime;
-                    newPos.y = Mathf.Lerp(content.localPosition.y, target, animationCurve.Evaluate(curTime / smoothTime));
-                    content.localPosition = newPos;
+                    newPos.y = Mathf.Lerp(content.anchoredPosition.y, target, animationCurve.Evaluate(curTime / smoothTime));
+                    content.anchoredPosition = newPos;
                     yield return null;
                 }
             }
@@ -183,8 +273,8 @@ namespace Utilities.Layout
                 {
                 
                     curTime += Time.deltaTime;
-                    newPos.y = Mathf.Lerp(content.localPosition.y, target, curTime / smoothTime);
-                    content.localPosition = newPos;
+                    newPos.y = Mathf.Lerp(content.anchoredPosition.y, target, curTime / smoothTime);
+                    content.anchoredPosition = newPos;
                     yield return null;
                 }
             }
@@ -195,22 +285,12 @@ namespace Utilities.Layout
             velocity = Vector2.zero;
             _isSnapping = false;
             
-            //Item at index based on height + 3, wrapped around...
-            int itemNum = (int)((content.localPosition.y+_offset) / _itemSize.y + 2) % _numItems;
-
-            //So lazy it's crazy
-            //Problems...
-            //1) When scrolling, it still has the repeat issue where it jams up :)
-            //2) Color all instances of an item... Materials? Do I color them at all? Does it make more sense to just have an item over them
-            for(int i = 0; i < _numItems; ++ i)
+            if (_currentSelectedNum != _currentItemNum)
             {
-                content.GetChild(i).GetComponent<Image>().color = Color.black;
-                
+                _items[_currentSelectedNum].OnDeselected();
+                _items[_currentItemNum].OnSelected();
+                _currentSelectedNum = _currentItemNum;
             }
-            
-            content.GetChild(itemNum).GetComponent<Image>().color = Color.red;
-            
-            print("Item selected: " + content.GetChild(itemNum) + ",  " + itemNum);
         }
 
         public override void OnBeginDrag(PointerEventData eventData)
@@ -230,41 +310,6 @@ namespace Utilities.Layout
             _selected = false;
         }
         
-        public override void OnDrag(PointerEventData eventData)
-        {
-
-            if (eventData.button != PointerEventData.InputButton.Left)
-                Debug.Log("Failed 1");
-
-            if (!IsActive())
-                Debug.Log("Failed 2");
-
-            Vector2 localCursor;
-            if (!RectTransformUtility.ScreenPointToLocalPointInRectangle(viewRect, eventData.position, eventData.pressEventCamera, out localCursor))
-                Debug.Log("Failed 3");
-
-            base.OnDrag(eventData);
-        }
-
-        protected override void LateUpdate()
-        {
-            base.LateUpdate();
-
-            if (isSnappy && !_isSnapping && !_selected  && velocity.sqrMagnitude <= 100) 
-                _snap=StartCoroutine(Snap());
-
-            if (content.localPosition.y < -_viewportSize)
-            { 
-                Vector3 bottom = new Vector3(content.localPosition.x,  content.sizeDelta.y -_viewportSize);
-                content.localPosition = bottom;// + offsetY;
-                OnEndDrag(new PointerEventData(EventSystem.current));
-            }
-            else if (content.localPosition.y > content.sizeDelta.y)
-            {
-                content.localPosition =  Vector3.zero;
-                OnEndDrag(new PointerEventData(EventSystem.current));
-            }
-        }
 
 
 
@@ -288,6 +333,7 @@ namespace Utilities.Layout
         {
             AddForce(new Vector2(Random.Range(amount / 10, amount) * (Random.Range(0, 2) == 1 ? -1 : 1),Random.Range(amount / 10, amount) * (Random.Range(0, 2) == 1 ? -1 : 1)));
         }
+        /*
 
         public void OnPointerClick(PointerEventData eventData)
         {
@@ -295,6 +341,7 @@ namespace Utilities.Layout
             Debug.Log("Registered a click");
             AddForce(new Vector2(horizontal?eventData.position.x - content.rect.width / 2 * 1f:0,vertical?eventData.position.y - content.rect.height / 2 * 1f:0));
         }
+        */
         #endregion
         
         #if UNITY_EDITOR
