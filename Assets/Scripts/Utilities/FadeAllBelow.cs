@@ -89,6 +89,7 @@ namespace Utilities
                    for (int index = 0; index < _graphics.Length; index++)
                    {
                       Graphic g = _graphics[index];
+                      if (!g.enabled) continue;
                       var color = g.color;
                       color.a = Mathf.Lerp(0, _cachedColors[index], t);
                       g.color = color;
@@ -100,6 +101,7 @@ namespace Utilities
                 for (int index = 0; index < _graphics.Length; index++)
                 {
                    Graphic g = _graphics[index];
+                   if (!g.enabled) continue;
                    var color = g.color;
                    color.a = _cachedColors[index];
                    g.color = color;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Gameplay;
+using Loading;
 using MainMenu.UI;
 using Managers.Local;
 using Unity.Netcode;
@@ -101,7 +102,7 @@ public class Gamem : NetworkBehaviour
     private void StartGame_Client()
     {
         Debug.LogWarning("Client knows the game is starting...");
-        LoadingHelper.Deactivate();
+        LoadingHelper.Instance.Deactivate();
 
     }
 

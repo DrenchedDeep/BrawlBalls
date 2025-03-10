@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Gameplay;
+using Loading;
 using MainMenu.UI;
 using Managers.Local;
 using Unity.Collections;
@@ -228,7 +229,7 @@ namespace Managers.Network
          private void StartGame_Client()
          {
              Debug.LogWarning("Client knows the game is starting...");
-             LoadingHelper.Deactivate();
+             LoadingHelper.Instance.Deactivate();
 
          }
 

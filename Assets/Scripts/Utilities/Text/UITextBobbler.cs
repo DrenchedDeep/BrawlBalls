@@ -65,7 +65,7 @@ namespace UI
                     textMesh.UpdateGeometry(textInfo.meshInfo[i].mesh, i);
                 }
 
-                yield return new WaitForSeconds(0.033f); // roughly 30 fps
+                yield return null;
             }
         }
 

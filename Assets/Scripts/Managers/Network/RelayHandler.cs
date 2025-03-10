@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using Loading;
 using MainMenu.UI;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
@@ -48,7 +49,7 @@ namespace Managers.Network
         {
             try
             {
-                LoadingHelper.Activate();
+                LoadingHelper.Instance.Activate();
 
 
                 List<Region> regions = await RelayService.Instance.ListRegionsAsync();
@@ -86,7 +87,7 @@ namespace Managers.Network
         {
             try
             {
-                LoadingHelper.Activate();
+                LoadingHelper.Instance.Activate();
                 Debug.Log("Joining with code: " + joinCode);
 
                 var joinAllocation = await RelayService.Instance.JoinAllocationAsync(joinCode);
