@@ -6,7 +6,7 @@ using Utilities;
 
 namespace Loading
 {
-    [RequireComponent(typeof(FadeAllBelow))]
+    [RequireComponent(typeof(FadeAllBelow), typeof(Canvas))]
     public class LoadingHelper : MonoBehaviour
     {
         [SerializeField] private Slider progressBar; 
@@ -14,6 +14,7 @@ namespace Loading
         
         public static LoadingHelper Instance { get; set; }
         private FadeAllBelow _fadeAllBelow;
+        private Canvas _canvas;
 
         private void Awake()
         {
@@ -28,11 +29,12 @@ namespace Loading
             gameObject.SetActive(false);
             
             _fadeAllBelow = GetComponent<FadeAllBelow>();
-            _fadeAllBelow.onFaded.AddListener(() =>Instance.gameObject.SetActive(false));
-            _fadeAllBelow.onUnFaded.AddListener(() =>Instance.gameObject.SetActive(true));
+            _canvas = GetComponent<Canvas>();
+            _fadeAllBelow.onFaded.AddListener(() =>_canvas.enabled = false);
+            _fadeAllBelow.onUnFaded.AddListener(() => _canvas.enabled = true);
 
-            progressBar.targetGraphic.enabled = false;
-            infoText.enabled = false;
+           // progressBar.targetGraphic.enabled = false;
+            //infoText.enabled = false;
         }
 
         public void Activate() => _fadeAllBelow.SetState(true);
