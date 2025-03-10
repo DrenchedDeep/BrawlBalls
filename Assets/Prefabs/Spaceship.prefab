@@ -3274,7 +3274,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   moveSpeed: 0.1
-  endTransform: {fileID: 0}
+  maxDistBetweenWreckingBall: 200
+  wreckingBallTransform: {fileID: 6210364619151881570}
 --- !u!54 &5308427044794688561
 Rigidbody:
   m_ObjectHideFlags: 0

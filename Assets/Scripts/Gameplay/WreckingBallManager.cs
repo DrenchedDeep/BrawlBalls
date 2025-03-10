@@ -8,11 +8,13 @@ using UnityEngine;
 public struct SpaceShipNav
 {
     public Transform start;
+    public Building targetBuilding;
     public Transform end;
 
-    public SpaceShipNav(Transform start, Transform end)
+    public SpaceShipNav(Transform start, Building targetBuilding, Transform end)
     {
         this.start = start;
+        this.targetBuilding = targetBuilding;
         this.end = end;
     }
 }
@@ -21,7 +23,8 @@ public struct SpaceShipNav
 public class WreckingBallManager : NetworkBehaviour
 { 
     [SerializeField] private float moveSpeed = 5;
-    [SerializeField] private Transform endTransform;
+    [SerializeField] private float maxDistBetweenWreckingBall = 200;
+    [SerializeField] private Transform wreckingBallTransform;
     
     
     private Rigidbody _rigidbody;
@@ -37,13 +40,27 @@ public class WreckingBallManager : NetworkBehaviour
     //everybody simulate the spaceship movement... straightforward and this will get rid of lag + corrections causing the wrecking ball to clip through stuff on the client(s).
     private void FixedUpdate()
     {
-        _rigidbody.AddForce((_end -_start).normalized * moveSpeed, ForceMode.VelocityChange);
-        
-        float delta  = Vector3.Distance(transform.position, _end);
-        
-        if (delta <= 200)
+        float distFromWreckingBall = Vector3.Distance(transform.position, wreckingBallTransform.position);
+
+        if (distFromWreckingBall < maxDistBetweenWreckingBall)
         {
-            GetComponent<NetworkObject>().Despawn();
+            _rigidbody.AddForce((_end - _start).normalized * moveSpeed, ForceMode.VelocityChange);
+        }
+        else
+        {
+            _rigidbody.linearVelocity = Vector3.zero;
+        }
+
+
+
+        if (IsServer)
+        {
+            float delta = Vector3.Distance(transform.position, _end);
+
+            if (delta <= 200)
+            {
+                GetComponent<NetworkObject>().Despawn();
+            }
         }
     }
 

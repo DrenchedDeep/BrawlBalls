@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Managers.Network;
 using Unity.Netcode;
 using UnityEngine;
@@ -45,6 +46,7 @@ public class SpaceshipManager : NetworkBehaviour
         } 
     }
 
+    #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
         if (drawLines)
@@ -55,6 +57,7 @@ public class SpaceshipManager : NetworkBehaviour
             }
         }
     }
+    #endif
 
 
     private void SpawnSpaceShip()
@@ -68,21 +71,27 @@ public class SpaceshipManager : NetworkBehaviour
         }
         
         NetworkGameManager.Instance.SendMessage_ClientRpc("<color=#d4bb00>WRECKING BALL</color> has spawned", 2);
-
-
         _spaceShip = no;
-        /*/
-        _spaceShip = NetworkManager.SpawnManager.InstantiateAndSpawn(spaceShipPrefab.GetComponent<NetworkObject>(),
-            NetworkManager.ServerClientId,
-            true, false, false,
-            transform.position, transform.rotation);
-            /*/
-
-        Debug.Log("spawn spaceship??");
-
+        
         if (_spaceShip.gameObject.TryGetComponent(out WreckingBallManager wb))
         {
-            wb.StartWrecking(points[Random.Range(0, points.Length)]);
+            wb.StartWrecking(points[GetNextPointIndex()]);
         }
+    }
+
+    private int GetNextPointIndex()
+    {
+        List<int> validIndexs = new List<int>();
+        for (int i = 0; i < points.Length; i++)
+        {
+            if (points[i].targetBuilding.IsDestroyed.Value)
+            {
+                continue;
+            }
+
+            validIndexs.Add(i);
+        }
+        
+        return validIndexs[Random.Range(0, validIndexs.Count)];
     }
 }

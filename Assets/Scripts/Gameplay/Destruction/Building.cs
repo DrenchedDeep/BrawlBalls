@@ -12,14 +12,14 @@ public class Building : NetworkBehaviour
    [SerializeField] private GameObject[] otherObjectsToDestroy;
 
    
-   private NetworkVariable<bool> _isDestroyed = new NetworkVariable<bool>(false);
+   public NetworkVariable<bool> IsDestroyed { get; private set; } = new NetworkVariable<bool>(false);
 
    public override void OnNetworkSpawn()
    {
       base.OnNetworkSpawn();
 
-      _isDestroyed.Value = false;
-      _isDestroyed.OnValueChanged += OnIsDestroyedChanged;
+      IsDestroyed.Value = false;
+      IsDestroyed.OnValueChanged += OnIsDestroyedChanged;
    }
 
    private void OnIsDestroyedChanged(bool old, bool current)
@@ -40,7 +40,7 @@ public class Building : NetworkBehaviour
    //server
    public void DestroyBuilding()
    {
-      _isDestroyed.Value = true;
+      IsDestroyed.Value = true;
    }
    
    
