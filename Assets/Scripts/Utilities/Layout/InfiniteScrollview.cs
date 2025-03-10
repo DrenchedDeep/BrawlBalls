@@ -249,11 +249,9 @@ namespace Utilities.Layout
             //Let's spawn the bottom half required at the top
             int val = _numVisible; // Add additional cushion
 
-            Debug.Log("Creating Illusion with num objects: " + (val * 2));
             
             for (int i = 0; i < val; ++i)
             {
-                Debug.Log($"Child: {i*2}, and {content.childCount - i*2 - 1}");
                 
           
                 
