@@ -23,13 +23,14 @@ namespace Loading
                 Destroy(gameObject);
                 return;
             }
-
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-            gameObject.SetActive(false);
-            
             _fadeAllBelow = GetComponent<FadeAllBelow>();
             _canvas = GetComponent<Canvas>();
+            
+            _canvas.enabled = false;
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+            
+ 
             _fadeAllBelow.onFaded.AddListener(() =>_canvas.enabled = false);
             _fadeAllBelow.onUnFaded.AddListener(() => _canvas.enabled = true);
 
