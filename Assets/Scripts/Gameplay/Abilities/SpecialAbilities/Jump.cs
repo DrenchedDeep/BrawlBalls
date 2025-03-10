@@ -9,8 +9,9 @@ namespace Gameplay.Abilities.SpecialAbilities
     {
         public override bool CanUseAbility(BallPlayer owner)
         {
-            //Only allow jump if grounded.
-            return Physics.Raycast(owner.transform.GetChild(1).position, Vector3.down, 1, StaticUtilities.GroundLayers); 
+            return owner &&
+                   //Only allow jump if grounded.
+                   Physics.Raycast(owner.transform.GetChild(1).position, Vector3.down, 1, StaticUtilities.GroundLayers);
         }
 
         protected override void UseAbility(BallPlayer owner)

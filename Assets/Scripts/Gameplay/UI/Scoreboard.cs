@@ -87,21 +87,44 @@ namespace Gameplay.UI
 
                     current.ModifyScoreHolder(current.Value + change, index + 1);
 
+                    /*/
                     //Length back down
                     while (--index >= 0)
                     {  
                         ScoreHolders above = _holders[index];
                         if (current.Value > above.Value)
                         {
-                            //SWAP
-                            _holders[index + 1] = above;
-                            _holders[index] = current;
+                        //    _holders[index + 1] = above;
+                         //   _holders[index] = current;
+                            
+                 
+                          //  _holders[index + 1].Refresh();
+                            //_holders[index].Refresh();
                         }
                     }
+                    /*/
+                    
+                    for (int i = 0; i < _holders.Length; i++)
+                    {
+                        if (_holders[i + 1].Value > _holders[i].Value)
+                        {
+                            Debug.Log(_holders[i + 1].PlayerName + " has more score then " + _holders[i].PlayerName + "swapping them"); 
+                            
+                            string tempName = _holders[i].PlayerName;
+                            float tempScore = _holders[i].Value;
+                            ulong tempId = _holders[i].Id;
+                            int tempValue = _holders[i].Value;
 
+                            _holders[i].ChangeTo(_holders[i + 1].PlayerName, _holders[i + 1].Value, _holders[i + 1].Id, _holders[i + 1].Value);
+                            _holders[i + 1].ChangeTo(tempName, tempScore, tempId, tempValue);
+
+                        }
+                    }
+                    
                     return;
                 }
             }
+            
         }
         
         /*/
@@ -199,6 +222,8 @@ namespace Gameplay.UI
             public ulong Id { get; private set; }
             public float Score { get; private set; }
             private string _playerName;
+            
+            public string PlayerName => _playerName;
         
             private readonly Image _root;
             private readonly TextMeshProUGUI _scoreText;
@@ -229,8 +254,16 @@ namespace Gameplay.UI
                 Id = id;
             }
 
+            public void Refresh()
+            {
+                Debug.Log($"Refreshing: ID {Id}, Name {PlayerName}, Score {Value}");
+
+                _nameText.text = PlayerName;
+            }
+
             public void ChangeTo(ScoreHolders other)
             {
+
                 ChangeTo(other._playerName, other.Score, other.Id, other.Value);
             }
 
