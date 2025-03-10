@@ -11,10 +11,10 @@ public class WreckingBall : MonoBehaviour
     public void OnCollisionEnter(Collision other)
     {
         Debug.Log("WRECKING BALL HIT SOMETHING: " + other.gameObject.name);
-
-        if (other.transform.root.TryGetComponent(out DestroyablePillar pillar))
+        
+        if (other.transform.parent.TryGetComponent(out Building building))
         {
-            pillar.OnWreckingBallHit(transform.position, lastRB.linearVelocity);
+            building.DestroyBuilding();
         }
     }
     

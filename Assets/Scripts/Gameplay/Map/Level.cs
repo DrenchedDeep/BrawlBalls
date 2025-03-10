@@ -62,8 +62,10 @@ namespace Gameplay.Map
             SpawnPoints.Shuffle();
             
             Debug.Log("Spawn point shuffle: ");
+            /*/
             foreach (var point in SpawnPoints)
                 Debug.Log("SpawnPoint: " + point, point);
+                /*/
             
             
             NetworkGameManager.Instance.AddTimedEvent(timeToSpawnCoin, SpawnCoin);

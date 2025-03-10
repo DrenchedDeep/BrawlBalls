@@ -10,6 +10,7 @@ public class SpaceshipManager : NetworkBehaviour
     public static SpaceshipManager Instance { get; private set; }
 
     [SerializeField] private GameObject spaceShipPrefab;
+    [SerializeField] private bool drawLines;
     [SerializeField] private SpaceShipNav[] points;
     
 
@@ -44,6 +45,17 @@ public class SpaceshipManager : NetworkBehaviour
         } 
     }
 
+    private void OnDrawGizmos()
+    {
+        if (drawLines)
+        {
+            foreach (SpaceShipNav nav in points)
+            {
+                Gizmos.DrawLine(nav.start.position, nav.end.position);
+            }
+        }
+    }
+
 
     private void SpawnSpaceShip()
     {
@@ -54,6 +66,9 @@ public class SpaceshipManager : NetworkBehaviour
         {
             no.Spawn(true);
         }
+        
+        NetworkGameManager.Instance.SendMessage_ClientRpc("<color=#d4bb00>WRECKING BALL</color> has spawned", 2);
+
 
         _spaceShip = no;
         /*/

@@ -152,10 +152,10 @@ HingeJoint:
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
   m_ConnectedAnchor: {x: 0, y: 0, z: 0}
-  m_UseSpring: 1
+  m_UseSpring: 0
   m_Spring:
-    spring: 80
-    damper: 50
+    spring: 500
+    damper: 100
     targetPosition: 0
   m_UseMotor: 0
   m_Motor:
@@ -191,10 +191,10 @@ HingeJoint:
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
   m_ConnectedAnchor: {x: 0, y: 0, z: 0}
-  m_UseSpring: 1
+  m_UseSpring: 0
   m_Spring:
-    spring: 80
-    damper: 50
+    spring: 500
+    damper: 100
     targetPosition: 0
   m_UseMotor: 0
   m_Motor:
@@ -348,7 +348,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5000001
   m_Height: 2.0000005
@@ -486,7 +486,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5000001
   m_Height: 2.0000005
@@ -644,10 +644,10 @@ HingeJoint:
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
   m_ConnectedAnchor: {x: 0, y: 0, z: 0}
-  m_UseSpring: 1
+  m_UseSpring: 0
   m_Spring:
-    spring: 80
-    damper: 50
+    spring: 500
+    damper: 100
     targetPosition: 0
   m_UseMotor: 0
   m_Motor:
@@ -683,10 +683,10 @@ HingeJoint:
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
   m_ConnectedAnchor: {x: 0, y: 0, z: 0}
-  m_UseSpring: 1
+  m_UseSpring: 0
   m_Spring:
-    spring: 80
-    damper: 50
+    spring: 500
+    damper: 100
     targetPosition: 0
   m_UseMotor: 0
   m_Motor:
@@ -840,7 +840,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5000001
   m_Height: 2.0000005
@@ -998,10 +998,10 @@ HingeJoint:
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
   m_ConnectedAnchor: {x: 0, y: 0, z: 0}
-  m_UseSpring: 1
+  m_UseSpring: 0
   m_Spring:
-    spring: 80
-    damper: 50
+    spring: 500
+    damper: 100
     targetPosition: 0
   m_UseMotor: 0
   m_Motor:
@@ -1037,10 +1037,10 @@ HingeJoint:
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
   m_ConnectedAnchor: {x: 0, y: 0, z: 0}
-  m_UseSpring: 1
+  m_UseSpring: 0
   m_Spring:
-    spring: 80
-    damper: 50
+    spring: 500
+    damper: 100
     targetPosition: 0
   m_UseMotor: 0
   m_Motor:
@@ -1214,10 +1214,10 @@ HingeJoint:
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
   m_ConnectedAnchor: {x: 0, y: 0, z: 0}
-  m_UseSpring: 1
+  m_UseSpring: 0
   m_Spring:
-    spring: 80
-    damper: 50
+    spring: 500
+    damper: 100
     targetPosition: 0
   m_UseMotor: 0
   m_Motor:
@@ -1253,10 +1253,10 @@ HingeJoint:
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
   m_ConnectedAnchor: {x: 0, y: 0, z: 0}
-  m_UseSpring: 1
+  m_UseSpring: 0
   m_Spring:
-    spring: 80
-    damper: 50
+    spring: 500
+    damper: 100
     targetPosition: 0
   m_UseMotor: 0
   m_Motor:
@@ -1410,7 +1410,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5000001
   m_Height: 2.0000005
@@ -1534,7 +1534,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1490740161125937324}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 0.5
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -1698,7 +1698,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5000001
   m_Height: 2.0000005
@@ -1922,7 +1922,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5000001
   m_Height: 2.0000005
@@ -2060,7 +2060,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5000001
   m_Height: 2.0000005
@@ -2198,7 +2198,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5000001
   m_Height: 2.0000005
@@ -2356,10 +2356,10 @@ HingeJoint:
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
   m_ConnectedAnchor: {x: 0, y: 0, z: 0}
-  m_UseSpring: 1
+  m_UseSpring: 0
   m_Spring:
-    spring: 80
-    damper: 50
+    spring: 500
+    damper: 100
     targetPosition: 0
   m_UseMotor: 0
   m_Motor:
@@ -2395,10 +2395,10 @@ HingeJoint:
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
   m_ConnectedAnchor: {x: 0, y: 0, z: 0}
-  m_UseSpring: 1
+  m_UseSpring: 0
   m_Spring:
-    spring: 80
-    damper: 50
+    spring: 500
+    damper: 100
     targetPosition: 0
   m_UseMotor: 0
   m_Motor:
@@ -2552,7 +2552,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5000001
   m_Height: 2.0000005
@@ -2690,7 +2690,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5000001
   m_Height: 2.0000005
@@ -2848,10 +2848,10 @@ HingeJoint:
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
   m_ConnectedAnchor: {x: 0, y: 0, z: 0}
-  m_UseSpring: 1
+  m_UseSpring: 0
   m_Spring:
-    spring: 80
-    damper: 50
+    spring: 500
+    damper: 100
     targetPosition: 0
   m_UseMotor: 0
   m_Motor:
@@ -2887,10 +2887,10 @@ HingeJoint:
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
   m_ConnectedAnchor: {x: 0, y: 0, z: 0}
-  m_UseSpring: 1
+  m_UseSpring: 0
   m_Spring:
-    spring: 80
-    damper: 50
+    spring: 500
+    damper: 100
     targetPosition: 0
   m_UseMotor: 0
   m_Motor:
@@ -3064,10 +3064,10 @@ HingeJoint:
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
   m_ConnectedAnchor: {x: 0, y: 0, z: 0}
-  m_UseSpring: 1
+  m_UseSpring: 0
   m_Spring:
-    spring: 80
-    damper: 50
+    spring: 500
+    damper: 100
     targetPosition: 0
   m_UseMotor: 0
   m_Motor:
@@ -3103,10 +3103,10 @@ HingeJoint:
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
   m_ConnectedAnchor: {x: 0, y: 0, z: 0}
-  m_UseSpring: 1
+  m_UseSpring: 0
   m_Spring:
-    spring: 80
-    damper: 50
+    spring: 500
+    damper: 100
     targetPosition: 0
   m_UseMotor: 0
   m_Motor:
@@ -3273,7 +3273,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  moveSpeed: 0.05
+  moveSpeed: 0.1
   endTransform: {fileID: 0}
 --- !u!54 &5308427044794688561
 Rigidbody:
@@ -3454,10 +3454,10 @@ HingeJoint:
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
   m_ConnectedAnchor: {x: 0, y: 0, z: 0}
-  m_UseSpring: 1
+  m_UseSpring: 0
   m_Spring:
-    spring: 80
-    damper: 50
+    spring: 500
+    damper: 100
     targetPosition: 0
   m_UseMotor: 0
   m_Motor:
@@ -3493,10 +3493,10 @@ HingeJoint:
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
   m_ConnectedAnchor: {x: 0, y: 0, z: 0}
-  m_UseSpring: 1
+  m_UseSpring: 0
   m_Spring:
-    spring: 80
-    damper: 50
+    spring: 500
+    damper: 100
     targetPosition: 0
   m_UseMotor: 0
   m_Motor:
@@ -3670,10 +3670,10 @@ HingeJoint:
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
   m_ConnectedAnchor: {x: 0, y: 0, z: 0}
-  m_UseSpring: 1
+  m_UseSpring: 0
   m_Spring:
-    spring: 80
-    damper: 50
+    spring: 500
+    damper: 100
     targetPosition: 0
   m_UseMotor: 0
   m_Motor:
@@ -3709,10 +3709,10 @@ HingeJoint:
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
   m_ConnectedAnchor: {x: 0, y: 0, z: 0}
-  m_UseSpring: 1
+  m_UseSpring: 0
   m_Spring:
-    spring: 80
-    damper: 50
+    spring: 500
+    damper: 100
     targetPosition: 0
   m_UseMotor: 0
   m_Motor:
@@ -4035,10 +4035,10 @@ HingeJoint:
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
   m_ConnectedAnchor: {x: 0, y: 0, z: 0}
-  m_UseSpring: 1
+  m_UseSpring: 0
   m_Spring:
-    spring: 80
-    damper: 50
+    spring: 500
+    damper: 100
     targetPosition: 0
   m_UseMotor: 0
   m_Motor:
@@ -4074,10 +4074,10 @@ HingeJoint:
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
   m_ConnectedAnchor: {x: 0, y: 0, z: 0}
-  m_UseSpring: 1
+  m_UseSpring: 0
   m_Spring:
-    spring: 80
-    damper: 50
+    spring: 500
+    damper: 100
     targetPosition: 0
   m_UseMotor: 0
   m_Motor:
@@ -4231,7 +4231,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5000001
   m_Height: 2.0000005
@@ -4369,7 +4369,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5000001
   m_Height: 2.0000005
@@ -4507,7 +4507,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5000001
   m_Height: 2.0000005
@@ -4665,10 +4665,10 @@ HingeJoint:
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
   m_ConnectedAnchor: {x: 0, y: 0, z: 0}
-  m_UseSpring: 1
+  m_UseSpring: 0
   m_Spring:
-    spring: 80
-    damper: 50
+    spring: 500
+    damper: 100
     targetPosition: 0
   m_UseMotor: 0
   m_Motor:
@@ -4704,10 +4704,10 @@ HingeJoint:
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
   m_ConnectedAnchor: {x: 0, y: 0, z: 0}
-  m_UseSpring: 1
+  m_UseSpring: 0
   m_Spring:
-    spring: 80
-    damper: 50
+    spring: 500
+    damper: 100
     targetPosition: 0
   m_UseMotor: 0
   m_Motor:
@@ -4861,7 +4861,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5000001
   m_Height: 2.0000005
@@ -5019,10 +5019,10 @@ HingeJoint:
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
   m_ConnectedAnchor: {x: 0, y: 0, z: 0}
-  m_UseSpring: 1
+  m_UseSpring: 0
   m_Spring:
-    spring: 80
-    damper: 50
+    spring: 500
+    damper: 100
     targetPosition: 0
   m_UseMotor: 0
   m_Motor:
@@ -5058,10 +5058,10 @@ HingeJoint:
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
   m_ConnectedAnchor: {x: 0, y: 0, z: 0}
-  m_UseSpring: 1
+  m_UseSpring: 0
   m_Spring:
-    spring: 80
-    damper: 50
+    spring: 500
+    damper: 100
     targetPosition: 0
   m_UseMotor: 0
   m_Motor:
@@ -5235,10 +5235,10 @@ HingeJoint:
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
   m_ConnectedAnchor: {x: 0, y: 0, z: 0}
-  m_UseSpring: 1
+  m_UseSpring: 0
   m_Spring:
-    spring: 80
-    damper: 50
+    spring: 500
+    damper: 100
     targetPosition: 0
   m_UseMotor: 0
   m_Motor:
@@ -5274,10 +5274,10 @@ HingeJoint:
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
   m_ConnectedAnchor: {x: 0, y: 0, z: 0}
-  m_UseSpring: 1
+  m_UseSpring: 0
   m_Spring:
-    spring: 80
-    damper: 50
+    spring: 500
+    damper: 100
     targetPosition: 0
   m_UseMotor: 0
   m_Motor:
@@ -5431,7 +5431,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5000001
   m_Height: 2.0000005
@@ -5569,7 +5569,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5000001
   m_Height: 2.0000005
@@ -5707,7 +5707,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5000001
   m_Height: 2.0000005
@@ -5845,7 +5845,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5000001
   m_Height: 2.0000005
@@ -6003,10 +6003,10 @@ HingeJoint:
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
   m_ConnectedAnchor: {x: 0, y: 0, z: 0}
-  m_UseSpring: 1
+  m_UseSpring: 0
   m_Spring:
-    spring: 80
-    damper: 50
+    spring: 500
+    damper: 100
     targetPosition: 0
   m_UseMotor: 0
   m_Motor:
@@ -6042,10 +6042,10 @@ HingeJoint:
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
   m_ConnectedAnchor: {x: 0, y: 0, z: 0}
-  m_UseSpring: 1
+  m_UseSpring: 0
   m_Spring:
-    spring: 80
-    damper: 50
+    spring: 500
+    damper: 100
     targetPosition: 0
   m_UseMotor: 0
   m_Motor:
@@ -6219,10 +6219,10 @@ HingeJoint:
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
   m_ConnectedAnchor: {x: 0, y: 0, z: 0}
-  m_UseSpring: 1
+  m_UseSpring: 0
   m_Spring:
-    spring: 80
-    damper: 50
+    spring: 500
+    damper: 100
     targetPosition: 0
   m_UseMotor: 0
   m_Motor:
@@ -6258,10 +6258,10 @@ HingeJoint:
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
   m_ConnectedAnchor: {x: 0, y: 0, z: 0}
-  m_UseSpring: 1
+  m_UseSpring: 0
   m_Spring:
-    spring: 80
-    damper: 50
+    spring: 500
+    damper: 100
     targetPosition: 0
   m_UseMotor: 0
   m_Motor:
@@ -6435,10 +6435,10 @@ HingeJoint:
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
   m_ConnectedAnchor: {x: 0, y: 0, z: 0}
-  m_UseSpring: 1
+  m_UseSpring: 0
   m_Spring:
-    spring: 80
-    damper: 50
+    spring: 500
+    damper: 100
     targetPosition: 0
   m_UseMotor: 0
   m_Motor:
@@ -6474,10 +6474,10 @@ HingeJoint:
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
   m_ConnectedAnchor: {x: 0, y: 0, z: 0}
-  m_UseSpring: 1
+  m_UseSpring: 0
   m_Spring:
-    spring: 80
-    damper: 50
+    spring: 500
+    damper: 100
     targetPosition: 0
   m_UseMotor: 0
   m_Motor:
@@ -6651,10 +6651,10 @@ HingeJoint:
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
   m_ConnectedAnchor: {x: 0, y: 0, z: 0}
-  m_UseSpring: 1
+  m_UseSpring: 0
   m_Spring:
-    spring: 80
-    damper: 50
+    spring: 500
+    damper: 100
     targetPosition: 0
   m_UseMotor: 0
   m_Motor:
@@ -6690,10 +6690,10 @@ HingeJoint:
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
   m_ConnectedAnchor: {x: 0, y: 0, z: 0}
-  m_UseSpring: 1
+  m_UseSpring: 0
   m_Spring:
-    spring: 80
-    damper: 50
+    spring: 500
+    damper: 100
     targetPosition: 0
   m_UseMotor: 0
   m_Motor:
@@ -6867,10 +6867,10 @@ HingeJoint:
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
   m_ConnectedAnchor: {x: 0, y: 0, z: 0}
-  m_UseSpring: 1
+  m_UseSpring: 0
   m_Spring:
-    spring: 80
-    damper: 50
+    spring: 500
+    damper: 100
     targetPosition: 0
   m_UseMotor: 0
   m_Motor:
@@ -6906,10 +6906,10 @@ HingeJoint:
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
   m_ConnectedAnchor: {x: 0, y: 0, z: 0}
-  m_UseSpring: 1
+  m_UseSpring: 0
   m_Spring:
-    spring: 80
-    damper: 50
+    spring: 500
+    damper: 100
     targetPosition: 0
   m_UseMotor: 0
   m_Motor:
@@ -7083,10 +7083,10 @@ HingeJoint:
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
   m_ConnectedAnchor: {x: 0, y: 0, z: 0}
-  m_UseSpring: 1
+  m_UseSpring: 0
   m_Spring:
-    spring: 80
-    damper: 50
+    spring: 500
+    damper: 100
     targetPosition: 0
   m_UseMotor: 0
   m_Motor:
@@ -7122,10 +7122,10 @@ HingeJoint:
   m_Axis: {x: 1, y: 0, z: 0}
   m_AutoConfigureConnectedAnchor: 1
   m_ConnectedAnchor: {x: 0, y: 0, z: 0}
-  m_UseSpring: 1
+  m_UseSpring: 0
   m_Spring:
-    spring: 80
-    damper: 50
+    spring: 500
+    damper: 100
     targetPosition: 0
   m_UseMotor: 0
   m_Motor:
@@ -7279,7 +7279,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.5000001
   m_Height: 2.0000005
