@@ -1,4 +1,5 @@
 using MainMenu.UI;
+using Unity.Services.Core;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,8 +14,13 @@ namespace Loading
         {
             LoadingHelper.Instance.Activate();
             ILoadingCheckpoint[] checkpoints = GetComponents<ILoadingCheckpoint>();
-            _numNeeded = checkpoints.Length;
+            _numNeeded = checkpoints.Length + 1;
             LoadingHelper.Instance.SetProgress(0);
+
+            await UnityServices.InitializeAsync();
+            
+            ItemComplete();
+            
             foreach (ILoadingCheckpoint checkpoint in checkpoints)
             {
                 checkpoint.OnComplete += ItemComplete;

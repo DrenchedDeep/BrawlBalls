@@ -6,20 +6,17 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/TemporaryMainMenu.unity
-    guid: 317ab5b2e70150d49a79d1c86d24e2d2
-  - enabled: 1
-    path: Assets/Scenes/Editor/Tutorial_Gabe.unity
-    guid: 70ef223393e94ce41b37d724b61ea721
-  - enabled: 1
-    path: Assets/Scenes/Roof Wreckers.unity
-    guid: 4ff1a06ad175b2b499ad3eae9488d403
-  - enabled: 1
-    path: Assets/Scenes/Depreciated/MainMenu.unity
-    guid: a7f3fe65756059743ab972a3ef53c07b
+    path: Assets/Scenes/Menu/SplashLoadScreen.unity
+    guid: 67e257652bfc68d44b1beab286ccaa2c
   - enabled: 1
     path: Assets/Scenes/MainMenuNEW.unity
     guid: f0e0132cb8e06c648a0393107e1052cb
+  - enabled: 1
+    path: Assets/Scenes/TemporaryMainMenu.unity
+    guid: 317ab5b2e70150d49a79d1c86d24e2d2
+  - enabled: 1
+    path: Assets/Scenes/Roof Wreckers.unity
+    guid: 4ff1a06ad175b2b499ad3eae9488d403
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: c016d773d8ff5e84b9a773ebedab01af,
       type: 2}

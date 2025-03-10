@@ -34,8 +34,8 @@ namespace Loading
             _fadeAllBelow.onFaded.AddListener(() =>_canvas.enabled = false);
             _fadeAllBelow.onUnFaded.AddListener(() => _canvas.enabled = true);
 
-           // progressBar.targetGraphic.enabled = false;
-            //infoText.enabled = false;
+            progressBar.gameObject.SetActive(false);
+            infoText.enabled = false;
         }
 
         public void Activate() => _fadeAllBelow.SetState(true);
@@ -43,7 +43,7 @@ namespace Loading
 
         public void SetProgress(float value, bool alwaysShow = false)
         {
-            progressBar.targetGraphic.enabled = alwaysShow || value == 0;
+            progressBar.gameObject.SetActive(alwaysShow || value == 0);
             progressBar.value = value;
         }
 

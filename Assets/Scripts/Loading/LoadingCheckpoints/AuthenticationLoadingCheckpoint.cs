@@ -16,7 +16,6 @@ namespace Loading.LoadingCheckpoints
 
             try
             {
-                await UnityServices.InitializeAsync();
                 
                 Debug.LogWarning("Implement Profile Switching");
 #if UNITY_EDITOR

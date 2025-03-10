@@ -8,12 +8,15 @@ namespace Loading.LoadingCheckpoints
     public class SceneLoadingCheckpoint : MonoBehaviour, ILoadingCheckpoint
     {
         [SerializeField] private int sceneIndex = 1;
+        [SerializeField] private LoadSceneMode loadSceneMode = LoadSceneMode.Additive;
         public async UniTask Execute()
         {
             AsyncOperation op;
+            Scene previousScene = SceneManager.GetActiveScene();
             try
             {
-                op = SceneManager.LoadSceneAsync(sceneIndex, LoadSceneMode.Additive);
+                op = SceneManager.LoadSceneAsync(sceneIndex, loadSceneMode);
+                
             }
             catch (Exception e)
             {
@@ -23,6 +26,14 @@ namespace Loading.LoadingCheckpoints
             }
 
             await op.ToUniTask();
+
+            if (loadSceneMode is LoadSceneMode.Additive)
+            {
+                op = SceneManager.UnloadSceneAsync(previousScene);
+                
+                await op.ToUniTask();
+
+            }
                 
             OnComplete.Invoke();
         }
