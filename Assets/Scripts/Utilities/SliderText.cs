@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Given.Reusable
+namespace Utilities
 {
     public class SliderText : MonoBehaviour
     {
@@ -21,7 +21,18 @@ namespace Given.Reusable
         [SerializeField] private bool inverse;
         private float _maxValue;
         private float _currentValue;
-    
+
+
+        private void OnEnable()
+        {
+            UpdateMax(slider.maxValue);
+            slider.onValueChanged.AddListener(UpdateCurrent);
+        }
+
+        private void OnDisable()
+        {
+            slider.onValueChanged.RemoveListener(UpdateCurrent);
+        }
 
         public void UpdateMax(float value)
         {

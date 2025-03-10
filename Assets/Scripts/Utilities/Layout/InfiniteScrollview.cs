@@ -126,7 +126,6 @@ namespace Utilities.Layout
             //size.y = _itemSize.y * _numItems + vlg.spacing * (_numItems - 1) + vlg.padding.vertical;
             _viewportOffset = _numItems * ((_itemSize.y + _spacing)/2); // 10 * 
                 
-            Debug.Log($"Viewport offset: {_viewportOffset} = {_numItems} * ({_itemSize.y} + {_spacing})");
             
 #if UNITY_EDITOR
             WhyNotDeleting();
@@ -223,7 +222,6 @@ namespace Utilities.Layout
                     clone?.ListenTo(_items[i % numItems]);
                 }
                 
-                Debug.Log($"I need {numNeeded} -> (({viewportSize.y} + {_offset} - {_spacing}) - {currentItemSize}) / {desiredItemSize} items for infinite scrolling");
                 
                 content.sizeDelta = new Vector2( content.sizeDelta.x , _itemSize.y * content.childCount + (content.childCount-1) * _spacing + _offset);
                 _viewportHalfSize = scaledViewportSize / 2;

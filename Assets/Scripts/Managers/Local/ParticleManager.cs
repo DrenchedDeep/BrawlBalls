@@ -51,7 +51,7 @@ namespace Managers.Local
             }
 
             Pm = this;
-
+            Particles.Clear();
             Transform parent = transform.GetChild(1);
             int n = parent.childCount;
             for(int i =0; i < n; ++i)

@@ -22,7 +22,7 @@ namespace Utilities
        
        public bool IsVisible => isVisible;
       
-       private float _currentTransitionTime = 0;
+       private float _currentTransitionTime;
        private Coroutine _actionRoutine;
 
        private void Awake()
