@@ -15,6 +15,7 @@ namespace Gameplay.Map
         [Header("Coin")]
         [SerializeField] private Transform coinStart;
         [SerializeField] private float timeToSpawnCoin = 75;
+        [SerializeField] private float timeToDestroyPillar = 20;
         
         [Header("Map")]
         [field: SerializeField] public Transform [] PodiumPoints { get; private set; }
@@ -66,12 +67,9 @@ namespace Gameplay.Map
             
             
             NetworkGameManager.Instance.AddTimedEvent(timeToSpawnCoin, SpawnCoin);
-        }
 
-        private void Start()
-        {
         }
-
+        
         private void SpawnCoin()
         {
             Debug.Log("Spawning Map Coin");

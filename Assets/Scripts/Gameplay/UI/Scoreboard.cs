@@ -89,7 +89,7 @@ namespace Gameplay.UI
 
                     //Length back down
                     while (--index >= 0)
-                    {
+                    {  
                         ScoreHolders above = _holders[index];
                         if (current.Value > above.Value)
                         {

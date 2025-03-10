@@ -292,6 +292,7 @@ namespace Managers.Network
                  float dt = Time.deltaTime;
                  CurrentTime.Value += dt;
                  TotalTimePassed.Value += dt;
+                 Debug.LogWarning("time event balls" + _timedMatchEvents.Count);
 
                  if (_timedMatchEvents.Count != 0 && GetTotalTimePassed >= _timedMatchEvents.Keys[0])
                  {
