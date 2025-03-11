@@ -40,6 +40,8 @@ public class WreckingBallManager : NetworkBehaviour
     //everybody simulate the spaceship movement... straightforward and this will get rid of lag + corrections causing the wrecking ball to clip through stuff on the client(s).
     private void FixedUpdate()
     {
+        _rigidbody.AddForce((_end - _start).normalized * moveSpeed, ForceMode.VelocityChange);
+
         if (IsServer)
         {
             float delta = Vector3.Distance(transform.position, _end);
