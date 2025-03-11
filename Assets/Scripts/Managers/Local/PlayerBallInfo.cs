@@ -23,10 +23,10 @@ namespace Managers.Local
 
         // Start is called before the first frame update
         
-        [RuntimeInitializeOnLoadMethod]
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         private static void RuntimeInit()
         {
-            UserName = "Player";
+            UserName = "Brawller " + Random.Range(0, 10000);
         }
     
         void Awake()

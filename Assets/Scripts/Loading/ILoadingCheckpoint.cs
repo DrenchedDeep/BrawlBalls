@@ -9,7 +9,8 @@ namespace Loading
         Action OnComplete { get; set; }
         Action OnFailed { get; set; }
         
-        public UniTask Execute();
+        UniTask Execute();
 
+        bool IsCompleted();
     }
 }

@@ -1,7 +1,6 @@
-using MainMenu.UI;
-using Unity.Services.Core;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Loading
 {
@@ -9,6 +8,13 @@ namespace Loading
     {
         private int _numNeeded;
         private int _numCompleted;
+
+        [SerializeField] private bool loadOnAwake;
+        private void Awake()
+        {
+            if(loadOnAwake) BeginLoading();
+        }
+
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         public async void BeginLoading()
         {
@@ -17,11 +23,25 @@ namespace Loading
             _numNeeded = checkpoints.Length + 1;
             LoadingHelper.Instance.SetProgress(0);
 
-            await UnityServices.InitializeAsync();
+            List<ILoadingCheckpoint> waitForComplete = new();
+            foreach (ILoadingCheckpoint checkpoint in checkpoints)
+            {
+                if (!checkpoint.IsCompleted())
+                {
+                    waitForComplete.Add(checkpoint);
+                }
+            }
+
+            if (waitForComplete.Count == 0)
+            {
+                Debug.Log("Loading is already complete, we don't need to do anything more! :)");
+                return;
+            }
+
             
             ItemComplete();
             
-            foreach (ILoadingCheckpoint checkpoint in checkpoints)
+            foreach (ILoadingCheckpoint checkpoint in waitForComplete)
             {
                 checkpoint.OnComplete += ItemComplete;
                 checkpoint.OnFailed += ItemFailed;

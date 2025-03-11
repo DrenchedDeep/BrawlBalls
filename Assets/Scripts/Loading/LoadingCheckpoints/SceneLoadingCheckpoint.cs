@@ -38,6 +38,11 @@ namespace Loading.LoadingCheckpoints
             OnComplete.Invoke();
         }
 
+        public bool IsCompleted()
+        {
+            return SceneManager.GetActiveScene().buildIndex == sceneIndex;
+        }
+
         public Action OnComplete { get; set; }
         public Action OnFailed { get; set; }
 

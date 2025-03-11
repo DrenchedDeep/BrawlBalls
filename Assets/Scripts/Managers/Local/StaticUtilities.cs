@@ -36,6 +36,7 @@ namespace Managers.Local
         public static readonly int InteractableLayer = 1 << LayerMask.NameToLayer("Interactable");
         public static readonly int BouncyLayer = 1 << LayerMask.NameToLayer("Bouncy");
         public static readonly int PodiumLayer = 1 << LayerMask.NameToLayer("Podium");
+        public static readonly int UILayer = 1 << LayerMask.NameToLayer("UI");
         
         public static readonly int ImmortalLayer = 1 << ImmortalLayerLiteral;
         public static readonly int EnemyLayer= 1 << EnemyLayerLiteral;
@@ -47,6 +48,7 @@ namespace Managers.Local
         
         //Ball (local), Enemy (other)
         public static readonly int PlayerLayers = LocalBallLayer | EnemyLayer;
+        public static readonly int PodiumBlockers = PodiumLayer | UILayer;
 
         #endregion
 

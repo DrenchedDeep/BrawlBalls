@@ -1,3 +1,4 @@
+using System;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -11,13 +12,15 @@ namespace Managers.Local
         private const string BaseBPath = "BaseB";
         
         [SerializeField] private AudioMixer audioMixer;
+        [SerializeField] private AudioSource uiSource;
+        
 
         private bool _useAltA = true; // Track which alternating sound is active
 
         public static MusicManager Instance { get; private set; }
         
         //This has to be start.
-        void Start()
+        void Awake()
         {
             if (Instance != null && Instance != this)
             {
@@ -28,10 +31,22 @@ namespace Managers.Local
             Instance = this;
             DontDestroyOnLoad(gameObject);
             
+
+
+        }
+
+        private void Start()
+        {
+                                    
             // Ensure initial volumes are set correctly using log scale
             SetVolume(ActionPath, 0f);   // Mute initially
-            SetVolume(BaseAPath, 1f);    // AltA playing
+            SetVolume(BaseAPath, 0f);   // Mute initially
+            SetVolume("Master", 0f);   // Mute initially
             SetVolume(BaseBPath, 0f);    // AltB muted
+            const float initialFadeDuration = 3;
+            
+            FadeMixerGroup(BaseAPath, 1f, initialFadeDuration);
+            FadeMixerGroup("Master", PlayerPrefs.GetFloat("Audio_Master"), initialFadeDuration);
         }
 
         public void ToggleExtraSound(bool enable)
@@ -51,6 +66,11 @@ namespace Managers.Local
             FadeMixerGroup(_useAltA ? BaseAPath : BaseBPath, 0f, duration);
             FadeMixerGroup(_useAltA ? BaseBPath : BaseAPath, 1f, duration);
             _useAltA = !_useAltA;
+        }
+
+        public void PlayUISound(AudioClip clip)
+        {
+            uiSource.PlayOneShot(clip);   
         }
 
         private async void FadeMixerGroup(string param, float targetLinearVolume, float duration)

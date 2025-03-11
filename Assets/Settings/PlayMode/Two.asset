@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a689d91966dfb46499fb63f130d9b905, type: 3}
-  m_Name: TwoPlayer
+  m_Name: Two
   m_EditorClassIdentifier: 
   m_Description: 
   m_EnableEditors: 1
@@ -31,8 +31,8 @@ MonoBehaviour:
     m_PlayerTag: 
     m_InitialScene: {fileID: 0}
     m_AdvancedConfiguration:
-      StreamLogsToMainEditor: 0
-      LogsColor: {r: 0.3643, g: 0.581, b: 0.8679, a: 1}
+      StreamLogsToMainEditor: 1
+      LogsColor: {r: 0.36470592, g: 0.8666667, b: 0.38867623, a: 1}
   m_LocalInstances: []
   m_RemoteInstances: []
   m_OverridePort: 0

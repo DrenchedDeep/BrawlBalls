@@ -7,8 +7,6 @@ namespace MainMenu.UI
     public class PlayerCard : MonoBehaviour
     {
     
-        [SerializeField] private GameObject readyImg;
-        [SerializeField] private GameObject notReadyImg;
         [SerializeField] private Image backgroundImg;
         [SerializeField] private TextMeshProUGUI playerName;
         [SerializeField] private TextMeshProUGUI playerLevel;
@@ -18,8 +16,6 @@ namespace MainMenu.UI
         public void UpdatePlayer(string pName, string pLevel, bool isLocalPlayer)
         {
             gameObject.SetActive(true);
-            readyImg.SetActive(false);
-            notReadyImg.SetActive(true);
             //Get the name and level...
             playerName.text = pName;
             playerLevel.text = pLevel;
@@ -27,6 +23,7 @@ namespace MainMenu.UI
             backgroundImg.color = isLocalPlayer ? LocalPlayerColor : OtherPlayerColor;
         }
 
+        /*
         public void UpdateReady(string state)
         {
             bool x = state == "0";
@@ -34,7 +31,7 @@ namespace MainMenu.UI
             notReadyImg.SetActive(x);
 
         }
-
+*/
     
 
         public void RemovePlayer()

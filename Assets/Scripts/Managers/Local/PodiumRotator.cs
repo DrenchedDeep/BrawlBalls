@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 namespace Managers.Local
@@ -40,20 +41,25 @@ namespace Managers.Local
         {
             if (Pointer.current == null || !Pointer.current.press.wasPressedThisFrame)
                 return;
+            
+            if (EventSystem.current.IsPointerOverGameObject())
+            {
+                return; // Block the raycast if UI is in the way
+            }
+            
 
             Vector2 pointerPosition = Pointer.current.position.ReadValue();
             Ray ray = cam.ScreenPointToRay(pointerPosition);
 
-            if (Physics.Raycast(ray, out RaycastHit hit, 1000, StaticUtilities.PodiumLayer))
+            if (Physics.Raycast(ray, out RaycastHit hit, 1000, StaticUtilities.PodiumBlockers))
             {
-                if (hit.transform.parent == podiums[_curForward])
+                Transform t = hit.transform.parent;
+                if (!t || t.root != transform) return;
+                if (t == podiums[_curForward])
                 {
-                    Debug.Log("Hit forward one");
                     onForwardSelected?.Invoke();
-                    
                     return;
                 }
-
                 Move(hit.transform.parent.localPosition.x > podiums[_curForward].localPosition.x ? 1:-1);
             }
         }
