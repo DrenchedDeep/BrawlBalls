@@ -27,7 +27,6 @@ namespace Core.Podium
             Instance = this;
             
             cycleController.onForwardSelected.AddListener(TrySpawnSelectedBall);
-            cycleController.onForwardSelected.AddListener(cycleController.DisablePodiumAndCycle);
             
             BeginDisplaying();
         }
@@ -82,6 +81,8 @@ namespace Core.Podium
                 Debug.Log("Player cannot respawn right now!", gameObject);
                 return;
             }
+
+            cycleController.DisablePodiumAndCycle(i);
             Debug.LogWarning("Add server side check to see if we can still spawn that ball, or if we've already spent it.", gameObject);
             BallHandler.Instance.SpawnBall_ServerRpc(PlayerBallInfo.Balls[i].Ball, PlayerBallInfo.Balls[i].Weapon, PlayerBallInfo.Balls[i].Ability);
             EndDisplaying();
