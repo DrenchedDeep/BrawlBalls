@@ -36,7 +36,7 @@ namespace Core.Podium
         {
             if (NetworkGameManager.Instance)
             {
-                NetworkGameManager.Instance.OnGameBegin += BeginDisplaying;
+                NetworkGameManager.Instance.OnAllPlayersJoined += BeginDisplaying;
                 NetworkGameManager.Instance.OnGameEnd += EndDisplaying;
                 
             }

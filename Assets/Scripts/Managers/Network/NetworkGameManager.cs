@@ -331,7 +331,7 @@ namespace Managers.Network
 
          public bool CanRespawn()
          {
-             return Mathf.Approximately(CurrentTimePeriod.Value, matchTime);
+             return Mathf.Approximately(CurrentTimePeriod.Value, matchTime) && GameStarted.Value;
          }
 
 
