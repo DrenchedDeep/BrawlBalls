@@ -79,9 +79,10 @@ namespace Core.Podium
             {
                 Debug.LogWarning(" I did hit something: ", hit.transform.gameObject);
                 Transform t = hit.transform.parent;
-                if (!t || t.root != transform) return;
+                if (!t) return;
                 if (t == podiums[_curForward].transform)
                 {
+                    Debug.Log($"{debugHide} || {podiums[_curForward].CanInteract}");
                     if(debugHide || podiums[_curForward].CanInteract)
                         onForwardSelected?.Invoke(_curForward);
                     return;

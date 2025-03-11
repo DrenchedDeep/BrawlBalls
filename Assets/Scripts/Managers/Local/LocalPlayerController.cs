@@ -101,6 +101,8 @@ namespace Managers.Local
             SelectionMenu.Instance.EndDisplaying();
 
             ballPlayer.OnDestroyed += _ => Unbind();
+            
+            EnableControls();
         }
 
         public void Unbind()
@@ -109,6 +111,8 @@ namespace Managers.Local
             enabled = false;
             cam.enabled = false;
             SelectionMenu.Instance.BeginDisplaying();
+            
+            DisableControls();
         }
 
         private void SetBall(Ball target)

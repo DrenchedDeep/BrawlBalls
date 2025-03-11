@@ -36,7 +36,7 @@ namespace Core.Podium
 
         public bool PillarIsEmpty => !_myBall;
         
-        public bool CanInteract =>!PillarIsEmpty && !IsBlocked;
+        public bool CanInteract => !PillarIsEmpty && !IsBlocked;
         
         
         private void OnEnable()
@@ -55,9 +55,9 @@ namespace Core.Podium
         public void CreateBall(PlayerBallInfo.BallStructure ballInfo)
         {
             _myBall = ResourceManager.CreateBallDisabled(ballInfo.Ball, ballInfo.Weapon, ballPoint.position, ballPoint.rotation);
-            
             foreach(MonoBehaviour nw in _myBall.GetComponentsInChildren<MonoBehaviour>()) nw.enabled = false;
-            
+            _myBall.transform.SetParent(transform, true);
+
             _ = FadeEmissive(activeColor);
         }
 

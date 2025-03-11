@@ -151,7 +151,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_PresetAsset: {fileID: 0}
   m_PresetReference:
-    rid: 2252477380372988329
+    rid: 2252477383553843284
   m_Scenario:
     rid: -2
   m_IsScenarioSettingsFolded: 0
@@ -161,7 +161,7 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
-    - rid: 2252477380372988329
+    - rid: 2252477383553843284
       type: {class: NetworkSimulatorPreset, ns: Unity.Multiplayer.Tools.NetworkSimulator.Runtime,
         asm: Unity.Multiplayer.Tools.NetworkSimulator.Runtime}
       data:
@@ -6444,10 +6444,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1422553597}
     m_Modifications:
+    - target: {fileID: 437872896007413610, guid: c62ad9c03215860419b871602d94b0aa,
+        type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 1443136322451098594, guid: c62ad9c03215860419b871602d94b0aa,
+        type: 3}
+      propertyPath: DefaultBlend.Style
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1795942656654685639, guid: c62ad9c03215860419b871602d94b0aa,
         type: 3}
       propertyPath: m_Name
       value: PlayerObject
+      objectReference: {fileID: 0}
+    - target: {fileID: 3782570986698243775, guid: c62ad9c03215860419b871602d94b0aa,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4443003080620608170, guid: c62ad9c03215860419b871602d94b0aa,
         type: 3}
@@ -6540,7 +6555,8 @@ PrefabInstance:
       value: 60.000004
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 68772141921550771, guid: c62ad9c03215860419b871602d94b0aa, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c62ad9c03215860419b871602d94b0aa, type: 3}
