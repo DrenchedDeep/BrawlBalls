@@ -30,11 +30,18 @@ namespace Gameplay.UI
 
         void Awake()
         {
+            if (!NetworkManager.Singleton)
+            {
+                Debug.LogWarning("No NetworkManager, disabled scoreboard", gameObject);
+                gameObject.SetActive(false);
+                return;
+            }
             //Store all objects & Reset.
             _playerCount = 0;
             for (int i = 0; i < _holders.Length; ++i)
             {
                 Debug.Log("This will likely have issues once we do local multiplayer.");
+                
                 _holders[i] = new ScoreHolders(transform.GetChild(i), NetworkManager.Singleton.LocalClientId);
                 _holders[i].Disable();
             }
@@ -49,7 +56,7 @@ namespace Gameplay.UI
         }
 
         private void OnDisable()
-        {
+        { 
             NetworkGameManager.Instance.OnAllPlayersJoined -= Initialize;
             NetworkGameManager.Instance.OnPlayerScoreUpdated -= UpdateScore;
         }

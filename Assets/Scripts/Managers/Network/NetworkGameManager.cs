@@ -144,12 +144,24 @@ namespace Managers.Network
 
          private void OnEnable()
          {
+             if (!NetworkManager)
+             {
+                 Debug.LogWarning("No Network Manager, Playing offline");
+                 return;
+             }
+
              NetworkManager.OnClientConnectedCallback += OnClientConnected;
              NetworkManager.OnClientDisconnectCallback += OnClientDisconnected;
              NetworkManager.OnServerStopped += OnServerStopped;
          }
          private void OnDisable()
          {
+             if (!NetworkManager)
+             {
+                 Debug.LogWarning("No Network Manager, Playing offline");
+                 return;
+             }
+             
              NetworkManager.OnClientConnectedCallback -= OnClientConnected;
              NetworkManager.OnClientDisconnectCallback -= OnClientDisconnected;
              NetworkManager.OnServerStopped -= OnServerStopped;
@@ -293,7 +305,7 @@ namespace Managers.Network
                  float dt = Time.deltaTime;
                  CurrentTime.Value += dt;
                  TotalTimePassed.Value += dt;
-                 Debug.LogWarning("time event balls" + _timedMatchEvents.Count);
+                // Debug.LogWarning("time event balls" + _timedMatchEvents.Count);
 
                  if (_timedMatchEvents.Count != 0 && GetTotalTimePassed >= _timedMatchEvents.Keys[0])
                  {

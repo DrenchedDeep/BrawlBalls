@@ -42,6 +42,7 @@ namespace Managers.Local
             Balls.Clear();
             Weapons.Clear();
             Abilities.Clear();
+            SummonableObjects.Clear();
             
             foreach (Ball b in ballIds)
             {

@@ -1,4 +1,5 @@
 using System;
+using Core.Podium;
 using Gameplay;
 using Gameplay.UI;
 using Managers.Controls;
@@ -17,7 +18,6 @@ namespace Managers.Local
     
         [Header("Game")]
         [SerializeField] private Canvas rootCanvas;
-        [SerializeField] private GameObject selectionMenu;
         
         [Header("UI")]
         [SerializeField] private Joystick joystick;
@@ -97,6 +97,8 @@ namespace Managers.Local
             enabled = true;
             rootCanvas.enabled = true;
             cam.enabled = true;
+            
+            SelectionMenu.Instance.EndDisplaying();
 
             ballPlayer.OnDestroyed += _ => Unbind();
         }
@@ -106,7 +108,7 @@ namespace Managers.Local
             rootCanvas.enabled = false;
             enabled = false;
             cam.enabled = false;
-            selectionMenu.SetActive(true);
+            SelectionMenu.Instance.BeginDisplaying();
         }
 
         private void SetBall(Ball target)

@@ -9,6 +9,7 @@ namespace Managers.Local
 
         public static readonly int RandomTexID = Shader.PropertyToID("_Tex");
         public static readonly int ColorID = Shader.PropertyToID("_Color");
+        public static readonly int EmissiveID = Shader.PropertyToID("_Emissive");
         public static readonly int RandomOffsetID = Shader.PropertyToID("_Offset");
         public static readonly int SpeedID = Shader.PropertyToID("_Speed");
         public static readonly int NoiseSpeedID = Shader.PropertyToID("_NoiseSpeed");

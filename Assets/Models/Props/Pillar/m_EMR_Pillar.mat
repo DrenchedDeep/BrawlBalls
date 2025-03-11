@@ -64,9 +64,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _EMISSIONONLY: 0
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:
-    - _Emissive: {r: 5.087682, g: 23.96863, b: 12.779919, a: 0}
+    - _Emissive: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

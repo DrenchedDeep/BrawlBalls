@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using Loading;
 using MainMenu.UI;
@@ -55,22 +56,43 @@ namespace Managers.Network
                 Data = d,
                 
             };
-            
             _events.DataChanged += CheckStartGame;
-            _events.PlayerJoined += x => LazyRegenCards();
-            _events.PlayerLeft += x => LazyRegenCards();
+            //_events.PlayerJoined += x => LazyRegenCards();
+            //_events.PlayerLeft += x => LazyRegenCards();
+            _events.LobbyChanged += async changes =>
+            {
+                if(changes.LobbyDeleted) ClearCards();
+                else if (changes.PlayerJoined.Changed || changes.PlayerLeft.Changed)  LazyRegenCards();
+            };
         }
 
 
+        private CancellationTokenSource _cancellationTokenSource;
+
         private async void HeartBeat()
         {
-            while (true)
+            _cancellationTokenSource = new CancellationTokenSource();
+            CancellationToken token = _cancellationTokenSource.Token;
+
+            try
             {
-                await UniTask.Delay(HeartbeatTimer);
-                if (_myLobby == null) return;
-                await LobbyService.Instance.SendHeartbeatPingAsync(_myLobby.Id);
-                HeartBeat();
+                while (true)
+                {
+                    await UniTask.Delay(HeartbeatTimer, cancellationToken: token);  // Delay with cancellation token
+                    if (_myLobby == null || token.IsCancellationRequested) return;
+
+                    await LobbyService.Instance.SendHeartbeatPingAsync(_myLobby.Id);
+
+                    if (token.IsCancellationRequested) return;
+
+                    // You can decide whether to recursively call HeartBeat() or use a loop
+                }
             }
+            catch (OperationCanceledException)
+            {
+                // Handle cancellation if necessary
+            }
+            
         }
         
         
@@ -178,22 +200,25 @@ namespace Managers.Network
         public async void QuickPlay()
         {
             
+          
 
-            
             try
             {
-                
+
+
                 // Quick-join a random lobby with a maximum capacity of 10 or more players.
                 QuickJoinLobbyOptions options = new QuickJoinLobbyOptions
                 {
                     Filter = new List<QueryFilter>()
                     {
-                        new(QueryFilter.FieldOptions.AvailableSlots, "0", QueryFilter.OpOptions.GT), // Check that there are open slots.
-                        new (QueryFilter.FieldOptions.IsLocked, "0", QueryFilter.OpOptions.EQ) // Make sure lobby is not locked
+                        new(QueryFilter.FieldOptions.AvailableSlots, "0",
+                            QueryFilter.OpOptions.GT), // Check that there are open slots.
+                        new(QueryFilter.FieldOptions.IsLocked, "0",
+                            QueryFilter.OpOptions.EQ) // Make sure lobby is not locked
                     },
                     Player = _playerObject // We are the local player
                 };
-                
+
                 _myLobby = await LobbyService.Instance.QuickJoinLobbyAsync(options);
                 beginGameButton.gameObject.SetActive(false);
             }
@@ -217,21 +242,22 @@ namespace Managers.Network
                                 }
                             });
 
-                        beginGameButton.gameObject.SetActive(true);
                     }
                     catch (LobbyServiceException e2)
                     {
                         Debug.LogError("Failed to create lobby: " + e2.Reason);
-                    }            
+                    }
                 }
-                else 
+                else
                 {
                     Debug.LogError("Failed to quick join: " + e.Reason);
                     SceneManager.LoadSceneAsync(0);
                     return;
                 }
             }
-            await LobbyService.Instance.SubscribeToLobbyEventsAsync(_myLobby.Id, _events);
+            
+
+            await LobbyService.Instance.SubscribeToLobbyEventsAsync(_myLobby!.Id, _events);
 
             HeartBeat();
             LazyRegenCards();
@@ -243,7 +269,7 @@ namespace Managers.Network
             try
             {
                 if (_myLobby == null) return;
-
+                _cancellationTokenSource?.Cancel();
                 if (_myLobby.HostId == AuthenticationService.Instance.PlayerId) // player ID is always null?
                 {
                     if (_myLobby.Players.Count == 1)
@@ -254,34 +280,43 @@ namespace Managers.Network
                         ClearCards();
                         return;
                     }
+                    /*
                     await LobbyService.Instance.UpdateLobbyAsync(_myLobby.Id, new UpdateLobbyOptions()
                     {
                         HostId = _myLobby.Players[1].Id
                     });
 
                     Debug.Log("Host migrated to: " + _myLobby.Players[1].Id);
+                    */
                     
                 }
                 
 
                 await LobbyService.Instance.RemovePlayerAsync(_myLobby.Id, AuthenticationService.Instance.PlayerId);
+
+                _myLobby = null;
+                
                 
                 Debug.Log("I have left the lobby, later nerds!");
                 
                 onLocalDisconnectedFromLobby?.Invoke();
                 
                 ClearCards();
+
             }
             catch (LobbyServiceException e)
             {
                 Debug.LogError("Error leaving lobby: " + e);
             }
         }
+        
 
         private void OnEnable()
         {
             Application.quitting += LeaveLobby;
         }
+
+
         private void OnDisable()
         {
             Application.quitting -= LeaveLobby;

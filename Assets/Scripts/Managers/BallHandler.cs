@@ -29,22 +29,7 @@ namespace Managers
             Instance = this;
         }
     
-        //This function creates the players ball team composition
-        public BallPlayer[] SpawnShowcaseBalls()
-        {
-            BallPlayer[] balls = new BallPlayer[3];
-            
-            int i = 0;
-            foreach (PlayerBallInfo.BallStructure bs in PlayerBallInfo.Balls)
-            {
-                Vector3 p = Level.GetPodiumPoint(i);
 
-                BallPlayer b = ResourceManager.CreateBallDisabled(bs.Ball, bs.Weapon, p, Quaternion.LookRotation(Vector3.up));
-                
-                balls[i++] = b;
-            }
-            return balls;
-        }
 
 
 

@@ -1,4 +1,3 @@
-using System;
 using Managers;
 using Managers.Network;
 using Unity.Netcode;
@@ -18,7 +17,6 @@ namespace Gameplay.Map
         [SerializeField] private float timeToDestroyPillar = 20;
         
         [Header("Map")]
-        [field: SerializeField] public Transform [] PodiumPoints { get; private set; }
         [field: SerializeField] public Transform [] SpawnPoints { get; private set; }
         [SerializeField] private float bottomY;
         [SerializeField] private bool offMapKills;
@@ -39,8 +37,6 @@ namespace Gameplay.Map
             }
             return Instance.SpawnPoints[index].position;
         }
-        
-        public static Vector3 GetPodiumPoint(int index) => Instance.SpawnPoints[index].position;
 
         //All levels drop coins from center...
         private void Awake()
