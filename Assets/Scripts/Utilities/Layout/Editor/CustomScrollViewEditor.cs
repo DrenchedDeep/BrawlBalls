@@ -76,8 +76,9 @@ namespace Utilities.Layout.Editor
             }
         
             EditorGUILayout.Space();
-            EditorGUILayout.LabelField("On Value Changed", EditorStyles.boldLabel);
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("m_OnValueChanged"), new GUIContent("On Value Changed"));
+            EditorGUILayout.LabelField("Observables", EditorStyles.boldLabel);
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("onItemHovered"), new GUIContent("On New Item Hovered"));
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("onItemSelected"), new GUIContent("On New Item Selected"));
         
             serializedObject.ApplyModifiedProperties();
         }

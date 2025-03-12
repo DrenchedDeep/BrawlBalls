@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
-using MainMenu.UI;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -38,12 +38,12 @@ namespace Utilities.Layout
         private int _currentItemNum = Int32.MaxValue;
         private int _currentSelectedNum = Int32.MaxValue;
         private IInfiniteScrollItem[] _items;
-        
-        
-        
 
         private Coroutine _snap;
-        
+
+
+        public UnityEvent<IInfiniteScrollItem> onItemHovered;
+        public UnityEvent<IInfiniteScrollItem> onItemSelected;
         
         
         
@@ -163,6 +163,7 @@ namespace Utilities.Layout
                 _items[itemNum].OnHover();
                 _items[_currentItemNum].OnUnHover();
                 _currentItemNum = itemNum;
+                onItemHovered.Invoke(_items[itemNum]);
             }
         }
         
@@ -331,6 +332,7 @@ namespace Utilities.Layout
                 _items[_currentSelectedNum].OnDeselected();
                 _items[_currentItemNum].OnSelected();
                 _currentSelectedNum = _currentItemNum;
+                onItemSelected.Invoke(_items[_currentSelectedNum]);
             }
         }
 

@@ -365,7 +365,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 4961973318801743300}
-  duration: 1
+  duration: 0.4
   podiums:
   - {fileID: 8138363775014934499}
   - {fileID: 8696253223988228215}
@@ -380,6 +380,7 @@ MonoBehaviour:
   podiumRootStart: {fileID: 8492294487696579781}
   podiumRootEnd: {fileID: 1401276242398428238}
   transitionTime: 0.3
+  debugHide: 0
 --- !u!1 &7305370454201992435
 GameObject:
   m_ObjectHideFlags: 0

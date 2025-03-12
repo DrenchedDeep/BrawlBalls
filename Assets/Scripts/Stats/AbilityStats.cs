@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 using Gameplay;
-using Gameplay.Abilities;
 using Gameplay.Abilities.SpecialAbilities;
 using Gameplay.Abilities.WeaponAbilities;
 using UnityEngine;
@@ -9,12 +9,10 @@ using UnityEngine;
 namespace Stats
 {
     [CreateAssetMenu(fileName = "Ability Stats", menuName = "Stats/AbilityStats", order = 2)]
-    public class AbilityStats : ScriptableObject
+    public class AbilityStats : BaseSelectorStats
     {
-        [field: SerializeField, TextArea] public string Description { get; private set; }
         [field: SerializeField] public int Capacity { get; private set; }
         [field: SerializeField] public float Cooldown { get; private set; }
-        [field: SerializeField] public Sprite Icon { get; set; }
         [SerializeField] private string abilityFileName;
 
 
@@ -56,5 +54,13 @@ namespace Stats
             if(Ability == null) Debug.LogError($"Ability '{abilityFileName}' not found in factory. Check AbilityStats.cs and or your spelling.");
         }
         #endif
+        protected override string CreateCommonTraits()
+        {
+            StringBuilder st = new();
+            st.AppendLine("<sprite=5>" + (Capacity > 0? Capacity.ToString() : "<sprite=6>"));
+            st.AppendLine("<sprite=7>" + (Cooldown > 0? Cooldown.ToString("F1") : "<sprite=6>"));
+            
+            return st.ToString();
+        }
     }
 }
