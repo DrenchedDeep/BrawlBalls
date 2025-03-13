@@ -135,7 +135,7 @@ namespace Gameplay
             //100 id is the out of bounds
             if (killer != 100)
             {
-                NetworkGameManager.Instance.IncreasePlayerScore(killer);
+                NetworkGameManager.Instance.OnPlayerKilled(NetworkObject.OwnerClientId, killer);
             }
 
             transform.GetChild(0).GetComponent<NetworkObject>().Despawn();

@@ -201,15 +201,25 @@ namespace Managers.Network
              CheckStartGame();
          }
 
-         public void IncreasePlayerScore(ulong clientID)
+         public void OnPlayerKilled(ulong killedID, ulong killerID)
          {
-             int index = GetPlayerBallInfoIndex(clientID);
+             int index = GetPlayerBallInfoIndex(killerID);
 
              if (index != -1)
              {
                  Players[index].UpdateScore(1);
-                 OnPlayerScoreUpdated_ClientRpc(clientID);
+                 OnPlayerScoreUpdated_ClientRpc(killerID);
              }
+             
+             ClientRpcParams rpcParams = default;
+             rpcParams.Send.TargetClientIds = new[] { killerID };
+             OnLocalPlayerKilledPlayer_ClientRpc(killedID, rpcParams);
+         }
+
+         [ClientRpc(RequireOwnership = false)]
+         void OnLocalPlayerKilledPlayer_ClientRpc(ulong killedID, ClientRpcParams rpcParams = default)
+         {
+             GameUI.Instance.ShowElimUI(GetPlayerName(killedID));
          }
 
          [ClientRpc(RequireOwnership = false)]
@@ -378,6 +388,32 @@ namespace Managers.Network
 
              return players;
          }
+
+         public BallPlayerInfo GetPlayerInfo(ulong id)
+         {
+             foreach(var player in Players)
+             {
+                 if (player.ClientID == id)
+                 {
+                     return player;
+                 }
+             }
+
+             return new BallPlayerInfo();
+         }
+
+         public string GetPlayerName(ulong id)
+         {
+             foreach(var player in Players)
+             {
+                 if (player.ClientID == id)
+                 {
+                     return player.Username.ToString();
+                 }
+             }
+
+             return "";
+         }
     
     
          //ideally particles shouldn't be spawned with RPC'S, they should be spawned with replicated variables... atleast in unreal, not sure in this.. so leaving it as is for now.
@@ -398,7 +434,11 @@ namespace Managers.Network
 
          [ClientRpc]
          public void SendMessage_ClientRpc(string s, float d, ClientRpcParams x = default) => _ = MessageManager.Instance.HandleScreenMessage(s, d);
-        
+
+         public float GetTimeLeftInMatch()
+         {
+             return matchTime - CurrentTime.Value;
+         }
         /*/
         [SerializeField, Min(0)] private float matchTime = 300;
         [SerializeField, Min(0)] private float timeToMatchStart = 15;
