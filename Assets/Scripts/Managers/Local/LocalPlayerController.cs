@@ -3,7 +3,9 @@ using Core.Podium;
 using Gameplay;
 using Gameplay.UI;
 using Managers.Controls;
+using Managers.Network;
 using Stats;
+using TMPro;
 using Unity.Cinemachine;
 using Unity.Netcode;
 using UnityEngine;
@@ -18,12 +20,17 @@ namespace Managers.Local
     
         [Header("Game")]
         [SerializeField] private Canvas rootCanvas;
-        
-        [Header("UI")]
+
+        [Header("Controls UI")]
         [SerializeField] private Joystick joystick;
         [SerializeField] private AbilityHandler attackAbility;
         [SerializeField] private AbilityHandler specialAbility;
-    
+
+        [Header("Respawn UI")]
+        [SerializeField] private GameObject respawnUI;
+        [SerializeField] private TextMeshProUGUI killedByText;
+        [SerializeField] private TextMeshProUGUI respawnTimerText;
+
         //Controls for local player...
         [Header("Controls")]
         [SerializeField] private CinemachineCamera cam;
@@ -32,6 +39,11 @@ namespace Managers.Local
         //We can't let this be static for local multiplayer.
         public static LocalPlayerController LocalBallPlayer { get; private set; }
         public bool IsActive => _currentBall;
+
+
+        private bool _tickRespawn;
+        private float _respawnTimer;
+        private const float RespawnTime = 5;
 
         private void Awake()
         {
@@ -48,12 +60,20 @@ namespace Managers.Local
         {
             _currentBall.GetBall.Foward.Value = cam.transform.forward;
             _currentBall.GetBall.MoveDirection.Value = joystick.Direction;
-        }
 
-        public void IncreaseScore()
-        {
-        }
+            //this should probs be done on the server....
+            if (_tickRespawn)
+            {
+                _respawnTimer -= Time.deltaTime;
 
+                respawnTimerText.text = ("RESPAWNING IN : " + (int)_respawnTimer);
+                if (_respawnTimer <= 0)
+                {
+                    Unbind();
+                    _tickRespawn = false;
+                }
+            }
+        }
 
         #region Interaction
         public void EnableControls()
@@ -100,23 +120,53 @@ namespace Managers.Local
             
             SelectionMenu.Instance.EndDisplaying();
 
-            ballPlayer.OnDestroyed += _ => Unbind();
+            ballPlayer.OnDestroyed += OnBallKilled;
             
             EnableControls();
         }
 
+        private void OnBallKilled(ulong killer)
+        {
+            BallPlayer[] allBalls = FindObjectsByType<BallPlayer>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
+            foreach (BallPlayer ball in allBalls)
+            {
+                if (ball.NetworkObject.OwnerClientId == killer)
+                {
+                    cam.LookAt =  ball.transform;
+                    cam.Follow = null;
+                    cam.InternalUpdateCameraState(Vector3.up, 10);
+                }
+            }
+            respawnUI.SetActive(true);
+            rootCanvas.enabled = false;
+
+            killedByText.text = (killer == 100) ? "WORLD" : NetworkGameManager.Instance.GetPlayerName(killer);
+            DisableControls();
+
+            _tickRespawn = true;
+            _respawnTimer = RespawnTime;
+        }
+
         public void Unbind()
         {
+            respawnUI.SetActive(false);
             rootCanvas.enabled = false;
             enabled = false;
             cam.enabled = false;
             SelectionMenu.Instance.BeginDisplaying();
             
-            DisableControls();
+          //  DisableControls();
         }
 
         private void SetBall(Ball target)
         {
+            if (cam.LookAt)
+            {
+          //      cam.LookAt = null;
+              //  cam.InternalUpdateCameraState(Vector3.up, 10);
+            }
+
+            cam.LookAt = target.transform;
             cam.Follow =  target.transform;
             cam.InternalUpdateCameraState(Vector3.up, 10);
         }
