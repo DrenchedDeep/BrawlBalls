@@ -85,68 +85,6 @@ namespace Gameplay
             if (IsOwner) LocalPlayerController.LocalBallPlayer.BindTo(this);
         }
 
-        
-        /*/
-        [ServerRpc]
-        public void Die_ServerRpc(ulong killer)
-        {
-            //previousAttacker.AwardKill();
-            //Instantiate(onDestroy,transform.position,previousAttacker.transform.rotation);
-            //Because it needs to be parent last :(
-            
-            Die(killer);
-        }
-        public void Die(ulong killer)
-        {
-            NetworkGameManager.Instance.PlayParticleGlobally_ServerRpc("Confetti", transform.position,
-                transform.rotation);
-            
-            Die_ClientRpc(killer);
-        }
-
-        //need to let the local player know when they die so they can respawn themselves :D
-        [ClientRpc]
-        public void Die_ClientRpc(ulong killer)
-        {
-            OnDestroyed?.Invoke(killer);
-            ActualDie_ServerRpc(killer);
-        }
-
-        [ServerRpc]
-        public void ActualDie_ServerRpc(ulong killer)
-        {
-            OnDestroyed?.Invoke(killer);
-            transform.GetChild(0).GetComponent<NetworkObject>().Despawn();
-            transform.GetChild(1).GetComponent<NetworkObject>().Despawn();
-            NetworkObject.Despawn();
-
-        }
-        
-
-        [ClientRpc]
-        public void TakeDamage_ClientRpc(float amount, Vector3 direction, ulong attacker)
-        {
-            print("Check damage: " + amount);
-            if (!IsServer) return;
-
-            _currentHealth.Value -= amount;
-
-            print(name + "Ouchie! I took damage: " + amount + ",  " + direction + ", I have reamining health: " +
-                  _currentHealth);
-
-            if (_currentHealth.Value <= 0)
-            {
-                _previousAttackerID.Value = attacker;
-                _ = MessageManager.Instance.HandleScreenMessage("Died to: <color=#ff000>" + attacker + "</color>", 3f);
-                Debug.LogWarning("TODO: When we die, let's look at our attacker for a bit.");
-                Die_ServerRpc(attacker);
-                return;
-            }
-
-            _rb.AddForce(direction, ForceMode.Impulse);
-        }
-        /*/
-
         [ServerRpc(RequireOwnership = false)]
         public void TakeDamage_ServerRpc(DamageProperties damageInfo)
         {
@@ -217,5 +155,69 @@ namespace Gameplay
                 //play confetti particles here??
             }
         }
+        
+        
+                /*/
+        [ServerRpc]
+        public void Die_ServerRpc(ulong killer)
+        {
+            //previousAttacker.AwardKill();
+            //Instantiate(onDestroy,transform.position,previousAttacker.transform.rotation);
+            //Because it needs to be parent last :(
+            
+            Die(killer);
+        }
+        public void Die(ulong killer)
+        {
+            NetworkGameManager.Instance.PlayParticleGlobally_ServerRpc("Confetti", transform.position,
+                transform.rotation);
+            
+            Die_ClientRpc(killer);
+        }
+
+        //need to let the local player know when they die so they can respawn themselves :D
+        [ClientRpc]
+        public void Die_ClientRpc(ulong killer)
+        {
+            OnDestroyed?.Invoke(killer);
+            ActualDie_ServerRpc(killer);
+        }
+
+        [ServerRpc]
+        public void ActualDie_ServerRpc(ulong killer)
+        {
+            OnDestroyed?.Invoke(killer);
+            transform.GetChild(0).GetComponent<NetworkObject>().Despawn();
+            transform.GetChild(1).GetComponent<NetworkObject>().Despawn();
+            NetworkObject.Despawn();
+
+        }
+        
+
+        [ClientRpc]
+        public void TakeDamage_ClientRpc(float amount, Vector3 direction, ulong attacker)
+        {
+            print("Check damage: " + amount);
+            if (!IsServer) return;
+
+            _currentHealth.Value -= amount;
+
+            print(name + "Ouchie! I took damage: " + amount + ",  " + direction + ", I have reamining health: " +
+                  _currentHealth);
+
+            if (_currentHealth.Value <= 0)
+            {
+                _previousAttackerID.Value = attacker;
+                _ = MessageManager.Instance.HandleScreenMessage("Died to: <color=#ff000>" + attacker + "</color>", 3f);
+                Debug.LogWarning("TODO: When we die, let's look at our attacker for a bit.");
+                Die_ServerRpc(attacker);
+                return;
+            }
+
+            _rb.AddForce(direction, ForceMode.Impulse);
+        }
+        /*/
     }
+    
+    
 }

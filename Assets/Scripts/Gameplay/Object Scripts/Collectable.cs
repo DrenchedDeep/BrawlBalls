@@ -12,7 +12,7 @@ namespace Gameplay.Object_Scripts
         [SerializeField] private ParticleManager.ECollectableType collectableType;
     
     
-        protected void Award(Ball getComponent)
+        protected void Award(BallPlayer getComponent)
         {
             //Award this collectable type to the owner.
         
@@ -27,7 +27,7 @@ namespace Gameplay.Object_Scripts
         {
             Debug.LogWarning("Object collected");
             //Play effect...
-            Award(other.transform.parent.GetComponent<Ball>());
+            Award(other.transform.parent.GetComponent<BallPlayer>());
        
         }
     
