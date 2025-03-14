@@ -123,12 +123,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: WeaponIconRocketCannonLauncher
+      name: RocketMissleLauncherWeaponIcon
       rect:
         serializedVersion: 2
-        x: 1
-        y: 367
-        width: 190
+        x: 13
+        y: 366
+        width: 189
         height: 141
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -138,20 +138,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 00ae574b1bdb8454a8b11375904fd17e
-      internalID: 640356610
+      spriteID: 894caf31f1a0f83419e8c7499698043c
+      internalID: 505402379
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: GameIconDiamond
+      name: ImplosionExplosionButtonWeaponIcon
       rect:
         serializedVersion: 2
-        x: 264
-        y: 330
-        width: 269
-        height: 167
+        x: 786
+        y: 276
+        width: 238
+        height: 236
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -160,20 +160,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cca27026cff139242a92ce4e7814376d
-      internalID: -1267366938
+      spriteID: e1b172c3fdf27a24db3ce847b9820a62
+      internalID: -809545533
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WeaponIconSpikeNail
+      name: NailSpikeWeaponIcon
       rect:
         serializedVersion: 2
-        x: 612
-        y: 318
-        width: 264
-        height: 162
+        x: 225
+        y: 310
+        width: 267
+        height: 160
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -182,19 +182,41 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 41bdddca3857ee34485bd660447b25a2
-      internalID: 21716375
+      spriteID: 3b4905623cb13db40b27b7b1c3d47323
+      internalID: -91529896
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: GameIconCoinGeneric
+      name: GlueAbiltiyIcon
       rect:
         serializedVersion: 2
-        x: 2
-        y: 86
-        width: 256
+        x: 480
+        y: 225
+        width: 285
+        height: 268
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6b9a4a8c6d427a641a78926921a048bf
+      internalID: -637184569
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: GeneralCoinUIItemIcon
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 22
+        width: 288
         height: 256
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -204,20 +226,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: be7e891f023bf99418d090dee2afc607
-      internalID: -1559313307
+      spriteID: 7f15c766e9ff0e9478dd1c5ef581f365
+      internalID: 133883841
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WeaponIconLaserBeam
+      name: DiamondUIIcon
       rect:
         serializedVersion: 2
-        x: 306
-        y: 138
-        width: 228
-        height: 154
+        x: 272
+        y: 60
+        width: 262
+        height: 200
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -226,20 +248,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b7584349e5d54304c9f8c65498bdf94d
-      internalID: 927641524
+      spriteID: a2edf78a463686f4992b030fddb07ca9
+      internalID: 144582262
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: AbilityIconGlue
+      name: BlastBeamLaserWeaponIcon
       rect:
         serializedVersion: 2
-        x: 588
-        y: 18
-        width: 282
-        height: 270
+        x: 542
+        y: 24
+        width: 232
+        height: 182
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -248,8 +270,30 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b6d5054db12fee64ca3f05034116aa8a
-      internalID: -50477315
+      spriteID: f7881d7b015d3fe4cb438bb960288f26
+      internalID: -394158855
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SonicBoomBetsyWeaponIcon
+      rect:
+        serializedVersion: 2
+        x: 769
+        y: 6
+        width: 255
+        height: 222
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5f0928834e46ca9438efce876a0dca97
+      internalID: 283255884
       vertices: []
       indices: 
       edges: []
@@ -268,12 +312,21 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      AbilityIconGlue: -50477315
-      GameIconCoinGeneric: -1559313307
-      GameIconDiamond: -1267366938
-      WeaponIconLaserBeam: 927641524
-      WeaponIconRocketCannonLauncher: 640356610
-      WeaponIconSpikeNail: 21716375
+      BlastBeamLaserWeaponIcon: -394158855
+      DiamondUIIcon: 144582262
+      GameIconSprites_1: 95572140
+      GameIconSprites_14: -418011618
+      GameIconSprites_3: -2067545355
+      GameIconSprites_4: -302273705
+      GameIconSprites_7: 1622437238
+      GameIconSprites_8: 408309358
+      GameIconSprites_9: 398881478
+      GeneralCoinUIItemIcon: 133883841
+      GlueAbiltiyIcon: -637184569
+      ImplosionExplosionButtonWeaponIcon: -809545533
+      NailSpikeWeaponIcon: -91529896
+      RocketMissleLauncherWeaponIcon: 505402379
+      SonicBoomBetsyWeaponIcon: 283255884
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -1,4 +1,3 @@
-using System;
 using Managers.Local;
 using Stats;
 using TMPro;
@@ -35,6 +34,7 @@ namespace MainMenu.UI
             {
                 _currentItem = item.GetItem();
                 DisplayCurrentItem();
+                _popupMenu.Open();
             }
             else
             {
@@ -47,7 +47,7 @@ namespace MainMenu.UI
             icon.sprite = _currentItem.Stats.Icon;
             
             ResourceManager.Instance.GetRarityInformation(_currentItem.Stats.Rarity, out Color color, out Sprite sprite);
-
+            color.a = 0.4f;
             backing.sprite = sprite;
             backing.color = color;
             
