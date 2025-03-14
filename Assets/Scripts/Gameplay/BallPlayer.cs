@@ -70,7 +70,7 @@ namespace Gameplay
             GetWeapon = GetComponentInChildren<Weapon>();
 
             _rb = GetComponent<Rigidbody>();
-            _rb.mass = GetBall.Mass + GetWeapon.Mass;
+            _rb.mass = GetBall.Stats.Mass + GetWeapon.Stats.Mass;
 
             gameObject.layer = IsOwner ? StaticUtilities.LocalBallLayerLiteral : StaticUtilities.EnemyLayerLiteral;
 
@@ -79,7 +79,7 @@ namespace Gameplay
                 child.gameObject.layer = gameObject.layer;
             }
 
-            if (IsHost) _currentHealth.Value = GetBall.MaxHealth;
+            if (IsHost) _currentHealth.Value = GetBall.Stats.MaxHealth;
 
 
             if (IsOwner) LocalPlayerController.LocalBallPlayer.BindTo(this);
@@ -217,6 +217,10 @@ namespace Gameplay
             _rb.AddForce(direction, ForceMode.Impulse);
         }
         /*/
+                public void SetAbility(AbilityStats ability)
+                {
+                    GetAbility = ability;
+                }
     }
     
     
