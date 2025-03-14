@@ -40,7 +40,7 @@ namespace Managers
             Debug.Log("Spawning at: " + spawnPoint + "Ball successfully spawned: " + id.Receive.SenderClientId);
             
             //Create the Ball Controller
-            BallPlayer player = Instantiate(ResourceManager.Hull, spawnPoint, Quaternion.LookRotation(Vector3.up));
+            BallPlayer player = Instantiate(ResourceManager.Instance.Hull, spawnPoint, Quaternion.LookRotation(Vector3.up));
             Transform cachedTransform = player.transform;
             
             NetworkObject[] obs =

@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using Managers.Local;
 using Stats;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -17,7 +19,9 @@ namespace MainMenu.UI
     
         [SerializeField] private Image outline;
         [SerializeField] private UIHoverScale scaler;
-
+        [SerializeField] private TextMeshProUGUI titleText;
+        [SerializeField] private Image icon;
+        [SerializeField] private Image backing;
 
         private ShopItemStats _itemStats;
         private bool _isSelected;
@@ -127,6 +131,15 @@ namespace MainMenu.UI
         public void SetItem(ShopItemStats stats)
         {
             _itemStats = stats;
+
+            titleText.text = stats.name;
+            icon.sprite = stats.Stats.Icon;
+
+            ResourceManager.Instance.GetRarityInformation(stats.Stats.Rarity, out Color rarityColor, out Sprite rarityIcon);
+
+            backing.sprite = rarityIcon;
+            backing.color = rarityColor;
+
         }
 
         public ShopItemStats GetItem()

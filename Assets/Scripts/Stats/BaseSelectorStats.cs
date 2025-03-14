@@ -15,13 +15,14 @@ namespace Stats
         {
             CommonTraits = CreateCommonTraits();
         }
+        public enum ERarity
+        {
+            Common,
+            Rare,
+            Epic,
+            Ultra
+        }
+
     }
 
-    public enum ERarity
-    {
-        Common,
-        Rare,
-        Epic,
-        Ultra
-    }
 }

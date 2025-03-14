@@ -27,6 +27,8 @@ namespace Core.Podium
 
         private bool _isBlocked;
 
+        private GameObject _ballObject;
+        private GameObject _weaponObject;
         private Material _ballMaterial;
         private Material[] _weaponMaterial;
         
@@ -62,6 +64,9 @@ namespace Core.Podium
             NetworkObject[] unitySucks = _myBall.GetComponentsInChildren<NetworkObject>();
             TrailRenderer trail = _myBall.GetComponent<TrailRenderer>();
 
+            _ballObject = b.gameObject;
+            _weaponObject = w.gameObject;
+            
             _ballMaterial = b.GetComponent<MeshRenderer>().material;
             _ = TransitionMaterial(_ballMaterial, StaticUtilities.AppearPercentID, 1,0);
 
@@ -110,12 +115,22 @@ namespace Core.Podium
             _material.SetColor(StaticUtilities.EmissiveID, targetColor);
         }
 
-        public void SetWeapon(Weapon w)
+        public void SetWeapon(GameObject w)
         {
-            
+            Destroy(_weaponObject);
+
+            _weaponObject = Instantiate(w, ballPoint);
+            MeshRenderer[] mesh = _weaponObject.GetComponentsInChildren<MeshRenderer>();
+            _weaponMaterial = new Material[mesh.Length];
+            for (int i = 0; i < mesh.Length; i++)
+            {
+                _weaponMaterial[i] = mesh[i].material;
+                _ = TransitionMaterial(_weaponMaterial[i], StaticUtilities.FlashPercentID,1,0);
+            }
+
         }
 
-        public void SetBall(Ball b)
+        public void SetBall(GameObject b)
         {
             
         }

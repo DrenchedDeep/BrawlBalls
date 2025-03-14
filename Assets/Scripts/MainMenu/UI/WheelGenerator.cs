@@ -7,9 +7,20 @@ namespace MainMenu.UI
     public class WheelGenerator : MonoBehaviour
     {
         [SerializeField] private Transform parent;
-        [SerializeField] private Image setBackground;
         [SerializeField] private WheelItem template;
-        [SerializeField] private ShopItemStats[] items;
+        [SerializeField] private ShopItemStats[] items; 
+        
+        /*
+         * How do we get all of the object types....
+         * We need:
+         * Name
+         * Icon,
+         * Prefab,
+         * object to replace??? << How do we know, if we're a Ball, Weapon or Ability? Do we enumerate? Type check? Have a Base class?
+         * We know what the current podium is... Kinda... So when we choose a new object... We need to replace the one on the current podium
+         * What happens when we want to "Swap"
+         * How do we tell, which items are already being used.
+         */
         
         
         private void OnEnable()
@@ -22,10 +33,11 @@ namespace MainMenu.UI
         {
             foreach (ShopItemStats stats in items)
             {
-                //WheelItem myItem = Instantiate(template, parent);
-                //myItem.SetItem(stats);
+                WheelItem item = Instantiate(template, parent);
+                item.SetItem(stats);
             }
-            
         }
+
+       
     }
 }

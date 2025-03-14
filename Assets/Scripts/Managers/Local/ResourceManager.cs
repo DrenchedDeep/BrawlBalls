@@ -19,19 +19,32 @@ namespace Managers.Local
         [SerializeField] private AbilityStats[] abilityIds;
         [SerializeField] private NetworkObject[] summonableObjects;
 
+        [SerializeField] private Sprite[] rarityIcons;
+        [SerializeField] private Color[] rarityColors;
 
         public static readonly Dictionary<string, Ball> Balls = new();
         public static readonly Dictionary<string, Weapon> Weapons = new();
         public static readonly Dictionary<string, AbilityStats> Abilities = new();
         public static readonly Dictionary<string, NetworkObject> SummonableObjects = new();
+public BallPlayer Hull => hull;
 
-        
-        public static BallPlayer Hull { get; private set; }
+        public static ResourceManager Instance { get; private set; }
+
 
         // Start is called before the first frame update
         void Awake()
         {
-            Hull = hull;
+            if (Instance && Instance != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
+
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+
+
+
             Debug.LogError("Can this be converted to Addressables?", gameObject);
             
             Application.targetFrameRate = -1; // native default... (BIND IN SETTINGS LATER)
@@ -67,7 +80,7 @@ namespace Managers.Local
         {
                             
             //Create the Ball Controller
-            BallPlayer createdBallPlayer = Instantiate(Hull, root);
+            BallPlayer createdBallPlayer = Instantiate(Instance.hull, root);
             Transform cachedTransform = createdBallPlayer.transform;
             
             b = Instantiate(Balls[ball], cachedTransform);
@@ -78,6 +91,13 @@ namespace Managers.Local
             w.enabled = false;
             
             return createdBallPlayer;
+        }
+
+        public void GetRarityInformation(BaseSelectorStats.ERarity statsRarity, out Color color, out Sprite image)
+        {
+            int id = (int)statsRarity;
+            color = rarityColors[id];
+            image = rarityIcons[id];
         }
     }
 }

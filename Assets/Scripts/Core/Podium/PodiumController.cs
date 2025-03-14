@@ -1,11 +1,14 @@
 using System;
 using Cysharp.Threading.Tasks;
 using Loading;
+using MainMenu.UI;
 using Managers.Local;
+using Stats;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using Utilities.Layout;
 
 namespace Core.Podium
 {
@@ -56,6 +59,8 @@ namespace Core.Podium
 
         private void Update()
         {
+            
+            
             if (Pointer.current == null || !Pointer.current.press.wasPressedThisFrame)
                 return;
             
@@ -101,6 +106,28 @@ namespace Core.Podium
         public void DisablePodiumAndCycle(int podium)
         {
             podiums[podium].RemoveBall();
+        }
+        
+        public void OnItemSelected(IInfiniteScrollItem item)
+        {
+            ShopItemStats wheelItem = ((WheelItem)item).GetItem();
+            
+            //... Validate?
+
+            Podium p = podiums[CurForwarad];
+
+            if (wheelItem.Stats is WeaponStats ws)
+            {
+                p.SetWeapon(wheelItem.Prefab);
+            }else if (wheelItem.Stats is BallStats bs)
+            {
+                p.SetBall(wheelItem.Prefab);
+            }
+            else
+            {
+                p.SetAbility(null);
+            }
+
         }
     }
 }
