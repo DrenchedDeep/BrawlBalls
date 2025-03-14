@@ -31,7 +31,10 @@ namespace Managers.Local
         //Controls for local player...
         [Header("Controls")]
         [SerializeField] private CinemachineCamera cam;
-    
+
+        [Header("Spectating")]
+        
+        [SerializeField] private SpectatingManager spectatingManager;
 
         //We can't let this be static for local multiplayer.
         public static LocalPlayerController LocalBallPlayer { get; private set; }
@@ -42,6 +45,8 @@ namespace Managers.Local
         private float _respawnTimer;
         private const float RespawnTime = 5;
 
+        private int _livesLeft;
+
         private void Awake()
         {
             if (LocalBallPlayer != null && LocalBallPlayer != this)
@@ -49,6 +54,8 @@ namespace Managers.Local
                 Destroy(gameObject);
                 return;
             }
+
+            _livesLeft = 3;
             LocalBallPlayer = this;
             enabled = false;
         }
@@ -164,16 +171,27 @@ namespace Managers.Local
 
         public void Unbind()
         {
-            respawnUI.SetActive(false);
-            rootCanvas.enabled = false;
-            enabled = false;
-            cam.enabled = false;
-            SelectionMenu.Instance.BeginDisplaying();
-            
-          //  DisableControls();
+            _livesLeft--;
+
+            if (_livesLeft <= 0)
+            {
+                spectatingManager.StartSpectating();
+                respawnUI.SetActive(false);
+
+            }
+            else
+            {
+                respawnUI.SetActive(false);
+                rootCanvas.enabled = false;
+                enabled = false;
+                cam.enabled = false;
+                SelectionMenu.Instance.BeginDisplaying();
+            }
+
+            //  DisableControls();
         }
 
-        private void SetBall(Ball target)
+        public void SetBall(Ball target)
         {
             if (cam.LookAt)
             {
