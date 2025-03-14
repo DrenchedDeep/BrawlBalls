@@ -133,7 +133,7 @@ namespace Managers.Network
              CurrentTime.OnValueChanged += OnCurrentTime_Multicast;
              Players.OnListChanged += PlayersOnOnListChanged;
              
-             CheckGameStart_ServerRpc(SaveManager.UserName);
+             CheckGameStart_ServerRpc(SaveManager.MyBalls.Username);
          }
 
 

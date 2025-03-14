@@ -74,8 +74,8 @@ namespace Core.Podium
         
         public void TrySpawnSelectedBall(int i)
         {
-            SaveManager.BallStructure myBall = SaveManager.MyBalls[i];
-            Debug.Log("Selecting ball: " + myBall.Ball, gameObject);
+            SaveManager.BallStructure myBall = SaveManager.MyBalls.GetReadonlyBall(i);
+            Debug.Log("Selecting ball: " + myBall.ball, gameObject);
             if ((!NetworkGameManager.Instance.CanRespawn()) && NetworkManager.Singleton)
             {
                 Debug.Log("Player cannot respawn right now!", gameObject);
@@ -84,7 +84,7 @@ namespace Core.Podium
 
             podiumController.DisablePodiumAndCycle(i);
             Debug.LogWarning("Add server side check to see if we can still spawn that ball, or if we've already spent it.", gameObject);
-            BallHandler.Instance.SpawnBall_ServerRpc(myBall.Ball, myBall.Weapon, myBall.Ability);
+            BallHandler.Instance.SpawnBall_ServerRpc(myBall.ball, myBall.weapon, myBall.ability);
             EndDisplaying();
         }
     }

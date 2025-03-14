@@ -64,7 +64,7 @@ namespace Gameplay.UI
         private void Initialize()
         {
             transform.parent.gameObject.SetActive(true);
-            print("Initializing Scoreboard: " + SaveManager.UserName);
+            print("Initializing Scoreboard: " + SaveManager.MyBalls.Username);
 
             foreach (ScoreHolders scoreHolder in _holders)
             {

@@ -39,15 +39,20 @@ namespace Managers.Network
 
         private readonly LobbyEventCallbacks _events = new();
 
-        private void Start()
+        bool isCreated = false;
+        
+        public void Initialize()
         {
+            if (isCreated)
+                return;
 
+            isCreated = true;
             Dictionary<string, PlayerDataObject> d = new Dictionary<string, PlayerDataObject>()
             {
                 //Member is visible for everyone in lobby.
                 //Private is visible to self
                 //Public is visible to everyone
-                { "Name", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, SaveManager.UserName) },
+                { "Name", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, SaveManager.MyBalls.Username) },
                 { "Ready", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, "0") }
             };
             
@@ -199,7 +204,7 @@ namespace Managers.Network
         
         public async void QuickPlay()
         {
-            
+            Initialize();
           
 
             try

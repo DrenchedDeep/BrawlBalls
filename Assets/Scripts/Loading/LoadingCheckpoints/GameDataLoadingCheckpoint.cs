@@ -15,16 +15,11 @@ namespace Loading.LoadingCheckpoints
             Debug.Log("Beginning loading checkpoint", gameObject);
 
             SaveManager.MyBalls = await SaveManager.LoadData();
-
-            foreach (var bal in SaveManager.MyBalls)
-            {
-                Debug.Log($"Loaded: {bal.Ball}, {bal.Weapon}, {bal.Ability}");
-            }
         }
 
         public bool IsCompleted()
         {
-            return SaveManager.MyBalls.Length == 3;
+            return SaveManager.MyBalls != null;
         }
     }
     

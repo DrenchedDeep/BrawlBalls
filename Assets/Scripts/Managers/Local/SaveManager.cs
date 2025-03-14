@@ -1,10 +1,10 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.Serialization;
 using System.Xml.Serialization;
 using Cysharp.Threading.Tasks;
 using Unity.Services.Authentication;
 using UnityEngine;
-using Random = System.Random;
 
 namespace Managers.Local
 {
@@ -14,97 +14,83 @@ namespace Managers.Local
         private static readonly string DataPath = Application.persistentDataPath + '/'; 
         private static readonly string SaveDataDirectory = DataPath + "SaveData";
         private static readonly string FileExtention = ".dat";
-        private static readonly XmlSerializer Serializer = new(typeof(BallStructure[]));
+        private static readonly DataContractSerializer Serializer = new(typeof(PlayerData));
 
         //TODO: Make better
-        public static BallStructure[] MyBalls = Array.Empty<BallStructure>();
-
-        public static string UserName;
+        public static PlayerData MyBalls;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         private static void RunTimeInit()
         {
-            MyBalls = Array.Empty<BallStructure>();
-            UserName = "Brawller " + UnityEngine.Random.Range(0, 10000);
+            MyBalls = null;
         }
 
 
         private static string GetCompleteDirectory(string file) => SaveDataDirectory + '/'+ file + FileExtention;
         
-        public static async UniTask<BallStructure[]> LoadData()
+        public static async UniTask<PlayerData> LoadData()
         {
             if (!AuthenticationService.Instance.IsSignedIn)
             {
-                return ResetPlayerData();
+                return CreateDefaultPlayerData("Brawller " + UnityEngine.Random.Range(0, 10000));
             }
 
+            string name = await AuthenticationService.Instance.GetPlayerNameAsync();
             string str = GetCompleteDirectory(await AuthenticationService.Instance.GetPlayerNameAsync());
             
             if (!ValidateSaveFolder() ||  !ValidateSaveFile(str))
             {
-                return ResetPlayerData();
+                return CreateDefaultPlayerData(name);
             }
 
-            BallStructure[] balls;
+            PlayerData balls;
             try
             {
-                await using FileStream reader = File.OpenRead(str);
-                balls = Serializer.Deserialize(reader) as BallStructure[];
+                await using FileStream reader = File.Open(str, FileMode.Open, FileAccess.Read, FileShare.Read);
+                balls = Serializer.ReadObject(reader) as PlayerData;
 
             }
             catch (Exception e)
             {
                 Debug.LogError("File Reading issue: "+ e);
-                return ResetPlayerData();
+                return CreateDefaultPlayerData(name);
             }
 
             return balls;
         }
 
-        public static async UniTask SaveData(BallStructure[] data)
+        private static PlayerData CreateDefaultPlayerData(string username)
         {
-            ValidateSaveFolder();
-            
-            string str = GetCompleteDirectory(await AuthenticationService.Instance.GetPlayerNameAsync());
-            ValidateSaveFile(str);
-            try
-            {
-                await using FileStream writer = File.OpenWrite(str);
-                Serializer.Serialize(writer, data);
-            }
-            catch (Exception e)
-            {
-                Debug.LogError("Failed to Save data: "+ e);
-            }
-        }
-        
-        public static BallStructure[] ResetPlayerData()
-        {
+            PlayerData p = new PlayerData();
+            p.Username = username;
             BallStructure primaryBall = new BallStructure()
             {
-                Ball = "SoccerBall",
-                Ability = "Jump",
-                Weapon = "SpikeWeapon"
+                ball = "SoccerBall",
+                ability = "Jump",
+                weapon = "SpikeWeapon"
             };
             BallStructure secondary = new BallStructure()
             {
-                Ball = "PaintBall",
-                Ability = "Glue",
-                Weapon = "LaserWeapon"
+                ball = "PaintBall",
+                ability = "Glue",
+                weapon = "LaserWeapon"
             };
             BallStructure tertiaryBall = new BallStructure()
             {
-                Ball = "CannonBall",
-                Ability = "Protect",
-                Weapon = "RocketLauncherWeapon"
+                ball = "CannonBall",
+                ability = "Protect",
+                weapon = "RocketLauncherWeapon"
             };
-            return new[]
+            p.SetAllBalls(new[]
             {
                 secondary,
                 primaryBall,
                 tertiaryBall
-            };
+            });
+            return p;
         }
+ 
+
 
         private static bool ValidateSaveFolder()
         {
@@ -124,17 +110,81 @@ namespace Managers.Local
 
             if (!File.Exists(str))
             {
-                File.Create(str);
                 return false;
             }
             return true;
         }
 
+        [DataContract]
+        public class PlayerData
+        {
+            public string Username;
+            [DataMember] private BallStructure[] _balls;
+
+            public bool HasChanges() => _hasChanges;
+
+            [NonSerialized] private bool _hasChanges;
+            
+            public async UniTask SaveData()
+            {
+                Debug.Log("Beginning Save for player: "+ Username);
+                if (!_hasChanges) return;
+                
+                ValidateSaveFolder();
+            
+                string str = GetCompleteDirectory(Username);
+                ValidateSaveFile(str);
+                try
+                {
+                    await using FileStream writer = File.Open(str, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Write);
+                    Serializer.WriteObject(writer, this);
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError("Failed to Save data: "+ e);
+                }
+
+                _hasChanges = false;
+                
+                Debug.Log("Save complete!");
+            }
+
+            public BallStructure GetReadonlyBall(int index) => _balls[index];
+
+            public void SetBallType(int index, string ball)
+            {
+                if (string.Equals(_balls[index].ball, ball)) return;
+                _balls[index].ball = ball;
+                _hasChanges = true;
+            }
+            
+            public void SetBallWeapon(int index, string weapon)
+            {
+                if (string.Equals(_balls[index].weapon, weapon)) return;
+                _balls[index].weapon = weapon;
+                _hasChanges = true;
+            }
+            
+            public void SetBallAbility(int index, string ability)
+            {
+                if (string.Equals(_balls[index].ability, ability)) return;
+                _balls[index].ability = ability;
+                _hasChanges = true;
+            }
+
+            public void SetAllBalls(BallStructure[] ballStructures)
+            {
+                _balls = ballStructures;
+                _hasChanges = true;
+            }
+        }
+
+        [Serializable]
         public struct BallStructure
         {
-            public string Ball;
-            public string Weapon;
-            public string Ability;
+            public string ball;
+            public string weapon;
+            public string ability;
         }
     }
 }

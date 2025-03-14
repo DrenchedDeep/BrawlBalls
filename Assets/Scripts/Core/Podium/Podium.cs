@@ -61,9 +61,9 @@ namespace Core.Podium
         public void CreateBall(int index)
         {
             _ballIndex = index;
-            SaveManager.BallStructure ballInfo = SaveManager.MyBalls[index];
-            _myBall = ResourceManager.CreateBallDisabled(ballInfo.Ball, ballInfo.Weapon, ballPoint, out var b, out var w);
-            _myBall.SetAbility(ResourceManager.Abilities[ballInfo.Ability]);
+            SaveManager.BallStructure ballInfo = SaveManager.MyBalls.GetReadonlyBall(index);
+            _myBall = ResourceManager.CreateBallDisabled(ballInfo.ball, ballInfo.weapon, ballPoint, out var b, out var w);
+            _myBall.SetAbility(ResourceManager.Abilities[ballInfo.ability]);
             TrailRenderer trail = _myBall.GetComponent<TrailRenderer>();
 
             _ballObject = b.gameObject;
@@ -122,8 +122,8 @@ namespace Core.Podium
 
         public void SetWeapon(GameObject w)
         {
-            Debug.Log($"Changing the WEAPON from {SaveManager.MyBalls[_ballIndex].Weapon} to {w.name}");
-            SaveManager.MyBalls[_ballIndex].Weapon = w.name;
+            Debug.Log($"Changing the WEAPON from {SaveManager.MyBalls.GetReadonlyBall(_ballIndex).ball} to {w.name}");
+            SaveManager.MyBalls.SetBallWeapon(_ballIndex,  w.name);
             
             Destroy(_weaponObject);
 
@@ -149,8 +149,8 @@ namespace Core.Podium
 
         public void SetBall(GameObject b)
         {
-            Debug.Log($"Changing the BALL from {SaveManager.MyBalls[_ballIndex].Ball} to {b.name}");
-            SaveManager.MyBalls[_ballIndex].Ball = b.name;
+            Debug.Log($"Changing the BALL from {SaveManager.MyBalls.GetReadonlyBall(_ballIndex).ball} to {b.name}");
+            SaveManager.MyBalls.SetBallType(_ballIndex, b.name);
             
             Destroy(_ballObject);
             
@@ -166,8 +166,8 @@ namespace Core.Podium
 
         public void SetAbility(AbilityStats a)
         {
-            Debug.Log($"Changing the ABILITY from {SaveManager.MyBalls[_ballIndex].Ability} to {a.name}");
-            SaveManager.MyBalls[_ballIndex].Ability = a.name;
+            Debug.Log($"Changing the ABILITY from {SaveManager.MyBalls.GetReadonlyBall(_ballIndex).ability} to {a.name}");
+            SaveManager.MyBalls.SetBallAbility(_ballIndex, a.name);
             _ = TransitionMaterial(_ballMaterial, StaticUtilities.FlashPercentID, 1,0);
         }
 

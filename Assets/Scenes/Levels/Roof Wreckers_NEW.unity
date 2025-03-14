@@ -6475,6 +6475,7 @@ GameObject:
   - component: {fileID: 326362281}
   - component: {fileID: 326362280}
   - component: {fileID: 326362279}
+  - component: {fileID: 326362283}
   m_Layer: 0
   m_Name: LoadingDependencies
   m_TagString: Untagged
@@ -6534,6 +6535,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1422553597}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &326362283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 326362278}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8604ae2740def194ea69534cb8b33a53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
