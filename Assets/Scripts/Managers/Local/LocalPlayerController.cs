@@ -56,6 +56,23 @@ namespace Managers.Local
             enabled = false;
         }
 
+        private void OnEnable()
+        {
+            NetworkGameManager.Instance.OnGameEnd += OnGameEnded;
+        }
+
+        private void OnDisable()
+        {
+            NetworkGameManager.Instance.OnGameEnd -= OnGameEnded;
+
+        }
+
+        private void OnGameEnded()
+        {
+            rootCanvas.enabled = false;
+            DisableControls();
+        }
+
         private void Update()
         {
             _currentBall.GetBall.Foward.Value = cam.transform.forward;

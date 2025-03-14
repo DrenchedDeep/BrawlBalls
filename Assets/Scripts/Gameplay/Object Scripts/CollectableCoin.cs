@@ -38,6 +38,7 @@ namespace Gameplay.Object_Scripts
             {
                 ct += Time.deltaTime;
                 text.text = (collectionTime - ct).ToString("F1");
+                text.transform.LookAt(Camera.main.transform);
                 //text.transform.LookAt(); Look at local players ball
                 await UniTask.Yield();
             }

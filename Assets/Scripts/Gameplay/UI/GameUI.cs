@@ -39,7 +39,7 @@ public class GameUI : MonoBehaviour
         }
         
 
-        var ts = TimeSpan.FromSeconds(NetworkGameManager.Instance.GetTimeLeftInMatch());
+        var ts = TimeSpan.FromSeconds(NetworkGameManager.Instance.GetTotalTimePassed);
 
         matchTimerText.text =  string.Format("{0:00}:{1:00}", (int) ts.TotalMinutes, (int) ts.Seconds);
     }

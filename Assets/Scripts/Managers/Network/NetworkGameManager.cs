@@ -262,7 +262,7 @@ namespace Managers.Network
                  StartGame_Client();
                  OnGameBegin?.Invoke();
              }
-             else
+             else  if(old)
              {
                  OnGameEnd?.Invoke();
              }
@@ -305,6 +305,7 @@ namespace Managers.Network
              }
             
              Debug.LogWarning("Well I guess everyone who's alive is a winner! TODO: Actually make this work");
+             GameStarted.Value = false;
          }
     
          private async UniTask ProcessTimeFrame(float duration, CancellationToken token)
@@ -414,7 +415,7 @@ namespace Managers.Network
 
              return "";
          }
-    
+         
     
          //ideally particles shouldn't be spawned with RPC'S, they should be spawned with replicated variables... atleast in unreal, not sure in this.. so leaving it as is for now.
          [ServerRpc(RequireOwnership = false)]
