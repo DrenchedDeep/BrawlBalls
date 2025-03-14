@@ -135,7 +135,7 @@ namespace Managers.Local
                 ValidateSaveFile(str);
                 try
                 {
-                    await using FileStream writer = File.Open(str, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Write);
+                    await using FileStream writer = File.Open(str, FileMode.Create, FileAccess.Write, FileShare.Write);
                     Serializer.WriteObject(writer, this);
                 }
                 catch (Exception e)
