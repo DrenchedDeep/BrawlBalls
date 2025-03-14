@@ -4,6 +4,7 @@ using System.Xml.Serialization;
 using Cysharp.Threading.Tasks;
 using Unity.Services.Authentication;
 using UnityEngine;
+using Random = System.Random;
 
 namespace Managers.Local
 {
@@ -18,10 +19,13 @@ namespace Managers.Local
         //TODO: Make better
         public static BallStructure[] MyBalls = Array.Empty<BallStructure>();
 
+        public static string UserName;
+
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         private static void RunTimeInit()
         {
             MyBalls = Array.Empty<BallStructure>();
+            UserName = "Brawller " + UnityEngine.Random.Range(0, 10000);
         }
 
 

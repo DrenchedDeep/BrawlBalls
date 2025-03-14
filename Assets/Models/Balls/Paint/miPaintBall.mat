@@ -68,12 +68,14 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AppearPercent: 0
     - _CrackPercent: 0
     - _EMISSIONONLY: 0
     - _FlashPercent: 0
     - _QueueControl: 0
     - _QueueOffset: 0
     - _RaiseScale: 160
+    - _RiseScale: 10
     - _SpawnPercent: 0
     m_Colors:
     - _CrackColor: {r: 2.301887, g: 0.5991523, b: 0.05428978, a: 0}

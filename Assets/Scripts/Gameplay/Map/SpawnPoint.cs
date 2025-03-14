@@ -58,7 +58,7 @@ namespace Gameplay.Map
             {
                 cT += Time.deltaTime;
                 _myMaterial.SetFloat(AmountID, Mathf.Lerp(start, end, cT/ChangeTime));
-                UniTask.Yield();
+                await UniTask.Yield();
             }
         }
     

@@ -1,4 +1,3 @@
-using System;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -46,7 +45,7 @@ namespace Managers.Local
             const float initialFadeDuration = 3;
             
             FadeMixerGroup(BaseAPath, 1f, initialFadeDuration);
-            FadeMixerGroup("Master", PlayerPrefs.GetFloat("Audio_Master"), initialFadeDuration);
+            FadeMixerGroup("Master", PlayerPrefs.GetFloat("Audio_Master", .5f), initialFadeDuration);
         }
 
         public void ToggleExtraSound(bool enable)

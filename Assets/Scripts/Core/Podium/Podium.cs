@@ -1,4 +1,3 @@
-using System.Collections;
 using Cysharp.Threading.Tasks;
 using Gameplay;
 using Managers.Local;
@@ -21,8 +20,16 @@ namespace Core.Podium
         [SerializeField, ColorUsage(true, true)] private Color blockedColor;
         [SerializeField] private AnimationCurve colorTransition;
         [SerializeField] private float transitionDuration;
+        
+        [Header("Creation")]
+        [SerializeField] private AnimationCurve flashTransition;
+        [SerializeField] private float flashDuration = 0.5f;
 
         private bool _isBlocked;
+
+        private Material _ballMaterial;
+        private Material[] _weaponMaterial;
+        
 
         public bool IsBlocked
         {
@@ -50,10 +57,22 @@ namespace Core.Podium
         public void CreateBall(SaveManager.BallStructure ballInfo)
         {
             
-            _myBall = ResourceManager.CreateBallDisabled(ballInfo.Ball, ballInfo.Weapon, ballPoint);
+            _myBall = ResourceManager.CreateBallDisabled(ballInfo.Ball, ballInfo.Weapon, ballPoint, out var b, out var w);
             _myBall.SetAbility(ResourceManager.Abilities[ballInfo.Ability]);
             NetworkObject[] unitySucks = _myBall.GetComponentsInChildren<NetworkObject>();
             TrailRenderer trail = _myBall.GetComponent<TrailRenderer>();
+
+            _ballMaterial = b.GetComponent<MeshRenderer>().material;
+            _ = TransitionMaterial(_ballMaterial, StaticUtilities.AppearPercentID, 1,0);
+
+            MeshRenderer[] mesh = w.GetComponentsInChildren<MeshRenderer>();
+            _weaponMaterial = new Material[mesh.Length];
+            for (int i = 0; i < mesh.Length; i++)
+            {
+                _weaponMaterial[i] = mesh[i].material;
+                _ = TransitionMaterial(_weaponMaterial[i], StaticUtilities.FlashPercentID,1,0);
+            }
+            
             Destroy(trail);
             foreach (var t in unitySucks)
             {
@@ -90,6 +109,37 @@ namespace Core.Podium
             
             _material.SetColor(StaticUtilities.EmissiveID, targetColor);
         }
+
+        public void SetWeapon(Weapon w)
+        {
+            
+        }
+
+        public void SetBall(Ball b)
+        {
+            
+        }
+
+        public void SetAbility(Ability a)
+        {
+           
+        }
+
+        private async UniTask TransitionMaterial(Material m, int shaderID, float start, float end)
+        {
+            float t = 0;
+            while (t < flashDuration)
+            {
+                t += Time.deltaTime;
+                float p = flashTransition.Evaluate(t / flashDuration);
+                
+                m.SetFloat(shaderID, Mathf.Lerp(start,end,p));
+                
+                await UniTask.Yield();
+            }
+            m.SetFloat(shaderID, end);
+        }
+
 
     }
 }

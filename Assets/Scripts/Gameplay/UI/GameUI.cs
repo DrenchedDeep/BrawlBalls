@@ -4,63 +4,65 @@ using Managers.Network;
 using TMPro;
 using UnityEngine;
 
-public class GameUI : MonoBehaviour
+namespace Gameplay.UI
 {
-    public static GameUI Instance;
-
-    [Header("Elim UI")]
-    [SerializeField] private Animator eliminationAnimator;
-    [SerializeField] private TextMeshProUGUI eliminationPlayerText;
-
-    [Header("Match Timer")]
-    [SerializeField] private TextMeshProUGUI matchTimerText;
-
-    private static readonly int Show = Animator.StringToHash("Show");
-    private static readonly int Hide = Animator.StringToHash("Hide");
-
-
-    private void Awake()
+    public class GameUI : MonoBehaviour
     {
-        if (Instance != null)
+        public static GameUI Instance { get; private set; }
+
+        [Header("Elim UI")]
+        [SerializeField] private Animator eliminationAnimator;
+        [SerializeField] private TextMeshProUGUI eliminationPlayerText;
+
+        [Header("Match Timer")]
+        [SerializeField] private TextMeshProUGUI matchTimerText;
+
+        private static readonly int Show = Animator.StringToHash("Show");
+        private static readonly int Hide = Animator.StringToHash("Hide");
+
+
+        private void Awake()
         {
-            Destroy(this);
-            return;
+            if (Instance != null)
+            {
+                Destroy(this);
+                return;
+            }
+
+            Instance = this;
         }
 
-        Instance = this;
-    }
-
-    private void Update()
-    {
-        if (!NetworkGameManager.Instance.GameStarted.Value)
+        private void Update()
         {
-            matchTimerText.text = "WAITING FOR PLAYERS TO CONNECT...";
-            return;
+            if (!NetworkGameManager.Instance.GameStarted.Value)
+            {
+                matchTimerText.text = "WAITING FOR PLAYERS TO CONNECT...";
+                return;
+            }
+        
+
+            var ts = TimeSpan.FromSeconds(NetworkGameManager.Instance.GetTotalTimePassed);
+            matchTimerText.text = ts.ToString("mm\\:ss\\");
         }
-        
 
-        var ts = TimeSpan.FromSeconds(NetworkGameManager.Instance.GetTotalTimePassed);
+        public void ShowElimUI(string killedName)
+        {
+            eliminationAnimator.gameObject.SetActive(true);
+            eliminationAnimator.SetTrigger(Show);
+            eliminationPlayerText.text = killedName;
 
-        matchTimerText.text =  string.Format("{0:00}:{1:00}", (int) ts.TotalMinutes, (int) ts.Seconds);
-    }
+            StartCoroutine(HideElimUI());
+        }
 
-    public void ShowElimUI(string killedName)
-    {
-        eliminationAnimator.gameObject.SetActive(true);
-        eliminationAnimator.SetTrigger(Show);
-        eliminationPlayerText.text = killedName;
-
-        StartCoroutine(HideElimUI());
-    }
-
-    private IEnumerator HideElimUI()
-    {
-        yield return new WaitForSeconds(1);
-        eliminationAnimator.SetTrigger(Hide);
-        yield return new WaitForSeconds(.25f);
-        eliminationAnimator.gameObject.SetActive(false);
+        private IEnumerator HideElimUI()
+        {
+            yield return new WaitForSeconds(1);
+            eliminationAnimator.SetTrigger(Hide);
+            yield return new WaitForSeconds(.25f);
+            eliminationAnimator.gameObject.SetActive(false);
 
 
         
+        }
     }
 }

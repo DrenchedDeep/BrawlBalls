@@ -56,7 +56,7 @@ namespace Utilities.Common.Settings
             resolutions = Screen.resolutions.Distinct().ToArray();
             resolutionDropdown.ClearOptions();
 
-            var options = resolutions.Select(res => $"{res.width}x{res.height} @{res.refreshRate}Hz").ToList();
+            var options = resolutions.Select(res => $"{res.width}x{res.height} @{res.refreshRateRatio}Hz").ToList();
             resolutionDropdown.AddOptions(options);
         }
 
@@ -69,7 +69,7 @@ namespace Utilities.Common.Settings
         {
             #if UNITY_STANDALONE || UNITY_EDITOR
                 Resolution resolution = resolutions[index];
-                Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen, resolution.refreshRate);
+                Screen.SetResolution(resolution.width, resolution.height, FullScreenMode.FullScreenWindow, resolution.refreshRateRatio);
             #endif
         }
 

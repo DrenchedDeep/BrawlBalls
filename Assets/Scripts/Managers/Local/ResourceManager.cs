@@ -63,19 +63,19 @@ namespace Managers.Local
 
         }
         
-        public static BallPlayer CreateBallDisabled(string ball, string weapon, Transform root)
+        public static BallPlayer CreateBallDisabled(string ball, string weapon, Transform root,out Ball b, out Weapon w)
         {
                             
             //Create the Ball Controller
             BallPlayer createdBallPlayer = Instantiate(Hull, root);
             Transform cachedTransform = createdBallPlayer.transform;
             
-            Ball createdBall = Instantiate(Balls[ball], cachedTransform);
-            Weapon createdWeapon = Instantiate(Weapons[weapon], cachedTransform);
+            b = Instantiate(Balls[ball], cachedTransform);
+            w = Instantiate(Weapons[weapon], cachedTransform);
 
             createdBallPlayer.enabled = false;
-            createdBall.enabled = false;
-            createdWeapon.enabled = false;
+            b.enabled = false;
+            w.enabled = false;
             
             return createdBallPlayer;
         }

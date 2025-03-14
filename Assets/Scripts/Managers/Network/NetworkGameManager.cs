@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Gameplay;
+using Gameplay.UI;
 using Loading;
 using MainMenu.UI;
 using Managers.Local;
@@ -132,7 +133,7 @@ namespace Managers.Network
              CurrentTime.OnValueChanged += OnCurrentTime_Multicast;
              Players.OnListChanged += PlayersOnOnListChanged;
              
-             CheckGameStart_ServerRpc(PlayerBallInfo.UserName);
+             CheckGameStart_ServerRpc(SaveManager.UserName);
          }
 
 

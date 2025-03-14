@@ -47,7 +47,7 @@ namespace Managers.Network
                 //Member is visible for everyone in lobby.
                 //Private is visible to self
                 //Public is visible to everyone
-                { "Name", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, PlayerBallInfo.UserName) },
+                { "Name", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, SaveManager.UserName) },
                 { "Ready", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, "0") }
             };
             
@@ -59,7 +59,7 @@ namespace Managers.Network
             _events.DataChanged += CheckStartGame;
             //_events.PlayerJoined += x => LazyRegenCards();
             //_events.PlayerLeft += x => LazyRegenCards();
-            _events.LobbyChanged += async changes =>
+            _events.LobbyChanged += changes =>
             {
                 if(changes.LobbyDeleted) ClearCards();
                 else if (changes.PlayerJoined.Changed || changes.PlayerLeft.Changed)  LazyRegenCards();

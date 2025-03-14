@@ -14,6 +14,8 @@ namespace Managers.Local
         public static readonly int SpeedID = Shader.PropertyToID("_Speed");
         public static readonly int NoiseSpeedID = Shader.PropertyToID("_NoiseSpeed");
         public static readonly int SecondaryColorID = Shader.PropertyToID("_SecondaryColor");
+        public static readonly int FlashPercentID = Shader.PropertyToID("_FlashPercent");
+        public static readonly int AppearPercentID = Shader.PropertyToID("_AppearPercent");
         
         #endregion
         

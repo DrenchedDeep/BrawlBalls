@@ -85,6 +85,40 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   transitionDuration: 0.4
+  flashTransition:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.9019759
+      value: 0.39390364
+      inSlope: 1.3494067
+      outSlope: 1.3494067
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  flashDuration: 0.3
 --- !u!1 &4085605992000249962
 GameObject:
   m_ObjectHideFlags: 0
