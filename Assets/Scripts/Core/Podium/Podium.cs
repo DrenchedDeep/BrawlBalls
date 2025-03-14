@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using Gameplay;
 using Managers.Local;
+using Stats;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -27,6 +28,7 @@ namespace Core.Podium
 
         private bool _isBlocked;
 
+        private int _ballIndex = -1;
         private GameObject _ballObject;
         private GameObject _weaponObject;
         private Material _ballMaterial;
@@ -56,12 +58,12 @@ namespace Core.Podium
         }
     
 
-        public void CreateBall(SaveManager.BallStructure ballInfo)
+        public void CreateBall(int index)
         {
-            
+            _ballIndex = index;
+            SaveManager.BallStructure ballInfo = SaveManager.MyBalls[index];
             _myBall = ResourceManager.CreateBallDisabled(ballInfo.Ball, ballInfo.Weapon, ballPoint, out var b, out var w);
             _myBall.SetAbility(ResourceManager.Abilities[ballInfo.Ability]);
-            NetworkObject[] unitySucks = _myBall.GetComponentsInChildren<NetworkObject>();
             TrailRenderer trail = _myBall.GetComponent<TrailRenderer>();
 
             _ballObject = b.gameObject;
@@ -77,6 +79,9 @@ namespace Core.Podium
                 _weaponMaterial[i] = mesh[i].material;
                 _ = TransitionMaterial(_weaponMaterial[i], StaticUtilities.FlashPercentID,1,0);
             }
+            
+            
+            NetworkObject[] unitySucks = _myBall.GetComponentsInChildren<NetworkObject>();
             
             Destroy(trail);
             foreach (var t in unitySucks)
@@ -117,9 +122,21 @@ namespace Core.Podium
 
         public void SetWeapon(GameObject w)
         {
+            Debug.Log($"Changing the WEAPON from {SaveManager.MyBalls[_ballIndex].Weapon} to {w.name}");
+            SaveManager.MyBalls[_ballIndex].Weapon = w.name;
+            
             Destroy(_weaponObject);
 
             _weaponObject = Instantiate(w, ballPoint);
+
+
+
+            
+            Destroy(_weaponObject.GetComponentInChildren<NetworkObject>());
+
+            _weaponObject.GetComponentInChildren<Weapon>().enabled = false;
+            
+            
             MeshRenderer[] mesh = _weaponObject.GetComponentsInChildren<MeshRenderer>();
             _weaponMaterial = new Material[mesh.Length];
             for (int i = 0; i < mesh.Length; i++)
@@ -132,12 +149,26 @@ namespace Core.Podium
 
         public void SetBall(GameObject b)
         {
+            Debug.Log($"Changing the BALL from {SaveManager.MyBalls[_ballIndex].Ball} to {b.name}");
+            SaveManager.MyBalls[_ballIndex].Ball = b.name;
+            
+            Destroy(_ballObject);
+            
+            _ballObject = Instantiate(b, ballPoint);
+            _ballObject.GetComponentInChildren<Ball>().enabled = false;
+
+            Destroy(_ballObject.GetComponentInChildren<NetworkObject>());
+
+            _ballMaterial = _ballObject.GetComponent<MeshRenderer>().material;
+            _ = TransitionMaterial(_ballMaterial, StaticUtilities.FlashPercentID, 1,0);
             
         }
 
-        public void SetAbility(Ability a)
+        public void SetAbility(AbilityStats a)
         {
-           
+            Debug.Log($"Changing the ABILITY from {SaveManager.MyBalls[_ballIndex].Ability} to {a.name}");
+            SaveManager.MyBalls[_ballIndex].Ability = a.name;
+            _ = TransitionMaterial(_ballMaterial, StaticUtilities.FlashPercentID, 1,0);
         }
 
         private async UniTask TransitionMaterial(Material m, int shaderID, float start, float end)

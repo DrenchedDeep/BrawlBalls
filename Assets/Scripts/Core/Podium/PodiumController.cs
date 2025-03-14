@@ -41,13 +41,13 @@ namespace Core.Podium
             try
             {
                 Debug.Log("We're spawning these balls!");
-                podiums[1].CreateBall(SaveManager.MyBalls[1]);
+                podiums[1].CreateBall(1);
                 //podiums[1].ForceActivate();
                 await UniTask.Delay(100);
-                podiums[0].CreateBall(SaveManager.MyBalls[0]);
+                podiums[0].CreateBall(0);
                 //podiums[0].ForceActivate();
                 await UniTask.Delay(100);
-                podiums[2].CreateBall(SaveManager.MyBalls[2]);
+                podiums[2].CreateBall(2);
                 //podiums[2].ForceActivate();
             }
 
@@ -116,16 +116,16 @@ namespace Core.Podium
 
             Podium p = podiums[CurForwarad];
 
-            if (wheelItem.Stats is WeaponStats ws)
+            if (wheelItem.Stats is WeaponStats)
             {
                 p.SetWeapon(wheelItem.Prefab);
-            }else if (wheelItem.Stats is BallStats bs)
+            }else if (wheelItem.Stats is AbilityStats st)
             {
-                p.SetBall(wheelItem.Prefab);
+                p.SetAbility(st);
             }
             else
             {
-                p.SetAbility(null);
+                p.SetBall(wheelItem.Prefab);
             }
 
         }

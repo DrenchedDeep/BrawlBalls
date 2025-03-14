@@ -8,6 +8,7 @@ using BallPlayer = Gameplay.BallPlayer;
 namespace Managers.Local
 {
     
+    [DefaultExecutionOrder(-1000)]
     public class ResourceManager : MonoBehaviour
     {
         //public static bool IsOnline { get; set; } //Netamanager. ..?
@@ -26,13 +27,13 @@ namespace Managers.Local
         public static readonly Dictionary<string, Weapon> Weapons = new();
         public static readonly Dictionary<string, AbilityStats> Abilities = new();
         public static readonly Dictionary<string, NetworkObject> SummonableObjects = new();
-public BallPlayer Hull => hull;
 
         public static ResourceManager Instance { get; private set; }
+        public BallPlayer Hull => hull;
 
 
         // Start is called before the first frame update
-        void Awake()
+        void OnEnable()
         {
             if (Instance && Instance != this)
             {
