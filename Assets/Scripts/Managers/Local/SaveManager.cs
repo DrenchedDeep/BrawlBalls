@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Runtime.Serialization;
-using System.Xml.Serialization;
 using Cysharp.Threading.Tasks;
 using Unity.Services.Authentication;
 using UnityEngine;
@@ -118,7 +117,7 @@ namespace Managers.Local
         [DataContract]
         public class PlayerData
         {
-            public string Username;
+            [DataMember] public string Username;
             [DataMember] private BallStructure[] _balls;
 
             public bool HasChanges() => _hasChanges;

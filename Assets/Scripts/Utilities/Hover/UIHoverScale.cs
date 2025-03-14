@@ -17,17 +17,19 @@ namespace Utilities.Hover
         private Coroutine _hoverCoroutine;
 
         private float _currentTransitionTime;
+
+        private bool _isLocked;
         private void Awake()
         {
             _rectTransform = transform as RectTransform;
             if(_rectTransform == null) throw new UnityException("Missing component of RectTransform");
             _originalScale = useLiteralScale?_rectTransform.localScale:_rectTransform.sizeDelta;
-        
         }
-
+        
 
         public void OnPointerEnter(PointerEventData eventData)
         {
+            if (_isLocked) return;
             if (_hoverCoroutine != null)
             {
                 _currentTransitionTime = transitionDuration - _currentTransitionTime;
@@ -38,7 +40,9 @@ namespace Utilities.Hover
 
   
         public void OnPointerExit(PointerEventData eventData)
-        {
+        {         
+            if (_isLocked) return;
+             
             if (_hoverCoroutine != null)
             {
                 _currentTransitionTime = transitionDuration - _currentTransitionTime;
@@ -46,14 +50,15 @@ namespace Utilities.Hover
             }
             _hoverCoroutine = StartCoroutine(Transition(useLiteralScale?_rectTransform.localScale:_rectTransform.sizeDelta, _originalScale));
         }
-        
+
+
         private IEnumerator Transition(Vector2 start, Vector2 end)
         {
             if (useLiteralScale)
             {
                 while (_currentTransitionTime < transitionDuration)
                 {
-                    _rectTransform.localScale = Vector2.Lerp(start, end, transitionCurve.Evaluate(_currentTransitionTime / transitionDuration));
+                    _rectTransform.localScale = Vector2.LerpUnclamped(start, end, transitionCurve.Evaluate(_currentTransitionTime / transitionDuration));
                     _currentTransitionTime += Time.deltaTime;
                     yield return null;
                 }
@@ -62,7 +67,7 @@ namespace Utilities.Hover
             {
                 while (_currentTransitionTime < transitionDuration)
                 {
-                    _rectTransform.sizeDelta = Vector2.Lerp(start, end, transitionCurve.Evaluate(_currentTransitionTime / transitionDuration));
+                    _rectTransform.sizeDelta = Vector2.LerpUnclamped(start, end, transitionCurve.Evaluate(_currentTransitionTime / transitionDuration));
                     _currentTransitionTime += Time.deltaTime;
                     yield return null;
                 }
@@ -72,5 +77,9 @@ namespace Utilities.Hover
             _hoverCoroutine = null;
         }
 
+        public void Lock(bool state)
+        {
+            _isLocked = state;
+        }
     }
 }

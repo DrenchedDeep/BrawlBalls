@@ -19,6 +19,8 @@ namespace Utilities
       [SerializeField] private bool isVisible = true;
 
       public bool IsVisible => isVisible;
+      private bool _isClosing;
+      private bool _isOpening;
       
       private float _currentTransitionTime = 0;
       private Coroutine _actionRoutine;
@@ -39,6 +41,8 @@ namespace Utilities
 
       public void Open()
       {
+         _isClosing = false;
+         _isOpening = true;
          if (_actionRoutine != null)
          {
             _currentTransitionTime = transitionDuration - _currentTransitionTime;
@@ -51,6 +55,8 @@ namespace Utilities
 
       public void Close()
       {
+         _isOpening = false;
+         _isClosing = true;
          if (_actionRoutine != null)
          {
             _currentTransitionTime = transitionDuration - _currentTransitionTime;
@@ -74,6 +80,8 @@ namespace Utilities
          _currentTransitionTime = 0;
          _actionRoutine = null;
          if(wasClose) onClosed?.Invoke();
+         _isClosing = false;
+         _isOpening = false;
       }
    }
 }

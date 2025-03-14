@@ -113,7 +113,7 @@ namespace Core.Podium
             {
                 elapsedTime += Time.deltaTime;
                 float t = colorTransition.Evaluate(elapsedTime / transitionDuration);
-                _material.SetColor(StaticUtilities.EmissiveID, Color.Lerp(startColor, targetColor, t));
+                _material.SetColor(StaticUtilities.EmissiveID, Color.LerpUnclamped(startColor, targetColor, t));
                 await UniTask.Yield();
             }
             
@@ -179,7 +179,7 @@ namespace Core.Podium
                 t += Time.deltaTime;
                 float p = flashTransition.Evaluate(t / flashDuration);
                 
-                m.SetFloat(shaderID, Mathf.Lerp(start,end,p));
+                m.SetFloat(shaderID, Mathf.LerpUnclamped(start,end,p));
                 
                 await UniTask.Yield();
             }
