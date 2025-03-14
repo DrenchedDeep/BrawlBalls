@@ -5,6 +5,7 @@ using Managers.Network;
 using Stats;
 using TMPro;
 using Unity.Cinemachine;
+using Unity.Netcode;
 using UnityEngine;
 
 //Player handles UI, and is the main interface for players...
@@ -68,6 +69,7 @@ namespace Managers.Local
             rootCanvas.enabled = false;
             DisableControls();
         }
+        
 
         private void Update()
         {
@@ -143,7 +145,7 @@ namespace Managers.Local
             BallPlayer[] allBalls = FindObjectsByType<BallPlayer>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
             foreach (BallPlayer ball in allBalls)
             {
-                if (ball.NetworkObject.OwnerClientId == killer)
+                if (ball && ball.NetworkObject && ball.NetworkObject.OwnerClientId == killer)
                 {
                     cam.LookAt =  ball.transform;
                     cam.Follow = null;

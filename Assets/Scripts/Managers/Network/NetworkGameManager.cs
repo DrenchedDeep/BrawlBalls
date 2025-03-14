@@ -11,6 +11,7 @@ using Managers.Local;
 using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Utilities.General;
 using Debug = UnityEngine.Debug;
 
@@ -270,6 +271,21 @@ namespace Managers.Network
              {
                  OnGameEnd?.Invoke();
              }
+         }
+
+         public void ReturnToMainMenu()
+         {
+             if (IsServer)
+             {
+                 foreach (var client in NetworkManager.ConnectedClients)
+                 {
+                     NetworkManager.DisconnectClient(client.Key);
+                 }
+                 
+               //  NetworkManager.dis
+             }
+
+             SceneManager.LoadScene("MainMenuNEW");
          }
 
          private void OnCurrentTime_Multicast(float old, float current)
