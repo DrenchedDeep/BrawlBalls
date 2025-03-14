@@ -21,14 +21,25 @@ public class SpectatingManager : MonoBehaviour
     
     public void SpectateNextPlayer(int index)
     {
-        //IM LAZY ASF BABY LETS GOOO!!
-        Ball[] allBalls = FindObjectsByType<Ball>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
 
-        _currentIndex += index % allBalls.Length;
+        //IM LAZY ASF BABY LETS GOOO!!
+        BallPlayer[] allBalls = FindObjectsByType<BallPlayer>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
 
         if (allBalls[_currentIndex])
         {
-            localPlayerController.SetBall(allBalls[_currentIndex]);
+            allBalls[_currentIndex].OnDestroyed -= OnCurrentSpectatingPlayerDied;
+        }
+        
+        _currentIndex += index;
+        _currentIndex %= allBalls.Length;
+
+        if (!allBalls[_currentIndex])
+        {
+            _currentIndex = 0;
+        }
+
+        allBalls[_currentIndex].OnDestroyed += OnCurrentSpectatingPlayerDied;
+            localPlayerController.SetBall(allBalls[_currentIndex].GetBall);
 
             string playerName =
                 NetworkGameManager.Instance.GetPlayerName(allBalls[_currentIndex].NetworkObject.OwnerClientId);
@@ -36,6 +47,12 @@ public class SpectatingManager : MonoBehaviour
                       playerName);
             
             currentPlayerName.text = playerName;
-        }
+        
+
+    }
+
+    private void OnCurrentSpectatingPlayerDied(ulong killer)
+    {
+        SpectateNextPlayer(1);
     }
 }

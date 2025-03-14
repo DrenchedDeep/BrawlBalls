@@ -13,7 +13,6 @@ namespace Gameplay
         [SerializeField] private BallStats stats;
         public BallStats Stats => stats;
         
-        
         private Rigidbody _rb;
         private MeshRenderer _mr;
         private Vector3 _previousPosition;
@@ -36,6 +35,7 @@ namespace Gameplay
             _rb.linearDamping = stats.Drag;
             _rb.angularDamping = stats.AngularDrag;
         }
+        
 
         private void FixedUpdate()
         {
