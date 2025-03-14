@@ -42,7 +42,7 @@ namespace Gameplay.UI
         
 
             var ts = TimeSpan.FromSeconds(NetworkGameManager.Instance.GetTotalTimePassed);
-            matchTimerText.text = ts.ToString("mm\\:ss\\");
+            matchTimerText.text = ts.ToString("mm\\:ss");
         }
 
         public void ShowElimUI(string killedName)

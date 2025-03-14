@@ -126,6 +126,8 @@ namespace MainMenu.UI
             WheelItem item = ((WheelItem)clone);
             item._targets.Add(this);
             _targets.Add(item);
+
+            _itemStats = item._itemStats;
         }
 
         public void SetItem(ShopItemStats stats)

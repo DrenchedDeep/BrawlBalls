@@ -86,7 +86,7 @@ namespace Core.Podium
 
             if (Physics.Raycast(ray, out RaycastHit hit, 1000, StaticUtilities.PodiumBlockers))
             {
-                Debug.LogWarning(" I did hit something: ", hit.transform.gameObject);
+                //Debug.LogWarning(" I did hit something: ", hit.transform.gameObject);
                 Transform t = hit.transform.parent;
                 if (!t) return;
                 if (t == podiums[CurForwarad].transform)
