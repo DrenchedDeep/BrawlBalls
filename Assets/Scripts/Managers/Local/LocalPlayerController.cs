@@ -1,15 +1,11 @@
-using System;
 using Core.Podium;
 using Gameplay;
 using Gameplay.UI;
-using Managers.Controls;
 using Managers.Network;
 using Stats;
 using TMPro;
 using Unity.Cinemachine;
-using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 //Player handles UI, and is the main interface for players...
 namespace Managers.Local

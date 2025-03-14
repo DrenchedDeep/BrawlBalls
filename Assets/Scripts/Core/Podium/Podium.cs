@@ -53,6 +53,8 @@ namespace Core.Podium
             _myBall = ResourceManager.CreateBallDisabled(ballInfo.Ball, ballInfo.Weapon, ballPoint);
             _myBall.SetAbility(ResourceManager.Abilities[ballInfo.Ability]);
             NetworkObject[] unitySucks = _myBall.GetComponentsInChildren<NetworkObject>();
+            TrailRenderer trail = _myBall.GetComponent<TrailRenderer>();
+            Destroy(trail);
             foreach (var t in unitySucks)
             {
                 Destroy(t);

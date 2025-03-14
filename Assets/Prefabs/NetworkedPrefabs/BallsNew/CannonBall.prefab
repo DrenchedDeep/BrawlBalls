@@ -8,6 +8,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -4644840416051989819, guid: 58034890b610adc448f83b4ab0fd9d3b,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 2294072106
+      objectReference: {fileID: 0}
     - target: {fileID: 3741352870139435088, guid: 58034890b610adc448f83b4ab0fd9d3b,
         type: 3}
       propertyPath: GlobalObjectIdHash
@@ -95,7 +100,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4819322826168763760}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 318e6032793a9ab42960eddbae4d7c8c, type: 3}
   m_Name: 

@@ -136,7 +136,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 0.47631422, y: 0.55000085, z: 2.000001}
   m_Center: {x: 0, y: 0.00000028312206, z: -0.12500013}
@@ -179,6 +179,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -3621002554068686582, guid: 2926e2614b1983744a8f07acebd3e9ca,
+        type: 3}
+      propertyPath: GlobalObjectIdHash
+      value: 1866274216
+      objectReference: {fileID: 0}
     - target: {fileID: 121342175863096600, guid: 2926e2614b1983744a8f07acebd3e9ca,
         type: 3}
       propertyPath: m_Size.x
@@ -193,6 +198,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Size.z
       value: 2.000001
+      objectReference: {fileID: 0}
+    - target: {fileID: 121342175863096600, guid: 2926e2614b1983744a8f07acebd3e9ca,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 121342175863096600, guid: 2926e2614b1983744a8f07acebd3e9ca,
         type: 3}

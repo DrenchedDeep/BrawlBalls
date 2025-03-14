@@ -10,6 +10,7 @@ using Managers.Local;
 using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
+using Utilities.General;
 using Debug = UnityEngine.Debug;
 
 namespace Managers.Network
@@ -73,6 +74,8 @@ namespace Managers.Network
         }
     }
     
+    [DefaultExecutionOrder(-500)]
+    
     public class NetworkGameManager: NetworkBehaviour
     {
          [SerializeField, Min(0)] private float matchTime = 300; 
@@ -94,7 +97,7 @@ namespace Managers.Network
 
          private CancellationTokenSource _matchCancelTokenSource;
 
-         private readonly SortedList<float, Action> _timedMatchEvents = new();
+         private readonly TupleList<float, Action> _timedMatchEvents = new();
 
          public NetworkVariable<bool> GameStarted { get; private set; } = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
          public NetworkVariable<float> CurrentTime { get; private set; } = new NetworkVariable<float>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
@@ -318,11 +321,11 @@ namespace Managers.Network
                  TotalTimePassed.Value += dt;
                 // Debug.LogWarning("time event balls" + _timedMatchEvents.Count);
 
-                 if (_timedMatchEvents.Count != 0 && GetTotalTimePassed >= _timedMatchEvents.Keys[0])
+                 if (_timedMatchEvents.Count != 0 && GetTotalTimePassed >= _timedMatchEvents[0].Item1)
                  {
                      Debug.Log("Executing a timed event at time: " + GetTotalTimePassed);
-                     _timedMatchEvents.Remove(_timedMatchEvents.Keys[0]);
-                     _timedMatchEvents.Values[0].Invoke();
+                     _timedMatchEvents.Remove(_timedMatchEvents[0]);
+                     _timedMatchEvents[0].Item2.Invoke();
                  }
                  await UniTask.Yield(token);
              }
@@ -338,6 +341,7 @@ namespace Managers.Network
          public void AddTimedEvent(float time, Action executedFunction)
          {
              _timedMatchEvents.Add(time, executedFunction);
+             _timedMatchEvents.Sort();
          }
 
          public bool CanRespawn()

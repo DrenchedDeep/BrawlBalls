@@ -2,6 +2,7 @@
 using Managers.Local;
 using Managers.Network;
 using Unity.Cinemachine;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace Core.Podium
@@ -75,7 +76,7 @@ namespace Core.Podium
         {
             SaveManager.BallStructure myBall = SaveManager.MyBalls[i];
             Debug.Log("Selecting ball: " + myBall.Ball, gameObject);
-            if (!NetworkGameManager.Instance.CanRespawn())
+            if ((!NetworkGameManager.Instance.CanRespawn()) && NetworkManager.Singleton)
             {
                 Debug.Log("Player cannot respawn right now!", gameObject);
                 return;
