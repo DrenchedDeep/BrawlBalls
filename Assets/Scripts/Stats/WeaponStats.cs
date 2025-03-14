@@ -1,4 +1,5 @@
 using System.Text;
+using Gameplay;
 using UnityEngine;
 
 namespace Stats
@@ -12,11 +13,10 @@ namespace Stats
         [field: SerializeField] public float PushMul { get; private set; }
         [field: SerializeField] public bool ForceBasedDamage { get; private set; }
         [field: SerializeField] public bool Force { get; private set; }
-    
         [field: SerializeField] public LayerMask HitLayers { get; private set; }
-    
         [field: SerializeField] public AbilityStats Ability { get; private set; }
-    
+
+        
         [field: Header("Weapon")]
         [field: SerializeField] public float BaseDist { get; private set; }
 

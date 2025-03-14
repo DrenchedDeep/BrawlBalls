@@ -1,4 +1,5 @@
 using System.Text;
+using Gameplay;
 using UnityEngine;
 
 namespace Stats
@@ -12,9 +13,6 @@ namespace Stats
         [field: SerializeField, Min(0.01f)] public float Drag { get; private set; }
         [field: SerializeField] public float Acceleration { get; private set; }
         [field: SerializeField, Min(0.01f)] public float Mass { get; private set; }
-
-        [field: SerializeField] public Material Material { get; private set; }
-        [field: SerializeField] public Mesh Mesh { get; private set; }
 
 
         private string _commonTraits;

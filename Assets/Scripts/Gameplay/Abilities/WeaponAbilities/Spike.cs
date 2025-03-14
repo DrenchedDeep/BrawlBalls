@@ -1,6 +1,4 @@
 using System.Collections;
-using Gameplay.Abilities.SpecialAbilities;
-using Managers;
 using Managers.Local;
 using UnityEngine;
 
@@ -29,9 +27,9 @@ namespace Gameplay.Abilities.WeaponAbilities
             {
                 duration -= Time.deltaTime;
                 ownerTrans.position += speed * Time.deltaTime * ownerTrans.forward;
-                if (Physics.Raycast(ownerTrans.position, ownerTrans.forward, out RaycastHit hit, weapon.Range.y * 10, StaticUtilities.GroundLayers)) // 1==Default
+                if (Physics.Raycast(ownerTrans.position, ownerTrans.forward, out RaycastHit hit, weapon.Stats.Range.y * 10, StaticUtilities.GroundLayers)) // 1==Default
                 {
-                    ownerTrans.position = hit.point - ownerTrans.forward * (weapon.Range.y * 10f);
+                    ownerTrans.position = hit.point - ownerTrans.forward * (weapon.Stats.Range.y * 10f);
                     weapon.enabled = false;
                     yield break;
                 }

@@ -1,11 +1,9 @@
-using System;
 using Gameplay.Abilities.WeaponAbilities;
 using Managers.Local;
 using RotaryHeart.Lib.PhysicsExtension;
 using Stats;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.Animations;
 using Physics = UnityEngine.Physics;
 
 namespace Gameplay
@@ -14,12 +12,11 @@ namespace Gameplay
     {
     
         [SerializeField] private WeaponStats stats;
+        public WeaponStats Stats => stats;
 
         public readonly RaycastHit[] Hits = new RaycastHit[10];
         public int HitCount { get; private set; }
 
-        public float Mass => stats.Mass;
-        public Vector2 Range => stats.Range;
         private BallPlayer _owner;
         public AbilityStats GetAbility => stats.Ability;
 

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,6 +9,8 @@ namespace Loading
         private int _numCompleted;
 
         [SerializeField] private bool loadOnAwake;
+        public static bool IsLoading { get; private set; }
+
         private void Awake()
         {
             if(loadOnAwake) BeginLoading();
@@ -18,6 +19,7 @@ namespace Loading
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         public async void BeginLoading()
         {
+            IsLoading = true;
             LoadingHelper.Instance.Activate();
             ILoadingCheckpoint[] checkpoints = GetComponents<ILoadingCheckpoint>();
             _numNeeded = checkpoints.Length + 1;
@@ -35,6 +37,7 @@ namespace Loading
             if (waitForComplete.Count == 0)
             {
                 Debug.Log("Loading is already complete, we don't need to do anything more! :)");
+                IsLoading = false;
                 return;
             }
 
@@ -48,6 +51,7 @@ namespace Loading
                 await checkpoint.Execute();
             }
             LoadingHelper.Instance.Deactivate();
+            IsLoading = false;
         }
 
         private void ItemFailed()

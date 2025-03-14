@@ -11,10 +11,9 @@ namespace Managers.Local
     public class ResourceManager : MonoBehaviour
     {
         //public static bool IsOnline { get; set; } //Netamanager. ..?
-        [SerializeField] private BallPlayer hull;
 
-        
-        [Header("Ball things... Addressablse?")]
+        [Header("Ball things... Addressablse?")] 
+        [SerializeField] private BallPlayer hull;
         [SerializeField] private Ball[] ballIds;
         [SerializeField] private Weapon[] weaponIds;
         [SerializeField] private AbilityStats[] abilityIds;
@@ -27,15 +26,13 @@ namespace Managers.Local
         public static readonly Dictionary<string, NetworkObject> SummonableObjects = new();
 
         
-        public static BallPlayer Hull { get; set; }
+        public static BallPlayer Hull { get; private set; }
 
         // Start is called before the first frame update
         void Awake()
         {
-            
-            Debug.LogError("Can this be converted to Addressables?", gameObject);
-            
             Hull = hull;
+            Debug.LogError("Can this be converted to Addressables?", gameObject);
             
             Application.targetFrameRate = -1; // native default... (BIND IN SETTINGS LATER)
             
@@ -66,11 +63,11 @@ namespace Managers.Local
 
         }
         
-        public static BallPlayer CreateBallDisabled(string ball, string weapon, Vector3 location, Quaternion rotation)
+        public static BallPlayer CreateBallDisabled(string ball, string weapon, Transform root)
         {
                             
             //Create the Ball Controller
-            BallPlayer createdBallPlayer = Instantiate(Hull, location, rotation);
+            BallPlayer createdBallPlayer = Instantiate(Hull, root);
             Transform cachedTransform = createdBallPlayer.transform;
             
             Ball createdBall = Instantiate(Balls[ball], cachedTransform);

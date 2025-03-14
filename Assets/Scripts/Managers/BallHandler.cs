@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using Gameplay;
 using Gameplay.Map;
-using Gameplay.UI;
 using Managers.Local;
 using Unity.Netcode;
 using UnityEngine;

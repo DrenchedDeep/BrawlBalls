@@ -33,7 +33,7 @@ namespace MarkedForDeath
         {
             gameObject.SetActive(false);
         
-            _width = w.Range.y;
+            _width = w.Stats.Range.y;
             myEffect.SetFloat(StaticUtilities.DelayID, TimeToActivate);
             myEffect.SetVector4(StaticUtilities.ColorID, lineRenderer.material.GetColor(StaticUtilities.ColorID));
         }
@@ -51,7 +51,7 @@ namespace MarkedForDeath
                 }
             }
 
-            if (maxDist == 0) maxDist = w.Range.x;
+            if (maxDist == 0) maxDist = w.Stats.Range.x;
             maxDist *= 3;
             myEffect.SetFloat(StaticUtilities.PositionID, maxDist);
             lineRenderer.SetPosition(1,maxDist*Vector3.forward);

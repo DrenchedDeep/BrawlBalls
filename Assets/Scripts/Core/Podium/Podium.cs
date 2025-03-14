@@ -1,3 +1,4 @@
+using System.Collections;
 using Cysharp.Threading.Tasks;
 using Gameplay;
 using Managers.Local;
@@ -21,7 +22,6 @@ namespace Core.Podium
         [SerializeField] private AnimationCurve colorTransition;
         [SerializeField] private float transitionDuration;
 
-
         private bool _isBlocked;
 
         public bool IsBlocked
@@ -41,30 +41,36 @@ namespace Core.Podium
         
         private void OnEnable()
         {
+
             if(!_material) _material = meshRenderer.material;
             _ = FadeEmissive(PillarIsEmpty ? inactiveColor : activeColor);
         }
-
-        private void OnDisable()
-        {
-            if(_material) _ = FadeEmissive(inactiveColor);
-        }
-
     
 
-        public void CreateBall(PlayerBallInfo.BallStructure ballInfo)
+        public void CreateBall(SaveManager.BallStructure ballInfo)
         {
-            _myBall = ResourceManager.CreateBallDisabled(ballInfo.Ball, ballInfo.Weapon, ballPoint.position, ballPoint.rotation);
-            foreach(MonoBehaviour nw in _myBall.GetComponentsInChildren<MonoBehaviour>()) nw.enabled = false;
-            _myBall.transform.SetParent(transform, true);
+            
+            _myBall = ResourceManager.CreateBallDisabled(ballInfo.Ball, ballInfo.Weapon, ballPoint);
+            _myBall.SetAbility(ResourceManager.Abilities[ballInfo.Ability]);
+            NetworkObject[] unitySucks = _myBall.GetComponentsInChildren<NetworkObject>();
+            foreach (var t in unitySucks)
+            {
+                Destroy(t);
+            }
 
+            _myBall.transform.localScale = Vector3.one;
+            
+            
+            
+            Debug.Log("Spawning a ball", _myBall.gameObject);
+            
             _ = FadeEmissive(activeColor);
         }
 
         public void RemoveBall()
         {
             Destroy(_myBall.gameObject);
-            _ = FadeEmissive(inactiveColor);
+           _ = FadeEmissive(inactiveColor);
         }
 
         private async UniTask FadeEmissive(Color targetColor)
@@ -72,7 +78,7 @@ namespace Core.Podium
             Color startColor = _material.GetColor(StaticUtilities.EmissiveID);
             float elapsedTime = 0f;
             
-            while (elapsedTime < transitionDuration && _material)
+            while (elapsedTime < transitionDuration )
             {
                 elapsedTime += Time.deltaTime;
                 float t = colorTransition.Evaluate(elapsedTime / transitionDuration);
@@ -80,13 +86,8 @@ namespace Core.Podium
                 await UniTask.Yield();
             }
             
-            _material?.SetColor(StaticUtilities.EmissiveID, targetColor);
+            _material.SetColor(StaticUtilities.EmissiveID, targetColor);
         }
 
-        public void ForceActivate()
-        {
-            _ = FadeEmissive(activeColor);
-
-        }
     }
 }

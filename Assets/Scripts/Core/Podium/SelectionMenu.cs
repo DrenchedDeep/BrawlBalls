@@ -1,6 +1,4 @@
-﻿using System;
-using Gameplay;
-using Managers;
+﻿using Managers;
 using Managers.Local;
 using Managers.Network;
 using Unity.Cinemachine;
@@ -12,7 +10,7 @@ namespace Core.Podium
     {
 
         [SerializeField] private CinemachineCamera cam;
-        [SerializeField] private PodiumCycleController cycleController;
+        [SerializeField] private PodiumController podiumController;
         
         public static SelectionMenu Instance { get; private set; }
 
@@ -26,7 +24,7 @@ namespace Core.Podium
             }
             Instance = this;
             
-            cycleController.onForwardSelected.AddListener(TrySpawnSelectedBall);
+            podiumController.onForwardSelected.AddListener(TrySpawnSelectedBall);
             
             BeginDisplaying();
         }
@@ -62,29 +60,30 @@ namespace Core.Podium
             Debug.Log("We are now displaying balls", gameObject);
 
             cam.enabled = true;
-            cycleController.enabled = true;
+            podiumController.enabled = true;
         }
 
         public void EndDisplaying()
         {
             Debug.Log("We are not displaying balls anymore", gameObject);
             cam.enabled = false;
-            cycleController.enabled = false;
+            podiumController.enabled = false;
         }
         
         
         public void TrySpawnSelectedBall(int i)
         {
-            Debug.Log("Selecting ball: " + PlayerBallInfo.Balls[i].Ball, gameObject);
+            SaveManager.BallStructure myBall = SaveManager.MyBalls[i];
+            Debug.Log("Selecting ball: " + myBall.Ball, gameObject);
             if (!NetworkGameManager.Instance.CanRespawn())
             {
                 Debug.Log("Player cannot respawn right now!", gameObject);
                 return;
             }
 
-            cycleController.DisablePodiumAndCycle(i);
+            podiumController.DisablePodiumAndCycle(i);
             Debug.LogWarning("Add server side check to see if we can still spawn that ball, or if we've already spent it.", gameObject);
-            BallHandler.Instance.SpawnBall_ServerRpc(PlayerBallInfo.Balls[i].Ball, PlayerBallInfo.Balls[i].Weapon, PlayerBallInfo.Balls[i].Ability);
+            BallHandler.Instance.SpawnBall_ServerRpc(myBall.Ball, myBall.Weapon, myBall.Ability);
             EndDisplaying();
         }
     }

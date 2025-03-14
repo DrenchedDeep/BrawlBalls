@@ -1,11 +1,8 @@
-using Gameplay.UI;
 using Managers.Local;
-using Managers.Network;
 using RotaryHeart.Lib.PhysicsExtension;
 using Stats;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.Animations;
 using Physics = UnityEngine.Physics;
 using Random = UnityEngine.Random;
 
@@ -14,30 +11,22 @@ namespace Gameplay
     public class Ball : NetworkBehaviour
     {
         [SerializeField] private BallStats stats;
+        public BallStats Stats => stats;
+        
+        
         private Rigidbody _rb;
         private MeshRenderer _mr;
-        
-
-        
         private Vector3 _previousPosition;
         private Vector3 _curPos;
         public readonly NetworkVariable<Vector2> MoveDirection = new(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
         public readonly NetworkVariable<Vector3> Foward = new(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
         
-        
-        
-        public float MaxSpeed => stats.MaxSpeed;
-        public float MaxHealth => stats.MaxHealth;
-        public float Mass => stats.Mass;
         public float Speed { get; private set; }
         public Vector3 Velocity { get; private set; }
         public float Acceleration { get; private set; }
 
         private void Start()
         {
-            GetComponent<MeshRenderer>().material = stats.Material;
-            GetComponent<MeshFilter>().mesh = stats.Mesh;
-            
             _rb = GetComponentInParent<Rigidbody>();
             _mr = GetComponent<MeshRenderer>();
             
@@ -90,7 +79,7 @@ namespace Gameplay
             float y = velocity.y;
             velocity.y = 0;
             
-            _rb.linearVelocity = Vector3.ClampMagnitude(velocity, MaxSpeed) + Vector3.up * y; //maintain our Y
+            _rb.linearVelocity = Vector3.ClampMagnitude(velocity, Stats.MaxSpeed) + Vector3.up * y; //maintain our Y
         }
         
         

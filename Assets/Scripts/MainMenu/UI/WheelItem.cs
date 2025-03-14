@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Stats;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -18,6 +19,7 @@ namespace MainMenu.UI
         [SerializeField] private UIHoverScale scaler;
 
 
+        private ShopItemStats _itemStats;
         private bool _isSelected;
         private bool _isClone;
         private readonly List<WheelItem> _targets = new();
@@ -120,6 +122,16 @@ namespace MainMenu.UI
             WheelItem item = ((WheelItem)clone);
             item._targets.Add(this);
             _targets.Add(item);
+        }
+
+        public void SetItem(ShopItemStats stats)
+        {
+            _itemStats = stats;
+        }
+
+        public ShopItemStats GetItem()
+        {
+            return _itemStats;
         }
     }
 }
