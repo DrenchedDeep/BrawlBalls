@@ -71,14 +71,16 @@ namespace Managers.Local
             BallStructure secondary = new BallStructure()
             {
                 ball = "PaintBall",
-                ability = "Glue",
-                weapon = "LaserWeapon"
+                ability = "Caltrops",
+                //weapon = "LaserWeapon"
+                weapon = "SpikeWeapon"
             };
             BallStructure tertiaryBall = new BallStructure()
             {
                 ball = "CannonBall",
                 ability = "Protect",
-                weapon = "RocketLauncherWeapon"
+                weapon = "SpikeWeapon"
+                //weapon = "RocketLauncherWeapon"
             };
             p.SetAllBalls(new[]
             {
