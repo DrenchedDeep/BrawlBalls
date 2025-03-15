@@ -56,9 +56,11 @@ namespace Utilities.Hover
         {
             if (useLiteralScale)
             {
+                Vector3 startScale = new Vector3(start.x, start.y, 1);
+                Vector3 endScale = new Vector3(end.x, end.y, 1);
                 while (_currentTransitionTime < transitionDuration)
                 {
-                    _rectTransform.localScale = Vector2.LerpUnclamped(start, end, transitionCurve.Evaluate(_currentTransitionTime / transitionDuration));
+                    _rectTransform.localScale = Vector3.LerpUnclamped(startScale, endScale, transitionCurve.Evaluate(_currentTransitionTime / transitionDuration));
                     _currentTransitionTime += Time.deltaTime;
                     yield return null;
                 }
@@ -72,7 +74,8 @@ namespace Utilities.Hover
                     yield return null;
                 }
             }
-            
+
+
             _currentTransitionTime = 0;
             _hoverCoroutine = null;
         }

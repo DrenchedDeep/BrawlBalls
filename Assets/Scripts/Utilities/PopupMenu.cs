@@ -18,7 +18,6 @@ namespace Utilities
       [SerializeField] private AnimationCurve transitionCurve;
       [SerializeField] private bool isVisible = true;
 
-      public bool IsVisible => isVisible;
       private bool _isClosing;
       private bool _isOpening;
       
@@ -41,6 +40,7 @@ namespace Utilities
 
       public void Open()
       {
+         if (_isOpening) return;
          _isClosing = false;
          _isOpening = true;
          if (_actionRoutine != null)
@@ -55,6 +55,7 @@ namespace Utilities
 
       public void Close()
       {
+         if (_isClosing) return;
          _isOpening = false;
          _isClosing = true;
          if (_actionRoutine != null)

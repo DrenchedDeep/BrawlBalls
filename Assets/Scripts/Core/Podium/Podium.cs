@@ -1,3 +1,4 @@
+using System;
 using Cysharp.Threading.Tasks;
 using Gameplay;
 using Managers.Local;
@@ -33,7 +34,9 @@ namespace Core.Podium
         private GameObject _weaponObject;
         private Material _ballMaterial;
         private Material[] _weaponMaterial;
-        
+
+
+        private AudioSource _audioSource;
 
         public bool IsBlocked
         {
@@ -48,8 +51,12 @@ namespace Core.Podium
         public bool PillarIsEmpty => !_myBall;
         
         public bool CanInteract => !PillarIsEmpty && !IsBlocked;
-        
-        
+
+        private void Awake()
+        {
+            _audioSource = GetComponent<AudioSource>();
+        }
+
         private void OnEnable()
         {
 
@@ -60,6 +67,8 @@ namespace Core.Podium
 
         public void CreateBall(int index)
         {
+            _audioSource.Play();
+            _audioSource.time = 0.1f;
             _ballIndex = index;
             SaveManager.BallStructure ballInfo = SaveManager.MyBalls.GetReadonlyBall(index);
             _myBall = ResourceManager.CreateBallDisabled(ballInfo.ball, ballInfo.weapon, ballPoint, out var b, out var w);

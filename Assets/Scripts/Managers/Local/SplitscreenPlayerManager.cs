@@ -27,6 +27,21 @@ namespace Managers.Local
             }
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            
+            _playerInputManager.playerJoinedEvent.AddListener(OnPlayerJoined);
+            _playerInputManager.playerLeftEvent.AddListener(OnPlayerLeft);
+            
+        }
+
+        private void OnPlayerLeft(PlayerInput playerInput)
+        {
+            Debug.Log("A player has disconnect");
+            
+        }
+
+        private void OnPlayerJoined(PlayerInput playerInput)
+        {
+            Debug.Log("A player has Joined");
         }
 
 
