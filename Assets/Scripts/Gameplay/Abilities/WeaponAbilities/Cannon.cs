@@ -1,6 +1,6 @@
 namespace Gameplay.Abilities.WeaponAbilities
 {
-    public class Abductor : Ability
+    public class Cannon : Ability
     {
         public override bool CanUseAbility(BallPlayer owner)
         {

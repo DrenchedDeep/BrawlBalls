@@ -167,6 +167,9 @@ namespace Managers.Local
         public void DisableControls()
         {
             _currentJoyStick.enabled = false;
+            TryDoAbility(false);
+            TryDoWeapon(false);
+            SetSteer(Vector2.zero);
             //PlayerControls.DisableControls();
         }
         private void TryDoAbility(bool state)

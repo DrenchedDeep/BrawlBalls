@@ -28,5 +28,11 @@ namespace Gameplay.UI
             input.y = Mathf.Max(0, input.y);
             base.SetInput(input);
         }
+        
+        public override void HandleInput(float magnitude, Vector2 normalised)
+        {
+            if (normalised.y < 0) normalised.y = 0;
+            base.HandleInput(magnitude, normalised);
+        }
     }
 }

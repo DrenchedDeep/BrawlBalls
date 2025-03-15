@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Gameplay.Abilities.WeaponAbilities
 {
-    public class Laserbeam : Ability
+    public class Laser : Ability
     {
         public override bool CanUseAbility(BallPlayer owner) => true;
 

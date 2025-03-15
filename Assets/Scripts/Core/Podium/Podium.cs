@@ -121,6 +121,7 @@ namespace Core.Podium
         {
             Destroy(_myBall.gameObject);
            _ = FadeEmissive(inactiveColor);
+           canvas.enabled = false;
         }
 
         private async UniTask FadeEmissive(Color targetColor)

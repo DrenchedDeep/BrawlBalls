@@ -19,14 +19,14 @@ namespace Gameplay.Abilities.SpecialAbilities
         {
             Debug.Log("Immortality_Start");
         
-            int refMat = ParticleManager.ProtectMat.GetHashCode();
+            //int refMat = ParticleManager.ProtectMat.GetHashCode();
             owner.GetBall.ApplyEffect_ServerRpc(1);
 
             await UniTask.Delay(3000);
             
             Debug.Log("Immortaltiy_End");
         
-            owner.GetBall.RemoveEffect_ServerRpc(refMat);
+            owner.GetBall.RemoveEffect_ServerRpc(1, ParticleManager.ProtectMat.GetHashCode() );
         }
 
     }

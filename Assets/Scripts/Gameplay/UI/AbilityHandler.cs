@@ -59,13 +59,13 @@ namespace Gameplay.UI
             {
                 button.Interactable = false;
                 root.enabled = false;
-                Debug.Log($"Ability is out of charges! {_boundAbility.name}", gameObject);
+                //Debug.Log($"Ability is out of charges! {_boundAbility.name}", gameObject);
             }
             else
             {
                 button.Interactable = true;
             }
-            if(_capacity <= 1) remainingNum.gameObject.SetActive(false);
+            if(_capacity <= 0) remainingNum.gameObject.SetActive(false);
             else remainingNum.text = _capacity.ToString();
         }
     
@@ -95,7 +95,7 @@ namespace Gameplay.UI
                 //Wait until we can use the ability
                 await UniTask.WaitUntil(CheckAbilityReady, PlayerLoopTiming.Update, token);
             
-                if (_cancellationTokenSource.IsCancellationRequested) return;
+                if (_cancellationTokenSource.IsCancellationRequested || !_wantsToUseAbility) return;
                 
                 _capacity -= 1;
                 _boundAbility.Ability.ExecuteAbility(_ball);
@@ -112,15 +112,8 @@ namespace Gameplay.UI
 
         public void StartUsingAbility()
         {
-            try
-            {
-                _wantsToUseAbility = true;
-                _ = AbilityExecutionLoop(_cancellationTokenSource.Token);
-            }
-            catch (Exception e)
-            {
-                Debug.LogError("Failed to do coroutine: " + e);
-            }
+            _wantsToUseAbility = true;
+            _ = AbilityExecutionLoop(_cancellationTokenSource.Token);
         }
 
         public void StopUsingAbility()

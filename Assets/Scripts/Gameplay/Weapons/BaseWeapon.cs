@@ -1,8 +1,11 @@
+using System.Collections;
 using Gameplay.Abilities.WeaponAbilities;
+using Managers.Local;
 using RotaryHeart.Lib.PhysicsExtension;
 using Stats;
 using Unity.Netcode;
 using UnityEngine;
+using Physics = UnityEngine.Physics;
 
 namespace Gameplay.Weapons
 {
@@ -19,6 +22,7 @@ namespace Gameplay.Weapons
         
         protected BallPlayer _owner;
         private Transform _connector;
+        protected bool _isConnected = true;
     
 
         public WeaponStats Stats => stats;
@@ -41,7 +45,7 @@ namespace Gameplay.Weapons
 
         private void LateUpdate()
         {
-            if (!_owner) return;
+            if (!_owner || !_isConnected) return;
             Rotate();
         }
 
@@ -49,8 +53,8 @@ namespace Gameplay.Weapons
         {
             Vector3 dir = Vector3.Lerp(Vector3.up,  _owner.GetBall.Velocity.normalized, _owner.GetBall.Speed * 5);
             Vector3 localDir = _owner.transform.InverseTransformDirection(dir);
-            Vector3 lookDirection = stats.AllowVerticalOrientation ? localDir : new Vector3(localDir.x, 0, localDir.z);
-            transform.localRotation = Quaternion.LookRotation(lookDirection, Vector3.up);
+             if(stats.AllowVerticalOrientation) transform.localRotation = Quaternion.LookRotation(localDir, Vector3.up);
+             else transform.localRotation = Quaternion.identity;
             //transform.SetLocalPositionAndRotation(localDir, Quaternion.LookRotation(lookDirection));
         }
 
@@ -78,5 +82,26 @@ namespace Gameplay.Weapons
             DebugExtensions.DebugSphereCast(transform.position, transform.forward,  stats.MaxRange, Color.green, stats.MaxRadius,0, CastDrawType.Minimal, PreviewCondition.Editor, true);
         }
         #endif
+        
+        
+        [ServerRpc(RequireOwnership = false)]
+        private void Disconnect_ServerRpc(float speed)
+        {
+            NetworkObject.TryRemoveParent();
+            DisconnectClientRpc();
+            _owner.StartCoroutine(Spike.Move(this , speed * 5)); // Owner is just the object running the coroutine
+        }
+
+        [ClientRpc]
+        private void DisconnectClientRpc()
+        {
+            gameObject.layer = 0;
+            _isConnected = false;
+        }
+
+        public void Disconnect(float speed)
+        {
+            Disconnect_ServerRpc(speed);
+        }
     }
 }

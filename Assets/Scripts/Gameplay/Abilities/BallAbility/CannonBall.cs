@@ -20,8 +20,8 @@ namespace Gameplay.Abilities.BallAbility
         
             NetworkGameManager.Instance.PlayParticleGlobally_ServerRpc("Explosion", transform.position, transform.rotation);
         
-            Vector3 pos = transform.GetChild(0).position;
-            Collider[] cols = Physics.OverlapSphere(pos, 5, StaticUtilities.PlayerLayers);
+            Vector3 pos = transform.position;
+            Collider[] cols = Physics.OverlapSphere(pos, 10, StaticUtilities.PlayerLayers);
             foreach (Collider c in cols)
             {
                 Vector3 ePos = c.ClosestPoint(pos);

@@ -132,7 +132,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""d3e52297-9aff-4d4d-a8a9-ff305c4a5bef"",
-                    ""path"": ""<Mouse>/leftButton"",
+                    ""path"": ""<Mouse>/middleButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";PC"",

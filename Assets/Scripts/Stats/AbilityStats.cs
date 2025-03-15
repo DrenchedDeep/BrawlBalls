@@ -24,9 +24,11 @@ namespace Stats
             { "Portal", () => new Portal() },
             { "Protect", () => new Protect() },
 
-            { "Abductor", () => new Abductor() },
-            { "Laserbeam", () => new Laserbeam() },
+            { "Cannon", () => new Cannon() },
+            { "Laser", () => new Laser() },
             { "Spike", () => new Spike() },
+            { "SelfDestructButton", () => new SelfDestructButton() },
+            { "SonicBoom", () => new SonicBoom() },
         };
 
         private Ability _ability;

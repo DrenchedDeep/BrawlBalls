@@ -18,8 +18,9 @@ namespace Gameplay.Weapons
             Transform tr = transform;
             Vector3 position = tr.position;
             Vector3 forward = tr.forward;
-        
-            float dist = Physics.Raycast(position, forward, out RaycastHit wallCheck,  stats.MaxRange, StaticUtilities.GroundLayers)?wallCheck.distance:stats.MaxRange;
+
+            bool hitWall = Physics.Raycast(position, forward, out RaycastHit wallCheck, stats.MaxRange, StaticUtilities.GroundLayers);
+            float dist = hitWall?wallCheck.distance:stats.MaxRange;
 
             int hitCount = Physics.SphereCastNonAlloc(position, stats.MaxRadius, forward, Hits, dist, StaticUtilities.EnemyLayer, PreviewCondition.Editor, 0.1f, Color.green, Color.red);
             
@@ -39,6 +40,11 @@ namespace Gameplay.Weapons
                     damageProperties.Attacker = OwnerClientId;
                     b.TakeDamage_ServerRpc(damageProperties);
                 }
+            }
+
+            if (hitWall && !_isConnected)
+            {
+                enabled = false;
             }
         }
 

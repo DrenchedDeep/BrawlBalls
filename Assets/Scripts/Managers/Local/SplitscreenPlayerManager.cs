@@ -27,6 +27,8 @@ namespace Managers.Local
             }
             Instance = this;
             DontDestroyOnLoad(gameObject);
+
+            _playerInputManager = GetComponent<PlayerInputManager>();
             
             _playerInputManager.playerJoinedEvent.AddListener(OnPlayerJoined);
             _playerInputManager.playerLeftEvent.AddListener(OnPlayerLeft);

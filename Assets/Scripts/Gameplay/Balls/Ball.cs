@@ -249,11 +249,11 @@ namespace Gameplay.Balls
         private void RemoveMaterial(int hashID)
         {
             int l = _mr.materials.Length;
-            Material[] mats = new Material[l - 1];
+            Material[] mats = new Material[l ];
             int m = 0;
             for (int index = 0; index < l; index++)
             {
-                if (mats[index].GetHashCode() != hashID)
+                if (_mr.materials[index].GetHashCode() != hashID)
                     mats[index] = _mr.materials[m];
                 m += 1;
             }

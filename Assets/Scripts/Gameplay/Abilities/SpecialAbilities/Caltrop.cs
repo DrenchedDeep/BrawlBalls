@@ -10,11 +10,11 @@ namespace Gameplay.Abilities.SpecialAbilities
 
         public override void ExecuteAbility(BallPlayer owner)
         {
-            SpawnCaltrops("Caltrop", owner.transform.position + Vector3.one * 5,  Quaternion.identity, owner.GetBall.Velocity.normalized, 15);
+            SpawnCaltrops_ServerRpc("Caltrop", owner.transform.position + Vector3.one * 6,  Quaternion.identity, owner.GetBall.Velocity.normalized, 150);
         }
         
         [ServerRpc(RequireOwnership = false)]
-        private void SpawnCaltrops(string objectName, Vector3 location, Quaternion rotation, Vector3 axis, float force, ServerRpcParams @params = default)
+        private void SpawnCaltrops_ServerRpc(string objectName, Vector3 location, Quaternion rotation, Vector3 axis, float force, ServerRpcParams @params = default)
         {
             Debug.Log("Caltrops Spawning -- ADD SERVER SIDE VALIDATION");
             
