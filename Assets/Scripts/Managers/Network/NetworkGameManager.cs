@@ -104,6 +104,7 @@ namespace Managers.Network
 
          public event Action OnHostDisconnected;
          public event Action OnAllPlayersJoined;
+         public event Action OnPlayerListUpdated;
          public event Action<ulong, int> OnPlayerScoreUpdated;
 
          public event Action OnGameBegin;
@@ -157,6 +158,8 @@ namespace Managers.Network
              {
                  OnAllPlayersJoined?.Invoke();
              }
+             
+             OnPlayerListUpdated?.Invoke();
          }
 
 
@@ -215,7 +218,6 @@ namespace Managers.Network
              //server only list...
              _players.Add(@params.Receive.SenderClientId);
              Players.Add(new BallPlayerInfo(playerName, @params.Receive.SenderClientId,0, 0));
-             
              CheckStartGame();
          }
 
@@ -223,23 +225,20 @@ namespace Managers.Network
          {
              //100 id is the out of bounds
 
-             if (killerID != 100)
+             Debug.Log("player killed");
+             if (killerID != 99)
              {
-                 
-                 /*/
                  int scoreIncreaseIndex = GetPlayerBallInfoIndex(killerID);
-
+                 Debug.Log("killer id is valid");
                  if (scoreIncreaseIndex != -1)
                  {
+                     
+                     Debug.Log("killer id is valid 2");
                      BallPlayerInfo newInfo = Players[scoreIncreaseIndex];
                      newInfo.UpdateScore(1);
                      Players[scoreIncreaseIndex] = newInfo;
-                     OnPlayerScoreUpdated_ClientRpc(killerID);
+                     
                  }
-                 /*/
-                 
-                 OnPlayerScoreUpdated_ClientRpc(killerID);
-
                  
                  ClientRpcParams rpcParams = default;
                  rpcParams.Send.TargetClientIds = new[] { killerID };
@@ -313,7 +312,7 @@ namespace Managers.Network
              if (_players.Count == NetworkManager.ConnectedClients.Count)
              {
                  GameStarted.Value = true;
-            
+                 
                  //only the server should be updating the match timers... clients can get that info through the NetworkedVariables, this is to keep it consistent 
                  _matchCancelTokenSource =  new CancellationTokenSource();
                  _ = ManagerMatchTimer(_matchCancelTokenSource.Token);
@@ -325,11 +324,13 @@ namespace Managers.Network
          {
              Debug.LogWarning("Client knows the game is starting...");
              LoadingHelper.Instance.Deactivate();
+             OnAllPlayersJoined?.Invoke();
 
          }
 
          private void OnGameStarted_Multicast(bool old, bool current)
          {
+             Debug.Log("GAME HAS STARTED!?!?!?!?! " + current);
              if (current)
              {
                  StartGame_Client();

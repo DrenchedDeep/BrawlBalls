@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using MainMenu.UI;
 using Managers.Local;
 using Managers.Network;
@@ -51,36 +53,79 @@ namespace Gameplay.UI
 
         private void OnEnable()
         {
-            NetworkGameManager.Instance.OnAllPlayersJoined += Initialize;
+            NetworkGameManager.Instance.OnPlayerListUpdated += Initialize;
             NetworkGameManager.Instance.OnPlayerScoreUpdated += UpdateScore;
         }
 
         private void OnDisable()
         { 
-            NetworkGameManager.Instance.OnAllPlayersJoined -= Initialize;
+            NetworkGameManager.Instance.OnPlayerListUpdated -= Initialize;
             NetworkGameManager.Instance.OnPlayerScoreUpdated -= UpdateScore;
         }
         
         private void Initialize()
         {
             transform.parent.gameObject.SetActive(true);
-            print("Initializing Scoreboard: " + SaveManager.MyBalls.Username);
+            print("Refreshing Scoreboard:");
 
             foreach (ScoreHolders scoreHolder in _holders)
             {
                 scoreHolder.Disable();
             }
             
+            List<BallPlayerInfo> players = new List<BallPlayerInfo>();
+
+            foreach (BallPlayerInfo player in NetworkGameManager.Instance.Players)
+            {
+                players.Add(player);
+            }
+        
+            List<BallPlayerInfo> sortedPlayers = players
+                .OrderByDescending(p => p.Score) 
+                .Take(_holders.Length) 
+                .ToList();
+
+            for(int i = 0; i < sortedPlayers.Count; ++i)
+            {
+                BallPlayerInfo ballPlayerInfo = sortedPlayers[i];
+                _holders[i].ChangeTo(ballPlayerInfo.Username.ToString(), ballPlayerInfo.Score, ballPlayerInfo.ClientID, 0);
+            }
+            
+            /*/
+            
             foreach (var ball in NetworkGameManager.Instance.Players)
             {
               //  InitializeServerRpc(ball.Username.ToString());
                  AddPlayerToScoreboard(ball);
             }
+            /*/
+            
         }
 
         private void AddPlayerToScoreboard(BallPlayerInfo ballPlayerInfo)
         {
+            List<BallPlayerInfo> players = new List<BallPlayerInfo>();
+
+            foreach (BallPlayerInfo player in NetworkGameManager.Instance.Players)
+            {
+                players.Add(player);
+            }
+        
+            List<BallPlayerInfo> sortedPlayers = players
+                .OrderByDescending(p => p.Score) 
+                .Take(_holders.Length) 
+                .ToList();
+
+            for(int i = 0; i < _holders.Length; ++i)
+            {
+                
+                _holders[i].ChangeTo(ballPlayerInfo.Username.ToString(), ballPlayerInfo.Score, ballPlayerInfo.ClientID, 0);
+            }
+            
+            
+            /*/
             _holders[_playerCount++].ChangeTo(ballPlayerInfo.Username.ToString(), ballPlayerInfo.Score, ballPlayerInfo.ClientID, 0);
+            /*/
         }
         
         private void UpdateScore(ulong playerID, int change)
@@ -254,7 +299,7 @@ namespace Gameplay.UI
                 _root.gameObject.SetActive(true);
                 _playerName = playerName;
                 _nameText.text = playerName;
-                ModifyScoreHolder(value, _root.transform.GetSiblingIndex()+1);
+                ModifyScoreHolder((int)score, _root.transform.GetSiblingIndex()+1);
                 
                 _root.color =  id == NetworkManager.Singleton.LocalClientId ? _myColor : _otherColor; 
                 
