@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4443003080620608170}
   - component: {fileID: 6580148358737301331}
   - component: {fileID: 7743181934062272451}
+  - component: {fileID: 6766886558648899903}
   - component: {fileID: 2520224311035393993}
   m_Layer: 0
   m_Name: PlayerObject
@@ -76,6 +77,21 @@ MonoBehaviour:
   eliminationAnimator: {fileID: 8538862773075168612}
   eliminationPlayerText: {fileID: 3128988899439458589}
   matchTimerText: {fileID: 3809654698802054127}
+--- !u!114 &6766886558648899903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1795942656654685639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ae677b92f0a66e498f7460112d2429d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  localPlayerController: {fileID: 6580148358737301331}
+  currentPlayerName: {fileID: 0}
+  spectatingUI: {fileID: 0}
 --- !u!114 &2520224311035393993
 MonoBehaviour:
   m_ObjectHideFlags: 0
