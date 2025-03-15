@@ -42,7 +42,6 @@ namespace Gameplay.UI
         
 
             var ts = TimeSpan.FromSeconds(NetworkGameManager.Instance.GetRemainingTime);
-            Debug.Log(ts);
             matchTimerText.text = ts.ToString("mm\\:ss");
         }
 
