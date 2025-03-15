@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Managers.Network;
@@ -71,6 +72,16 @@ namespace Gameplay.EndGame
 
             endGameCamera.enabled = true;
             animator.SetTrigger(Start);
+            StartCoroutine(LeaveGame());
+        }
+
+        private IEnumerator LeaveGame()
+        {
+            yield return new WaitForSeconds(20f);
+            
+            NetworkGameManager.Instance.ReturnToMainMenu();
+            
         }
     }
+    
 }
