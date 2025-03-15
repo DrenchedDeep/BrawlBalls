@@ -1,5 +1,4 @@
 using System.Text;
-using Gameplay;
 using UnityEngine;
 
 namespace Stats
@@ -10,11 +9,15 @@ namespace Stats
         [field: SerializeField] public float MaxHealth { get; private set; }
         [field: SerializeField] public float MaxSpeed { get; private set; }
         [field: SerializeField, Min(0.01f)] public float AngularDrag { get; private set; }
-        [field: SerializeField, Min(0.01f)] public float Drag { get; private set; }
         [field: SerializeField] public float Acceleration { get; private set; }
         [field: SerializeField, Min(0.01f)] public float Mass { get; private set; }
 
+        [Header("Grounding")]
+        [field: SerializeField, Min(0.01f)] public float FootRange { get; private set; } = 1.5f;
 
+        [field: SerializeField, Min(0.01f)] public float FootRadius { get; private set; } = 0.2f;
+        
+        
         private string _commonTraits;
 
         protected override string CreateCommonTraits()
@@ -24,7 +27,7 @@ namespace Stats
             st.AppendLine($"<sprite=0>{MaxHealth}");
             st.AppendLine($"<sprite=4>{Mass}");
             st.AppendLine($"<sprite=1>{MaxSpeed}");
-            st.AppendLine($"<sprite=2>{Drag}");
+            st.AppendLine($"<sprite=2>{AngularDrag}");
             st.AppendLine($"<sprite=3>{Acceleration}");
             
             return st.ToString();

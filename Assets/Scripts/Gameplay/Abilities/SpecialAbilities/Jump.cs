@@ -1,5 +1,3 @@
-using Managers;
-using Managers.Local;
 using Managers.Network;
 using UnityEngine;
 
@@ -7,17 +5,12 @@ namespace Gameplay.Abilities.SpecialAbilities
 {
     public class Jump : Ability
     {
-        public override bool CanUseAbility(BallPlayer owner)
-        {
-            return owner &&
-                   //Only allow jump if grounded.
-                   Physics.Raycast(owner.transform.GetChild(1).position, Vector3.down, 1, StaticUtilities.GroundLayers);
-        }
+        public override bool CanUseAbility(BallPlayer owner) => true;
 
-        protected override void UseAbility(BallPlayer owner)
+        public override void ExecuteAbility(BallPlayer owner)
         {
             owner.GetBall.ChangeVelocity(50 * Vector3.up);
-            NetworkGameManager.Instance.PlayParticleGlobally_ServerRpc("Jump", owner.transform.GetChild(1).position, Quaternion.identity);
+            NetworkGameManager.Instance.PlayParticleGlobally_ServerRpc("Jump", owner.transform.position, Quaternion.identity);
         }
     }
 }

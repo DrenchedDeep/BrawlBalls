@@ -1,4 +1,3 @@
-using Managers;
 using Managers.Local;
 using Managers.Network;
 using UnityEngine;
@@ -10,12 +9,13 @@ namespace Gameplay.Abilities.SpecialAbilities
 
         public override bool CanUseAbility(BallPlayer owner)
         {
-            return Physics.Raycast(owner.transform.GetChild(0).position, Vector3.down, 1, StaticUtilities.GroundLayers);
+            return  owner.GetBall.IsGrounded;
         }
 
-        protected override void UseAbility(BallPlayer owner)
+        public override void ExecuteAbility(BallPlayer owner)
         {
-            NetworkGameManager.Instance.SpawnObjectGlobally_ServerRpc("Glue", owner.transform.GetChild(0).position, Quaternion.identity);
+            Physics.Raycast(owner.transform.position, Vector3.down, out var hit, 5, StaticUtilities.GroundLayers);
+            NetworkGameManager.Instance.SpawnObjectGlobally_ServerRpc("Glue", hit.point, Quaternion.identity);
         }
     }
 }

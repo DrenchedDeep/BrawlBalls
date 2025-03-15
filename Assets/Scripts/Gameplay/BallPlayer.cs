@@ -1,4 +1,6 @@
 ﻿using System;
+using Gameplay.Balls;
+using Gameplay.Weapons;
 using Managers.Local;
 using Managers.Network;
 using Stats;
@@ -32,7 +34,7 @@ namespace Gameplay
     public class BallPlayer : NetworkBehaviour, IDamageAble
     {
         public Ball GetBall { get; private set; }
-        public Weapon GetWeapon { get; private set; }
+        public BaseWeapon GetBaseWeapon { get; private set; }
         public AbilityStats GetAbility { get; private set; }
         public bool IsAlive => _currentHealth.Value > 0;
         public float Mass => _rb.mass;
@@ -61,20 +63,14 @@ namespace Gameplay
         }
 
 
-        public void Initialize(string abilityID, bool isOffline)
+        public void Initialize(string abilityID)
         {
-            if (isOffline)
-            {
-                Initialize_Offline(abilityID);
-            }
-            else
-            {
-                //server should know bout these aswell
-                GetBall = GetComponentInChildren<Ball>();
-                GetWeapon = GetComponentInChildren<Weapon>();
-                GetBall.Init(this);
-                Initialize_ClientRpc(abilityID);
-            }
+            //server should know bout these aswell
+            GetBall = GetComponentInChildren<Ball>();
+            GetBaseWeapon = GetComponentInChildren<BaseWeapon>();
+            GetBall.Init(this);
+            Initialize_ClientRpc(abilityID);
+            
         }
         
         
@@ -84,7 +80,7 @@ namespace Gameplay
             Debug.Log("We are now initialized", gameObject);
             GetAbility = ResourceManager.Abilities[abilityId];
             GetBall = GetComponentInChildren<Ball>();
-            GetWeapon = GetComponentInChildren<Weapon>();
+            GetBaseWeapon = GetComponentInChildren<BaseWeapon>();
             
             GetBall.Init(this);
 
@@ -93,7 +89,7 @@ namespace Gameplay
             _rb.interpolation = RigidbodyInterpolation.Interpolate;
             _rb.isKinematic = false;
             
-            _rb.mass = GetBall.Stats.Mass + GetWeapon.Stats.Mass;
+            _rb.mass = GetBall.Stats.Mass + GetBaseWeapon.Stats.Mass;
 
             gameObject.layer = IsOwner ? StaticUtilities.LocalBallLayerLiteral : StaticUtilities.EnemyLayerLiteral;
 
@@ -115,12 +111,12 @@ namespace Gameplay
             Debug.Log("We are now initialized", gameObject);
             GetAbility = ResourceManager.Abilities[abilityId];
             GetBall = GetComponentInChildren<Ball>();
-            GetWeapon = GetComponentInChildren<Weapon>();
+            GetBaseWeapon = GetComponentInChildren<BaseWeapon>();
             
             GetBall.Init(this);
 
             _rb = GetComponent<Rigidbody>();
-            _rb.mass = GetBall.Stats.Mass + GetWeapon.Stats.Mass;
+            _rb.mass = GetBall.Stats.Mass + GetBaseWeapon.Stats.Mass;
             _rb.interpolation = RigidbodyInterpolation.Interpolate;
             _rb.isKinematic = false;
             

@@ -1,6 +1,7 @@
 using Core.Podium;
 using Gameplay;
 using Gameplay.UI;
+using Gameplay.Weapons;
 using Managers.Network;
 using Stats;
 using TMPro;
@@ -19,8 +20,8 @@ namespace Managers.Local
         [SerializeField] private Canvas rootCanvas;
 
         [Header("Controls UI")]
-        [SerializeField] private Joystick halfJoystick;
-        [SerializeField] private Joystick fullJoystick;
+        [SerializeField] private AssetStore.Joystick_Pack.Scripts.Base.Joystick halfJoystick;
+        [SerializeField] private AssetStore.Joystick_Pack.Scripts.Base.Joystick fullJoystick;
         [SerializeField] private AbilityHandler attackAbility;
         [SerializeField] private AbilityHandler specialAbility;
 
@@ -29,7 +30,7 @@ namespace Managers.Local
         [SerializeField] private TextMeshProUGUI killedByText;
         [SerializeField] private TextMeshProUGUI respawnTimerText;
 
-        private Joystick _currentJoyStick;
+        private AssetStore.Joystick_Pack.Scripts.Base.Joystick _currentJoyStick;
         
         //Controls for local player...
         [Header("Controls")]
@@ -118,7 +119,7 @@ namespace Managers.Local
 
         public void SwapJoySticks(bool isFull)
         {
-            Joystick nextJoystick = isFull ? fullJoystick : halfJoystick;
+            AssetStore.Joystick_Pack.Scripts.Base.Joystick nextJoystick = isFull ? fullJoystick : halfJoystick;
 
             _currentJoyStick = nextJoystick;
             fullJoystick.gameObject.SetActive(nextJoystick == fullJoystick);
@@ -170,12 +171,13 @@ namespace Managers.Local
         }
         private void TryDoAbility(bool state)
         {
-            specialAbility.TryUseAbility(_currentBall.GetAbility, _currentBall);
+            specialAbility.SetUsingState(state);
         }
 
         private void TryDoWeapon(bool state)
         {
-            attackAbility.TryUseAbility(_currentBall.GetWeapon.GetAbility, _currentBall);
+            attackAbility.SetUsingState(state); 
+            
         }
 
         private void SetSteer(Vector2 direction)
@@ -190,8 +192,9 @@ namespace Managers.Local
         {
             _currentBall = ballPlayer; 
             
-            SetBall(ballPlayer.GetBall); 
-            SetAbilities(ballPlayer.GetWeapon,ballPlayer.GetAbility);
+            SetBall(ballPlayer); 
+            SetAbilities(ballPlayer.GetBaseWeapon,ballPlayer.GetAbility);
+            
             enabled = true;
             rootCanvas.enabled = true;
             cam.enabled = true;
@@ -247,22 +250,16 @@ namespace Managers.Local
             //  DisableControls();
         }
 
-        public void SetBall(Ball target)
+        public void SetBall(BallPlayer target)
         {
-            if (cam.LookAt)
-            {
-          //      cam.LookAt = null;
-              //  cam.InternalUpdateCameraState(Vector3.up, 10);
-            }
-
             cam.LookAt = target.transform;
             cam.Follow =  target.transform;
             cam.InternalUpdateCameraState(Vector3.up, 10);
         }
 
-        private void SetAbilities(Weapon w, AbilityStats ballPlayerGetAbility)
+        private void SetAbilities(BaseWeapon w, AbilityStats ballPlayerGetAbility)
         {
-            if(w.GetAbility) attackAbility.SetAbility(w.GetAbility, _currentBall);
+            attackAbility.SetAbility(w.GetAbility, _currentBall);
             specialAbility.SetAbility(ballPlayerGetAbility, _currentBall);
         }
         #endregion

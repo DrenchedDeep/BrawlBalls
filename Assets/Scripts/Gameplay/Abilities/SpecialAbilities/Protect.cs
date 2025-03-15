@@ -7,13 +7,9 @@ namespace Gameplay.Abilities.SpecialAbilities
 {
     public class Protect : Ability
     {
-    //
-        public override bool CanUseAbility(BallPlayer owner)
-        {
-            return true;
-        }
+        public override bool CanUseAbility(BallPlayer owner) => true;
 
-        protected override void UseAbility(BallPlayer owner)
+        public override void ExecuteAbility(BallPlayer owner)
         {
             Debug.LogWarning("We're not tracking the immortality timer. Will this cause issues?");
             _ = ImmortalityTimer(owner);
@@ -30,7 +26,7 @@ namespace Gameplay.Abilities.SpecialAbilities
             
             Debug.Log("Immortaltiy_End");
         
-            owner.GetBall.RemoveEffectServerRpc(refMat);
+            owner.GetBall.RemoveEffect_ServerRpc(refMat);
         }
 
     }

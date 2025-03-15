@@ -16,15 +16,14 @@ MonoBehaviour:
     type: 3}
   <Rarity>k__BackingField: 0
   <Description>k__BackingField: 
-  <Damage>k__BackingField: 20
+  <Damage>k__BackingField: 50
   <Mass>k__BackingField: 1
-  <Range>k__BackingField: {x: 5, y: 0.5}
-  <PushMul>k__BackingField: 2
-  <ForceBasedDamage>k__BackingField: 1
-  <Force>k__BackingField: 0
+  <ForceMultiplier>k__BackingField: 1
+  <MaxRange>k__BackingField: 8
+  <MaxRadius>k__BackingField: 0.4
+  <Ability>k__BackingField: {fileID: 11400000, guid: a4de1b1016212a6489a562c102067cd6,
+    type: 2}
   <HitLayers>k__BackingField:
     serializedVersion: 2
     m_Bits: 320
-  <Ability>k__BackingField: {fileID: 11400000, guid: a4de1b1016212a6489a562c102067cd6,
-    type: 2}
-  <BaseDist>k__BackingField: 0
+  <AllowVerticalOrientation>k__BackingField: 1

@@ -44,7 +44,7 @@ public class SpectatingManager : MonoBehaviour
         }
 
         allBalls[_currentIndex].OnDestroyed += OnCurrentSpectatingPlayerDied;
-        localPlayerController.SetBall(allBalls[_currentIndex].GetBall);
+        localPlayerController.SetBall(allBalls[_currentIndex]);
 
         string playerName =
             NetworkGameManager.Instance.GetPlayerName(allBalls[_currentIndex].NetworkObject.OwnerClientId);

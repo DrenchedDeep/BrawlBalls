@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using Gameplay;
+using Gameplay.Balls;
+using Gameplay.Weapons;
 using Stats;
 using Unity.Netcode;
 using UnityEngine;
@@ -16,7 +18,7 @@ namespace Managers.Local
         [Header("Ball things... Addressablse?")] 
         [SerializeField] private BallPlayer hull;
         [SerializeField] private Ball[] ballIds;
-        [SerializeField] private Weapon[] weaponIds;
+        [SerializeField] private BaseWeapon[] weaponIds;
         [SerializeField] private AbilityStats[] abilityIds;
         [SerializeField] private NetworkObject[] summonableObjects;
 
@@ -24,7 +26,7 @@ namespace Managers.Local
         [SerializeField] private Color[] rarityColors;
 
         public static readonly Dictionary<string, Ball> Balls = new();
-        public static readonly Dictionary<string, Weapon> Weapons = new();
+        public static readonly Dictionary<string, BaseWeapon> Weapons = new();
         public static readonly Dictionary<string, AbilityStats> Abilities = new();
         public static readonly Dictionary<string, NetworkObject> SummonableObjects = new();
 
@@ -60,7 +62,7 @@ namespace Managers.Local
                 Balls.Add(b.name, b);
             }
         
-            foreach (Weapon b in weaponIds)
+            foreach (BaseWeapon b in weaponIds)
             {
                 Weapons.Add(b.name, b);
             }
@@ -77,7 +79,7 @@ namespace Managers.Local
 
         }
         
-        public static BallPlayer CreateBallDisabled(string ball, string weapon, Transform root,out Ball b, out Weapon w)
+        public static BallPlayer CreateBallDisabled(string ball, string weapon, Transform root,out Ball b, out BaseWeapon w)
         {
                             
             //Create the Ball Controller

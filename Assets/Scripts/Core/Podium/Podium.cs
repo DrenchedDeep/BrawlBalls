@@ -1,5 +1,7 @@
 using Cysharp.Threading.Tasks;
 using Gameplay;
+using Gameplay.Balls;
+using Gameplay.Weapons;
 using Managers.Local;
 using Stats;
 using Unity.Netcode;
@@ -151,7 +153,7 @@ namespace Core.Podium
             
             Destroy(_weaponObject.GetComponentInChildren<NetworkObject>());
 
-            _weaponObject.GetComponentInChildren<Weapon>().enabled = false;
+            _weaponObject.GetComponentInChildren<BaseWeapon>().enabled = false;
             
             
             MeshRenderer[] mesh = _weaponObject.GetComponentsInChildren<MeshRenderer>();

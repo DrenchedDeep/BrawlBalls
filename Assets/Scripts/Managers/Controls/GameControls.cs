@@ -111,7 +111,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Steer"",
-                    ""type"": ""Value"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""d56fd765-a655-46e3-88d4-bc9affe49ff8"",
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",

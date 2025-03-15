@@ -4,11 +4,10 @@ using RotaryHeart.Lib.PhysicsExtension;
 using Stats;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Physics = UnityEngine.Physics;
 using Random = UnityEngine.Random;
 
-namespace Gameplay
+namespace Gameplay.Balls
 {
     public class Ball : NetworkBehaviour
     {
@@ -20,6 +19,12 @@ namespace Gameplay
         private MeshRenderer _mr;
         private Vector3 _previousPosition;
         private Vector3 _curPos;
+        private bool _isGrounded;
+        public bool IsGrounded => _isGrounded;
+
+        public event Action OnGroundStateChanged;
+        
+        
         [NonSerialized] public Vector2 MoveDirection;
        // public readonly NetworkVariable<Vector2> MoveDirection = new(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
         [NonSerialized] public Vector3 Foward;
@@ -31,6 +36,8 @@ namespace Gameplay
        public float Speed { get; private set; }
        public Vector3 Velocity { get; private set; }
        public float Acceleration { get; private set; }
+       
+       
 
        protected virtual void Start()
        {
@@ -40,7 +47,6 @@ namespace Gameplay
            Acceleration = stats.Acceleration;         
 
            _rb.useGravity = true;
-           _rb.linearDamping = stats.Drag;
            _rb.angularDamping = stats.AngularDrag;
            
            if (!NetworkManager)
@@ -64,26 +70,20 @@ namespace Gameplay
 
        private void FixedUpdate()
        {
-           /*/
-#if UNITY_EDITOR
+           #if UNITY_EDITOR
            if (IsOwner || !NetworkManager.Singleton)
            {
                HandleMovement();
-               HandleDrag();
+               HandleGround();
            }
-           else if (IsOwner)
-           {
-               HandleMovement();
-               HandleDrag();
-           }
-#endif
-
-/*/
+           #else
            if (IsOwner)
            {
                HandleMovement();
                HandleDrag();
            }
+           #endif
+  
 
            UpdateState();
        }
@@ -120,9 +120,7 @@ namespace Gameplay
            //Vector3 fwd = Foward.Value;
            Vector2 moveDir = MoveDirection;
            //Vector2 moveDir = MoveDirection.Value;
-            
-            
-            
+           
            _rb.AddForce(moveDir.y * Acceleration * fwd, ForceMode.Acceleration);
            _rb.AddForce(moveDir.x * Acceleration * Vector3.Cross( Vector3.up,fwd), ForceMode.Acceleration);
         
@@ -135,35 +133,33 @@ namespace Gameplay
        }
         
         
-       private void HandleDrag()
+       private void HandleGround()
        {
-           bool hit = Physics.SphereCast(_rb.position,0.2f, Vector3.down, out RaycastHit h, 1.5f, StaticUtilities.GroundLayers);
+           bool hit = Physics.SphereCast(_rb.position,stats.FootRadius, Vector3.down, out RaycastHit h, stats.FootRange, StaticUtilities.GroundLayers, QueryTriggerInteraction.Ignore);
+
+           if (hit != _isGrounded)
+           {
+               _isGrounded = hit;
+               OnGroundStateChanged?.Invoke();
+           }
+
 #if UNITY_EDITOR
-           DebugExtensions.DebugSphereCast(_rb.position, Vector3.down,  0.2f, hit?Color.red:Color.green, 1.5f, 0, CastDrawType.Complete, PreviewCondition.Editor,true);
+           DebugExtensions.DebugSphereCast(_rb.position, Vector3.down,  stats.FootRadius, hit?Color.red:Color.green, stats.FootRange, 0, CastDrawType.Complete, PreviewCondition.Editor,true);
 #endif
            //Handle squishing
            if (hit)
            {
                if ((1 << h.transform.gameObject.layer & StaticUtilities.GroundLayers) != 0)
                {
-                   _rb.linearDamping = stats.Drag;
                    return;
                }
 
                Rigidbody n = h.rigidbody;
                if (n && n.TryGetComponent(out BallPlayer b))
                {
-                   Debug.LogWarning("LANDED ON EM: " + b.name + ", " + name);
-                   //     b.TakeDamage_ClientRpc(1000000, Vector3.zero, ulong.MaxValue);
+                   Debug.LogWarning("LANDED ON EM: " + b.name + ", " + name); 
+                   b.TakeDamage_ServerRpc(new DamageProperties(1000000, Vector3.zero, ulong.MaxValue));
                }
-               else
-               {
-                   _rb.linearDamping = 0;
-               }
-           }
-           else
-           {
-               _rb.linearDamping = 0;
            }
        }
 
@@ -186,12 +182,12 @@ namespace Gameplay
         
         
        [ServerRpc]
-       public void RemoveEffectServerRpc(int type, int materialHashID = -1)
+       public void RemoveEffect_ServerRpc(int type, int materialHashID = -1)
        {
            switch (type)
            {
                case 1:
-                   RemoveImmortalityClientRpc(materialHashID);
+                   RemoveImmortality_ClientRpc(materialHashID);
                    break;
            }
        }
@@ -211,7 +207,7 @@ namespace Gameplay
         }
     
         [ClientRpc]
-        private void RemoveImmortalityClientRpc(int hash)
+        private void RemoveImmortality_ClientRpc(int hash)
         {
             _rb.gameObject.layer = IsOwner?StaticUtilities.LocalBallLayerLiteral:StaticUtilities.EnemyLayerLiteral;
             RemoveMaterial(hash);
