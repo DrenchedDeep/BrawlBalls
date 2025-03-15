@@ -84,13 +84,15 @@ namespace Core.Podium
 
             podiumController.DisablePodiumAndCycle(i);
             Debug.LogWarning("Add server side check to see if we can still spawn that ball, or if we've already spent it.", gameObject);
-            BallHandler.Instance.SpawnBall_ServerRpc(myBall.ball, myBall.weapon, myBall.ability);
-            EndDisplaying();
-            #if UNITY_EDITOR
+#if UNITY_EDITOR
             if(!NetworkManager.Singleton || !NetworkManager.Singleton.IsConnectedClient)
                 BallHandler.Instance.SpawnBall_Offline(myBall.ball, myBall.weapon, myBall.ability);
+            else
+                BallHandler.Instance.SpawnBall_ServerRpc(myBall.ball, myBall.weapon, myBall.ability);
+          #else
+                BallHandler.Instance.SpawnBall_ServerRpc(myBall.ball, myBall.weapon, myBall.ability);
             #endif
-            
+            EndDisplaying();
         }
     }
 }
