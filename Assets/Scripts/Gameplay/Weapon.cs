@@ -61,7 +61,7 @@ namespace Gameplay
         private void Rotate()
         {
             Vector3 dir = Vector3.Lerp(Vector3.up,  _owner.GetBall.Velocity.normalized, _owner.GetBall.Speed * 5);
-            Debug.Log("Lerping from: " + _owner.GetBall.Velocity.normalized + " to " + Vector3.up + " Where T is " + _owner.GetBall.Speed);
+          //  Debug.Log("Lerping from: " + _owner.GetBall.Velocity.normalized + " to " + Vector3.up + " Where T is " + _owner.GetBall.Speed);
             
             Vector3 localDir = _owner.transform.InverseTransformDirection(dir);
             
