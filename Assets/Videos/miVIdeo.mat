@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Shader Graphs_New Shader Graph
+  m_Name: miVIdeo
   m_Shader: {fileID: -6465566751694194690, guid: fa021c84c0a80aa4ab53915b34ebd6d6,
     type: 3}
   m_Parent: {fileID: 0}
@@ -56,7 +56,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _Brightness: 0.01
     - _Float: 1.5
+    - _Glow: 1.5
+    - _MaxBrightness: 1
+    - _MinBrightness: 0.01
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors: []
