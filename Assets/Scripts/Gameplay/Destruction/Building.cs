@@ -40,7 +40,10 @@ public class Building : NetworkBehaviour
    //server
    public void DestroyBuilding()
    {
-      IsDestroyed.Value = true;
+      if (IsServer)
+      {
+         IsDestroyed.Value = true;
+      }
    }
    
    
