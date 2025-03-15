@@ -1,3 +1,4 @@
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using Stats;
 using TMPro;
@@ -19,6 +20,9 @@ namespace Gameplay.UI
         private BallPlayer _ball;
         private bool _isUpdating = true;
     
+        private CancellationTokenSource _cancellationToken;
+
+        
         //Discard temporary information and prevent leaks.
         public void SetAbility(AbilityStats ability, BallPlayer owner)
         {
@@ -29,7 +33,9 @@ namespace Gameplay.UI
 
             button.onClick.RemoveAllListeners();
             StopAllCoroutines();
-            _ = AbilityCooldown(0); //??? What was going on here?
+            _cancellationToken = new CancellationTokenSource();
+
+            _ = AbilityCooldown(0, _cancellationToken.Token); //??? What was going on here?
 
         
             button.interactable = true;
@@ -59,7 +65,8 @@ namespace Gameplay.UI
             if (ability.Ability.CanUseAbility(owner) && ability.Ability.ActivateAbility(owner))
             {
                 _capacity -= 1;
-                _ = AbilityCooldown(ability.Cooldown);
+                _cancellationToken = new CancellationTokenSource();
+                _ = AbilityCooldown(ability.Cooldown, _cancellationToken.Token);
                 Debug.Log($"Activating {ability.name} Ability!");
             }
         }
@@ -74,9 +81,9 @@ namespace Gameplay.UI
             if (!_isUpdating) return;
             button.interactable = _ability.CanUseAbility(_ball);
         }
+        
 
-
-        private async UniTask AbilityCooldown(float dur)
+        private async UniTask AbilityCooldown(float dur, CancellationToken token)
         {
             button.interactable = false;
             _isUpdating = false;

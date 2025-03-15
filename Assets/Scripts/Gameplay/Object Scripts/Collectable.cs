@@ -15,7 +15,7 @@ namespace Gameplay.Object_Scripts
         protected void Award(BallPlayer getComponent)
         {
             //Award this collectable type to the owner.
-        
+            getComponent.GiveAward(collectableType);
             //Play particle...
         
             //Destroy self...

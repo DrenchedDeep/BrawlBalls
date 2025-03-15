@@ -60,6 +60,23 @@ namespace Gameplay
             _currentHealth.OnValueChanged += OnDamageTaken;
         }
 
+
+        public void Initialize(string abilityID, bool isOffline)
+        {
+            if (isOffline)
+            {
+                Initialize_Offline(abilityID);
+            }
+            else
+            {
+                //server should know bout these aswell
+                GetBall = GetComponentInChildren<Ball>();
+                GetWeapon = GetComponentInChildren<Weapon>();
+                GetBall.Init(this);
+                Initialize_ClientRpc(abilityID);
+            }
+        }
+        
         
         [ClientRpc]
         public void Initialize_ClientRpc(string abilityId)
@@ -68,6 +85,9 @@ namespace Gameplay
             GetAbility = ResourceManager.Abilities[abilityId];
             GetBall = GetComponentInChildren<Ball>();
             GetWeapon = GetComponentInChildren<Weapon>();
+            
+            GetBall.Init(this);
+
 
             _rb = GetComponent<Rigidbody>();
             _rb.interpolation = RigidbodyInterpolation.Interpolate;
@@ -96,6 +116,8 @@ namespace Gameplay
             GetAbility = ResourceManager.Abilities[abilityId];
             GetBall = GetComponentInChildren<Ball>();
             GetWeapon = GetComponentInChildren<Weapon>();
+            
+            GetBall.Init(this);
 
             _rb = GetComponent<Rigidbody>();
             _rb.mass = GetBall.Stats.Mass + GetWeapon.Stats.Mass;
@@ -180,6 +202,20 @@ namespace Gameplay
             {
                 //play confetti particles here??
             }
+        }
+
+        public void GiveAward(ParticleManager.ECollectableType type)
+        {
+            int awardsToGive = 1;
+
+       //     bool isGoldBall = GetBall is GoldBall;
+            if (GetBall is GoldBall)
+            {
+                awardsToGive *= GoldBall.AwardMultiplier;
+            }
+            
+            
+            //give awards?? idk what to do here...
         }
         
         

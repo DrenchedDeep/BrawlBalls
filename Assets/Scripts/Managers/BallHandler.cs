@@ -65,7 +65,7 @@ namespace Managers
                 ActiveBalls.Remove(player);
             };
             
-            player.Initialize_ClientRpc(ability);
+            player.Initialize(ability, false);
         }
 
         #if UNITY_EDITOR
@@ -87,7 +87,7 @@ namespace Managers
                 ActiveBalls.Remove(player);
             };
             
-            player.Initialize_Offline(ability);
+            player.Initialize(ability, true);
         }
         #endif
     }
