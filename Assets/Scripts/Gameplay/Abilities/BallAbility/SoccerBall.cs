@@ -1,3 +1,6 @@
+using System;
+using Gameplay;
+using Managers.Local;
 using UnityEngine;
 
 
@@ -5,7 +8,11 @@ using UnityEngine;
 /*
  * GIVE PLAYER THE FULL INPUT WHEEl: ESSENTIALLY ALLOW THEM TO MOVE IN ALL DIRECTIONS: F,B,L,R
  */
-public class SoccerBall : MonoBehaviour
+public class SoccerBall : Ball
 {
-
+    protected override void Start()
+    {
+        base.Start();
+        LocalPlayerController.LocalBallPlayer.SwapJoySticks();
+    }
 }

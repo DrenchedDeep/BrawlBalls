@@ -215,7 +215,7 @@ namespace Gameplay
             }
             
             
-            //give awards?? idk what to do here...
+            Debug.Log("give awards?? not sure what to do here....");
         }
         
         

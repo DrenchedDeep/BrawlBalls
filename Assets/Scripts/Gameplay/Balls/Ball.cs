@@ -31,7 +31,7 @@ namespace Gameplay
        public Vector3 Velocity { get; private set; }
        public float Acceleration { get; private set; }
 
-       private void Start()
+       protected virtual void Start()
        {
            _rb = GetComponentInParent<Rigidbody>();
            _mr = GetComponent<MeshRenderer>();

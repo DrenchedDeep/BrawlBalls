@@ -18,7 +18,8 @@ namespace Managers.Local
         [SerializeField] private Canvas rootCanvas;
 
         [Header("Controls UI")]
-        [SerializeField] private Joystick joystick;
+        [SerializeField] private Joystick halfJoystick;
+        [SerializeField] private Joystick fullJoystick;
         [SerializeField] private AbilityHandler attackAbility;
         [SerializeField] private AbilityHandler specialAbility;
 
@@ -27,6 +28,8 @@ namespace Managers.Local
         [SerializeField] private TextMeshProUGUI killedByText;
         [SerializeField] private TextMeshProUGUI respawnTimerText;
 
+        private Joystick _currentJoyStick;
+        
         //Controls for local player...
         [Header("Controls")]
         [SerializeField] private CinemachineCamera cam;
@@ -54,6 +57,10 @@ namespace Managers.Local
                 return;
             }
 
+            //most will be half, so default to that :P
+            _currentJoyStick = halfJoystick;
+            fullJoystick.gameObject.SetActive(false);
+            halfJoystick.gameObject.SetActive(true);
             _livesLeft = 3;
             LocalBallPlayer = this;
             enabled = false;
@@ -70,6 +77,15 @@ namespace Managers.Local
 
         }
 
+        public void SwapJoySticks()
+        {
+            Joystick nextJoystick = _currentJoyStick == halfJoystick ? fullJoystick : halfJoystick;
+
+            _currentJoyStick = nextJoystick;
+            fullJoystick.gameObject.SetActive(nextJoystick == fullJoystick);
+            halfJoystick.gameObject.SetActive(nextJoystick != fullJoystick);
+        }
+
         private void OnGameEnded()
         {
             rootCanvas.enabled = false;
@@ -83,7 +99,7 @@ namespace Managers.Local
         {
             _currentBall.GetBall.Foward = cam.transform.forward;
             //_currentBall.GetBall.Foward.Value = cam.transform.forward;
-            _currentBall.GetBall.MoveDirection = joystick.Direction;
+            _currentBall.GetBall.MoveDirection = _currentJoyStick.Direction;
             //_currentBall.GetBall.MoveDirection.Value = joystick.Direction;
 
             //this should probs be done on the server....
@@ -103,13 +119,13 @@ namespace Managers.Local
         #region Interaction
         public void EnableControls()
         {
-            joystick.enabled = true;
+            _currentJoyStick.enabled = true;
             //PlayerControls.EnableControls();
         }
     
         public void DisableControls()
         {
-            joystick.enabled = false;
+            _currentJoyStick.enabled = false;
             //PlayerControls.DisableControls();
         }
         public void TryDoAbility(bool state)
@@ -124,7 +140,7 @@ namespace Managers.Local
 
         public void SetSteer(Vector2 direction)
         {
-            joystick.HandleInput(direction.magnitude, direction.normalized);
+            _currentJoyStick.HandleInput(direction.magnitude, direction.normalized);
         }
         
         #endregion
