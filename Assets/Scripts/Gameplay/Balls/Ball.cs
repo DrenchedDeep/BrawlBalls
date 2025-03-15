@@ -25,10 +25,10 @@ namespace Gameplay.Balls
         public event Action OnGroundStateChanged;
         
         
-        [NonSerialized] public Vector2 MoveDirection;
-       // public readonly NetworkVariable<Vector2> MoveDirection = new(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-        [NonSerialized] public Vector3 Foward;
-       // public readonly NetworkVariable<Vector3> Foward = new(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+       // [NonSerialized] public Vector2 MoveDirection;
+        public readonly NetworkVariable<Vector2> MoveDirection = new(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+        //[NonSerialized] public Vector3 Foward;
+        public readonly NetworkVariable<Vector3> Foward = new(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
        
        
        
@@ -116,9 +116,9 @@ namespace Gameplay.Balls
         
        public virtual void HandleMovement()
        {
-           Vector3 fwd = Foward;
+           Vector3 fwd = Foward.Value;
            //Vector3 fwd = Foward.Value;
-           Vector2 moveDir = MoveDirection;
+           Vector2 moveDir = MoveDirection.Value;
            //Vector2 moveDir = MoveDirection.Value;
            
            _rb.AddForce(moveDir.y * Acceleration * fwd, ForceMode.Acceleration);
@@ -249,13 +249,12 @@ namespace Gameplay.Balls
         private void RemoveMaterial(int hashID)
         {
             int l = _mr.materials.Length;
-            Material[] mats = new Material[l ];
+            Material[] mats = new Material[l - 1]; //-1 so we don't do unneeded ones
             int m = 0;
             for (int index = 0; index < l; index++)
             {
                 if (_mr.materials[index].GetHashCode() != hashID)
-                    mats[index] = _mr.materials[m];
-                m += 1;
+                    mats[index] = _mr.materials[m++];
             }
 
             _mr.materials = mats;

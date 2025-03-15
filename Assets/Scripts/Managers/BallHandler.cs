@@ -53,7 +53,18 @@ namespace Managers
                 ngo.SpawnWithOwnership( id.Receive.SenderClientId , true);
             }
             NetworkObject pl = player.GetComponent<NetworkObject>();
-            pl.SpawnAsPlayerObject(id.Receive.SenderClientId, true);
+            if (IsHost)
+            {
+                pl.SpawnAsPlayerObject(id.Receive.SenderClientId, true);
+
+            }
+            else
+            {
+                pl.SpawnWithOwnership(id.Receive.SenderClientId, true);
+
+            }
+
+            
             
             obs[0].TrySetParent(pl);
             obs[1].TrySetParent(pl);
@@ -64,6 +75,7 @@ namespace Managers
             {
                 ActiveBalls.Remove(player);
             };
+            
             
             player.Initialize(ability);
         }

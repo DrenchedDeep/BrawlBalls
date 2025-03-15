@@ -54,6 +54,7 @@ namespace Managers.Local
 
         private void Awake()
         {
+            rootCanvas.enabled = false;
             if (LocalBallPlayer != null && LocalBallPlayer != this)
             {
                 Destroy(gameObject);
@@ -138,9 +139,9 @@ namespace Managers.Local
 
         private void Update()
         {
-            _currentBall.GetBall.Foward = cam.transform.forward;
+            _currentBall.GetBall.Foward.Value = cam.transform.forward;
             //_currentBall.GetBall.Foward.Value = cam.transform.forward;
-            _currentBall.GetBall.MoveDirection = _currentJoyStick.Direction;
+            _currentBall.GetBall.MoveDirection.Value = _currentJoyStick.Direction;
             //_currentBall.GetBall.MoveDirection.Value = joystick.Direction;
 
             //this should probs be done on the server....
