@@ -30,6 +30,8 @@ namespace Managers.Network
         private Player _playerObject;
 
         public UnityEvent onLocalDisconnectedFromLobby;
+        public UnityEvent onPlayerJoinedLobby;
+        public UnityEvent onPlayerLeftLobby;
         public UnityEvent onLocalGameStarting;
 
         [SerializeField] private string[] inRotationMaps =
@@ -108,14 +110,25 @@ namespace Managers.Network
             {
                 if (index >= _myLobby.Players.Count)
                 {
+                    if (playerCards[index].isActiveAndEnabled)
+                    {
+                        onPlayerLeftLobby?.Invoke();
+                    }
+
                     playerCards[index].RemovePlayer();
                     continue;
                 }
 
+                if (!playerCards[index].isActiveAndEnabled)
+                {
+                    onPlayerJoinedLobby?.Invoke();
+                }
+                
                 Player p = _myLobby.Players[index];
                 playerCards[index].UpdatePlayer(p.Data["Name"].Value, "1", p.Id == AuthenticationService.Instance.PlayerId);
-            
             }
+            
+            
 
             beginGameButton.gameObject.SetActive(_myLobby.HostId == AuthenticationService.Instance.PlayerId);
         }
