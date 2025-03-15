@@ -129,6 +129,7 @@ namespace Managers.Local
         {
             rootCanvas.enabled = false;
             respawnUI.SetActive(false);
+            _spectatingManager.StopSpectating();
             _tickRespawn = false;
             DisableControls();
         }
@@ -187,10 +188,7 @@ namespace Managers.Local
         #region Initialization
         public void BindTo(BallPlayer ballPlayer)
         {
-            Debug.Log("I am owned locally: ", ballPlayer);
-            
             _currentBall = ballPlayer; 
-            ballPlayer.name = "Local Player Ball"; 
             
             SetBall(ballPlayer.GetBall); 
             SetAbilities(ballPlayer.GetWeapon,ballPlayer.GetAbility);
@@ -230,6 +228,7 @@ namespace Managers.Local
         public void Unbind()
         {
             _livesLeft--;
+            NetworkGameManager.Instance.FuckingLazyWayToDoThis_ServerRpc(NetworkGameManager.Instance.NetworkManager.LocalClientId, _livesLeft);
 
             if (_livesLeft <= 0)
             {

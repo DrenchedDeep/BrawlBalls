@@ -70,6 +70,7 @@ namespace Managers.Network
             TeamID = teamID;
             ClientID = clientID;
             LivesLeft = 3;
+            Debug.Log("registered player: " + username.ToString() + " has " + LivesLeft + " lives");
         }
 
         public bool Equals(BallPlayerInfo other)
@@ -152,7 +153,7 @@ namespace Managers.Network
 
          private void PlayersOnOnListChanged(NetworkListEvent<BallPlayerInfo> changeevent)
          {
-             if (Players.Count == NetworkManager.ConnectedClients.Count)
+             if (Players.Count == NetworkManager.ConnectedClients.Count && !GameStarted.Value)
              {
                  OnAllPlayersJoined?.Invoke();
              }
@@ -224,6 +225,8 @@ namespace Managers.Network
 
              if (killerID != 100)
              {
+                 
+                 /*/
                  int scoreIncreaseIndex = GetPlayerBallInfoIndex(killerID);
 
                  if (scoreIncreaseIndex != -1)
@@ -233,14 +236,24 @@ namespace Managers.Network
                      Players[scoreIncreaseIndex] = newInfo;
                      OnPlayerScoreUpdated_ClientRpc(killerID);
                  }
+                 /*/
+                 
+                 OnPlayerScoreUpdated_ClientRpc(killerID);
+
                  
                  ClientRpcParams rpcParams = default;
                  rpcParams.Send.TargetClientIds = new[] { killerID };
                  OnLocalPlayerKilledPlayer_ClientRpc(killedID, rpcParams);
              }
+             
+         }
 
-             int livesLostIndex = GetPlayerBallInfoIndex(killedID);
-
+         [ServerRpc(RequireOwnership = false)]
+         public void FuckingLazyWayToDoThis_ServerRpc(ulong clientID, int livesLeft)
+         {
+             int livesLostIndex = GetPlayerBallInfoIndex(clientID);
+             
+             
              if (livesLostIndex != -1)
              {
                  BallPlayerInfo newInfo = Players[livesLostIndex];
@@ -248,7 +261,6 @@ namespace Managers.Network
                  Players[livesLostIndex] = newInfo;
                  CheckIfCanEndGameEarly();
              }
-             
          }
 
          [ClientRpc(RequireOwnership = false)]

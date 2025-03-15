@@ -88,10 +88,13 @@ namespace Core.Podium
             if(!NetworkManager.Singleton || !NetworkManager.Singleton.IsConnectedClient)
                 BallHandler.Instance.SpawnBall_Offline(myBall.ball, myBall.weapon, myBall.ability);
             else
+            {
                 BallHandler.Instance.SpawnBall_ServerRpc(myBall.ball, myBall.weapon, myBall.ability);
-          #else
+                Debug.Log("is online spawn ball request");
+            }
+#else
                 BallHandler.Instance.SpawnBall_ServerRpc(myBall.ball, myBall.weapon, myBall.ability);
-            #endif
+#endif
             EndDisplaying();
         }
     }

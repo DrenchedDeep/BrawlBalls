@@ -18,6 +18,11 @@ public class SpectatingManager : MonoBehaviour
         spectatingUI.SetActive(true);
         SpectateNextPlayer(0);
     }
+
+    public void StopSpectating()
+    {
+        spectatingUI.SetActive(false);
+    }
     
     public void SpectateNextPlayer(int index)
     {
