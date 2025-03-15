@@ -39,14 +39,15 @@ public class SpectatingManager : MonoBehaviour
         }
 
         allBalls[_currentIndex].OnDestroyed += OnCurrentSpectatingPlayerDied;
-            localPlayerController.SetBall(allBalls[_currentIndex].GetBall);
+        localPlayerController.SetBall(allBalls[_currentIndex].GetBall);
 
-            string playerName =
-                NetworkGameManager.Instance.GetPlayerName(allBalls[_currentIndex].NetworkObject.OwnerClientId);
-            Debug.Log("I am now spectating: " +
-                      playerName);
+        string playerName =
+            NetworkGameManager.Instance.GetPlayerName(allBalls[_currentIndex].NetworkObject.OwnerClientId);
+        
+        Debug.Log("I am now spectating: " +
+                  playerName);
             
-            currentPlayerName.text = playerName;
+        currentPlayerName.text = playerName;
         
 
     }

@@ -13,8 +13,6 @@ namespace Gameplay.Map
         
         [Header("Coin")]
         [SerializeField] private Transform coinStart;
-        [SerializeField] private int numCoinsToSpawnThroughoutMatch = 5;
-        [SerializeField] private float timeToSpawnCoin = 75;
         
         [Header("Map")]
         [field: SerializeField] public Transform [] SpawnPoints { get; private set; }
@@ -57,17 +55,16 @@ namespace Gameplay.Map
             
             SpawnPoints.Shuffle();
             
-            Debug.Log("Spawn point shuffle: ");
+           // Debug.Log("Spawn point shuffle: ");
             /*/
             foreach (var point in SpawnPoints)
                 Debug.Log("SpawnPoint: " + point, point);
                 /*/
 
 
-            for (int i = 1; i < numCoinsToSpawnThroughoutMatch; i++)
-            {
-                NetworkGameManager.Instance.AddTimedEvent(i * timeToSpawnCoin, SpawnCoin);
-            }
+            NetworkGameManager.Instance.AddTimedEvent(30, SpawnCoin);
+            NetworkGameManager.Instance.AddTimedEvent(120, SpawnCoin);
+            NetworkGameManager.Instance.AddTimedEvent(210, SpawnCoin);
 
         }
         

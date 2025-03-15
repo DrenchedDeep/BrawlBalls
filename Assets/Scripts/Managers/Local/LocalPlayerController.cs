@@ -74,6 +74,8 @@ namespace Managers.Local
         private void OnGameEnded()
         {
             rootCanvas.enabled = false;
+            respawnUI.SetActive(false);
+            _tickRespawn = false;
             DisableControls();
         }
         
@@ -177,7 +179,6 @@ namespace Managers.Local
             {
                 spectatingManager.StartSpectating();
                 respawnUI.SetActive(false);
-
             }
             else
             {

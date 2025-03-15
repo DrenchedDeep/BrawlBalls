@@ -132,11 +132,7 @@ namespace Gameplay
                 OnDestroyed?.Invoke(killer);
             }
 
-            //100 id is the out of bounds
-            if (killer != 100)
-            {
-                NetworkGameManager.Instance.OnPlayerKilled(NetworkObject.OwnerClientId, killer);
-            }
+            NetworkGameManager.Instance.OnPlayerKilled(NetworkObject.OwnerClientId, killer);
 
             transform.GetChild(0).GetComponent<NetworkObject>().Despawn();
             transform.GetChild(1).GetComponent<NetworkObject>().Despawn();

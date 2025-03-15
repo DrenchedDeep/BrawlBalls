@@ -24,6 +24,7 @@ namespace Managers.Network
         public FixedString64Bytes  Username;
         public ulong ClientID;
         public float Score;
+        public int LivesLeft;
         public int TeamID;
         
         //any other data that needs to be replicated...
@@ -35,6 +36,7 @@ namespace Managers.Network
                 reader.ReadValueSafe(out Username);
                 reader.ReadValueSafe(out ClientID);
                 reader.ReadValueSafe(out Score);
+                reader.ReadValueSafe(out LivesLeft);
                 reader.ReadValueSafe(out TeamID);
             }
             else
@@ -43,14 +45,23 @@ namespace Managers.Network
                 writer.WriteValueSafe(Username);
                 writer.WriteValueSafe(ClientID);
                 writer.WriteValueSafe(Score);
+                writer.WriteValueSafe(LivesLeft);
                 writer.WriteValueSafe(TeamID);
             }
         }
 
-        public void UpdateScore(float amt)
+        public void UpdateScore(float amt) => Score += amt;
+
+        public void UpdateLivesLeft()
         {
-            Score += amt;
+            LivesLeft--;
+            Debug.Log(LivesLeft);
         }
+
+        public bool IsOut()
+        {
+            return LivesLeft <= 0;
+        } 
 
         public BallPlayerInfo(FixedString64Bytes username, ulong clientID, float score, int teamID)
         {
@@ -58,6 +69,7 @@ namespace Managers.Network
             Score = score;
             TeamID = teamID;
             ClientID = clientID;
+            LivesLeft = 3;
         }
 
         public bool Equals(BallPlayerInfo other)
@@ -208,17 +220,35 @@ namespace Managers.Network
 
          public void OnPlayerKilled(ulong killedID, ulong killerID)
          {
-             int index = GetPlayerBallInfoIndex(killerID);
+             //100 id is the out of bounds
 
-             if (index != -1)
+             if (killerID != 100)
              {
-                 Players[index].UpdateScore(1);
-                 OnPlayerScoreUpdated_ClientRpc(killerID);
+                 int scoreIncreaseIndex = GetPlayerBallInfoIndex(killerID);
+
+                 if (scoreIncreaseIndex != -1)
+                 {
+                     BallPlayerInfo newInfo = Players[scoreIncreaseIndex];
+                     newInfo.UpdateScore(1);
+                     Players[scoreIncreaseIndex] = newInfo;
+                     OnPlayerScoreUpdated_ClientRpc(killerID);
+                 }
+                 
+                 ClientRpcParams rpcParams = default;
+                 rpcParams.Send.TargetClientIds = new[] { killerID };
+                 OnLocalPlayerKilledPlayer_ClientRpc(killedID, rpcParams);
+             }
+
+             int livesLostIndex = GetPlayerBallInfoIndex(killedID);
+
+             if (livesLostIndex != -1)
+             {
+                 BallPlayerInfo newInfo = Players[livesLostIndex];
+                 newInfo.UpdateLivesLeft();
+                 Players[livesLostIndex] = newInfo;
+                 CheckIfCanEndGameEarly();
              }
              
-             ClientRpcParams rpcParams = default;
-             rpcParams.Send.TargetClientIds = new[] { killerID };
-             OnLocalPlayerKilledPlayer_ClientRpc(killedID, rpcParams);
          }
 
          [ClientRpc(RequireOwnership = false)]
@@ -231,13 +261,39 @@ namespace Managers.Network
          void OnPlayerScoreUpdated_ClientRpc(ulong clientID)
          {
              OnPlayerScoreUpdated?.Invoke(clientID, 1);
-
          }
         
          private void OnServerStopped(bool obj)
          {
              Debug.LogError("Server stopped IMPLEMENT RETURN TO MENU OR HOST MIGRATION.");
              OnHostDisconnected?.Invoke();
+         }
+
+         private void CheckIfCanEndGameEarly()
+         {
+             int playersLeft = Players.Count;
+
+             foreach (var player in Players)
+             {   
+                 Debug.Log(player.Username + " has " + player.LivesLeft + " lives left.");
+
+                 if (player.LivesLeft > 0)
+                 {
+                     continue;
+                 }
+
+             //    Debug.Log(player.Username + " has " + player.LivesLeft + " lives left.");
+                 playersLeft--;
+             }
+
+             Debug.Log("players left ALIVE: " + playersLeft);
+
+             int minPlayers = NetworkManager.ConnectedClients.Count <= 1 ? 0 : 1;
+             //only one player or less left, we can just end game now
+             if (playersLeft <= minPlayers)
+             {
+                 GameStarted.Value = false;
+             }
          }
 
          private void CheckStartGame()
