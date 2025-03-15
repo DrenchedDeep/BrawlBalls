@@ -7516,6 +7516,16 @@ PrefabInstance:
       objectReference: {fileID: 2078156958}
     - target: {fileID: 6580148358737301331, guid: c62ad9c03215860419b871602d94b0aa,
         type: 3}
+      propertyPath: fullJoystick
+      value: 
+      objectReference: {fileID: 2078156958}
+    - target: {fileID: 6580148358737301331, guid: c62ad9c03215860419b871602d94b0aa,
+        type: 3}
+      propertyPath: halfJoystick
+      value: 
+      objectReference: {fileID: 1589144210}
+    - target: {fileID: 6580148358737301331, guid: c62ad9c03215860419b871602d94b0aa,
+        type: 3}
       propertyPath: spectatingManager
       value: 
       objectReference: {fileID: 461315920}
@@ -33745,6 +33755,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1536131377}
   m_CullTransparentMesh: 1
+--- !u!114 &1589144210 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2772883099287957826, guid: c62ad9c03215860419b871602d94b0aa,
+    type: 3}
+  m_PrefabInstance: {fileID: 461315916}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bf205863585d444983f709d3e366f06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1593457896
 GameObject:
   m_ObjectHideFlags: 0
