@@ -77,6 +77,12 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
         SetAnchorPosition(Input  * handleRange * radius);
     }
 
+    public void SetInput(Vector2 input)
+    {
+        Input = input;
+        SetAnchorPosition(Input  * handleRange * radius);
+    }
+
     protected virtual void SetAnchorPosition(Vector2 pos)
     {
         handle.anchoredPosition = pos;

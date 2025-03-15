@@ -6,6 +6,7 @@ using Stats;
 using TMPro;
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 //Player handles UI, and is the main interface for players...
 namespace Managers.Local
@@ -33,10 +34,11 @@ namespace Managers.Local
         //Controls for local player...
         [Header("Controls")]
         [SerializeField] private CinemachineCamera cam;
-
-        [Header("Spectating")]
+        [SerializeField] private Canvas pauseCanvas;
         
-        [SerializeField] private SpectatingManager spectatingManager;
+        
+        private PlayerInput _playerInput;
+        private SpectatingManager _spectatingManager;
 
         //We can't let this be static for local multiplayer.
         public static LocalPlayerController LocalBallPlayer { get; private set; }
@@ -56,7 +58,12 @@ namespace Managers.Local
                 Destroy(gameObject);
                 return;
             }
+            
+            _playerInput = GetComponent<PlayerInput>();
+            _spectatingManager = GetComponent<SpectatingManager>();
 
+            InitializeControls();
+            
             //most will be half, so default to that :P
             _currentJoyStick = halfJoystick;
             fullJoystick.gameObject.SetActive(false);
@@ -64,6 +71,38 @@ namespace Managers.Local
             _livesLeft = 3;
             LocalBallPlayer = this;
             enabled = false;
+        }
+
+        private void InitializeControls()
+        {
+            if (_playerInput == null)
+            {
+                Debug.LogWarning("There was no player input on the player", gameObject);
+                return;
+            }
+            
+            //Gameplay Actions
+            var useWeapon = _playerInput.actions["Weapon"];
+            var useAbility = _playerInput.actions["Ability"];
+            var controlSteering = _playerInput.actions["Steer"];
+            var pauseGame = _playerInput.actions["EnterPause"];
+
+            //UI Actions
+            var unPauseGame = _playerInput.actions["ExitPause"];
+            
+            useWeapon.performed += ctx => TryDoWeapon(ctx.ReadValueAsButton());
+            useAbility.performed += ctx => TryDoAbility(ctx.ReadValueAsButton());
+            controlSteering.performed += ctx => SetSteer(ctx.ReadValue<Vector2>());
+            pauseGame.performed += _ => TogglePauseState(true);
+            unPauseGame.performed += _ => TogglePauseState(false);
+            
+            
+          
+        }
+
+        private void TogglePauseState(bool state)
+        {
+            pauseCanvas.enabled = state;
         }
 
         private void OnEnable()
@@ -128,19 +167,19 @@ namespace Managers.Local
             _currentJoyStick.enabled = false;
             //PlayerControls.DisableControls();
         }
-        public void TryDoAbility(bool state)
+        private void TryDoAbility(bool state)
         {
             specialAbility.TryUseAbility(_currentBall.GetAbility, _currentBall);
         }
 
-        public void TryDoWeapon(bool state)
+        private void TryDoWeapon(bool state)
         {
             attackAbility.TryUseAbility(_currentBall.GetWeapon.GetAbility, _currentBall);
         }
 
-        public void SetSteer(Vector2 direction)
+        private void SetSteer(Vector2 direction)
         {
-            _currentJoyStick.HandleInput(direction.magnitude, direction.normalized);
+            _currentJoyStick.SetInput(direction);
         }
         
         #endregion
@@ -194,7 +233,7 @@ namespace Managers.Local
 
             if (_livesLeft <= 0)
             {
-                spectatingManager.StartSpectating();
+                _spectatingManager.StartSpectating();
                 respawnUI.SetActive(false);
             }
             else
