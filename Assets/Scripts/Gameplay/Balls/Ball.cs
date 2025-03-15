@@ -13,6 +13,7 @@ namespace Gameplay
     public class Ball : NetworkBehaviour
     {
         [SerializeField] private BallStats stats;
+        [SerializeField] private bool fullJoyStick = false;
         public BallStats Stats => stats;
         
         private Rigidbody _rb;
@@ -41,11 +42,29 @@ namespace Gameplay
            _rb.useGravity = true;
            _rb.linearDamping = stats.Drag;
            _rb.angularDamping = stats.AngularDrag;
+           
+           if (!NetworkManager)
+           {
+               SetupJoystick();
+           }
+       }
+       public override void OnNetworkSpawn()
+       {
+           if (IsOwner)
+           {
+               SetupJoystick();
+           }
+       }
+
+       private void SetupJoystick()
+       {
+           LocalPlayerController.LocalBallPlayer.SwapJoySticks(fullJoyStick);
        }
 
 
        private void FixedUpdate()
        {
+           /*/
 #if UNITY_EDITOR
            if (IsOwner || !NetworkManager.Singleton)
            {
@@ -58,6 +77,13 @@ namespace Gameplay
                HandleDrag();
            }
 #endif
+
+/*/
+           if (IsOwner)
+           {
+               HandleMovement();
+               HandleDrag();
+           }
 
            UpdateState();
        }

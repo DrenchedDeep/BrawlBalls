@@ -10,11 +10,5 @@ using UnityEngine;
  */
 public class SoccerBall : Ball
 {
-    public override void OnNetworkSpawn()
-    {
-        if (IsOwner)
-        {
-            LocalPlayerController.LocalBallPlayer.SwapJoySticks();
-        }
-    }
+
 }

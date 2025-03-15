@@ -21,19 +21,12 @@ namespace Gameplay.Map
         
         
         
-        private static int SpawnedIdx { get; set; }
+      //  private static int SpawnedIdx { get; set; }
         private static Level Instance { get; set; }
 
         public static Vector3 GetNextSpawnPoint()
         {
-            int index = SpawnedIdx++;
-
-            if (SpawnedIdx >= Instance.SpawnPoints.Length)
-            {
-                SpawnedIdx = 0;
-                Instance.SpawnPoints.Shuffle();
-            }
-            return Instance.SpawnPoints[index].position;
+            return Instance.SpawnPoints[Random.Range(0, Instance.SpawnPoints.Length)].position;
         }
 
         //All levels drop coins from center...

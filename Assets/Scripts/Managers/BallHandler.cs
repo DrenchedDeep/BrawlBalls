@@ -72,7 +72,7 @@ namespace Managers
         public void SpawnBall_Offline(string ball, string weapon, string ability)
         {
             Vector3 spawnPoint = Level.GetNextSpawnPoint();
-            
+            Debug.Log(spawnPoint);
             //Create the Ball Controller
             BallPlayer player = Instantiate(ResourceManager.Instance.Hull, spawnPoint, Quaternion.LookRotation(Vector3.up));
             Transform cachedTransform = player.transform;

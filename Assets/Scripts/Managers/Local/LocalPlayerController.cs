@@ -116,9 +116,9 @@ namespace Managers.Local
 
         }
 
-        public void SwapJoySticks()
+        public void SwapJoySticks(bool isFull)
         {
-            Joystick nextJoystick = _currentJoyStick == halfJoystick ? fullJoystick : halfJoystick;
+            Joystick nextJoystick = isFull ? fullJoystick : halfJoystick;
 
             _currentJoyStick = nextJoystick;
             fullJoystick.gameObject.SetActive(nextJoystick == fullJoystick);
