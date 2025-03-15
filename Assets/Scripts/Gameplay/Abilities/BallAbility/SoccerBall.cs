@@ -10,9 +10,11 @@ using UnityEngine;
  */
 public class SoccerBall : Ball
 {
-    protected override void Start()
+    public override void OnNetworkSpawn()
     {
-        base.Start();
-        LocalPlayerController.LocalBallPlayer.SwapJoySticks();
+        if (IsOwner)
+        {
+            LocalPlayerController.LocalBallPlayer.SwapJoySticks();
+        }
     }
 }
