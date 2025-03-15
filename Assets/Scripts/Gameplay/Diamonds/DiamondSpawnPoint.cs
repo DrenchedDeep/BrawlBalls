@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class DiamondSpawnPoint : MonoBehaviour
 {
-    public bool CanSpawnDiamond => _diamond == null;
+    [SerializeField] private Building building;
+    public bool CanSpawnDiamond => (_diamond == null && (building ? !building.IsDestroyed.Value : true));
 
 
     private Collectable _diamond;

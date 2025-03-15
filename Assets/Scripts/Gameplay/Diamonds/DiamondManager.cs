@@ -21,7 +21,6 @@ public class DiamondManager : NetworkBehaviour
 
     private void TrySpawnDiamond()
     {
-        Debug.Log("try to spawn: " + GetCurrentDiamondsInLevel());
         if (GetCurrentDiamondsInLevel() >= maxDiamondsAtOnce)
         {
             return;
