@@ -70,6 +70,9 @@ namespace Gameplay
             GetWeapon = GetComponentInChildren<Weapon>();
 
             _rb = GetComponent<Rigidbody>();
+            _rb.interpolation = RigidbodyInterpolation.Interpolate;
+            _rb.isKinematic = false;
+            
             _rb.mass = GetBall.Stats.Mass + GetWeapon.Stats.Mass;
 
             gameObject.layer = IsOwner ? StaticUtilities.LocalBallLayerLiteral : StaticUtilities.EnemyLayerLiteral;
@@ -79,11 +82,38 @@ namespace Gameplay
                 child.gameObject.layer = gameObject.layer;
             }
 
-            if (IsHost) _currentHealth.Value = GetBall.Stats.MaxHealth;
+            if (IsHost ) _currentHealth.Value = GetBall.Stats.MaxHealth;
 
 
             if (IsOwner) LocalPlayerController.LocalBallPlayer.BindTo(this);
         }
+
+        #if UNITY_EDITOR
+        public void Initialize_Offline(string abilityId)
+        {
+            if (NetworkManager.Singleton != null) return;
+            Debug.Log("We are now initialized", gameObject);
+            GetAbility = ResourceManager.Abilities[abilityId];
+            GetBall = GetComponentInChildren<Ball>();
+            GetWeapon = GetComponentInChildren<Weapon>();
+
+            _rb = GetComponent<Rigidbody>();
+            _rb.mass = GetBall.Stats.Mass + GetWeapon.Stats.Mass;
+            _rb.interpolation = RigidbodyInterpolation.Interpolate;
+            _rb.isKinematic = false;
+            
+            gameObject.layer = IsOwner ? StaticUtilities.LocalBallLayerLiteral : StaticUtilities.EnemyLayerLiteral;
+
+            foreach (Transform child in transform)
+            {
+                child.gameObject.layer = gameObject.layer;
+            }
+
+            _currentHealth.Value = GetBall.Stats.MaxHealth;
+            LocalPlayerController.LocalBallPlayer.BindTo(this);
+            
+        }
+        #endif
 
         [ServerRpc(RequireOwnership = false)]
         public void TakeDamage_ServerRpc(DamageProperties damageInfo)

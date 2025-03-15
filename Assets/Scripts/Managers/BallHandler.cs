@@ -9,7 +9,6 @@ namespace Managers
 {
     public class BallHandler : NetworkBehaviour
     {
-        private static int BallsSpawned { get; set; }
         public static BallHandler Instance { get; private set; }
 
         public static readonly List<BallPlayer> ActiveBalls = new();
@@ -69,9 +68,27 @@ namespace Managers
             player.Initialize_ClientRpc(ability);
         }
 
-        public void SpawnBall_Offline(string myBallBall, string myBallWeapon, string myBallAbility)
+        #if UNITY_EDITOR
+        public void SpawnBall_Offline(string ball, string weapon, string ability)
         {
-           // throw new System.NotImplementedException();
+            Vector3 spawnPoint = Level.GetNextSpawnPoint();
+            
+            //Create the Ball Controller
+            BallPlayer player = Instantiate(ResourceManager.Instance.Hull, spawnPoint, Quaternion.LookRotation(Vector3.up));
+            Transform cachedTransform = player.transform;
+
+            Instantiate(ResourceManager.Balls[ball], cachedTransform);
+            Instantiate(ResourceManager.Weapons[weapon], cachedTransform);
+
+            ActiveBalls.Add(player);
+
+            player.OnDestroyed += (_) =>
+            {
+                ActiveBalls.Remove(player);
+            };
+            
+            player.Initialize_Offline(ability);
         }
+        #endif
     }
 }

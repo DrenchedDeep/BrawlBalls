@@ -87,7 +87,8 @@ namespace Core.Podium
             BallHandler.Instance.SpawnBall_ServerRpc(myBall.ball, myBall.weapon, myBall.ability);
             EndDisplaying();
             #if UNITY_EDITOR
-            BallHandler.Instance.SpawnBall_Offline(myBall.ball, myBall.weapon, myBall.ability);
+            if(!NetworkManager.Singleton || !NetworkManager.Singleton.IsConnectedClient)
+                BallHandler.Instance.SpawnBall_Offline(myBall.ball, myBall.weapon, myBall.ability);
             #endif
             
         }

@@ -21,7 +21,6 @@ namespace Gameplay
         public AbilityStats GetAbility => stats.Ability;
 
         private float _curDamage;
-        private bool isConnected;
 
         private Transform connector;
     
@@ -31,7 +30,11 @@ namespace Gameplay
         
         public void ToggleActive()
         {
+            #if UNITY_EDITOR
+            isActive = !isActive && (IsHost || !NetworkManager.Singleton);
+            #else
             isActive = !isActive && IsHost;
+            #endif
         }
 
 
@@ -39,21 +42,26 @@ namespace Gameplay
         {
             
             _curDamage = stats.Damage;
-                    
-            isActive = IsOwner || IsServer;
-
+                   
+#if UNITY_EDITOR
+            isActive = (!NetworkManager.Singleton || IsOwner || IsServer);
+            _owner = transform.parent?.GetComponent<BallPlayer>();
+#else
+ isActive =  IsOwner || IsServer;
+#endif
+            
         }
 
         private void LateUpdate()
         {
-            if (!isConnected) return;
+            if (!_owner) return;
             Rotate();
         }
 
         private void Rotate()
         {
             Vector3 dir = Vector3.Lerp(Vector3.up,  _owner.GetBall.Velocity.normalized, _owner.GetBall.Speed * 5);
-           // Debug.Log("Lerping from: " + _owner.GetBall.Velocity.normalized + " to " + Vector3.up + " Where T is " + _owner.GetBall.Speed);
+            Debug.Log("Lerping from: " + _owner.GetBall.Velocity.normalized + " to " + Vector3.up + " Where T is " + _owner.GetBall.Speed);
             
             Vector3 localDir = _owner.transform.InverseTransformDirection(dir);
             
@@ -66,7 +74,6 @@ namespace Gameplay
             Transform r = transform.parent;
             if (r == null) return;
             _owner = r.GetComponent<BallPlayer>();
-            isConnected = true;
 
         }
 
@@ -139,7 +146,6 @@ namespace Gameplay
         {
             gameObject.layer = 0;
             GetComponent<BoxCollider>().enabled = true;
-            isConnected = false;
             if (!IsHost)
             {
                 enabled = false;

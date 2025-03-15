@@ -1,8 +1,10 @@
+using System;
 using Managers.Local;
 using RotaryHeart.Lib.PhysicsExtension;
 using Stats;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Physics = UnityEngine.Physics;
 using Random = UnityEngine.Random;
 
@@ -17,8 +19,10 @@ namespace Gameplay
         private MeshRenderer _mr;
         private Vector3 _previousPosition;
         private Vector3 _curPos;
-        public readonly NetworkVariable<Vector2> MoveDirection = new(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-        public readonly NetworkVariable<Vector3> Foward = new(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+        [NonSerialized] public Vector2 MoveDirection;
+       // public readonly NetworkVariable<Vector2> MoveDirection = new(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+        [NonSerialized] public Vector3 Foward;
+       // public readonly NetworkVariable<Vector3> Foward = new(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
         
         public float Speed { get; private set; }
         public Vector3 Velocity { get; private set; }
@@ -40,11 +44,19 @@ namespace Gameplay
         private void FixedUpdate()
         {
             //Runs only for other clients
+            #if UNITY_EDITOR
+            if (IsOwner || !NetworkManager.Singleton) //Or offline...
+            {
+                HandleMovement();
+                HandleDrag();
+            }
+            else
             if (IsOwner)
             {
                 HandleMovement();
                 HandleDrag();
             }
+            #endif
 
             UpdateState();
         }
@@ -68,8 +80,12 @@ namespace Gameplay
         }
         void HandleMovement()
         {
-            Vector3 fwd = Foward.Value;
-            Vector2 moveDir = MoveDirection.Value;
+            Vector3 fwd = Foward;
+            //Vector3 fwd = Foward.Value;
+            Vector2 moveDir = MoveDirection;
+            //Vector2 moveDir = MoveDirection.Value;
+            
+            
             
             _rb.AddForce(moveDir.y * Acceleration * fwd, ForceMode.Acceleration);
             _rb.AddForce(moveDir.x * Acceleration * Vector3.Cross( Vector3.up,fwd), ForceMode.Acceleration);

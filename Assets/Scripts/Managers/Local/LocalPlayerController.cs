@@ -5,7 +5,6 @@ using Managers.Network;
 using Stats;
 using TMPro;
 using Unity.Cinemachine;
-using Unity.Netcode;
 using UnityEngine;
 
 //Player handles UI, and is the main interface for players...
@@ -82,8 +81,10 @@ namespace Managers.Local
 
         private void Update()
         {
-            _currentBall.GetBall.Foward.Value = cam.transform.forward;
-            _currentBall.GetBall.MoveDirection.Value = joystick.Direction;
+            _currentBall.GetBall.Foward = cam.transform.forward;
+            //_currentBall.GetBall.Foward.Value = cam.transform.forward;
+            _currentBall.GetBall.MoveDirection = joystick.Direction;
+            //_currentBall.GetBall.MoveDirection.Value = joystick.Direction;
 
             //this should probs be done on the server....
             if (_tickRespawn)
