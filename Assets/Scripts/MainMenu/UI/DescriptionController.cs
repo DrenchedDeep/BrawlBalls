@@ -46,10 +46,12 @@ namespace MainMenu.UI
         {
             icon.sprite = _currentItem.Stats.Icon;
             
-            ResourceManager.Instance.GetRarityInformation(_currentItem.Stats.Rarity, out Color color, out Sprite sprite);
+            ResourceManager.Instance.GetRarityInformation(_currentItem.Stats.Rarity, out _, out Sprite sprite);
+            var color = backing.color;
             color.a = 0.4f;
-            backing.sprite = sprite;
             backing.color = color;
+            backing.sprite = sprite;
+            //backing.color = color;
             
             header.text = _currentItem.Stats.name;
             description.text = _currentItem.Stats.Description;

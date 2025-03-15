@@ -137,10 +137,9 @@ namespace MainMenu.UI
             titleText.text = stats.name;
             icon.sprite = stats.Stats.Icon;
 
-            ResourceManager.Instance.GetRarityInformation(stats.Stats.Rarity, out Color rarityColor, out Sprite rarityIcon);
+            ResourceManager.Instance.GetRarityInformation(stats.Stats.Rarity, out _, out Sprite rarityIcon);
 
             backing.sprite = rarityIcon;
-            backing.color = rarityColor;
 
         }
 
