@@ -68,5 +68,10 @@ namespace Managers
             
             player.Initialize_ClientRpc(ability);
         }
+
+        public void SpawnBall_Offline(string myBallBall, string myBallWeapon, string myBallAbility)
+        {
+           // throw new System.NotImplementedException();
+        }
     }
 }
