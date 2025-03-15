@@ -1,10 +1,10 @@
-using System;
 using Cysharp.Threading.Tasks;
 using Gameplay;
 using Managers.Local;
 using Stats;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Core.Podium
 {
@@ -12,6 +12,8 @@ namespace Core.Podium
     {
         [SerializeField] private MeshRenderer meshRenderer;
         [SerializeField] private Transform ballPoint;
+        [SerializeField] private Canvas canvas;
+        [SerializeField] private Image abilityIcon;
      
         private Material _material;
         private BallPlayer _myBall;
@@ -55,6 +57,7 @@ namespace Core.Podium
         private void Awake()
         {
             _audioSource = GetComponent<AudioSource>();
+            canvas.enabled = false;
         }
 
         private void OnEnable()
@@ -72,7 +75,12 @@ namespace Core.Podium
             _ballIndex = index;
             SaveManager.BallStructure ballInfo = SaveManager.MyBalls.GetReadonlyBall(index);
             _myBall = ResourceManager.CreateBallDisabled(ballInfo.ball, ballInfo.weapon, ballPoint, out var b, out var w);
-            _myBall.SetAbility(ResourceManager.Abilities[ballInfo.ability]);
+            AbilityStats stats = ResourceManager.Abilities[ballInfo.ability];
+            abilityIcon.sprite = stats.Icon;
+
+            canvas.enabled = true;
+            
+            _myBall.SetAbility(stats);
             TrailRenderer trail = _myBall.GetComponent<TrailRenderer>();
 
             _ballObject = b.gameObject;
@@ -178,6 +186,9 @@ namespace Core.Podium
             Debug.Log($"Changing the ABILITY from {SaveManager.MyBalls.GetReadonlyBall(_ballIndex).ability} to {a.name}");
             SaveManager.MyBalls.SetBallAbility(_ballIndex, a.name);
             _ = TransitionMaterial(_ballMaterial, StaticUtilities.FlashPercentID, 1,0);
+
+            abilityIcon.sprite = a.Icon;
+            canvas.enabled = true;
         }
 
         private async UniTask TransitionMaterial(Material m, int shaderID, float start, float end)

@@ -22,10 +22,10 @@ namespace Gameplay.UI
             base.SetAnchorPosition(pos);
         }
 
-        public override void HandleInput(float magnitude, Vector2 normalised)
+        public override void SetInput(Vector2 input)
         {
-            if (normalised.y < 0) normalised.y = 0;
-            base.HandleInput(magnitude, normalised);
+            input.y = Mathf.Max(0, input.y);
+            base.SetInput(input);
         }
     }
 }

@@ -24,7 +24,6 @@ namespace Gameplay
 
         private Transform connector;
     
-    
 
         [SerializeField] private bool isActive = true;
         
