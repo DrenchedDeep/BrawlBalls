@@ -71,7 +71,7 @@ namespace Managers.Local
             BallStructure secondary = new BallStructure()
             {
                 ball = "PaintBall",
-                ability = "Caltrops",
+                ability = "Jump",
                 //weapon = "LaserWeapon"
                 weapon = "SpikeWeapon"
             };

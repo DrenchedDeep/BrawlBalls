@@ -80,7 +80,7 @@ namespace Gameplay.Balls
            if (IsOwner)
            {
                HandleMovement();
-               HandleDrag();
+               HandleGround();
            }
            #endif
   
