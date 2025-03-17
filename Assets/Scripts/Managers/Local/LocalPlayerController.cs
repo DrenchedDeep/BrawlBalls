@@ -74,7 +74,7 @@ namespace Managers.Local
             LocalBallPlayer = this;
             enabled = false;
         }
-
+        
         private void InitializeControls()
         {
             if (_playerInput == null)

@@ -18,7 +18,11 @@ public class Building : NetworkBehaviour
    {
       base.OnNetworkSpawn();
 
-      IsDestroyed.Value = false;
+      if (IsServer)
+      {
+         IsDestroyed.Value = false;
+      }
+
       IsDestroyed.OnValueChanged += OnIsDestroyedChanged;
    }
 

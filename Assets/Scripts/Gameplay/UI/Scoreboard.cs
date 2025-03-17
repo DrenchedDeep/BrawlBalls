@@ -54,13 +54,11 @@ namespace Gameplay.UI
         private void OnEnable()
         {
             NetworkGameManager.Instance.OnPlayerListUpdated += Initialize;
-            NetworkGameManager.Instance.OnPlayerScoreUpdated += UpdateScore;
         }
 
         private void OnDisable()
         { 
             NetworkGameManager.Instance.OnPlayerListUpdated -= Initialize;
-            NetworkGameManager.Instance.OnPlayerScoreUpdated -= UpdateScore;
         }
         
         private void Initialize()

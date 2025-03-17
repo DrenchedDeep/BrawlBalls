@@ -17,7 +17,18 @@ using Debug = UnityEngine.Debug;
 
 namespace Managers.Network
 {
-    
+    public enum GameState
+    {
+        None,
+        WaitingForPlayers, // WAITING FOR PLAYERS TO LOAD THE LEVEL (LOADING SCREEN SHOWN HERE)
+        IntroCinematic, // EVERYBODY HAS LOADED, CLOSE LOADING SCREEN AND PLAY INTRO CINEMATIC
+        SelectingBalls,// ONCE EVERY CLIENT HAS CONFIRMED THEY'VE FINISHED THE CUTSCENE, THEY CAN SELECT A BALL
+        StartingGame, // ONCE EVERY CLIENT HAS SELECTED A BALL AND WAITING AT THEIR SPAWNPOINT, DO THE COUNTDOWN (3,2,1, GO!)
+        InGame, // IN GAME... UPDATE TIMERS N STUFF
+        EndingGame, // ENDING THE GAME... STOP PLAYER MOVEMENT, SHOW UI FOR ENDING GAME
+        EndingGameCinematic, //SHOW TOP 3 PLAYERS, ANY OTHER INFO...
+        KickingPlayers // SERVER KICKS PLAYERS BACK TO THE MAIN MENU
+    }
     
     public struct BallPlayerInfo : INetworkSerializable, IEquatable<BallPlayerInfo>
     {
@@ -55,7 +66,6 @@ namespace Managers.Network
         public void UpdateLivesLeft()
         {
             LivesLeft--;
-            Debug.Log(LivesLeft);
         }
 
         public bool IsOut()
@@ -70,7 +80,6 @@ namespace Managers.Network
             TeamID = teamID;
             ClientID = clientID;
             LivesLeft = 3;
-            Debug.Log("registered player: " + username.ToString() + " has " + LivesLeft + " lives");
         }
 
         public bool Equals(BallPlayerInfo other)
@@ -105,29 +114,33 @@ namespace Managers.Network
          public event Action OnHostDisconnected;
          public event Action OnAllPlayersJoined;
          public event Action OnPlayerListUpdated;
-         public event Action<ulong, int> OnPlayerScoreUpdated;
-
          public event Action OnGameBegin;
          public event Action OnGameEnd;
+         
+         public event Action<GameState> OnGameStateUpdated;
+
     
 
          private CancellationTokenSource _matchCancelTokenSource;
 
          private readonly TupleList<float, Action> _timedMatchEvents = new();
 
-         public NetworkVariable<bool> GameStarted { get; private set; } = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+      //   public NetworkVariable<bool> GameStarted { get; private set; } = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
          public NetworkVariable<float> CurrentTime { get; private set; } = new NetworkVariable<float>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
          
          //doubt these two need to be replicated buttt ill make them just to be sure :P
-         public NetworkVariable<float> CurrentTimePeriod { get; private set; } = new NetworkVariable<float>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+         public NetworkVariable<float> CurrentTimePeriod { get; private set; } = new NetworkVariable<float>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server); 
          public NetworkVariable<float> TotalTimePassed { get; private set; } = new NetworkVariable<float>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
          
+         
+         //the REPLICATED values every client should know about: username, score, teamid, etc...
+         public NetworkList<BallPlayerInfo> Players { get; private set; } = new NetworkList<BallPlayerInfo>();
 
-        // public NetworkList<BallPlayerInfo> Players { get; private set; }; // = new NetworkVariable<List<BallPlayerInfo>>(new List<BallPlayerInfo>(), NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
-        
-        //the REPLICATED values every client should know about: username, score, teamid, etc...
-        public NetworkList<BallPlayerInfo> Players { get; private set; } = new NetworkList<BallPlayerInfo>();
-        
+         public NetworkVariable<GameState> GameState { get; private set; } =
+             new NetworkVariable<GameState>(Network.GameState.None);
+
+         private int _clientsFinishedIntroCinematic;
+         private int _ballsSpawned;
 
         private void Awake() 
         {
@@ -144,25 +157,43 @@ namespace Managers.Network
          {
              base.OnNetworkSpawn();
 
-             GameStarted.OnValueChanged += OnGameStarted_Multicast;
-             CurrentTime.OnValueChanged += OnCurrentTime_Multicast;
+        //     GameStarted.OnValueChanged += OnGameStartedChanged;
+             GameState.OnValueChanged += OnGameStateChanged;
+             
              Players.OnListChanged += PlayersOnOnListChanged;
              
+             if (IsServer)
+             {
+                 GameState.Value = Network.GameState.WaitingForPlayers;
+             }
+             
              CheckGameStart_ServerRpc(SaveManager.MyBalls.Username);
+
+         }
+
+         private void OnGameStateChanged(GameState old, GameState current)
+         {
+             OnGameStateUpdated?.Invoke(current);
+
+             if (current != Network.GameState.WaitingForPlayers)
+             {
+                 LoadingHelper.Instance.Deactivate();
+             }
          }
 
 
          private void PlayersOnOnListChanged(NetworkListEvent<BallPlayerInfo> changeevent)
          {
+             /*/
              if (Players.Count == NetworkManager.ConnectedClients.Count && !GameStarted.Value)
              {
                  OnAllPlayersJoined?.Invoke();
              }
+             /*/
              
              OnPlayerListUpdated?.Invoke();
          }
-
-
+         
          private void OnEnable()
          {
              if (!NetworkManager)
@@ -187,7 +218,8 @@ namespace Managers.Network
              NetworkManager.OnClientDisconnectCallback -= OnClientDisconnected;
              NetworkManager.OnServerStopped -= OnServerStopped;
          }
-    
+         
+
          void OnClientConnected(ulong clientId)
          {
              _players.Add(clientId);
@@ -197,13 +229,11 @@ namespace Managers.Network
     
          void OnClientDisconnected(ulong clientId)
          {
-             Debug.Log("client disconnected");
              foreach (BallPlayerInfo player in Players)
              {
                  if (clientId == player.ClientID)
                  {
                      Players.Remove(player);
-                     Debug.Log("removing player");
                  }
              }
              _players.Remove(clientId);
@@ -215,7 +245,6 @@ namespace Managers.Network
          {
              Debug.Log("Player has connected and been registered: " + @params.Receive.SenderClientId);
 
-             //server only list...
              _players.Add(@params.Receive.SenderClientId);
              Players.Add(new BallPlayerInfo(playerName, @params.Receive.SenderClientId,0, 0));
              CheckStartGame();
@@ -225,15 +254,11 @@ namespace Managers.Network
          {
              //100 id is the out of bounds
 
-             Debug.Log("player killed");
              if (killerID != 99)
              {
                  int scoreIncreaseIndex = GetPlayerBallInfoIndex(killerID);
-                 Debug.Log("killer id is valid");
                  if (scoreIncreaseIndex != -1)
                  {
-                     
-                     Debug.Log("killer id is valid 2");
                      BallPlayerInfo newInfo = Players[scoreIncreaseIndex];
                      newInfo.UpdateScore(1);
                      Players[scoreIncreaseIndex] = newInfo;
@@ -267,12 +292,6 @@ namespace Managers.Network
          {
              GameUI.Instance.ShowElimUI(GetPlayerName(killedID));
          }
-
-         [ClientRpc(RequireOwnership = false)]
-         void OnPlayerScoreUpdated_ClientRpc(ulong clientID)
-         {
-             OnPlayerScoreUpdated?.Invoke(clientID, 1);
-         }
         
          private void OnServerStopped(bool obj)
          {
@@ -303,7 +322,7 @@ namespace Managers.Network
              //only one player or less left, we can just end game now
              if (playersLeft <= minPlayers)
              {
-                 GameStarted.Value = false;
+                 GameState.Value = Network.GameState.EndingGame;
              }
          }
 
@@ -311,11 +330,10 @@ namespace Managers.Network
          {
              if (_players.Count == NetworkManager.ConnectedClients.Count)
              {
-                 GameStarted.Value = true;
+                 //if all players have joined, play the intro cinematic
+                 GameState.Value = Network.GameState.IntroCinematic;
                  
                  //only the server should be updating the match timers... clients can get that info through the NetworkedVariables, this is to keep it consistent 
-                 _matchCancelTokenSource =  new CancellationTokenSource();
-                 _ = ManagerMatchTimer(_matchCancelTokenSource.Token);
              }
          }
 
@@ -325,12 +343,10 @@ namespace Managers.Network
              Debug.LogWarning("Client knows the game is starting...");
              LoadingHelper.Instance.Deactivate();
              OnAllPlayersJoined?.Invoke();
-
          }
 
-         private void OnGameStarted_Multicast(bool old, bool current)
+         private void OnGameStartedChanged(bool old, bool current)
          {
-             Debug.Log("GAME HAS STARTED!?!?!?!?! " + current);
              if (current)
              {
                  StartGame_Client();
@@ -356,11 +372,7 @@ namespace Managers.Network
 
              SceneManager.LoadScene("MainMenuNEW");
          }
-
-         private void OnCurrentTime_Multicast(float old, float current)
-         {
         
-         }
     
          private async UniTask ManagerMatchTimer(CancellationToken token)
          {
@@ -371,7 +383,8 @@ namespace Managers.Network
                  Debug.LogWarning("MATCH IS BEING CANCELLED DURING INIT");
                  return;
              }
-            
+
+             GameState.Value = Network.GameState.InGame;
              Debug.Log("Game is now beginning fully! Let the games begin!");
              OnGameBegin?.Invoke();
             
@@ -394,7 +407,7 @@ namespace Managers.Network
              }
             
              Debug.LogWarning("Well I guess everyone who's alive is a winner! TODO: Actually make this work");
-             GameStarted.Value = false;
+             GameState.Value = Network.GameState.EndingGame;
          }
     
          private async UniTask ProcessTimeFrame(float duration, CancellationToken token)
@@ -423,6 +436,7 @@ namespace Managers.Network
          public float GetRemainingTime => GetTotalMatchTime - GetTotalTimePassed;
          public float GetTotalMatchTime => timeToMatchStart + matchTime + matchOverTimeDuration;
          public float GetTotalTimePassed => TotalTimePassed.Value;
+         public float GetStartingMatchTime => timeToMatchStart - CurrentTime.Value;
     
          public void AddTimedEvent(float time, Action executedFunction)
          {
@@ -432,7 +446,12 @@ namespace Managers.Network
 
          public bool CanRespawn()
          {
-             return Mathf.Approximately(CurrentTimePeriod.Value, matchTime) && GameStarted.Value;
+             /*/
+             return Mathf.Approximately(CurrentTimePeriod.Value, matchTime) &&
+                    GameState.Value >= Network.GameState.SelectingBalls;
+                    /*/
+             
+             return GameState.Value >= Network.GameState.SelectingBalls;
          }
 
 
@@ -505,7 +524,33 @@ namespace Managers.Network
 
              return "";
          }
-         
+
+         //probs a better way to do this :P
+         [ServerRpc(RequireOwnership = false)]
+         public void ClientFinishedIntroCinematic_ServerRpc()
+         {
+             _clientsFinishedIntroCinematic++;
+
+             if (_clientsFinishedIntroCinematic >= Players.Count)
+             {
+                 GameState.Value = Network.GameState.SelectingBalls;
+             }
+         }
+
+         public void OnBallSpawned()
+         {
+             if (GameState.Value == Network.GameState.SelectingBalls)
+             {
+                 _ballsSpawned++;
+
+                 if (_ballsSpawned >= Players.Count)
+                 {
+                     GameState.Value = Network.GameState.StartingGame;
+                     _matchCancelTokenSource =  new CancellationTokenSource();
+                     _ = ManagerMatchTimer(_matchCancelTokenSource.Token);
+                 }
+             }
+         }
     
          //ideally particles shouldn't be spawned with RPC'S, they should be spawned with replicated variables... atleast in unreal, not sure in this.. so leaving it as is for now.
          [ServerRpc(RequireOwnership = false)]
@@ -526,214 +571,6 @@ namespace Managers.Network
          [ClientRpc]
          public void SendMessage_ClientRpc(string s, float d, ClientRpcParams x = default) => _ = MessageManager.Instance.HandleScreenMessage(s, d);
 
-         public float GetTimeLeftInMatch()
-         {
-             return matchTime - CurrentTime.Value;
-         }
-        /*/
-        [SerializeField, Min(0)] private float matchTime = 300;
-        [SerializeField, Min(0)] private float timeToMatchStart = 15;
-        [SerializeField,  Min(0)] private float matchOverTimeDuration = 120;
-
-        private float _totalTimePassed;
-        private float _currentTime;
-        private float _currentTimePeriod;
-        
-        public static NetworkGameManager Instance { get; private set; }
-        private readonly HashSet<ulong> _players = new();
-
-        public event Action OnHostDisconnected;
-        public event Action OnAllPlayersJoined;
-        public event Action OnGameBegin; 
-        
-        private CancellationTokenSource _matchCancelTokenSource;
-
-        private readonly SortedList<float, Action> _timedMatchEvents = new();
-        
-        public NetworkVariable<bool> GameStarted { get; private set; } = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
-
-        private void Awake()
-        {
-            if (Instance != null && Instance != this)
-            {
-                Destroy(gameObject);
-                return;
-            }
-            Instance = this;
-            
-        }
-
-        public override void OnNetworkSpawn()
-        {
-            Debug.Log("ON NETWORK GAME MANAGER, IS SERVER: " + IsServer);
-            
-            enabled = IsServer;
-          
-            
-            CheckGameStart_ServerRpc();
-        }
-        
-        public void Start()
-        {
-        
-            enabled = IsServer;
-          
-            
-            CheckGameStart_ServerRpc();
-        }
-        
-
-        #region Connection
-        private void OnEnable()
-        {
-            NetworkManager.OnClientConnectedCallback += OnClientConnected;
-            NetworkManager.OnClientDisconnectCallback += OnClientDisconnected;
-            NetworkManager.OnServerStopped += OnServerStopped;
-        }
-        private void OnDisable()
-        {
-            NetworkManager.OnClientConnectedCallback -= OnClientConnected;
-            NetworkManager.OnClientDisconnectCallback -= OnClientDisconnected;
-            NetworkManager.OnServerStopped -= OnServerStopped;
-        }
-        void OnClientConnected(ulong clientId)
-        {
-            Debug.LogWarning("Client connected " + clientId);
-        }
-        void OnClientDisconnected(ulong clientId)
-        {
-            Debug.LogWarning("Client Disconnected" + clientId);
-            _players.Remove(clientId);
-            CheckStartGame();
-        }
-        
-        private void OnServerStopped(bool obj)
-        {
-            Debug.LogError("Server stopped IMPLEMENT RETURN TO MENU OR HOST MIGRATION. What is this bool?" + obj);
-            OnHostDisconnected?.Invoke();
-        }
-        
-        void CheckStartGame()
-        {
-            print("Checking players connected: " + _players.Count + " == " + NetworkManager.ConnectedClients.Count);
-            if (_players.Count == NetworkManager.ConnectedClients.Count)
-            {
-                StartGame_ClientRpc();
-            }
-        }
-        #endregion
-        
-        [ServerRpc(RequireOwnership = false)]
-        private void CheckGameStart_ServerRpc(ServerRpcParams @params = default)
-        {
-            Debug.Log("Player has connected and been registered: " + @params.Receive.SenderClientId);
-
-            _players.Add(@params.Receive.SenderClientId);
-            CheckStartGame();
-        }
-        
-        
-        [ServerRpc(RequireOwnership = false)]
-        public void PlayParticleGlobally_ServerRpc(string particleName, Vector3 location, Quaternion rotation) => PlayParticleGlobally_ClientRpc(particleName, location,rotation);
-    
-                
-        [ClientRpc]
-        private void PlayParticleGlobally_ClientRpc(string particleName, Vector3 location, Quaternion rotation) => ParticleManager.InvokeParticle(particleName, location, rotation);
-
-        
-        [ServerRpc(RequireOwnership = false)]
-        public void SpawnObjectGlobally_ServerRpc(string objectName, Vector3 location, Quaternion rotation, ServerRpcParams @params = default)
-        {
-            NetworkObject ngo = Instantiate(ResourceManager.SummonableObjects[objectName], location, rotation);
-            ngo.SpawnWithOwnership(@params.Receive.SenderClientId);
-        }
-
-        [ClientRpc]
-        public void SendMessage_ClientRpc(string s, float d, ClientRpcParams x = default) => _ = MessageManager.Instance.HandleScreenMessage(s, d);
-
-        
-        [ClientRpc]
-        private void StartGame_ClientRpc()
-        {
-            Debug.LogWarning("Starting game... Is the lobby locked?");
-            
-            LoadingHelper.Deactivate();
-            OnAllPlayersJoined?.Invoke();
-            
-            //Get cancellation token for this 
-            _matchCancelTokenSource =  new CancellationTokenSource();
-            _ = ManagerMatchTimer(_matchCancelTokenSource.Token);
-        }
-        
-        private async UniTask ManagerMatchTimer(CancellationToken token)
-        {
-            await ProcessTimeFrame(timeToMatchStart, token);
-            
-            if (token.IsCancellationRequested)
-            {
-                Debug.LogWarning("MATCH IS BEING CANCELLED DURING INIT");
-                return;
-            }
-            
-            Debug.Log("Game is now beginning fully! Let the games begin!");
-            OnGameBegin?.Invoke();
-            
-            await ProcessTimeFrame(matchTime, token);
-            
-            if (token.IsCancellationRequested)
-            {
-                Debug.LogWarning("MATCH IS BEING CANCELLED DURING GAMEPLAY");
-                return;
-            }
-            
-            Debug.Log("Now Entering overtime!");
-            
-            await ProcessTimeFrame(matchOverTimeDuration, token);
-            
-            if (token.IsCancellationRequested)
-            {
-                Debug.LogWarning("MATCH IS BEING CANCELLED DURING END GAME");
-                return;
-            }
-            
-            Debug.LogWarning("Well I guess everyone who's alive is a winner! TODO: Actually make this work");
-        }
-
-        private async UniTask ProcessTimeFrame(float duration, CancellationToken token)
-        {
-            _currentTimePeriod = duration;
-            while (_currentTime < _currentTimePeriod)
-            {
-                float dt = Time.deltaTime;
-                _currentTime += dt;
-                _totalTimePassed += dt;
-
-                if (_timedMatchEvents.Count != 0 && GetTotalTimePassed >= _timedMatchEvents.Keys[0])
-                {
-                    Debug.Log("Executing a timed event at time: " + GetTotalTimePassed);
-                    _timedMatchEvents.Remove(_timedMatchEvents.Keys[0]);
-                    _timedMatchEvents.Values[0].Invoke();
-                }
-                await UniTask.Yield(token);
-            }
-            _currentTime = 0;
-        }
-
-        public float EvaluateCurrentTimePeriodAsPercent => _currentTime / _currentTimePeriod;
-        public float GetRemainingSectionTime => _currentTimePeriod - _currentTime;
-        public float GetRemainingTime => GetTotalMatchTime - GetTotalTimePassed;
-        public float GetTotalMatchTime => timeToMatchStart + matchTime + matchOverTimeDuration;
-        public float GetTotalTimePassed => _totalTimePassed;
-
-        public void AddTimedEvent(float time, Action executedFunction)
-        {
-            _timedMatchEvents.Add(time, executedFunction);
-        }
-
-        public bool CanRespawn()
-        {
-            return Mathf.Approximately(_currentTimePeriod, matchTime);
-        }
-        /*/
+  
     }
 }

@@ -14,8 +14,13 @@ namespace Gameplay.UI
         [SerializeField] private Animator eliminationAnimator;
         [SerializeField] private TextMeshProUGUI eliminationPlayerText;
 
-        [Header("Match Timer")]
+        [Header("Game Match Timer")]
         [SerializeField] private TextMeshProUGUI matchTimerText;
+        
+        [Header("Starting Match Timer")]
+
+        [SerializeField] private TextMeshProUGUI startingMatchTimerText;
+        [SerializeField] private Animator startingMatchTimerAnimator;
 
         private static readonly int Show = Animator.StringToHash("Show");
         private static readonly int Hide = Animator.StringToHash("Hide");
@@ -34,15 +39,23 @@ namespace Gameplay.UI
 
         private void Update()
         {
-            if (!NetworkGameManager.Instance.GameStarted.Value)
+            if (NetworkGameManager.Instance.GameState.Value == GameState.StartingGame)
             {
-                matchTimerText.text = "WAITING FOR PLAYERS TO CONNECT...";
-                return;
+                int time = (int)NetworkGameManager.Instance.GetStartingMatchTime;
+                if (time <= 0.2)
+                {
+                    startingMatchTimerText.text = "GO!";
+                }
+                else
+                {
+                    startingMatchTimerText.text = (time).ToString();
+                }
             }
-        
-
-            var ts = TimeSpan.FromSeconds(NetworkGameManager.Instance.GetRemainingTime);
-            matchTimerText.text = ts.ToString("mm\\:ss");
+            else if (NetworkGameManager.Instance.GameState.Value == GameState.InGame)
+            {
+                var ts = TimeSpan.FromSeconds(NetworkGameManager.Instance.GetRemainingTime);
+                matchTimerText.text = ts.ToString("mm\\:ss");
+            }
         }
 
         public void ShowElimUI(string killedName)

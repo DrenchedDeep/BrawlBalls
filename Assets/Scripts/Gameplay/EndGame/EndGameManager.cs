@@ -28,15 +28,15 @@ namespace Gameplay.EndGame
 
         private void OnEnable()
         {
-            NetworkGameManager.Instance.OnGameEnd += OnGameEnd;
+     //       NetworkGameManager.Instance.OnGameEnd += OnGameEnd;
         }
 
         private void OnDisable()
-        {
+       {
             NetworkGameManager.Instance.OnGameEnd -= OnGameEnd;
         }
 
-        private void OnGameEnd()
+        public void OnGameEnd()
         {
             List<BallPlayerInfo> players = new List<BallPlayerInfo>();
 

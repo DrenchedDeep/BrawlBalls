@@ -61,9 +61,18 @@ namespace Gameplay
             base.OnNetworkSpawn();
 
             _currentHealth.OnValueChanged += OnDamageTaken;
+
+            NetworkGameManager.Instance.OnGameStateUpdated += OnGameStateUpdated;
         }
 
-
+        private void OnGameStateUpdated(GameState gameState)
+        {
+            if (gameState == GameState.InGame)
+            {
+                _rb.isKinematic = false;
+            }
+        }
+        
         public void Initialize(string abilityID)
         {
             //server should know bout these aswell
@@ -88,7 +97,15 @@ namespace Gameplay
 
             _rb = GetComponent<Rigidbody>();
             _rb.interpolation = RigidbodyInterpolation.Interpolate;
-            _rb.isKinematic = false;
+            if (NetworkGameManager.Instance.GameState.Value == GameState.SelectingBalls ||
+                NetworkGameManager.Instance.GameState.Value == GameState.StartingGame)
+            {
+                _rb.isKinematic = true;
+            }
+            else
+            {
+                _rb.isKinematic = false;
+            }
             
             _rb.mass = GetBall.Stats.Mass + GetBaseWeapon.Stats.Mass;
 

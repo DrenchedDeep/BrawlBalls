@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Gameplay;
 using Gameplay.Map;
 using Managers.Local;
+using Managers.Network;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -70,6 +71,7 @@ namespace Managers
                 ActiveBalls.Remove(player);
             };
             
+            NetworkGameManager.Instance.OnBallSpawned();
             
             player.Initialize(ability);
         }

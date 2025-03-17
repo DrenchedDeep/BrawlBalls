@@ -22,6 +22,8 @@ namespace Gameplay.Balls
         private bool _isGrounded;
         public bool IsGrounded => _isGrounded;
 
+        public Rigidbody RigidBody => _rb;
+
         public event Action OnGroundStateChanged;
         
         
