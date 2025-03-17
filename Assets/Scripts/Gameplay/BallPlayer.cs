@@ -1,5 +1,6 @@
 ﻿using System;
 using Gameplay.Balls;
+using Gameplay.Map;
 using Gameplay.Weapons;
 using Managers.Local;
 using Managers.Network;
@@ -72,15 +73,15 @@ namespace Gameplay
             Initialize_ClientRpc(abilityID);
             
         }
-        
-        
+
+
         [ClientRpc]
         public void Initialize_ClientRpc(string abilityId)
         {
-            Debug.Log("We are now initialized", gameObject);
             GetAbility = ResourceManager.Abilities[abilityId];
             GetBall = GetComponentInChildren<Ball>();
             GetBaseWeapon = GetComponentInChildren<BaseWeapon>();
+            Physics.SyncTransforms();
             
             GetBall.Init(this);
 
@@ -103,6 +104,7 @@ namespace Gameplay
 
             if (IsOwner) LocalPlayerController.LocalBallPlayer.BindTo(this);
         }
+
 
         #if UNITY_EDITOR
         public void Initialize_Offline(string abilityId)

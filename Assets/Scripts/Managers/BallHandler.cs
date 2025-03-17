@@ -52,17 +52,11 @@ namespace Managers
             {
                 ngo.SpawnWithOwnership( id.Receive.SenderClientId , true);
             }
+
+            player.transform.position = spawnPoint;
             NetworkObject pl = player.GetComponent<NetworkObject>();
-            if (IsHost)
-            {
-                pl.SpawnAsPlayerObject(id.Receive.SenderClientId, true);
-
-            }
-            else
-            {
-                pl.SpawnWithOwnership(id.Receive.SenderClientId, true);
-
-            }
+            pl.SpawnWithOwnership(id.Receive.SenderClientId, true);
+            Physics.SyncTransforms();
 
             
             
@@ -79,6 +73,7 @@ namespace Managers
             
             player.Initialize(ability);
         }
+        
 
         #if UNITY_EDITOR
         public void SpawnBall_Offline(string ball, string weapon, string ability)

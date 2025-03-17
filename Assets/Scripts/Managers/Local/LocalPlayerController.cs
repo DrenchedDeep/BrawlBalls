@@ -132,6 +132,7 @@ namespace Managers.Local
             rootCanvas.enabled = false;
             respawnUI.SetActive(false);
             _spectatingManager.StopSpectating();
+            _spectatingManager.enabled = false;
             _tickRespawn = false;
             DisableControls();
         }
