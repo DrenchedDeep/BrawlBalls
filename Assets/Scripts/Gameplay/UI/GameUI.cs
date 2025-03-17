@@ -25,6 +25,7 @@ namespace Gameplay.UI
         private static readonly int Show = Animator.StringToHash("Show");
         private static readonly int Hide = Animator.StringToHash("Hide");
 
+        private int _lastValue;
 
         private void Awake()
         {
@@ -42,6 +43,8 @@ namespace Gameplay.UI
             if (NetworkGameManager.Instance.GameState.Value == GameState.StartingGame)
             {
                 int time = (int)NetworkGameManager.Instance.GetStartingMatchTime;
+                
+                
                 if (time <= 0.2)
                 {
                     startingMatchTimerText.text = "GO!";
