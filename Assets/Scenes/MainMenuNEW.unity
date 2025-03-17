@@ -2728,7 +2728,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: 1000, y: 0}
+  m_AnchoredPosition: {x: 999.99994, y: 0}
   m_SizeDelta: {x: 700, y: 600}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!114 &609392861
@@ -3505,7 +3505,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 815870708}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 2
   m_Camera: {fileID: 0}
@@ -5987,7 +5987,7 @@ PrefabInstance:
     - target: {fileID: 86118408378784109, guid: 71c45faba18de0544b312b0e8a8a3d93,
         type: 3}
       propertyPath: m_text
-      value: Sound Volume
+      value: Effects Volume
       objectReference: {fileID: 0}
     - target: {fileID: 1330655056771234734, guid: 71c45faba18de0544b312b0e8a8a3d93,
         type: 3}
@@ -6152,7 +6152,7 @@ PrefabInstance:
     - target: {fileID: 8800861066643052348, guid: 71c45faba18de0544b312b0e8a8a3d93,
         type: 3}
       propertyPath: m_Name
-      value: Sound
+      value: Effects
       objectReference: {fileID: 0}
     - target: {fileID: 8800861066643052348, guid: 71c45faba18de0544b312b0e8a8a3d93,
         type: 3}
