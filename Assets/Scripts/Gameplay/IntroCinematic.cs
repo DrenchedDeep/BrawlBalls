@@ -8,12 +8,20 @@ using UnityEngine.Timeline;
 
 public class IntroCinematic : MonoBehaviour
 {
+    [SerializeField] private bool skipCutScene = false;
     [SerializeField] private PlayableDirector director;
     [SerializeField] private TimelineAsset timeline;
     public void OnEnable()
     {
-        director.Play();
-        StartCoroutine(Cutscene());
+        if (skipCutScene)
+        {
+            NetworkGameManager.Instance.ClientFinishedIntroCinematic_ServerRpc();
+        }
+        else
+        {
+            director.Play();
+            StartCoroutine(Cutscene());
+        }
     }
 
 
