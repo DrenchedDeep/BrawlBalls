@@ -219,16 +219,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 558a8e2b6826cf840aae193990ba9f2e, type: 3}
   m_Name: ShadowsMidtonesHighlights
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   shadows:
     m_OverrideState: 1
-    m_Value: {x: 0.9828026, y: 0.8636166, z: 1, w: 0}
+    m_Value: {x: 1, y: 0.91074276, z: 0.9584157, w: -0.025492532}
   midtones:
     m_OverrideState: 1
-    m_Value: {x: 0.9864802, y: 1, z: 0.9924524, w: 0}
+    m_Value: {x: 0.6322969, y: 0.53049946, z: 1, w: 0}
   highlights:
     m_OverrideState: 1
-    m_Value: {x: 1, y: 0.9956329, z: 0.96186125, w: 0}
+    m_Value: {x: 0.5261565, y: 0.5480669, z: 1, w: 0}
   shadowsStart:
     m_OverrideState: 1
     m_Value: 0.09
@@ -494,13 +494,13 @@ MonoBehaviour:
   active: 1
   redOutRedIn:
     m_OverrideState: 1
-    m_Value: 100
+    m_Value: 53
   redOutGreenIn:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 36
   redOutBlueIn:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: -2
   greenOutRedIn:
     m_OverrideState: 1
     m_Value: 0
@@ -770,7 +770,7 @@ MonoBehaviour:
   active: 0
   lift:
     m_OverrideState: 1
-    m_Value: {x: 1, y: 1, z: 1, w: 0}
+    m_Value: {x: 0.9917051, y: 1, z: 0.9912014, w: 0.01853987}
   gamma:
     m_OverrideState: 1
     m_Value: {x: 1, y: 1, z: 1, w: 0}
