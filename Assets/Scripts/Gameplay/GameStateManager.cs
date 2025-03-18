@@ -51,12 +51,7 @@ namespace Core.Gameplay
 
         private void OnGameStateChanged(GameState gameState)
         {
-            Debug.Log("new game state: " + gameState);
-            if (Helpers.IsValidIndex(_currentGameStateSettings, new Array[] { gameStateSettings }))
-            {
-                CurrentGameStateSettings.disableStateEvent?.Invoke();
-            }
-                
+            gameStateSettings[_currentGameStateSettings].disableStateEvent?.Invoke();
             _currentGameStateSettings = GetIndexFromGameState(gameState);
             CurrentGameStateSettings.enableStateEvent?.Invoke();
         }
