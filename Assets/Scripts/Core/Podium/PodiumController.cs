@@ -19,20 +19,48 @@ namespace Core.Podium
         [SerializeField] private Podium[] podiums;
         [SerializeField] private Camera cam;
         [SerializeField] private bool debugHide;
+        
+        [SerializeField] private PlayerInput localPlayerInputComponent;
+        [SerializeField] private InputActionReference previous;
+        [SerializeField] private InputActionReference next;
+        [SerializeField] private InputActionReference select;
 
         public UnityEvent<int> onForwardSelected;
         public UnityEvent<int> onSelectedSide;
 
         public Podium[] Podiums => podiums;
 
-        public int CurForwarad { get; set; } = 1;
+        public int CurForward { get; set; } = 1;
 
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
             _ = SpawnBalls();
+            _podiumLayer = 1 << gameObject.layer;
+        
         }
+
+        private void OnEnable()
+        {
+            
+            localPlayerInputComponent.actions[previous.name].performed += RotateLeft;
+            localPlayerInputComponent.actions[next.name].performed += RotateRight;
+            localPlayerInputComponent.actions[select.name].performed += SelectCurrent;
+        }
+
+        private void OnDisable()
+        {
+            previous.action.performed -= RotateLeft;
+            next.action.performed -= RotateRight;
+            select.action.performed -= SelectCurrent;
+        }
+
+        private int _podiumLayer;
+
+        private void RotateLeft(InputAction.CallbackContext _) => onSelectedSide.Invoke(-1);
+        private void RotateRight(InputAction.CallbackContext _) => onSelectedSide.Invoke(1);
+        private void SelectCurrent(InputAction.CallbackContext _) => onForwardSelected.Invoke(CurForward);
 
         private async UniTask SpawnBalls()
         {
@@ -84,22 +112,22 @@ namespace Core.Podium
             Ray ray = cam.ScreenPointToRay(pointerPosition);
             Debug.DrawRay(ray.origin, ray.direction * 1000, Color.red, 3);
 
-            if (Physics.Raycast(ray, out RaycastHit hit, 1000, StaticUtilities.PodiumBlockers))
+            if (Physics.Raycast(ray, out RaycastHit hit, 1000, _podiumLayer))
             {
                 //Debug.LogWarning(" I did hit something: ", hit.transform.gameObject);
                 Transform t = hit.transform.parent;
                 if (!t) return;
-                if (t == podiums[CurForwarad].transform)
+                if (t == podiums[CurForward].transform)
                 {
-                    Debug.Log($"{debugHide} || {podiums[CurForwarad].CanInteract}");
-                    if (debugHide || podiums[CurForwarad].CanInteract)
+                    Debug.Log($"{debugHide} || {podiums[CurForward].CanInteract}");
+                    if (debugHide || podiums[CurForward].CanInteract)
                     {        
                         Debug.Log("Remember to disable the object if we're updating still!");
-                        onForwardSelected?.Invoke(CurForwarad);
+                        onForwardSelected?.Invoke(CurForward);
                     }
                     return;
                 }
-                onSelectedSide.Invoke(hit.transform.parent.localPosition.x > podiums[CurForwarad].transform.localPosition.x ? 1:-1);
+                onSelectedSide.Invoke(hit.transform.parent.localPosition.x > podiums[CurForward].transform.localPosition.x ? 1:-1);
             }
         }
         
@@ -114,7 +142,7 @@ namespace Core.Podium
             
             //... Validate?
 
-            Podium p = podiums[CurForwarad];
+            Podium p = podiums[CurForward];
 
             if (wheelItem.Stats is WeaponStats)
             {

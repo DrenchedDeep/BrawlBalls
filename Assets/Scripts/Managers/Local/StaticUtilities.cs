@@ -33,6 +33,12 @@ namespace Managers.Local
         public static readonly int LocalBallLayerLiteral = LayerMask.NameToLayer("Ball");
         public static readonly int ImmortalLayerLiteral = LayerMask.NameToLayer("Immortal");
         public static readonly int EnemyLayerLiteral = LayerMask.NameToLayer("Enemy");
+        public static readonly int PlayerOneLayerLiteral = LayerMask.NameToLayer("Player1Only");
+
+        public static readonly int AllPlayersLayer = (1<<PlayerOneLayerLiteral << 0) | (1<<PlayerOneLayerLiteral << 1) |
+                                                     (1<<PlayerOneLayerLiteral << 2)| ( 1<<PlayerOneLayerLiteral << 3);
+
+        public static int ExcludePlayers(int include) => (~AllPlayersLayer) | include;
         
         public static readonly int DefaultLayer = 1 << LayerMask.NameToLayer("Default");
         public static readonly int WaterLayer = 1 << LayerMask.NameToLayer("Water");
@@ -55,5 +61,6 @@ namespace Managers.Local
 
         #endregion
 
+      
     }
 }

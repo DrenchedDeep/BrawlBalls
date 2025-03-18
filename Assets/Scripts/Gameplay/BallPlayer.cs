@@ -139,12 +139,14 @@ namespace Gameplay
             _rb.interpolation = RigidbodyInterpolation.Interpolate;
             _rb.isKinematic = false;
             
-            gameObject.layer = IsOwner ? StaticUtilities.LocalBallLayerLiteral : StaticUtilities.EnemyLayerLiteral;
+            //gameObject.layer = IsOwner ? StaticUtilities.LocalBallLayerLiteral : StaticUtilities.EnemyLayerLiteral;
 
+            /*
             foreach (Transform child in transform)
             {
                 child.gameObject.layer = gameObject.layer;
             }
+            */
 
             _currentHealth.Value = GetBall.Stats.MaxHealth;
             LocalPlayerController.LocalBallPlayer.BindTo(this);

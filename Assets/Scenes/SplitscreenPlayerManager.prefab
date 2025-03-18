@@ -57,10 +57,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 621567455fd1c4ceb811cc8a00b6a1a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_NotificationBehavior: 3
-  m_MaxPlayerCount: -1
+  m_NotificationBehavior: 1
+  m_MaxPlayerCount: 4
   m_AllowJoining: 1
-  m_JoinBehavior: 0
+  m_JoinBehavior: 1
   m_PlayerJoinedEvent:
     m_PersistentCalls:
       m_Calls:
@@ -94,19 +94,36 @@ MonoBehaviour:
   m_JoinAction:
     m_UseReference: 0
     m_Action:
-      m_Name: 
-      m_Type: 0
-      m_ExpectedControlType: 
+      m_Name: Join
+      m_Type: 1
+      m_ExpectedControlType: Button
       m_Id: d097576a-956e-4ea1-ab61-50e79466ca03
       m_Processors: 
       m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
+      m_SingletonActionBindings:
+      - m_Name: 
+        m_Id: 6a347192-98fe-4c65-9f36-ab339464d81a
+        m_Path: <Gamepad>/start
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: Join
+        m_Flags: 0
+      - m_Name: 
+        m_Id: 797c3931-9f94-428c-8098-6581fadf3443
+        m_Path: <Gamepad>/select
+        m_Interactions: 
+        m_Processors: 
+        m_Groups: 
+        m_Action: Join
+        m_Flags: 0
+      m_Flags: 1
     m_Reference: {fileID: 0}
-  m_PlayerPrefab: {fileID: 0}
+  m_PlayerPrefab: {fileID: 8281178859312124968, guid: 5524c64df2fdbc44490bddf4d56eb705,
+    type: 3}
   m_SplitScreen: 1
   m_MaintainAspectRatioInSplitScreen: 0
-  m_FixedNumberOfSplitScreens: 4
+  m_FixedNumberOfSplitScreens: -1
   m_SplitScreenRect:
     serializedVersion: 2
     x: 0

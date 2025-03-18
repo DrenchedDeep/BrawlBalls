@@ -1,5 +1,6 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Core.Podium
 {
@@ -7,7 +8,6 @@ namespace Core.Podium
     public class PodiumCycleController : MonoBehaviour
     {
         [SerializeField] private float duration = 1;
-        
         
         [Header("ClusterRotation")]
         [SerializeField] private Transform camRotator;
@@ -17,6 +17,9 @@ namespace Core.Podium
         [SerializeField] private Transform podiumRootStart;
         [SerializeField] private Transform podiumRootEnd;
         [SerializeField] private float transitionTime = 0.3f;
+
+
+        
         
         private bool _isRotating;
         private bool _isLowering;
@@ -28,12 +31,13 @@ namespace Core.Podium
         private void Awake()
         {
             _podiumController = GetComponent<PodiumController>();
+
         }
 
         public void Move(int dir)
         {
             if (_isRotating) return;
-            int start = _podiumController.CurForwarad;
+            int start = _podiumController.CurForward;
             Transform tr = _podiumController.Podiums[start].transform;
             Vector3 prv =tr.position;
             Quaternion prvRot = tr.rotation;
@@ -50,10 +54,10 @@ namespace Core.Podium
                 _ = SlerpIt(prv, prvRot, tr.transform, duration);
                 prv = temp;
                 prvRot = prvRotTemp;
-            } while (_podiumController.CurForwarad != start);
-            _podiumController.CurForwarad += dir;
-            if (_podiumController.CurForwarad < 0) _podiumController.CurForwarad = _podiumController.Podiums.Length - 1;
-            else if (_podiumController.CurForwarad ==  _podiumController.Podiums.Length) _podiumController.CurForwarad = 0;
+            } while (_podiumController.CurForward != start);
+            _podiumController.CurForward += dir;
+            if (_podiumController.CurForward < 0) _podiumController.CurForward = _podiumController.Podiums.Length - 1;
+            else if (_podiumController.CurForward ==  _podiumController.Podiums.Length) _podiumController.CurForward = 0;
         }
 
         private async UniTask SlerpIt(Vector3 next, Quaternion rotation, Transform id, float time)

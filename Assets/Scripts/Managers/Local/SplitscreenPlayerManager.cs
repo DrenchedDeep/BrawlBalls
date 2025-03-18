@@ -1,3 +1,4 @@
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -44,6 +45,48 @@ namespace Managers.Local
         private void OnPlayerJoined(PlayerInput playerInput)
         {
             Debug.Log("A player has Joined");
+            
+            var device = playerInput.devices[0];
+
+            if (device is Gamepad) playerInput.SwitchCurrentControlScheme("Controller", device);
+            else if (device is Keyboard || device is Mouse) playerInput.SwitchCurrentControlScheme("Keyboard", playerInput.devices.ToArray());
+        
+
+            int id = (StaticUtilities.PlayerOneLayerLiteral + playerInput.playerIndex);
+            
+            Transform[] transforms = playerInput.GetComponentsInChildren<Transform>();
+            foreach (var tr in transforms)
+            {
+                tr.gameObject.layer = id;
+            }
+
+            Camera cam =playerInput. GetComponentInChildren<Camera>();
+
+            OutputChannels myChannel = (OutputChannels)(2 << playerInput.playerIndex);
+            
+            cam.GetComponent<CinemachineBrain>().ChannelMask =  (OutputChannels)1 | myChannel;
+
+            int shiftedID = 1 << id;
+            
+            int cullingLayers = StaticUtilities.ExcludePlayers( shiftedID);
+            
+            cam.cullingMask = cullingLayers;
+            
+            Light[] lights = playerInput.GetComponentsInChildren<Light>();
+
+            foreach (var l in lights)
+            {
+                l.cullingMask = shiftedID;
+            }
+            
+            CinemachineCamera[] cams = playerInput.GetComponentsInChildren<CinemachineCamera>();
+            foreach (var c in cams)
+            {
+                c.OutputChannel = myChannel;
+            }
+            
+            //AudioListener lister = cam.GetComponent<AudioListener>();
+            //Destroy(lister);
         }
 
 

@@ -88,6 +88,9 @@ namespace Core.Podium
             _ballObject = b.gameObject;
             _weaponObject = w.gameObject;
             
+            
+     
+            
             _ballMaterial = b.GetComponent<MeshRenderer>().material;
             _ = TransitionMaterial(_ballMaterial, StaticUtilities.AppearPercentID, 1,0);
 
@@ -96,6 +99,7 @@ namespace Core.Podium
             for (int i = 0; i < mesh.Length; i++)
             {
                 _weaponMaterial[i] = mesh[i].material;
+                mesh[i].gameObject.layer = gameObject.layer;
                 _ = TransitionMaterial(_weaponMaterial[i], StaticUtilities.FlashPercentID,1,0);
             }
             
@@ -115,6 +119,9 @@ namespace Core.Podium
             Debug.Log("Spawning a ball", _myBall.gameObject);
             
             _ = FadeEmissive(activeColor);
+            
+            _ballObject.layer = gameObject.layer;
+            _weaponObject.layer = gameObject.layer;
         }
 
         public void RemoveBall()
@@ -150,7 +157,6 @@ namespace Core.Podium
             _weaponObject = Instantiate(w, ballPoint);
 
 
-
             
             Destroy(_weaponObject.GetComponentInChildren<NetworkObject>());
 
@@ -162,8 +168,10 @@ namespace Core.Podium
             for (int i = 0; i < mesh.Length; i++)
             {
                 _weaponMaterial[i] = mesh[i].material;
+                mesh[i].gameObject.layer = gameObject.layer;
                 _ = TransitionMaterial(_weaponMaterial[i], StaticUtilities.FlashPercentID,1,0);
             }
+            _weaponObject.layer = gameObject.layer;
 
         }
 
@@ -171,7 +179,6 @@ namespace Core.Podium
         {
             Debug.Log($"Changing the BALL from {SaveManager.MyBalls.GetReadonlyBall(_ballIndex).ball} to {b.name}");
             SaveManager.MyBalls.SetBallType(_ballIndex, b.name);
-            
             Destroy(_ballObject);
             
             _ballObject = Instantiate(b, ballPoint);
@@ -182,6 +189,8 @@ namespace Core.Podium
             _ballMaterial = _ballObject.GetComponent<MeshRenderer>().material;
             _ = TransitionMaterial(_ballMaterial, StaticUtilities.FlashPercentID, 1,0);
             
+            _ballObject.layer = gameObject.layer;
+
         }
 
         public void SetAbility(AbilityStats a)
