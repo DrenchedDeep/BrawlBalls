@@ -2,7 +2,6 @@ using System;
 using Cysharp.Threading.Tasks;
 using Loading;
 using MainMenu.UI;
-using Managers.Local;
 using Stats;
 using UnityEngine;
 using UnityEngine.Events;
@@ -31,6 +30,9 @@ namespace Core.Podium
         public Podium[] Podiums => podiums;
 
         public int CurForward { get; set; } = 1;
+        
+        [NonSerialized] public bool IsRotating;
+
 
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -58,9 +60,20 @@ namespace Core.Podium
 
         private int _podiumLayer;
 
-        private void RotateLeft(InputAction.CallbackContext _) => onSelectedSide.Invoke(-1);
-        private void RotateRight(InputAction.CallbackContext _) => onSelectedSide.Invoke(1);
-        private void SelectCurrent(InputAction.CallbackContext _) => onForwardSelected.Invoke(CurForward);
+        private void RotateLeft(InputAction.CallbackContext _)
+        {
+            if (!IsRotating) onSelectedSide.Invoke(-1);
+        }
+
+        private void RotateRight(InputAction.CallbackContext _)
+        {
+            if (!IsRotating) onSelectedSide.Invoke(1);
+        }
+
+        private void SelectCurrent(InputAction.CallbackContext _)
+        {
+            if (!IsRotating) onForwardSelected.Invoke(CurForward);
+        }
 
         private async UniTask SpawnBalls()
         {
@@ -89,7 +102,7 @@ namespace Core.Podium
         {
             
             
-            if (Pointer.current == null || !Pointer.current.press.wasPressedThisFrame)
+            if (Pointer.current == null || IsRotating)
                 return;
             
             if (EventSystem.current.IsPointerOverGameObject())
@@ -114,9 +127,16 @@ namespace Core.Podium
 
             if (Physics.Raycast(ray, out RaycastHit hit, 1000, _podiumLayer))
             {
-                //Debug.LogWarning(" I did hit something: ", hit.transform.gameObject);
+                
                 Transform t = hit.transform.parent;
                 if (!t) return;
+                
+
+                //if (!t.TryGetComponent(out Podium p)) return;
+                
+
+                if (!Pointer.current.press.wasPressedThisFrame) return;
+               
                 if (t == podiums[CurForward].transform)
                 {
                     Debug.Log($"{debugHide} || {podiums[CurForward].CanInteract}");
@@ -128,6 +148,7 @@ namespace Core.Podium
                     return;
                 }
                 onSelectedSide.Invoke(hit.transform.parent.localPosition.x > podiums[CurForward].transform.localPosition.x ? 1:-1);
+                
             }
         }
         

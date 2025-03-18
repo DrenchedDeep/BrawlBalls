@@ -1,6 +1,5 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace Core.Podium
 {
@@ -21,7 +20,6 @@ namespace Core.Podium
 
         
         
-        private bool _isRotating;
         private bool _isLowering;
         private bool _inCustomization;
         private bool _isSide;
@@ -36,12 +34,14 @@ namespace Core.Podium
 
         public void Move(int dir)
         {
-            if (_isRotating) return;
+            
+            if (_podiumController.IsRotating) return;
+            
             int start = _podiumController.CurForward;
             Transform tr = _podiumController.Podiums[start].transform;
             Vector3 prv =tr.position;
             Quaternion prvRot = tr.rotation;
-            _isRotating = true;
+            _podiumController.IsRotating = true;
             print("rotating: " + dir);
             do
             {
@@ -72,8 +72,9 @@ namespace Core.Podium
                 id.SetPositionAndRotation(Vector3.Slerp(origin, next, t), Quaternion.Slerp(rot, rotation, t));
                 await UniTask.Yield();
             }
+            id.SetPositionAndRotation(next, rotation);
 
-            _isRotating = false;
+            _podiumController.IsRotating = false;
         }
 
         public void ToggleViewState()

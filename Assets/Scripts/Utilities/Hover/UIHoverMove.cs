@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 
 namespace Utilities.Hover
 {
-    [RequireComponent(typeof(RectTransform))]
+   // [RequireComponent(typeof(RectTransform))]
     public class UIHoverMove : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         [SerializeField] private Vector2 localOffset = Vector2.zero;
@@ -20,7 +20,7 @@ namespace Utilities.Hover
         private void Awake()
         {
             _rectTransform = transform as RectTransform;
-            if(_rectTransform == null) throw new UnityException("Missing component of RectTransform");
+            if (_rectTransform == null) return;//throw new UnityException("Missing component of RectTransform");
             _originalLocation =  _rectTransform.anchoredPosition;
             _newLocation = _originalLocation + localOffset;
         

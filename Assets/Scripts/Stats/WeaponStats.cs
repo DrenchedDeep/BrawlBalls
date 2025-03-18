@@ -17,7 +17,8 @@ namespace Stats
 
         [Header("Configuration")]
         [field: SerializeField] public LayerMask HitLayers { get; private set; }
-        [field: SerializeField] public bool AllowVerticalOrientation {get; private set;}
+        [field: SerializeField] public bool BlockVerticalOrientation {get; private set;}
+        [field: SerializeField] public bool LookUpWhileNotMoving {get; private set;}
         
         
 

@@ -48,11 +48,16 @@ namespace Gameplay.Weapons
 
         private void Rotate()
         {
-            Vector3 dir = Vector3.Lerp(Vector3.up,  _owner.GetBall.Velocity.normalized, _owner.GetBall.Speed * 5);
-            Vector3 localDir = _owner.transform.InverseTransformDirection(dir);
-             if(stats.AllowVerticalOrientation) transform.localRotation = Quaternion.LookRotation(localDir, Vector3.up);
-             else transform.localRotation = Quaternion.identity;
-            //transform.SetLocalPositionAndRotation(localDir, Quaternion.LookRotation(lookDirection));
+            Vector3 dir = _owner.GetBall.Velocity;
+            
+            if (stats.BlockVerticalOrientation) dir.y = 0;
+            
+            dir.Normalize();
+            
+            if (stats.LookUpWhileNotMoving) dir = Vector3.Lerp(Vector3.up,  dir, _owner.GetBall.Speed * 5);
+            
+            transform.forward = dir;
+             Debug.DrawRay(transform.position, dir * 4, Color.red);
         }
 
         private void OnTransformParentChanged()
