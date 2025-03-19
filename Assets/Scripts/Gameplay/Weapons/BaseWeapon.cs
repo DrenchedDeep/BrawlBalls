@@ -79,33 +79,29 @@ namespace Gameplay.Weapons
         
         public void Attack()
         {
-            if (NetworkManager.Singleton)
+            for (int i = 0; i < _weaponComponents.Length; i++)
             {
-                Attack_ServerRpc();
-            }
-            else
-            {
-                foreach (IWeaponComponent comp in _weaponComponents)
+                _weaponComponents[i].Fire(stats, out Vector3 velocity);
+                
+                if (NetworkManager.Singleton)
                 {
-                    Debug.Log("attack comp");
-
-                    comp.Fire(stats);
+                    Attack_ServerRpc(i, velocity);
                 }
             }
         }
 
         [ServerRpc(RequireOwnership = false)]
-        void Attack_ServerRpc()
+        void Attack_ServerRpc(int index, Vector3 velocity) => Attack_ClientRpc(index, velocity);
+
+        [ClientRpc(RequireOwnership = false)]
+        void Attack_ClientRpc(int index, Vector3 velocity)
         {
-            Debug.Log("attack server");
-
-            foreach (IWeaponComponent comp in _weaponComponents)
+            if (!IsOwner)
             {
-                Debug.Log("attack server comp");
-
-                comp.Fire(stats);
+                _weaponComponents[index].FireDummy(stats, velocity);
             }
         }
+
 
 
     

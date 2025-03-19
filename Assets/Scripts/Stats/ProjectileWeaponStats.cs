@@ -14,7 +14,9 @@ namespace Stats
             Radial
         }
         
-        [field: SerializeField] public NetworkObject ProjectilePrefab { get; private set; }
+        [field: SerializeField] public GameObject ProjectilePrefab { get; private set; }
+        [field: SerializeField] public GameObject DummyProjectilePrefab { get; private set; }
+
         [field: SerializeField] public float InitialVelocity { get; private set; }
         [field: SerializeField] public bool BallVelocityAffectsProjectileVelocity { get; private set; }
         [field: SerializeField] public float MaxLifetime { get; private set; }

@@ -12,8 +12,7 @@ using Physics = UnityEngine.Physics;
 /**
  * this class is ONLY ran on the server, networkrigidtrans replicates the transform to other clients
  */
-[RequireComponent(typeof(NetworkedRigidTrans), typeof(NetworkObject), typeof(Rigidbody))]
-public class Projectile : NetworkBehaviour
+public class Projectile : MonoBehaviour
 {
     [SerializeField] private float ballVelocityIncreaseAmt = 1;
     
@@ -22,7 +21,6 @@ public class Projectile : NetworkBehaviour
     private float _damage;
     private Vector3 _initialVelocity;
     private BallPlayer _owner;
-    private ProjectileWeaponStats _stats;
     private  ProjectileWeaponStats.ProjectileDamageType _damageType;
     private bool _isHoming;
     private bool _isAffectedByGravity;
@@ -34,11 +32,15 @@ public class Projectile : NetworkBehaviour
     
     private readonly RaycastHit[] _hits = new RaycastHit[10];
 
-
-    public void Init(BallPlayer owner, ProjectileWeaponStats stats)
+    private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
-        
+    }
+
+    public void Init(BallPlayer owner, ProjectileWeaponStats stats, out Vector3 velocity)
+    {
+        _rigidbody = GetComponent<Rigidbody>();
+        Debug.Log("BALLS!");
         _initialVelocity = transform.forward * stats.InitialVelocity;
         _damage = stats.Damage;
         _owner = owner;
@@ -55,23 +57,22 @@ public class Projectile : NetworkBehaviour
         }
         
         _rigidbody.linearVelocity = _initialVelocity;
+        velocity = _initialVelocity;
+        //    Debug.Log(_initialVelocity);
     }
 
     private void FixedUpdate()
     {
-        if (!IsServer) return;
-
         if (_isAffectedByGravity)
         {
             _rigidbody.AddForce(Physics.gravity * _rigidbody.mass);
         }
-        
         switch (_damageType)
         {
             case ProjectileWeaponStats.ProjectileDamageType.Radial:
                 CastForward_SphereCast();
                 break;
-                
+
             case ProjectileWeaponStats.ProjectileDamageType.Single:
                 CastForward_Raycast();
                 break;
@@ -83,7 +84,7 @@ public class Projectile : NetworkBehaviour
         Transform tr = transform;
         Vector3 position = tr.position;
         Vector3 forward = tr.forward;
-        if (Physics.Raycast(position, forward, out RaycastHit hit, _stats.MaxRange, _layers))
+        if (Physics.Raycast(position, forward, out RaycastHit hit, _maxRange, _layers))
         {
             Rigidbody n = hit.rigidbody;
             if (n && n.TryGetComponent(out BallPlayer b) && b != _owner)
@@ -95,7 +96,7 @@ public class Projectile : NetworkBehaviour
                 DamageProperties damageProperties;
                 damageProperties.Damage = Mathf.Max(0, dmg);
                 damageProperties.Direction = forward * (dmg * _forceMultplier);
-                damageProperties.Attacker = OwnerClientId;
+                damageProperties.Attacker = _owner.OwnerClientId;
                 b.TakeDamage_ServerRpc(damageProperties);
             }
             Destroy(gameObject);
@@ -124,10 +125,10 @@ public class Projectile : NetworkBehaviour
                 DamageProperties damageProperties;
                 damageProperties.Damage = Mathf.Max(0, dmg);
                 damageProperties.Direction = forward * (dmg * _forceMultplier);
-                damageProperties.Attacker = OwnerClientId;
+                damageProperties.Attacker = _owner.OwnerClientId;
                 b.TakeDamage_ServerRpc(damageProperties);
             }
         }
-
     }
+
 }

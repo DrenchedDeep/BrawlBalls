@@ -26,7 +26,7 @@ namespace Gameplay.Map.Clockwork
 
             if (_currentTime < timeBetweenRotations) return;
             _currentTime = 0;
-            transform.localRotation *= Quaternion.AngleAxis(tickDegrees, rotationAxis);
+            transform.localRotation = Quaternion.AngleAxis(tickDegrees, rotationAxis);
         }
     }
 }
