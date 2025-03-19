@@ -1,136 +1,120 @@
 using System;
-using Gameplay;
 using Managers.Local;
-using MarkedForDeath;
-using RotaryHeart.Lib.PhysicsExtension;
 using Stats;
-using Unity.Netcode;
 using UnityEngine;
 using Physics = UnityEngine.Physics;
 
 
-/**
+namespace Gameplay.Weapons
+{
+    /**
  * this class is ONLY ran on the server, networkrigidtrans replicates the transform to other clients
  */
-public class Projectile : MonoBehaviour
-{
-    [SerializeField] private float ballVelocityIncreaseAmt = 1;
-    [SerializeField] private GameObject hitVFX;
-    
-    private Rigidbody _rigidbody;
-
-    private float _damage;
-    private Vector3 _initialVelocity;
-    private BallPlayer _owner;
-    private  ProjectileWeaponStats.ProjectileDamageType _damageType;
-    private bool _isHoming;
-    private bool _isAffectedByGravity;
-    private float _forceMultplier;
-    private LayerMask _layers;
-    private float _maxRadius;
-    private float _maxRange;
-    
-    
-    private readonly RaycastHit[] _hits = new RaycastHit[10];
-
-    private void Awake()
+    public class Projectile : MonoBehaviour
     {
-        _rigidbody = GetComponent<Rigidbody>();
-    }
-
-    public void Init(BallPlayer owner, ProjectileWeaponStats stats, out Vector3 velocity)
-    {
-        _rigidbody = GetComponent<Rigidbody>();
-        _initialVelocity = transform.forward * stats.InitialVelocity;
-        _damage = stats.Damage;
-        _owner = owner;
-        _damageType = stats.DamageType;
-        _isHoming = stats.IsHomingProjectile;
-        _isAffectedByGravity = stats.IsAffectedByGravity;
-        _layers = stats.HitLayers;
-        _forceMultplier = stats.ForceMultiplier;
-        _maxRadius = stats.MaxRadius;
-        _maxRange = stats.MaxRange;
-        if (stats.BallVelocityAffectsProjectileVelocity)
-        {
-            _initialVelocity += owner.GetBall.Velocity * ballVelocityIncreaseAmt;
-        }
+        [SerializeField] private float ballVelocityIncreaseAmt = 1;
+        [SerializeField] private GameObject hitVFX;
+        [SerializeField] private ProjectileStats stats;
         
-        _rigidbody.linearVelocity = _initialVelocity;
-        velocity = _initialVelocity;
-        //    Debug.Log(_initialVelocity);
-    }
+        private BallPlayer _owner;
+        private Rigidbody _rigidbody;
+        private Vector3 _initialVelocity;
 
-    private void FixedUpdate()
-    {
-        if (_isAffectedByGravity)
+        private delegate void CastMode();
+        private CastMode _castMode;
+    
+    
+        private readonly RaycastHit[] _hits = new RaycastHit[10];
+
+        private void Awake()
         {
-            _rigidbody.AddForce(Physics.gravity * _rigidbody.mass);
+            _rigidbody = GetComponent<Rigidbody>();
         }
-        switch (_damageType)
-        {
-            case ProjectileWeaponStats.ProjectileDamageType.Radial:
-                CastForward_SphereCast();
-                break;
 
-            case ProjectileWeaponStats.ProjectileDamageType.Single:
-                CastForward_Raycast();
-                break;
-        }
-    }
-
-    private void CastForward_Raycast()
-    {
-        Transform tr = transform;
-        Vector3 position = tr.position;
-        Vector3 forward = tr.forward;
-        if (Physics.Raycast(position, forward, out RaycastHit hit, _maxRange, _layers))
+        public void Init(BallPlayer owner, out Vector3 velocity)
         {
-            Rigidbody n = hit.rigidbody;
-            if (n && n.TryGetComponent(out BallPlayer b) && b != _owner)
+            _rigidbody = GetComponent<Rigidbody>(); //<< This can probably be removed? That or remove awake?
+            _initialVelocity = transform.forward * stats.InitialVelocity;
+            _owner = owner;
+            
+            if (stats.BallVelocityAffectsProjectileVelocity)
             {
-                float dmg = _damage;
-                dmg *= _owner.Mass * _owner.GetBall.Speed;
-                print("Doing damage: " + dmg);
-                    
-                DamageProperties damageProperties;
-                damageProperties.Damage = Mathf.Max(0, dmg);
-                damageProperties.Direction = forward * (dmg * _forceMultplier);
-                damageProperties.Attacker = _owner.OwnerClientId;
-                b.TakeDamage_ServerRpc(damageProperties);
+                _initialVelocity += owner.GetBall.Velocity * ballVelocityIncreaseAmt;
             }
-            GameObject hitVfx = Instantiate(hitVFX, position, Quaternion.LookRotation(forward, Vector3.up));
-            Debug.Log("projectile hit: " + hit.transform.gameObject.name);
-            Destroy(gameObject);
-        }
-    }
-
-    private void CastForward_SphereCast()
-    {
-        Transform tr = transform;
-        Vector3 position = tr.position;
-        Vector3 forward = tr.forward;
-
-        int hitCount =
-            Physics.SphereCastNonAlloc(position, _maxRadius, forward, _hits, _maxRange, StaticUtilities.EnemyLayer);
         
-        for (int i = 0; i < hitCount; ++i)
-        {
-            Rigidbody n = _hits[i].rigidbody;
-            if (n && n.TryGetComponent(out BallPlayer b) && b != _owner)
+            _rigidbody.linearVelocity = _initialVelocity;
+            velocity = _initialVelocity;
+            
+            _castMode = stats.DamageType switch
             {
-                //FIX this doesn't consider speed...
-                float dmg = _damage;
-                dmg *= _owner.Mass * _owner.GetBall.Speed;
-                print("Doing damage: " + dmg);
+                ProjectileStats.ProjectileDamageType.Radial => CastForward_SphereCast,
+                ProjectileStats.ProjectileDamageType.Single => CastForward_Raycast,
+                _ => throw new ArgumentOutOfRangeException() // Default.
+            };
+        }
+
+        private void FixedUpdate()
+        {
+            if (stats.IsAffectedByGravity)
+            {
+                _rigidbody.AddForce(Physics.gravity * _rigidbody.mass);
+            }
+            _castMode.Invoke();
+        }
+
+        private void CastForward_Raycast()
+        {
+            Transform tr = transform;
+            Vector3 position = tr.position;
+            Vector3 forward = tr.forward;
+            if (Physics.Raycast(position, forward, out RaycastHit hit, stats.MaxRange, stats.HitLayers))
+            {
+                Rigidbody n = hit.rigidbody;
+                if (n && n.TryGetComponent(out BallPlayer b) && b != _owner)
+                {
+                    float dmg = stats.Damage;
+                    dmg *= _owner.Mass * _owner.GetBall.Speed;
+                    print("Doing damage: " + dmg);
                     
-                DamageProperties damageProperties;
-                damageProperties.Damage = Mathf.Max(0, dmg);
-                damageProperties.Direction = forward * (dmg * _forceMultplier);
-                damageProperties.Attacker = _owner.OwnerClientId;
-                b.TakeDamage_ServerRpc(damageProperties);
+                    DamageProperties damageProperties;
+                    damageProperties.Damage = Mathf.Max(0, dmg);
+                    damageProperties.Direction = forward * (dmg * stats.ForceMultiplier);
+                    damageProperties.Attacker = _owner.OwnerClientId;
+                    b.TakeDamage_ServerRpc(damageProperties);
+                }
+                GameObject hitVfx = Instantiate(hitVFX, hit.point, Quaternion.LookRotation(-forward, Vector3.up));
+                Debug.Log("projectile hit: " + hit.transform.gameObject.name);
+                Destroy(gameObject);
             }
         }
-    }
 
+        private void CastForward_SphereCast()
+        {
+            Transform tr = transform;
+            Vector3 position = tr.position;
+            Vector3 forward = tr.forward;
+
+            int hitCount =
+                Physics.SphereCastNonAlloc(position, stats.MaxRadius, forward, _hits, stats.MaxRange, StaticUtilities.EnemyLayer);
+        
+            for (int i = 0; i < hitCount; ++i)
+            {
+                Rigidbody n = _hits[i].rigidbody;
+                if (n && n.TryGetComponent(out BallPlayer b) && b != _owner)
+                {
+                    //FIX this doesn't consider speed...
+                    float dmg = stats.Damage;
+                    dmg *= _owner.Mass * _owner.GetBall.Speed;
+                    print("Doing damage: " + dmg);
+                    
+                    DamageProperties damageProperties;
+                    damageProperties.Damage = Mathf.Max(0, dmg);
+                    damageProperties.Direction = forward * (dmg * stats.ForceMultiplier);
+                    damageProperties.Attacker = _owner.OwnerClientId;
+                    b.TakeDamage_ServerRpc(damageProperties);
+                }
+            }
+        }
+
+    }
 }

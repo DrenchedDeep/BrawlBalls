@@ -126,6 +126,33 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""LookX"",
+                    ""type"": ""Value"",
+                    ""id"": ""414997c2-d15c-455a-b387-1f41b7806cce"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""LookY"",
+                    ""type"": ""Value"",
+                    ""id"": ""8ef69097-49d6-4ed2-b483-18fca0c22494"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Zoom"",
+                    ""type"": ""Value"",
+                    ""id"": ""38c39b16-5de0-4809-91c3-e90be081afb9"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -166,6 +193,17 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""3f947d4f-e2b7-451d-a690-39947a675adf"",
                     ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Controller"",
+                    ""action"": ""Weapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""824aa4ef-d459-4aec-82f8-70547e7b57e8"",
+                    ""path"": ""<Gamepad>/leftStick/down"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Controller"",
@@ -219,19 +257,19 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""326ebb49-a828-4376-881d-37de7023772a"",
-                    ""path"": ""<Gamepad>/leftStick"",
+                    ""id"": ""e5505d31-280b-47a3-85c4-b079106c6c05"",
+                    ""path"": ""<Gamepad>/rightStick/down"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Controller"",
-                    ""action"": ""Steer"",
+                    ""action"": ""Ability"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""a1737a46-0bfe-4d63-8167-ddfa9711ff1d"",
-                    ""path"": ""<Gamepad>/rightStick"",
+                    ""id"": ""326ebb49-a828-4376-881d-37de7023772a"",
+                    ""path"": ""<Gamepad>/leftStick"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Controller"",
@@ -313,6 +351,127 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": "";Controller"",
                     ""action"": ""EnterPause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""525edf2e-7c0f-428c-9324-13b343284759"",
+                    ""path"": ""<Mouse>/delta/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";PC"",
+                    ""action"": ""LookX"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""dd975024-abad-41cc-ae38-aec04e435e06"",
+                    ""path"": ""<Gamepad>/rightStick/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Controller"",
+                    ""action"": ""LookX"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""27da4a5f-04fa-4f29-a971-248a5d997347"",
+                    ""path"": ""<Mouse>/delta/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";PC"",
+                    ""action"": ""LookY"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""080c2ec0-2bdd-4498-aa90-d7f6af90125f"",
+                    ""path"": ""<Gamepad>/rightStick/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Controller"",
+                    ""action"": ""LookY"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""UpDown"",
+                    ""id"": ""f95a90ec-7f67-473d-a82c-161fca1b6132"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Zoom"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""ea081301-0359-48ea-81a1-1c4ba75781db"",
+                    ""path"": ""<Gamepad>/dpad/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Controller"",
+                    ""action"": ""Zoom"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""c246faf3-0419-4792-b657-5a0cc02874f1"",
+                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Controller"",
+                    ""action"": ""Zoom"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""QE"",
+                    ""id"": ""80cd16e3-a259-4e93-9561-6cb730a1f13f"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Zoom"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""49a44063-8b62-46fb-b744-f9f038d526a3"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";PC"",
+                    ""action"": ""Zoom"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""50ad0ebe-a895-478d-81e0-a4be2181d66f"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";PC"",
+                    ""action"": ""Zoom"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""98d86189-31cb-4dce-a9ca-d6f88cc68dfd"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";PC"",
+                    ""action"": ""Zoom"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -924,6 +1083,9 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         m_Game_Ability = m_Game.FindAction("Ability", throwIfNotFound: true);
         m_Game_Steer = m_Game.FindAction("Steer", throwIfNotFound: true);
         m_Game_EnterPause = m_Game.FindAction("EnterPause", throwIfNotFound: true);
+        m_Game_LookX = m_Game.FindAction("LookX", throwIfNotFound: true);
+        m_Game_LookY = m_Game.FindAction("LookY", throwIfNotFound: true);
+        m_Game_Zoom = m_Game.FindAction("Zoom", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1022,6 +1184,9 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Game_Ability;
     private readonly InputAction m_Game_Steer;
     private readonly InputAction m_Game_EnterPause;
+    private readonly InputAction m_Game_LookX;
+    private readonly InputAction m_Game_LookY;
+    private readonly InputAction m_Game_Zoom;
     /// <summary>
     /// Provides access to input actions defined in input action map "Game".
     /// </summary>
@@ -1049,6 +1214,18 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Game/EnterPause".
         /// </summary>
         public InputAction @EnterPause => m_Wrapper.m_Game_EnterPause;
+        /// <summary>
+        /// Provides access to the underlying input action "Game/LookX".
+        /// </summary>
+        public InputAction @LookX => m_Wrapper.m_Game_LookX;
+        /// <summary>
+        /// Provides access to the underlying input action "Game/LookY".
+        /// </summary>
+        public InputAction @LookY => m_Wrapper.m_Game_LookY;
+        /// <summary>
+        /// Provides access to the underlying input action "Game/Zoom".
+        /// </summary>
+        public InputAction @Zoom => m_Wrapper.m_Game_Zoom;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1087,6 +1264,15 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
             @EnterPause.started += instance.OnEnterPause;
             @EnterPause.performed += instance.OnEnterPause;
             @EnterPause.canceled += instance.OnEnterPause;
+            @LookX.started += instance.OnLookX;
+            @LookX.performed += instance.OnLookX;
+            @LookX.canceled += instance.OnLookX;
+            @LookY.started += instance.OnLookY;
+            @LookY.performed += instance.OnLookY;
+            @LookY.canceled += instance.OnLookY;
+            @Zoom.started += instance.OnZoom;
+            @Zoom.performed += instance.OnZoom;
+            @Zoom.canceled += instance.OnZoom;
         }
 
         /// <summary>
@@ -1110,6 +1296,15 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
             @EnterPause.started -= instance.OnEnterPause;
             @EnterPause.performed -= instance.OnEnterPause;
             @EnterPause.canceled -= instance.OnEnterPause;
+            @LookX.started -= instance.OnLookX;
+            @LookX.performed -= instance.OnLookX;
+            @LookX.canceled -= instance.OnLookX;
+            @LookY.started -= instance.OnLookY;
+            @LookY.performed -= instance.OnLookY;
+            @LookY.canceled -= instance.OnLookY;
+            @Zoom.started -= instance.OnZoom;
+            @Zoom.performed -= instance.OnZoom;
+            @Zoom.canceled -= instance.OnZoom;
         }
 
         /// <summary>
@@ -1410,6 +1605,27 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnEnterPause(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "LookX" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnLookX(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "LookY" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnLookY(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Zoom" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnZoom(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

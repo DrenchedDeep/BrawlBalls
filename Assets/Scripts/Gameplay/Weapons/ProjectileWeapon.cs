@@ -10,6 +10,7 @@ namespace Gameplay.Weapons
 
         private BallPlayer _ballPlayer;
         
+        
         public void Init(BallPlayer owner)
         {
             _ballPlayer = owner;
@@ -20,23 +21,15 @@ namespace Gameplay.Weapons
          */
         public void Fire(WeaponStats stats, out Vector3 velocity)
         {
-            ProjectileWeaponStats projectileWeaponStats = stats as ProjectileWeaponStats;
-
-            if (!projectileWeaponStats)
+            if (stats is not ProjectileWeaponStats projectileWeaponStats)
             {
                 velocity = Vector3.zero;
                 return;
             }
             
-            GameObject projectileGo = Instantiate(projectileWeaponStats.ProjectilePrefab, firingPoint.position, firingPoint.rotation);
-
-            if (projectileGo.gameObject.TryGetComponent(out Projectile projectile))
-            {
-                projectile.Init(_ballPlayer, projectileWeaponStats, out velocity);
-                return;
-            }
-
-            velocity = Vector3.zero;
+            Projectile projectile = Instantiate(projectileWeaponStats.ProjectilePrefab, firingPoint.position, firingPoint.rotation);
+            projectile.Init(_ballPlayer, out velocity);
+            
         }
 
         public void FireDummy(WeaponStats stats, Vector3 velocity)

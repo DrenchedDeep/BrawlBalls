@@ -14,11 +14,9 @@ namespace Stats
         [field: SerializeField] public float MaxRange { get; private set; }
         [field: SerializeField] public float MaxRadius { get; private set; }
         [field: SerializeField] public AbilityStats Ability { get; private set; }
-
-        [Header("Configuration")]
         [field: SerializeField] public LayerMask HitLayers { get; private set; }
-        [field: SerializeField] public bool BlockVerticalOrientation {get; private set;}
-        [field: SerializeField] public bool LookUpWhileNotMoving {get; private set;}
+        
+
         
         
 

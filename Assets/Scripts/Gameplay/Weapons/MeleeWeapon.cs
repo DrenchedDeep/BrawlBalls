@@ -7,6 +7,8 @@ namespace Gameplay.Weapons
 {
     public class MeleeWeapon : BaseWeapon
     {
+        public readonly RaycastHit[] Hits = new RaycastHit[10];
+
         private void FixedUpdate()
         {
             CastForward();

@@ -1107,7 +1107,6 @@ GameObject:
   - component: {fileID: 2725920083217907213}
   - component: {fileID: 7691408773414861324}
   - component: {fileID: 1443136322451098594}
-  - component: {fileID: 8976636116041559645}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1265,23 +1264,6 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   CustomBlends: {fileID: 0}
---- !u!114 &8976636116041559645
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4076111330375782635}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IsGlobal: 1
-  priority: 0
-  blendDistance: 0
-  weight: 1
-  sharedProfile: {fileID: 11400000, guid: a6560a915ef98420e9faacc1c7438823, type: 2}
 --- !u!1 &4641767211167681187
 GameObject:
   m_ObjectHideFlags: 0
@@ -3415,7 +3397,7 @@ MonoBehaviour:
     RotationDamping: {x: 0, y: 0, z: 0}
     QuaternionDamping: 0
   OrbitStyle: 0
-  Radius: 5
+  Radius: 15
   Orbits:
     Top:
       Radius: 2
@@ -3440,8 +3422,8 @@ MonoBehaviour:
     Restrictions: 0
   VerticalAxis:
     Value: 3.8
-    Center: 3.8
-    Range: {x: 3.8, y: 3.8}
+    Center: 15
+    Range: {x: -25, y: 50}
     Wrap: 0
     Recentering:
       Enabled: 0
@@ -3451,7 +3433,7 @@ MonoBehaviour:
   RadialAxis:
     Value: 1
     Center: 1
-    Range: {x: 1, y: 1}
+    Range: {x: 0.5, y: 2}
     Wrap: 0
     Recentering:
       Enabled: 0
@@ -3484,8 +3466,8 @@ MonoBehaviour:
   Damping: {x: 0.5, y: 0.5}
   Lookahead:
     Enabled: 0
-    Time: 0
-    Smoothing: 0
+    Time: 0.047
+    Smoothing: 1.62
     IgnoreY: 0
 --- !u!114 &5418725295693822910
 MonoBehaviour:
@@ -3511,14 +3493,14 @@ MonoBehaviour:
     Enabled: 1
     DistanceLimit: 15
     MinimumOcclusionTime: 0
-    CameraRadius: 0.1
+    CameraRadius: 0.25
     UseFollowTarget:
       Enabled: 0
-      YOffset: 0
-    Strategy: 1
+      YOffset: 4.14
+    Strategy: 0
     MaximumEffort: 4
-    SmoothingTime: 0
-    Damping: 0
+    SmoothingTime: 0.412
+    Damping: 1.64
     DampingWhenOccluded: 0
   ShotQualityEvaluation:
     Enabled: 0
@@ -3538,7 +3520,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89875cdc57c54474a8a74efd9b2a3b5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ScanRecursively: 1
+  ScanRecursively: 0
   SuppressInputWhileBlending: 1
   IgnoreTimeScale: 0
   m_ControllerManager:
@@ -3547,7 +3529,8 @@ MonoBehaviour:
       Owner: {fileID: 372787039284553388}
       Enabled: 1
       Input:
-        InputAction: {fileID: 0}
+        InputAction: {fileID: -6580540954752199860, guid: d208d53a1c1765d458b57f71735f2219,
+          type: 3}
         Gain: 1
         CancelDeltaTime: 0
       InputValue: 0
@@ -3558,7 +3541,8 @@ MonoBehaviour:
       Owner: {fileID: 372787039284553388}
       Enabled: 1
       Input:
-        InputAction: {fileID: 0}
+        InputAction: {fileID: -7754261821736435568, guid: d208d53a1c1765d458b57f71735f2219,
+          type: 3}
         Gain: 1
         CancelDeltaTime: 0
       InputValue: 0
@@ -3569,14 +3553,15 @@ MonoBehaviour:
       Owner: {fileID: 372787039284553388}
       Enabled: 1
       Input:
-        InputAction: {fileID: 0}
+        InputAction: {fileID: -7820363603483565772, guid: d208d53a1c1765d458b57f71735f2219,
+          type: 3}
         Gain: 1
         CancelDeltaTime: 0
       InputValue: 0
       Driver:
         AccelTime: 0
         DecelTime: 0
-  PlayerIndex: -1
+  PlayerIndex: 0
   AutoEnableInputs: 1
 --- !u!114 &6745538024720128125
 MonoBehaviour:
@@ -3590,7 +3575,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44d70cc20219cd84593f67d248eafe36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Offset: {x: 0, y: 3, z: -8}
+  Offset: {x: 0, y: 3, z: -2}
   ApplyAfter: 1
   PreserveComposition: 0
 --- !u!1001 &605457174985243114

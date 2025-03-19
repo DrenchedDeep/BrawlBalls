@@ -131,8 +131,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fba57f9044c64c4e92f447d8e10f1335, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   firingPoint: {fileID: 1417429241974556096}
-  projectilePrefab: {fileID: 0}
 --- !u!1 &6959971938099312448
 GameObject:
   m_ObjectHideFlags: 0
@@ -373,8 +373,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fba57f9044c64c4e92f447d8e10f1335, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   firingPoint: {fileID: 5326118471794846804}
-  projectilePrefab: {fileID: 0}
 --- !u!4 &2572524548296858198 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7276477809331067282, guid: 2926e2614b1983744a8f07acebd3e9ca,
@@ -407,3 +407,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 11400000, guid: ea7d9ebfd2ecfc348a04a02ef5f5184b, type: 2}
+  blockVerticalOrientation: 0
+  lookUpWhileNotMoving: 0

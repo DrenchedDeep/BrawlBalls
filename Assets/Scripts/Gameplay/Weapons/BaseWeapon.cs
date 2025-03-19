@@ -4,16 +4,18 @@ using RotaryHeart.Lib.PhysicsExtension;
 using Stats;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Gameplay.Weapons
 {
     public class BaseWeapon : NetworkBehaviour
     {
-    
-        [SerializeField] protected WeaponStats stats;
 
+       
+        [SerializeField] protected WeaponStats stats;
+        [SerializeField] private bool blockVerticalOrientation;
+        [SerializeField] private bool lookUpWhileNotMoving;
         
-        public readonly RaycastHit[] Hits = new RaycastHit[10];
 
 
         protected float _curDamage;
@@ -26,6 +28,7 @@ namespace Gameplay.Weapons
         public WeaponStats Stats => stats;
         public AbilityStats GetAbility => stats.Ability;
 
+        
 
         private IWeaponComponent[] _weaponComponents;
 
@@ -58,11 +61,11 @@ namespace Gameplay.Weapons
         {
             Vector3 dir = _owner.GetBall.Velocity;
             
-            if (stats.BlockVerticalOrientation) dir.y = 0;
+            if (blockVerticalOrientation) dir.y = 0;
             
             dir.Normalize();
             
-            if (stats.LookUpWhileNotMoving) dir = Vector3.Lerp(Vector3.up,  dir, _owner.GetBall.Speed * 5);
+            if (lookUpWhileNotMoving) dir = Vector3.Lerp(Vector3.up,  dir, _owner.GetBall.Speed * 5);
             
             transform.forward = dir;
              Debug.DrawRay(transform.position, dir * 4, Color.red);
