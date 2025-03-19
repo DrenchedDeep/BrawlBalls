@@ -140,7 +140,9 @@ namespace Managers.Local
 
         private void Update()
         {
-            _currentBall.GetBall.Foward.Value = cam.transform.forward;
+            Vector3 x = cam.transform.forward;
+            x.y = 0;
+            _currentBall.GetBall.Foward.Value = x.normalized;
             //_currentBall.GetBall.Foward.Value = cam.transform.forward;
             _currentBall.GetBall.MoveDirection.Value = _currentJoyStick.Direction;
             //_currentBall.GetBall.MoveDirection.Value = joystick.Direction;
