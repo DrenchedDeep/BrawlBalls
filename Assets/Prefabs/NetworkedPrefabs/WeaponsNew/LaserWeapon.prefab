@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 3577512457232758521}
   - component: {fileID: 2480387922908464432}
   - component: {fileID: 296839776499186480}
+  - component: {fileID: 5293880368781701098}
   m_Layer: 14
   m_Name: Right
   m_TagString: Untagged
@@ -118,6 +119,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &5293880368781701098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1987271425115276911}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fba57f9044c64c4e92f447d8e10f1335, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  firingPoint: {fileID: 1417429241974556096}
 --- !u!1 &6959971938099312448
 GameObject:
   m_ObjectHideFlags: 0
@@ -335,7 +349,30 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: -1115408648360592768}
+    - targetCorrespondingSourceObject: {fileID: 6249420392674946892, guid: 2926e2614b1983744a8f07acebd3e9ca,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4666300241086489076}
   m_SourcePrefab: {fileID: 100100000, guid: 2926e2614b1983744a8f07acebd3e9ca, type: 3}
+--- !u!1 &1293142007639501960 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6249420392674946892, guid: 2926e2614b1983744a8f07acebd3e9ca,
+    type: 3}
+  m_PrefabInstance: {fileID: 5136442723980805060}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4666300241086489076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1293142007639501960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fba57f9044c64c4e92f447d8e10f1335, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  firingPoint: {fileID: 5326118471794846804}
 --- !u!4 &2572524548296858198 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7276477809331067282, guid: 2926e2614b1983744a8f07acebd3e9ca,
@@ -367,4 +404,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  stats: {fileID: 11400000, guid: 10a8c565503fd7e449646733fb916851, type: 2}
+  stats: {fileID: 11400000, guid: ea7d9ebfd2ecfc348a04a02ef5f5184b, type: 2}
