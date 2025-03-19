@@ -12,7 +12,12 @@ namespace Gameplay.Abilities.SpecialAbilities
         {
             SpawnCaltrops_ServerRpc("Caltrop", owner.transform.position + Vector3.one * 6,  Quaternion.identity, owner.GetBall.Velocity.normalized, 150);
         }
-        
+
+        public override void CancelAbility(BallPlayer owner)
+        {
+            throw new System.NotImplementedException();
+        }
+
         [ServerRpc(RequireOwnership = false)]
         private void SpawnCaltrops_ServerRpc(string objectName, Vector3 location, Quaternion rotation, Vector3 axis, float force, ServerRpcParams @params = default)
         {

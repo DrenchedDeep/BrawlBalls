@@ -7,6 +7,7 @@ namespace Gameplay.Weapons
     public class ProjectileWeapon : NetworkBehaviour, IWeaponComponent
     {
         [SerializeField] private Transform firingPoint;
+        [SerializeField] private ParticleSystem muzzleFlash;
 
         private BallPlayer _ballPlayer;
         
@@ -29,7 +30,8 @@ namespace Gameplay.Weapons
             
             Projectile projectile = Instantiate(projectileWeaponStats.ProjectilePrefab, firingPoint.position, firingPoint.rotation);
             projectile.Init(_ballPlayer, out velocity);
-            
+            PlayMuzzleFlash();
+
         }
 
         public void FireDummy(WeaponStats stats, Vector3 velocity)
@@ -45,6 +47,10 @@ namespace Gameplay.Weapons
 
             projectile.GetComponent<Rigidbody>().linearVelocity = velocity;
             projectile.enabled = false;
+            PlayMuzzleFlash();
         }
+        
+        
+        public void PlayMuzzleFlash() => muzzleFlash.Play();
     }
 }

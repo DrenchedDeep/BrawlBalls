@@ -1,4 +1,7 @@
+using System;
 using System.Collections.Generic;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using Gameplay.Abilities.WeaponAbilities;
 using RotaryHeart.Lib.PhysicsExtension;
 using Stats;
@@ -10,32 +13,33 @@ namespace Gameplay.Weapons
 {
     public class BaseWeapon : NetworkBehaviour
     {
-
-       
         [SerializeField] protected WeaponStats stats;
         [SerializeField] private bool blockVerticalOrientation;
         [SerializeField] private bool lookUpWhileNotMoving;
         
-
-
         protected float CurDamage;
         
         protected BallPlayer Owner;
         private Transform _connector;
         protected bool IsConnected = true;
     
+        public bool IsChargingUp { get; private set; }
+        public bool IsRecharging { get; private set; }
 
         public WeaponStats Stats => stats;
         public AbilityStats GetAbility => stats.Ability;
-
         
+        private readonly CancellationTokenSource _chargeUpCancelToken = new();
+        private readonly CancellationTokenSource _rechargeCancelToken = new();
 
-        private IWeaponComponent[] _weaponComponents;
+        private int _currentFireCount;
+
 
         public void Start()
         {
             
             CurDamage = stats.Damage;
+            _currentFireCount = stats.Ammo;
             /*/
 #if UNITY_EDITOR
             enabled = (!NetworkManager.Singleton || IsOwner || IsServer);
@@ -46,12 +50,6 @@ namespace Gameplay.Weapons
 /*/
             
             Owner = transform.parent?.GetComponent<BallPlayer>();
-            _weaponComponents = GetComponentsInChildren<IWeaponComponent>();
-
-            foreach (IWeaponComponent comp in _weaponComponents)
-            {
-                comp.Init(Owner);
-            }
         }
 
         private void LateUpdate()
@@ -81,9 +79,75 @@ namespace Gameplay.Weapons
 
         }
 
+
+
+        public  void AttackStart()
+        {
+            if (_currentFireCount <= 0 || IsRecharging)
+            {
+                if (!IsRecharging)
+                {
+                    _ = AttackReCharge(_rechargeCancelToken.Token);
+                    AttackEnd();
+                }
+
+                return;
+            }
+            
+            if (Stats.ChargeUpTime > 0)
+            {
+                if (!IsChargingUp)
+                {
+                    _ = AttackChargeUp(_chargeUpCancelToken.Token);
+                }
+            }
+            else
+            {
+                Attack();
+            }
+        }
+
+        protected virtual void Attack()
+        {
+            _currentFireCount--;
+        }
+
+        public  void AttackEnd()
+        {
+            if (IsChargingUp)
+            {
+                _chargeUpCancelToken.Cancel();
+            }
+        }
+
+        private async UniTask AttackChargeUp(CancellationToken token)
+        {
+            IsChargingUp = true;
+            await UniTask.WaitForSeconds(stats.ChargeUpTime, cancellationToken: token);
+
+            if (!token.IsCancellationRequested)
+            {
+                Attack();
+            }
+
+            IsChargingUp = false;
+        }
         
+        private async UniTask AttackReCharge(CancellationToken token)
+        {
+            IsRecharging = true;
+            while (_currentFireCount < stats.Ammo)
+            {
+                _currentFireCount++;
+                Debug.Log("fire count: " + _currentFireCount);
+                await UniTask.WaitForSeconds(stats.ChargeUpTime, cancellationToken: token);
+            }
+
+            IsRecharging = false;
+        }
         
-        public virtual void Attack() { }
+        public float GetAmmoPercentage() => _currentFireCount / (float)stats.Ammo;
+
         
         public float MultiplyDamage(int i)
         {

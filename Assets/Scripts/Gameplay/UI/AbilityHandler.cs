@@ -94,8 +94,12 @@ namespace Gameplay.UI
             {
                 //Wait until we can use the ability
                 await UniTask.WaitUntil(CheckAbilityReady, PlayerLoopTiming.Update, token);
-            
-                if (_cancellationTokenSource.IsCancellationRequested || !_wantsToUseAbility) return;
+
+                if (_cancellationTokenSource.IsCancellationRequested || !_wantsToUseAbility)
+                {
+                    _boundAbility.Ability.CancelAbility(_ball);
+                    return;
+                }
                 
                 _capacity -= 1;
                 _boundAbility.Ability.ExecuteAbility(_ball);

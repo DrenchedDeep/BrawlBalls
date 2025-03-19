@@ -17,5 +17,10 @@ namespace Gameplay.Abilities.SpecialAbilities
             Physics.Raycast(owner.transform.position, Vector3.down, out var hit, 5, StaticUtilities.GroundLayers);
             NetworkGameManager.Instance.SpawnObjectGlobally_ServerRpc("Glue", hit.point, Quaternion.identity);
         }
+
+        public override void CancelAbility(BallPlayer owner)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

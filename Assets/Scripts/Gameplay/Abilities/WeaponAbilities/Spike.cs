@@ -17,7 +17,12 @@ namespace Gameplay.Abilities.WeaponAbilities
             //_hasSpike = false;
             owner.GetBaseWeapon.Disconnect(owner.GetBall.Speed);
         }
-        
+
+        public override void CancelAbility(BallPlayer owner)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public static IEnumerator Move(BaseWeapon baseWeapon, float speed)
         {
             

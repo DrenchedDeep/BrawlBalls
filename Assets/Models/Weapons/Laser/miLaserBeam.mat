@@ -75,12 +75,14 @@ Material:
     - _EffectIntensity: 1
     - _FlashPercent: 0
     - _Metallic: 0.693
+    - _OverheatAmt: 0
     - _Power: 4
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Smoothness: 0.773
     m_Colors:
     - _Emissive: {r: 0, g: 6.6722407, b: 31.999996, a: 0}
+    - _OverheatColor: {r: 1, g: 0.6449554, b: 0.4669811, a: 0}
     - _Speed: {r: 0.2, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

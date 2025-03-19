@@ -13,6 +13,11 @@ namespace Stats
         [field: SerializeField] public float ForceMultiplier { get; private set; }
         [field: SerializeField] public float MaxRange { get; private set; }
         [field: SerializeField] public float MaxRadius { get; private set; }
+        [field: SerializeField] public float ChargeUpTime { get; private set; }
+        
+        //how long until the weapon must recharge.. kinda like its "overheating"
+        [field: SerializeField] public int Ammo { get; private set; }
+
         [field: SerializeField] public AbilityStats Ability { get; private set; }
         [field: SerializeField] public LayerMask HitLayers { get; private set; }
         

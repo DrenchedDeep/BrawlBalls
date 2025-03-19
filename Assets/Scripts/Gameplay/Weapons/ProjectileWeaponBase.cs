@@ -6,8 +6,10 @@ public class ProjectileWeaponBase : BaseWeapon
 {
     [SerializeField] private ProjectileWeapon[] projectileWeapons;
     
-    public override void Attack()
+    protected override void Attack()
     {
+        base.Attack();
+        
         for (int i = 0; i < projectileWeapons.Length; i++)
         {
             //fire locally

@@ -11,5 +11,10 @@ namespace Gameplay.Abilities.WeaponAbilities
         {
             throw new System.NotImplementedException();
         }
+
+        public override void CancelAbility(BallPlayer owner)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

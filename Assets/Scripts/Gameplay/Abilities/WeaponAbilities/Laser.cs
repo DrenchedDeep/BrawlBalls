@@ -4,13 +4,21 @@ namespace Gameplay.Abilities.WeaponAbilities
 {
     public class Laser : Ability
     {
-        public override bool CanUseAbility(BallPlayer owner) => true;
+        //override if need be :P
+        public override bool CanUseAbility(BallPlayer owner)
+        {
+            return !owner.GetBaseWeapon.IsChargingUp || !owner.GetBaseWeapon.IsRecharging;
+        }
 
         public override void ExecuteAbility(BallPlayer owner)
         {
-            owner.GetBaseWeapon.Attack();
+            owner.GetBaseWeapon.AttackStart();
         }
 
+        public override void CancelAbility(BallPlayer owner)
+        {
+            owner.GetBaseWeapon.AttackEnd();
+        }
     }
 }
 

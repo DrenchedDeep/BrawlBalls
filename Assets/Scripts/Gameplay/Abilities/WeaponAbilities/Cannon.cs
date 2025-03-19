@@ -15,5 +15,10 @@ namespace Gameplay.Abilities.WeaponAbilities
             //beam.SetProperty(StaticUtilities.SpeedID, d);
             //beam.SetProperty(StaticUtilities.NoiseSpeedID, d*2);
         }
+
+        public override void CancelAbility(BallPlayer owner)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

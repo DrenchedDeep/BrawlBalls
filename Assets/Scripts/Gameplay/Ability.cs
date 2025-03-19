@@ -4,6 +4,7 @@ namespace Gameplay
     {
         public abstract bool CanUseAbility(BallPlayer owner);
         public abstract void ExecuteAbility(BallPlayer owner);
+        public abstract void CancelAbility(BallPlayer owner);
 
 
     }

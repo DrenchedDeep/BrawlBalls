@@ -30,17 +30,7 @@ namespace Gameplay.Weapons
         {
             _rigidbody = GetComponent<Rigidbody>();
         }
-
-        public void InitSimple(Vector3 velocity)
-        {
-            if (!_rigidbody)
-            {
-                _rigidbody = GetComponent<Rigidbody>();
-            }
-
-            _rigidbody.linearVelocity = velocity;
-        }
-
+        
         public void Init(BallPlayer owner, out Vector3 velocity)
         {
             _rigidbody = GetComponent<Rigidbody>(); //<< This can probably be removed? That or remove awake?
@@ -61,6 +51,8 @@ namespace Gameplay.Weapons
                 ProjectileStats.ProjectileDamageType.Single => CastForward_Raycast,
                 _ => throw new ArgumentOutOfRangeException() // Default.
             };
+            
+            Destroy(gameObject, stats.MaxLifetime);
         }
 
         private void FixedUpdate()

@@ -11,5 +11,10 @@ namespace Gameplay.Abilities.SpecialAbilities
         {
             NetworkGameManager.Instance.SpawnObjectGlobally_ServerRpc("Portal", owner.transform.position, Quaternion.identity);
         }
+
+        public override void CancelAbility(BallPlayer owner)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
