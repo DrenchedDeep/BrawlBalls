@@ -349,7 +349,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3148583292845083878, guid: 2926e2614b1983744a8f07acebd3e9ca,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: -1115408648360592768}
+      addedObject: {fileID: 7664256644383474552}
     - targetCorrespondingSourceObject: {fileID: 6249420392674946892, guid: 2926e2614b1983744a8f07acebd3e9ca,
         type: 3}
       insertIndex: -1
@@ -393,7 +393,7 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 5136442723980805060}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &-1115408648360592768
+--- !u!114 &7664256644383474552
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -402,10 +402,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 7852673164038819618}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb872a0c9a8169748bb0be8acef19a50, type: 3}
+  m_Script: {fileID: 11500000, guid: b8e08291edbb11946907ee4897402e01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 11400000, guid: ea7d9ebfd2ecfc348a04a02ef5f5184b, type: 2}
   blockVerticalOrientation: 0
   lookUpWhileNotMoving: 0
+  projectileWeapons:
+  - {fileID: 4666300241086489076}
+  - {fileID: 5293880368781701098}

@@ -29,11 +29,11 @@ namespace Gameplay.Weapons
             for (int i = 0; i < hitCount; ++i)
             {
                 Rigidbody n = Hits[i].rigidbody;
-                if (n && n.TryGetComponent(out BallPlayer b) && b != _owner)
+                if (n && n.TryGetComponent(out BallPlayer b) && b != Owner)
                 {
                     //FIX this doesn't consider speed...
-                    float dmg = _curDamage;
-                    dmg *= _owner.Mass * _owner.GetBall.Speed;
+                    float dmg = CurDamage;
+                    dmg *= Owner.Mass * Owner.GetBall.Speed;
                     print("Doing damage: " + dmg);
                     
                     DamageProperties damageProperties;
@@ -44,7 +44,7 @@ namespace Gameplay.Weapons
                 }
             }
 
-            if (hitWall && !_isConnected)
+            if (hitWall && !IsConnected)
             {
                 enabled = false;
             }

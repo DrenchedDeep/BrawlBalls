@@ -41,12 +41,10 @@ namespace Gameplay.Weapons
                 return;
             }
             
-            GameObject projectileGo = Instantiate(projectileWeaponStats.DummyProjectilePrefab, firingPoint.position, firingPoint.rotation);
+            Projectile projectile = Instantiate(projectileWeaponStats.ProjectilePrefab, firingPoint.position, firingPoint.rotation);
 
-            if (projectileGo.gameObject.TryGetComponent(out DummyProjectile projectile))
-            {
-                projectile.Init(velocity, 3);
-            }
+            projectile.GetComponent<Rigidbody>().linearVelocity = velocity;
+            projectile.enabled = false;
         }
     }
 }

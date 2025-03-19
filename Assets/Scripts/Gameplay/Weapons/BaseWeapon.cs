@@ -18,11 +18,11 @@ namespace Gameplay.Weapons
         
 
 
-        protected float _curDamage;
+        protected float CurDamage;
         
-        protected BallPlayer _owner;
+        protected BallPlayer Owner;
         private Transform _connector;
-        protected bool _isConnected = true;
+        protected bool IsConnected = true;
     
 
         public WeaponStats Stats => stats;
@@ -32,86 +32,63 @@ namespace Gameplay.Weapons
 
         private IWeaponComponent[] _weaponComponents;
 
-        private void Start()
+        public void Start()
         {
             
-            _curDamage = stats.Damage;
+            CurDamage = stats.Damage;
+            /*/
 #if UNITY_EDITOR
             enabled = (!NetworkManager.Singleton || IsOwner || IsServer);
             _owner = transform.parent?.GetComponent<BallPlayer>();
 #else
             enabled =  IsOwner || IsServer;
 #endif
-
+/*/
+            
+            Owner = transform.parent?.GetComponent<BallPlayer>();
             _weaponComponents = GetComponentsInChildren<IWeaponComponent>();
 
             foreach (IWeaponComponent comp in _weaponComponents)
             {
-                comp.Init(_owner);
+                comp.Init(Owner);
             }
         }
 
         private void LateUpdate()
         {
-            if (!_owner || !_isConnected) return;
+            if (!IsConnected) return;
             Rotate();
         }
 
         private void Rotate()
         {
-            Vector3 dir = _owner.GetBall.Velocity;
+            Vector3 dir = Owner.GetBall.Velocity;
             
             if (blockVerticalOrientation) dir.y = 0;
             
             dir.Normalize();
             
-            if (lookUpWhileNotMoving) dir = Vector3.Lerp(Vector3.up,  dir, _owner.GetBall.Speed * 5);
+            if (lookUpWhileNotMoving) dir = Vector3.Lerp(Vector3.up,  dir, Owner.GetBall.Speed * 5);
             
             transform.forward = dir;
-             Debug.DrawRay(transform.position, dir * 4, Color.red);
         }
 
         private void OnTransformParentChanged()
         {
             Transform r = transform.parent;
             if (r == null) return;
-            _owner = r.GetComponent<BallPlayer>();
+            Owner = r.GetComponent<BallPlayer>();
 
         }
 
         
-        public void Attack()
-        {
-            for (int i = 0; i < _weaponComponents.Length; i++)
-            {
-                _weaponComponents[i].Fire(stats, out Vector3 velocity);
-                
-                if (NetworkManager.Singleton)
-                {
-                    Attack_ServerRpc(i, velocity);
-                }
-            }
-        }
-
-        [ServerRpc(RequireOwnership = false)]
-        void Attack_ServerRpc(int index, Vector3 velocity) => Attack_ClientRpc(index, velocity);
-
-        [ClientRpc(RequireOwnership = false)]
-        void Attack_ClientRpc(int index, Vector3 velocity)
-        {
-            if (!IsOwner)
-            {
-                _weaponComponents[index].FireDummy(stats, velocity);
-            }
-        }
-
-
-
-    
+        
+        public virtual void Attack() { }
+        
         public float MultiplyDamage(int i)
         {
-            _curDamage *= i;
-            return _curDamage;
+            CurDamage *= i;
+            return CurDamage;
         }
         
         
@@ -129,14 +106,14 @@ namespace Gameplay.Weapons
         {
             NetworkObject.TryRemoveParent();
             DisconnectClientRpc();
-            _owner.StartCoroutine(Spike.Move(this , speed * 5)); // Owner is just the object running the coroutine
+            Owner.StartCoroutine(Spike.Move(this , speed * 5)); // Owner is just the object running the coroutine
         }
 
         [ClientRpc]
         private void DisconnectClientRpc()
         {
             gameObject.layer = 0;
-            _isConnected = false;
+            IsConnected = false;
         }
 
         public void Disconnect(float speed)
