@@ -20,7 +20,6 @@ namespace Gameplay.Weapons
          */
         public void Fire(WeaponStats stats, out Vector3 velocity)
         {
-            Debug.Log("FIREEEEE");
             ProjectileWeaponStats projectileWeaponStats = stats as ProjectileWeaponStats;
 
             if (!projectileWeaponStats)

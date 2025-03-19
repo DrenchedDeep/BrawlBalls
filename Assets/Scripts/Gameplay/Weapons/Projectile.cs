@@ -15,6 +15,7 @@ using Physics = UnityEngine.Physics;
 public class Projectile : MonoBehaviour
 {
     [SerializeField] private float ballVelocityIncreaseAmt = 1;
+    [SerializeField] private GameObject hitVFX;
     
     private Rigidbody _rigidbody;
 
@@ -40,7 +41,6 @@ public class Projectile : MonoBehaviour
     public void Init(BallPlayer owner, ProjectileWeaponStats stats, out Vector3 velocity)
     {
         _rigidbody = GetComponent<Rigidbody>();
-        Debug.Log("BALLS!");
         _initialVelocity = transform.forward * stats.InitialVelocity;
         _damage = stats.Damage;
         _owner = owner;
@@ -99,6 +99,8 @@ public class Projectile : MonoBehaviour
                 damageProperties.Attacker = _owner.OwnerClientId;
                 b.TakeDamage_ServerRpc(damageProperties);
             }
+            GameObject hitVfx = Instantiate(hitVFX, position, Quaternion.LookRotation(forward, Vector3.up));
+            Debug.Log("projectile hit: " + hit.transform.gameObject.name);
             Destroy(gameObject);
         }
     }
