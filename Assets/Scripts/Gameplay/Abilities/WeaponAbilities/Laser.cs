@@ -8,9 +8,7 @@ namespace Gameplay.Abilities.WeaponAbilities
 
         public override void ExecuteAbility(BallPlayer owner)
         {
-            //GameObject beam = owner.GetBaseWeapon.transform.GetChild(0).gameObject;
-            //beam.SetActive(true);
-            
+            owner.GetBaseWeapon.Attack();
         }
 
     }

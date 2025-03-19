@@ -8,10 +8,21 @@ namespace Stats
     [CreateAssetMenu(fileName = "Projectile Weapon Stats", menuName = "Stats/ProjectileWeaponStats", order = 3)]
     public class ProjectileWeaponStats : WeaponStats
     {
+        public enum ProjectileDamageType
+        {
+            Single,
+            Radial
+        }
+        
         [field: SerializeField] public NetworkObject ProjectilePrefab { get; private set; }
         [field: SerializeField] public float InitialVelocity { get; private set; }
         [field: SerializeField] public bool BallVelocityAffectsProjectileVelocity { get; private set; }
         [field: SerializeField] public float MaxLifetime { get; private set; }
+        [field: SerializeField] public bool IsHomingProjectile { get; private set; }
+        [field: SerializeField] public bool IsAffectedByGravity { get; private set; }
+
+        [field: SerializeField] public ProjectileDamageType DamageType { get; private set; }
+
         
 
         protected override string CreateCommonTraits()

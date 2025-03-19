@@ -118,6 +118,7 @@ namespace Gameplay.UI
 
         public void StopUsingAbility()
         {
+            Debug.Log("stop using ab");
             _wantsToUseAbility = false;
         }
 

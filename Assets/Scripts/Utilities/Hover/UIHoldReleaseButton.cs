@@ -50,7 +50,11 @@ namespace Utilities.Hover
 
         public void OnPointerUp(PointerEventData eventData)
         {
-            if (!Interactable) return;
+            if (!Interactable)
+            {
+             //   Debug.Log("not interactable");
+              //  return;
+            }
             if(IsPressed) onEndHold.Invoke();
             IsPressed = false;
         }

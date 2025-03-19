@@ -132,6 +132,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   firingPoint: {fileID: 1417429241974556096}
+  projectilePrefab: {fileID: 0}
 --- !u!1 &6959971938099312448
 GameObject:
   m_ObjectHideFlags: 0
@@ -142,7 +143,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1417429241974556096}
   m_Layer: 14
-  m_Name: RightFiringPoing
+  m_Name: RightFiringPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -373,6 +374,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   firingPoint: {fileID: 5326118471794846804}
+  projectilePrefab: {fileID: 0}
 --- !u!4 &2572524548296858198 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7276477809331067282, guid: 2926e2614b1983744a8f07acebd3e9ca,

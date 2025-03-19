@@ -1,21 +1,35 @@
-﻿using UnityEngine;
+﻿using Stats;
+using Unity.Netcode;
+using UnityEngine;
 
 namespace Gameplay.Weapons
 {
-    public class ProjectileWeapon : MonoBehaviour
+    public class ProjectileWeapon : MonoBehaviour, IWeaponComponent
     {
         [SerializeField] private Transform firingPoint;
-       // [SerializeField] private Networkob
+
+        private BallPlayer _ballPlayer;
         
-        //Weapons are enabled / disabled when the user begins pressing. This is controlled by the ability
-        private void OnEnable()
+        public void Init(BallPlayer owner)
         {
-            
+            _ballPlayer = owner;
         }
 
-        private void OnDisable()
+        public void Fire(WeaponStats stats)
         {
+            ProjectileWeaponStats projectileWeaponStats = stats as ProjectileWeaponStats;
+
+            if (!projectileWeaponStats)
+            {
+                return;
+            }
             
+            NetworkObject networkObject = Instantiate(projectileWeaponStats.ProjectilePrefab, firingPoint.position, firingPoint.rotation);
+
+            if (networkObject.gameObject.TryGetComponent(out Projectile projectile))
+            {
+                projectile.Init(_ballPlayer, projectileWeaponStats);
+            }
         }
     }
 }

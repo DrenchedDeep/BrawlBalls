@@ -264,6 +264,7 @@ namespace Managers.Local
 
         private void SetAbilities(BaseWeapon w, AbilityStats ballPlayerGetAbility)
         {
+            Debug.Log(w);
             attackAbility.SetAbility(w.GetAbility, _currentBall);
             specialAbility.SetAbility(ballPlayerGetAbility, _currentBall);
         }

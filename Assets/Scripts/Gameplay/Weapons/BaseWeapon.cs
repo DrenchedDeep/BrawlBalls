@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Gameplay.Abilities.WeaponAbilities;
 using RotaryHeart.Lib.PhysicsExtension;
 using Stats;
@@ -25,7 +26,8 @@ namespace Gameplay.Weapons
         public WeaponStats Stats => stats;
         public AbilityStats GetAbility => stats.Ability;
 
-        
+
+        private IWeaponComponent[] _weaponComponents;
 
         private void Start()
         {
@@ -37,7 +39,13 @@ namespace Gameplay.Weapons
 #else
             enabled =  IsOwner || IsServer;
 #endif
-            
+
+            _weaponComponents = GetComponentsInChildren<IWeaponComponent>();
+
+            foreach (IWeaponComponent comp in _weaponComponents)
+            {
+                comp.Init(_owner);
+            }
         }
 
         private void LateUpdate()
@@ -66,6 +74,37 @@ namespace Gameplay.Weapons
             if (r == null) return;
             _owner = r.GetComponent<BallPlayer>();
 
+        }
+
+        
+        public void Attack()
+        {
+            if (NetworkManager.Singleton)
+            {
+                Attack_ServerRpc();
+            }
+            else
+            {
+                foreach (IWeaponComponent comp in _weaponComponents)
+                {
+                    Debug.Log("attack comp");
+
+                    comp.Fire(stats);
+                }
+            }
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        void Attack_ServerRpc()
+        {
+            Debug.Log("attack server");
+
+            foreach (IWeaponComponent comp in _weaponComponents)
+            {
+                Debug.Log("attack server comp");
+
+                comp.Fire(stats);
+            }
         }
 
 
