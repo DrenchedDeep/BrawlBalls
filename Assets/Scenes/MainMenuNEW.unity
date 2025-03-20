@@ -466,6 +466,21 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -0.000030517578
       objectReference: {fileID: 0}
+    - target: {fileID: 181612047046894330, guid: 601b5b904d699d54e880c5e51589962c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 208082340781939220, guid: 601b5b904d699d54e880c5e51589962c,
+        type: 3}
+      propertyPath: m_Value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 457195654829998637, guid: 601b5b904d699d54e880c5e51589962c,
+        type: 3}
+      propertyPath: m_Value
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1127323438821381071, guid: 601b5b904d699d54e880c5e51589962c,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -740,6 +755,11 @@ PrefabInstance:
         type: 3}
       propertyPath: onItemSelected.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 4756123774542134382, guid: 601b5b904d699d54e880c5e51589962c,
+        type: 3}
+      propertyPath: m_Value
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5020839557971198005, guid: 601b5b904d699d54e880c5e51589962c,
         type: 3}
@@ -1822,8 +1842,58 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7633386501606870393, guid: d1b5582dc1547a548b2f5e7a84b0f6a0,
         type: 3}
+      propertyPath: <click>k__BackingField.Path
+      value: event:/Ingame_Events/UI/UI_CasinoLockIn
+      objectReference: {fileID: 0}
+    - target: {fileID: 7633386501606870393, guid: d1b5582dc1547a548b2f5e7a84b0f6a0,
+        type: 3}
+      propertyPath: <scroll>k__BackingField.Path
+      value: event:/Ingame_Events/UI/UI_CasinoScrollWheel
+      objectReference: {fileID: 0}
+    - target: {fileID: 7633386501606870393, guid: d1b5582dc1547a548b2f5e7a84b0f6a0,
+        type: 3}
       propertyPath: <spawnBall>k__BackingField.Path
       value: event:/Ingame_Events/UI/UI_SpawnBalls
+      objectReference: {fileID: 0}
+    - target: {fileID: 7633386501606870393, guid: d1b5582dc1547a548b2f5e7a84b0f6a0,
+        type: 3}
+      propertyPath: <click>k__BackingField.Guid.Data1
+      value: 701531766
+      objectReference: {fileID: 0}
+    - target: {fileID: 7633386501606870393, guid: d1b5582dc1547a548b2f5e7a84b0f6a0,
+        type: 3}
+      propertyPath: <click>k__BackingField.Guid.Data2
+      value: 1087263619
+      objectReference: {fileID: 0}
+    - target: {fileID: 7633386501606870393, guid: d1b5582dc1547a548b2f5e7a84b0f6a0,
+        type: 3}
+      propertyPath: <click>k__BackingField.Guid.Data3
+      value: -1387258232
+      objectReference: {fileID: 0}
+    - target: {fileID: 7633386501606870393, guid: d1b5582dc1547a548b2f5e7a84b0f6a0,
+        type: 3}
+      propertyPath: <click>k__BackingField.Guid.Data4
+      value: 233485688
+      objectReference: {fileID: 0}
+    - target: {fileID: 7633386501606870393, guid: d1b5582dc1547a548b2f5e7a84b0f6a0,
+        type: 3}
+      propertyPath: <scroll>k__BackingField.Guid.Data1
+      value: -2068226102
+      objectReference: {fileID: 0}
+    - target: {fileID: 7633386501606870393, guid: d1b5582dc1547a548b2f5e7a84b0f6a0,
+        type: 3}
+      propertyPath: <scroll>k__BackingField.Guid.Data2
+      value: 1169490964
+      objectReference: {fileID: 0}
+    - target: {fileID: 7633386501606870393, guid: d1b5582dc1547a548b2f5e7a84b0f6a0,
+        type: 3}
+      propertyPath: <scroll>k__BackingField.Guid.Data3
+      value: -923927661
+      objectReference: {fileID: 0}
+    - target: {fileID: 7633386501606870393, guid: d1b5582dc1547a548b2f5e7a84b0f6a0,
+        type: 3}
+      propertyPath: <scroll>k__BackingField.Guid.Data4
+      value: 1677423052
       objectReference: {fileID: 0}
     - target: {fileID: 7633386501606870393, guid: d1b5582dc1547a548b2f5e7a84b0f6a0,
         type: 3}
