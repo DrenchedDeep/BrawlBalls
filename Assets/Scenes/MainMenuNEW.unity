@@ -1062,34 +1062,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4335117317985794326, guid: 601b5b904d699d54e880c5e51589962c,
         type: 3}
-      propertyPath: audioPairings.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4335117317985794326, guid: 601b5b904d699d54e880c5e51589962c,
-        type: 3}
       propertyPath: audioPairings.Array.data[3].slider
       value: 
       objectReference: {fileID: 9547608}
-    - target: {fileID: 4335117317985794326, guid: 601b5b904d699d54e880c5e51589962c,
-        type: 3}
-      propertyPath: audioPairings.Array.data[0].busPath
-      value: Bus:/
-      objectReference: {fileID: 0}
-    - target: {fileID: 4335117317985794326, guid: 601b5b904d699d54e880c5e51589962c,
-        type: 3}
-      propertyPath: audioPairings.Array.data[1].busPath
-      value: Bus:/Music
-      objectReference: {fileID: 0}
-    - target: {fileID: 4335117317985794326, guid: 601b5b904d699d54e880c5e51589962c,
-        type: 3}
-      propertyPath: audioPairings.Array.data[2].busPath
-      value: Bus:/SFXs
-      objectReference: {fileID: 0}
-    - target: {fileID: 4335117317985794326, guid: 601b5b904d699d54e880c5e51589962c,
-        type: 3}
-      propertyPath: audioPairings.Array.data[3].busPath
-      value: Bus:/Ambience
-      objectReference: {fileID: 0}
     - target: {fileID: 4712146048359036597, guid: 601b5b904d699d54e880c5e51589962c,
         type: 3}
       propertyPath: onItemHovered.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
