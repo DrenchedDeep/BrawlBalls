@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Mono.Cecil;
 using UnityEngine;
 using EventReference = FMODUnity.EventReference;
@@ -16,7 +17,7 @@ namespace Managers.Local
 
         [field: Header("Spawn Ball")]
         [field: SerializeField]
-        public EventReference spawnBall { get; private set; }
+        public List<EventReference> spawnBall { get; private set; }
 
         [field: Header("BGM")]
         [field: SerializeField]

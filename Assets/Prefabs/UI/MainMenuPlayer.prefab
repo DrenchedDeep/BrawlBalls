@@ -4063,6 +4063,8 @@ GameObject:
   - component: {fileID: 7291413236752251321}
   - component: {fileID: 5163166332665329424}
   - component: {fileID: 7025439054340070719}
+  - component: {fileID: 4009926565890747721}
+  - component: {fileID: 8981316237863308429}
   m_Layer: 15
   m_Name: Customization Window
   m_TagString: Untagged
@@ -4169,6 +4171,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 8981316237863308429}
+        m_TargetAssemblyTypeName: FMODUnity.StudioGlobalParameterTrigger, FMODUnity
+        m_MethodName: TriggerParameters
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onClosed:
     m_PersistentCalls:
       m_Calls:
@@ -4188,6 +4202,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: Utilities.FadeAllBelow, Assembly-CSharp
         m_MethodName: SetState
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 4009926565890747721}
+        m_TargetAssemblyTypeName: FMODUnity.StudioGlobalParameterTrigger, FMODUnity
+        m_MethodName: TriggerParameters
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -4243,6 +4269,38 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   isVisible: 0
+--- !u!114 &4009926565890747721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4876070913091240058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b0e04e2572f9a940a47465f6f3c2f00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  Parameter: InSelection
+  TriggerEvent: 0
+  Value: 0
+--- !u!114 &8981316237863308429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4876070913091240058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b0e04e2572f9a940a47465f6f3c2f00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  Parameter: InSelection
+  TriggerEvent: 0
+  Value: 1
 --- !u!1 &5149139853729369973
 GameObject:
   m_ObjectHideFlags: 0

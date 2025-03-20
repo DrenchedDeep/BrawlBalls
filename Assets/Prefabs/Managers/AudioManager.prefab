@@ -46,9 +46,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   masterVolume: 1
-  sfxVolume: 0
-  musicVolume: 0
-  ambienceVolume: 0
+  sfxVolume: 1
+  musicVolume: 1
+  ambienceVolume: 1
 --- !u!1 &6093203342203140999
 GameObject:
   m_ObjectHideFlags: 0
@@ -101,7 +101,7 @@ MonoBehaviour:
       Data4: 1592325998
     Path: event:/Ingame_Events/Oneshots/Players/Player_Confetti_Explosion
   <spawnBall>k__BackingField:
-    Guid:
+  - Guid:
       Data1: 733086153
       Data2: 1084907605
       Data3: 1303489961
@@ -114,3 +114,17 @@ MonoBehaviour:
       Data3: -1149953897
       Data4: 34181324
     Path: event:/Music/MainMenuMusic
+  <scroll>k__BackingField:
+    Guid:
+      Data1: -2068226102
+      Data2: 1169490964
+      Data3: -923927661
+      Data4: 1677423052
+    Path: event:/Ingame_Events/UI/UI_CasinoScrollWheel
+  <click>k__BackingField:
+    Guid:
+      Data1: 701531766
+      Data2: 1087263619
+      Data3: -1387258232
+      Data4: 233485688
+    Path: event:/Ingame_Events/UI/UI_CasinoLockIn
