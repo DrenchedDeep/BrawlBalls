@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 namespace MainMenu.UI
 {
+    [DefaultExecutionOrder(-100)]
     public class WheelGenerator : MonoBehaviour
     {
         [SerializeField] private Transform parent;

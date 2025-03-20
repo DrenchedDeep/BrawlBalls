@@ -123,6 +123,7 @@ namespace Core.Podium
                 Debug.LogError("Why is there no camera?");
                 return;
             }
+
             Ray ray = cam.ScreenPointToRay(pointerPosition);
             Debug.DrawRay(ray.origin + Vector3.down, ray.direction * 1000, Color.red);
 
