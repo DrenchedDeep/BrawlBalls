@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objects serializationModel="Studio.02.02.00">
-	<object class="ParameterPreset" id="{a250dccd-e074-4d86-8c01-685f4d1f4e46}">
+	<object class="ParameterPreset" id="{e18e784e-020f-4df9-a1c6-29378bb1d338}">
 		<property name="name">
-			<value>Action</value>
+			<value>Death</value>
 		</property>
 		<relationship name="folder">
 			<destination>{46b528d6-dbc3-42be-8b9d-d33a45bec524}</destination>
 		</relationship>
 		<relationship name="parameter">
-			<destination>{651ba535-f6e1-4e5d-8158-11a8500fa824}</destination>
+			<destination>{301de00c-0e72-4da2-b130-99604650cf2a}</destination>
 		</relationship>
 	</object>
-	<object class="GameParameter" id="{651ba535-f6e1-4e5d-8158-11a8500fa824}">
+	<object class="GameParameter" id="{301de00c-0e72-4da2-b130-99604650cf2a}">
 		<property name="isGlobal">
 			<value>true</value>
 		</property>
