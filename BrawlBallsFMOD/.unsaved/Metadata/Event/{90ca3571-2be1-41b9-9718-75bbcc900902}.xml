@@ -5,7 +5,7 @@
 			<value>MainMenuMusic</value>
 		</property>
 		<property name="outputFormat">
-			<value>2</value>
+			<value>1</value>
 		</property>
 		<relationship name="folder">
 			<destination>{64137eb9-b5f4-403e-945d-640554cee14a}</destination>
@@ -261,13 +261,16 @@
 	</object>
 	<object class="MixerBusEffectChain" id="{3f9eb079-b11d-439c-a201-47aaedccadfe}">
 		<relationship name="effects">
+			<destination>{c9e4fc7d-9608-475b-ab8d-c4927e2a5d98}</destination>
 			<destination>{6762702b-cb6c-4d1d-9c77-f0fa8c105ce5}</destination>
-			<destination>{487048d0-4977-44e9-9acc-103d18eed649}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{dd7b32ff-fd8f-4759-afca-c37bf9886272}">
 		<property name="surroundPanDirection">
 			<value>-180</value>
+		</property>
+		<property name="overridingOutputFormat">
+			<value>1</value>
 		</property>
 	</object>
 	<object class="MixerBusFader" id="{edee6c63-bc9c-4997-a09d-611b240dd60c}" />
@@ -298,8 +301,33 @@
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{8ae0f67c-7227-4149-bba5-960dc78fa493}" />
+	<object class="SFXReverbEffect" id="{c9e4fc7d-9608-475b-ab8d-c4927e2a5d98}">
+		<property name="decayTime">
+			<value>180</value>
+		</property>
+		<property name="lateDelay">
+			<value>36</value>
+		</property>
+		<property name="diffusion">
+			<value>76.5</value>
+		</property>
+		<property name="lowShelfFrequency">
+			<value>210</value>
+		</property>
+		<property name="lowShelfGain">
+			<value>-30.5</value>
+		</property>
+		<property name="highCut">
+			<value>2000</value>
+		</property>
+		<property name="earlyLateMix">
+			<value>34</value>
+		</property>
+		<property name="wetLevel">
+			<value>-7.5</value>
+		</property>
+	</object>
 	<object class="MixerBusFader" id="{6762702b-cb6c-4d1d-9c77-f0fa8c105ce5}" />
-	<object class="SpatialiserEffect" id="{487048d0-4977-44e9-9acc-103d18eed649}" />
 	<object class="MixerBusFader" id="{d0320203-4bf3-4da8-a86d-a2d3c1f19f26}" />
 	<object class="MixerBusFader" id="{ecc2eb5c-b185-4120-8b13-445223913900}" />
 	<object class="AutomationPoint" id="{8dbf1bd0-b6d2-4656-8461-861e0f95b2ca}">

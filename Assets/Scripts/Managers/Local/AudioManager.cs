@@ -79,7 +79,7 @@ namespace Managers.Local
         private void InitializeMusic(EventReference musicEventReference)
         {
             musicEventInstance = CreateInstance(musicEventReference);
-            musicEventInstance.set3DAttributes(RuntimeUtils.To3DAttributes(transform.position));
+            musicEventInstance.set3DAttributes(RuntimeUtils.To3DAttributes(new Vector3(0,0,0)));
             musicEventInstance.start();
         }
 
