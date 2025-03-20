@@ -3516,14 +3516,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioPairings:
   - slider: {fileID: 4756123774542134382}
-    targetGroup: {fileID: 24100000, guid: 29b5e9d30b0a7d34ebb865a2ffcc003d, type: 2}
-    targetName: Master
+    busPath: Bus:/
   - slider: {fileID: 208082340781939220}
-    targetGroup: {fileID: 24100000, guid: 29b5e9d30b0a7d34ebb865a2ffcc003d, type: 2}
-    targetName: Music
+    busPath: Bus:/Music
   - slider: {fileID: 457195654829998637}
-    targetGroup: {fileID: 24100000, guid: 29b5e9d30b0a7d34ebb865a2ffcc003d, type: 2}
-    targetName: SFX
+    busPath: Bus:/SFXs
+  - slider: {fileID: 0}
+    busPath: Bus:/Ambience
 --- !u!114 &3838725934220209304
 MonoBehaviour:
   m_ObjectHideFlags: 0

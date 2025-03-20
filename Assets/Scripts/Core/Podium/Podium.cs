@@ -7,11 +7,12 @@ using Managers.Local;
 using Stats;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace Core.Podium
 {
-    public class Podium : MonoBehaviour
+    public class Podium : MonoBehaviour, ISelectHandler, IDeselectHandler
     {
         [SerializeField] private MeshRenderer meshRenderer;
         [SerializeField] private Transform ballPoint;
@@ -286,6 +287,16 @@ namespace Core.Podium
             _core.localPosition = _originalHoverOffset;
             _core.localScale = _originalHoverScale;
             _currentHoverTransitionTime = 0;
+        }
+
+        public void OnSelect(BaseEventData eventData)
+        {
+            
+        }
+
+        public void OnDeselect(BaseEventData eventData)
+        {
+            
         }
     }
 }
