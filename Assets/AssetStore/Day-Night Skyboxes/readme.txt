@@ -1,1 +1,0 @@
-Move shader stuff from Ball to a network script or something... It's weird, and also the constant strings should be constant enums instead, I mean they're all constant anyways.
