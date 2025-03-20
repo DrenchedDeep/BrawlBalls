@@ -29,12 +29,6 @@ namespace Managers.Local
         private EventInstance ambienceInstance;
         private EventInstance musicEventInstance; //Make sure that the music loops through the entirety of the game
         
-        private Bus Master;
-        private Bus SoundEffect;
-        private Bus Music;
-        private Bus Ambience;
-
-        
 
         private void Awake()
         {
@@ -43,11 +37,6 @@ namespace Managers.Local
                 Debug.LogError("More than one music manager instance detected.");
             }
             instance = this;
-            
-            Master = RuntimeManager.GetBus("Bus:/");
-            SoundEffect = RuntimeManager.GetBus("Bus:/SFXs");
-            Music = RuntimeManager.GetBus("Bus:/Music");
-            Ambience = RuntimeManager.GetBus("Bus:/Ambience");
 
             eventInstances = new List<EventInstance>();
             eventEmitters = new List<StudioEventEmitter>();
@@ -79,7 +68,6 @@ namespace Managers.Local
         private void InitializeMusic(EventReference musicEventReference)
         {
             musicEventInstance = CreateInstance(musicEventReference);
-            musicEventInstance.set3DAttributes(RuntimeUtils.To3DAttributes(new Vector3(0,0,0)));
             musicEventInstance.start();
         }
 
