@@ -91,7 +91,8 @@ namespace Core.Podium
             //_audioSource.Play();
             //_audioSource.time = 0.1f;
             
-            AudioManager.instance.PlayOneShot(FMODEvents.instance.spawnBall, transform.position);
+            //AudioManager.instance.PlayOneShot(FMODEvents.instance.spawnBall, transform.position);
+            Debug.LogError("Tried to play audio, carlos please fix -- Add ball spawn effect");
             
             _ballIndex = index;
             SaveManager.BallStructure ballInfo = SaveManager.MyBalls.GetReadonlyBall(index);

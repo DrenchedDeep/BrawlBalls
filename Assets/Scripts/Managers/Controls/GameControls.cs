@@ -381,7 +381,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""id"": ""27da4a5f-04fa-4f29-a971-248a5d997347"",
                     ""path"": ""<Mouse>/delta/y"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""Invert"",
                     ""groups"": "";PC"",
                     ""action"": ""LookY"",
                     ""isComposite"": false,
