@@ -109,7 +109,7 @@ namespace Gameplay.Weapons
                 if (n && n.TryGetComponent(out BallPlayer b) && b != _owner)
                 {
                     float dmg = stats.Damage;
-                    dmg *= _owner.Mass * _owner.GetBall.Speed;
+                //    dmg *= _owner.Mass * _owner.GetBall.Speed;
                     print("Doing damage: " + dmg);
 
                     DamageProperties damageProperties;

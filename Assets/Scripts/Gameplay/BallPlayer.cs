@@ -54,7 +54,8 @@ namespace Gameplay
 
         private readonly NetworkVariable<ulong> _previousAttackerID = new NetworkVariable<ulong>(0,
             NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
-
+        
+        [SerializeField] private Transform damageNumberSpawnPoint;
 
         public override void OnNetworkSpawn()
         {
@@ -157,22 +158,34 @@ namespace Gameplay
         [ServerRpc(RequireOwnership = false)]
         public void TakeDamage_ServerRpc(DamageProperties damageInfo)
         {
-            print("TAKING DAMAGE ON THE SERVER: " + damageInfo.Damage);
-
             _currentHealth.Value -= damageInfo.Damage;
             
             print(name + "Ouchie! I took damage: " + damageInfo.Damage + ",  " + damageInfo.Direction + ", I have reamining health: " +
                   _currentHealth);
 
+            OnDamageTaken_ClientRpc((int)damageInfo.Damage);
+            _previousAttackerID.Value = damageInfo.Attacker;
+
             if (_currentHealth.Value <= 0)
             {
-                _previousAttackerID.Value = damageInfo.Attacker;
                 _ = MessageManager.Instance.HandleScreenMessage("Died to: <color=#ff000>" + damageInfo.Attacker + "</color>", 3f);
                 Die_Server(damageInfo.Attacker);
                 return;
             }
             
             _rb.AddForce(damageInfo.Direction, ForceMode.Impulse);
+        }
+
+        [ClientRpc(RequireOwnership = false)]
+        private void OnDamageTaken_ClientRpc(int damage)
+        {
+            HitDamageNumber hitDamageNumber = 
+                ObjectPoolManager.Instance.GetObjectFromPool<HitDamageNumber>("DamageNumber", damageNumberSpawnPoint.position, damageNumberSpawnPoint.rotation);
+
+            if (hitDamageNumber)
+            {
+                hitDamageNumber.Init(damage);
+            }
         }
 
         //called on the SERVER
@@ -203,8 +216,8 @@ namespace Gameplay
 
             NetworkGameManager.Instance.OnPlayerKilled(NetworkObject.OwnerClientId, killer);
 
-            transform.GetChild(0).GetComponent<NetworkObject>().Despawn();
             transform.GetChild(1).GetComponent<NetworkObject>().Despawn();
+            transform.GetChild(2).GetComponent<NetworkObject>().Despawn();
             NetworkObject.Despawn();
 
         }
