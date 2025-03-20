@@ -9,7 +9,7 @@ using Random = UnityEngine.Random;
 
 namespace Utilities.Layout
 {
-    public class InfiniteScrollView : ScrollRect//, IPointerClickHandler
+    public class InfiniteScrollView : ScrollRect, IPointerClickHandler
     {
         [SerializeField, Tooltip("Insert the background image... This is used to get the width and height")]
         private RectTransform itemTemplate;
@@ -356,6 +356,11 @@ namespace Utilities.Layout
             _selected = false;
         }
         
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            Debug.Log("I clicked on the scroll view");   
+        }
+        
 
 
 
@@ -405,5 +410,6 @@ namespace Utilities.Layout
             }
         }
         #endif
+
     }
 }

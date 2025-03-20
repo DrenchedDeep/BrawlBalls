@@ -1,3 +1,4 @@
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using Gameplay;
 using Gameplay.Balls;
@@ -19,6 +20,18 @@ namespace Core.Podium
      
         private Material _material;
         private BallPlayer _myBall;
+
+        [Header("HoverTransition Transition")]
+        [SerializeField] private AnimationCurve hoverTransitionCurve;
+        [SerializeField] private float hoverTransitionTime;
+        [SerializeField] private Vector3 localHoverOffset;
+        [SerializeField] private Vector3 localHoverScale;
+        private float _currentHoverTransitionTime;
+        private CancellationTokenSource _aTokenSource;
+        private CancellationTokenSource _bTokenSource;
+        private Vector3 _originalHoverOffset;
+        private Vector3 _originalHoverScale;
+        private Transform _core;
         
         [Header("Color Transition")]
         [SerializeField, ColorUsage(true, true)] private Color inactiveColor;
@@ -60,6 +73,9 @@ namespace Core.Podium
         {
             _audioSource = GetComponent<AudioSource>();
             canvas.enabled = false;
+            _core = transform.GetChild(0);
+            _originalHoverOffset = _core.localPosition;
+            _originalHoverScale = _core.localScale;
         }
 
         private void OnEnable()
@@ -219,5 +235,53 @@ namespace Core.Podium
         }
 
 
+        public async UniTask OnHover()
+        {
+            if (!CanInteract) return;
+            _bTokenSource?.Cancel();
+            _aTokenSource = new();
+
+            while (_currentHoverTransitionTime <= hoverTransitionTime)
+            {
+                if (_aTokenSource.Token.IsCancellationRequested)
+                {
+                    return;
+                }
+                _currentHoverTransitionTime += Time.deltaTime;
+                float progress = Mathf.Clamp01(_currentHoverTransitionTime / hoverTransitionTime);
+                float curveValue = hoverTransitionCurve.Evaluate(progress);
+                _core.localPosition = Vector3.LerpUnclamped(_originalHoverOffset, localHoverOffset, curveValue);
+                _core.localScale = Vector3.LerpUnclamped(_originalHoverScale, localHoverScale, curveValue);
+                await UniTask.Yield(PlayerLoopTiming.Update);
+            }
+            // Ensure the final state is set.
+            _core.localPosition = localHoverOffset;
+            _core.localScale = localHoverScale;
+            _currentHoverTransitionTime = hoverTransitionTime;
+        }
+
+        public async UniTask OnStopHover()
+        {
+            _aTokenSource?.Cancel();
+            _bTokenSource = new();
+            
+            while (_currentHoverTransitionTime > 0)
+            {
+                if (_bTokenSource.Token.IsCancellationRequested)
+                {
+                    return;
+                }
+                _currentHoverTransitionTime -= Time.deltaTime;
+                float progress = Mathf.Clamp01(_currentHoverTransitionTime / hoverTransitionTime);
+                float curveValue = hoverTransitionCurve.Evaluate(progress);
+                _core.localPosition = Vector3.LerpUnclamped(_originalHoverOffset, localHoverOffset, curveValue);
+                _core.localScale = Vector3.LerpUnclamped(_originalHoverScale, localHoverScale, curveValue);
+                await UniTask.Yield(PlayerLoopTiming.Update);
+            }
+            // Ensure the final state is set.
+            _core.localPosition = _originalHoverOffset;
+            _core.localScale = _originalHoverScale;
+            _currentHoverTransitionTime = 0;
+        }
     }
 }

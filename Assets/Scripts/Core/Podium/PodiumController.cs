@@ -28,6 +28,7 @@ namespace Core.Podium
         public UnityEvent<int> onSelectedSide;
 
         public Podium[] Podiums => podiums;
+        private Podium _currentPodium;
 
         public int CurForward { get; set; } = 1;
         
@@ -123,21 +124,31 @@ namespace Core.Podium
                 return;
             }
             Ray ray = cam.ScreenPointToRay(pointerPosition);
-            Debug.DrawRay(ray.origin, ray.direction * 1000, Color.red, 3);
+            Debug.DrawRay(ray.origin + Vector3.down, ray.direction * 1000, Color.red);
 
             if (Physics.Raycast(ray, out RaycastHit hit, 1000, _podiumLayer))
             {
                 
-                Transform t = hit.transform.parent;
-                if (!t) return;
-                
+                Transform t = hit.transform.parent?.parent;
+                if (!t)
+                {
+                    SelectPodium(null);
+                    return;
+                }
 
-                //if (!t.TryGetComponent(out Podium p)) return;
+
+                if (!t.TryGetComponent(out Podium p))
+                {
+                    SelectPodium(null);
+                    return;
+                }
+
+                SelectPodium(p);
                 
 
                 if (!Pointer.current.press.wasPressedThisFrame) return;
                
-                if (t == podiums[CurForward].transform)
+                if (p == podiums[CurForward])
                 {
                     Debug.Log($"{debugHide} || {podiums[CurForward].CanInteract}");
                     if (debugHide || podiums[CurForward].CanInteract)
@@ -150,8 +161,20 @@ namespace Core.Podium
                 onSelectedSide.Invoke(hit.transform.parent.localPosition.x > podiums[CurForward].transform.localPosition.x ? 1:-1);
                 
             }
+            else
+            {
+                SelectPodium(null);
+            }
         }
-        
+
+        private void SelectPodium(Podium podium)
+        {
+            if (_currentPodium == podium) return;
+            _currentPodium?.OnStopHover();
+            podium?.OnHover();
+            _currentPodium = podium;
+        }
+
         public void DisablePodiumAndCycle(int podium)
         {
             podiums[podium].RemoveBall();
