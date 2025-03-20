@@ -67,9 +67,9 @@ namespace Managers.Local
             InitializeControls();
             
             //most will be half, so default to that :P
-            _currentJoyStick = halfJoystick;
-            fullJoystick.gameObject.SetActive(false);
-            halfJoystick.gameObject.SetActive(true);
+            _currentJoyStick = fullJoystick;
+            fullJoystick.gameObject.SetActive(true);
+           // halfJoystick.gameObject.SetActive(true);
             _livesLeft = 3;
             LocalBallPlayer = this;
             enabled = false;
@@ -120,11 +120,13 @@ namespace Managers.Local
 
         public void SwapJoySticks(bool isFull)
         {
+            /*/
             AssetStore.Joystick_Pack.Scripts.Base.Joystick nextJoystick = isFull ? fullJoystick : halfJoystick;
 
             _currentJoyStick = nextJoystick;
             fullJoystick.gameObject.SetActive(nextJoystick == fullJoystick);
             halfJoystick.gameObject.SetActive(nextJoystick != fullJoystick);
+            /*/
         }
 
         private void OnGameEnded()
