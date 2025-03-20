@@ -64,6 +64,20 @@ namespace Gameplay.Balls
            }
        }
 
+       [ServerRpc(RequireOwnership = false)]
+       public void AddImpulse_ServerRpc(Vector3 velocity)
+       {
+     
+           AddImpulse_ClientRpc(velocity);
+       }
+       
+       
+       [ClientRpc(RequireOwnership = false)]
+       public void AddImpulse_ClientRpc(Vector3 velocity)
+       {
+           _rb.AddForce(velocity, ForceMode.Impulse);
+       }
+
        private void SetupJoystick()
        {
            LocalPlayerController.LocalBallPlayer.SwapJoySticks(fullJoyStick);
