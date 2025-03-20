@@ -122,7 +122,10 @@ namespace Gameplay.UI
 
         public void StopUsingAbility()
         {
-            Debug.Log("stop using ab");
+            if (_wantsToUseAbility)
+            {
+                _boundAbility.Ability.CancelAbility(_ball);
+            }
             _wantsToUseAbility = false;
         }
 

@@ -1,7 +1,12 @@
+using UnityEngine;
+
 namespace Gameplay.Abilities.WeaponAbilities
 {
     public class Cannon : Ability
     {
+        private Parabola _parabola;
+        private float _firePower;
+        
         public override bool CanUseAbility(BallPlayer owner)
         {
             return true;
@@ -9,16 +14,12 @@ namespace Gameplay.Abilities.WeaponAbilities
 
         public override void ExecuteAbility(BallPlayer owner)
         {
-            //float d = owner.GetBaseWeapon.MultiplyDamage(-1);
-            //LaserEffectHandler beam =owner.GetBaseWeapon.transform.GetChild(0).GetComponent<LaserEffectHandler>();
-            //beam.gameObject.SetActive(true);
-            //beam.SetProperty(StaticUtilities.SpeedID, d);
-            //beam.SetProperty(StaticUtilities.NoiseSpeedID, d*2);
+            owner.GetBaseWeapon.AttackStart();
         }
-
+        
         public override void CancelAbility(BallPlayer owner)
         {
-            throw new System.NotImplementedException();
+            owner.GetBaseWeapon.AttackEnd();
         }
     }
 }

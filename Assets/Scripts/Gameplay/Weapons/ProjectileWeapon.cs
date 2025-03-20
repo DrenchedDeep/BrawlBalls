@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Gameplay.Weapons
 {
-    public class ProjectileWeapon : NetworkBehaviour, IWeaponComponent
+    public class ProjectileWeapon : NetworkBehaviour
     {
         [SerializeField] private Transform firingPoint;
         [SerializeField] private ParticleSystem muzzleFlash;
@@ -20,7 +20,7 @@ namespace Gameplay.Weapons
         /**
          * CLIENT FUNCTION: WERE DOING CLIENT AUTH FOR NOW SO CLIENTS WILL SPAWN THEIR OWN "REAL" PROJECTILE AND TELL THE SERVER WHAT THEY HIT
          */
-        public void Fire(WeaponStats stats, out Vector3 velocity)
+        public void Fire(WeaponStats stats, out Vector3 velocity, float inVelocity = 0)
         {
             if (stats is not ProjectileWeaponStats projectileWeaponStats)
             {
@@ -30,6 +30,13 @@ namespace Gameplay.Weapons
             
             Projectile projectile = Instantiate(projectileWeaponStats.ProjectilePrefab, firingPoint.position, firingPoint.rotation);
             projectile.Init(_ballPlayer, out velocity);
+            Debug.Log("projectile init");
+            if (inVelocity > 0)
+            {
+                projectile.OverrideVelocity(firingPoint.forward * inVelocity);
+                velocity = firingPoint.forward * inVelocity;
+            }
+        
             PlayMuzzleFlash();
 
         }
@@ -44,13 +51,18 @@ namespace Gameplay.Weapons
             }
             
             Projectile projectile = Instantiate(projectileWeaponStats.ProjectilePrefab, firingPoint.position, firingPoint.rotation);
-
-            projectile.GetComponent<Rigidbody>().linearVelocity = velocity;
-            projectile.enabled = false;
+            projectile.Init();
+            projectile.OverrideVelocity(velocity);
             PlayMuzzleFlash();
         }
-        
-        
-        public void PlayMuzzleFlash() => muzzleFlash.Play();
+
+
+        public void PlayMuzzleFlash()
+        {
+            if (muzzleFlash)
+            {
+                muzzleFlash.Play();
+            }
+        }
     }
 }

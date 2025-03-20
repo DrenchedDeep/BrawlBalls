@@ -1,11 +1,22 @@
+using System;
 using Gameplay.Weapons;
 using Unity.Netcode;
 using UnityEngine;
 
 public class ProjectileWeaponBase : BaseWeapon
 {
-    [SerializeField] private ProjectileWeapon[] projectileWeapons;
-    
+    [SerializeField] protected ProjectileWeapon[] projectileWeapons;
+
+    public override void Start()
+    {
+        base.Start();
+
+        foreach (ProjectileWeapon wpn in projectileWeapons)
+        {
+            wpn.Init(Owner);
+        }
+    }
+
     protected override void Attack()
     {
         base.Attack();
@@ -24,10 +35,10 @@ public class ProjectileWeaponBase : BaseWeapon
     }
     
     [ServerRpc(RequireOwnership = false)]
-    void Attack_ServerRpc(int index, Vector3 velocity) => Attack_ClientRpc(index, velocity);
+    protected void Attack_ServerRpc(int index, Vector3 velocity) => Attack_ClientRpc(index, velocity);
 
     [ClientRpc(RequireOwnership = false)]
-    void Attack_ClientRpc(int index, Vector3 velocity)
+    protected void Attack_ClientRpc(int index, Vector3 velocity)
     {
         if (!IsOwner)
         {

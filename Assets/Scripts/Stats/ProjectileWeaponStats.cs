@@ -11,7 +11,6 @@ namespace Stats
     {
         
         [field: SerializeField] public Projectile ProjectilePrefab { get; private set; }
-        [field: SerializeField] public GameObject DummyProjectilePrefab { get; private set; }
 
     }
 }

@@ -35,7 +35,7 @@ namespace Gameplay.Weapons
         private int _currentFireCount;
 
 
-        public void Start()
+        public virtual void Start()
         {
             
             CurDamage = stats.Damage;
@@ -81,16 +81,10 @@ namespace Gameplay.Weapons
 
 
 
-        public  void AttackStart()
+        public virtual void AttackStart()
         {
             if (_currentFireCount <= 0 || IsRecharging)
             {
-                if (!IsRecharging)
-                {
-                    _ = AttackReCharge(_rechargeCancelToken.Token);
-                    AttackEnd();
-                }
-
                 return;
             }
             
@@ -98,7 +92,7 @@ namespace Gameplay.Weapons
             {
                 if (!IsChargingUp)
                 {
-                    _ = AttackChargeUp(_chargeUpCancelToken.Token);
+                    _ = AttackChargeUp();
                 }
             }
             else
@@ -112,23 +106,37 @@ namespace Gameplay.Weapons
             _currentFireCount--;
         }
 
-        public  void AttackEnd()
+        public virtual  void AttackEnd()
         {
             if (IsChargingUp)
             {
                 _chargeUpCancelToken.Cancel();
+                IsChargingUp = false;
             }
+            
+            if (!IsRecharging)
+            {
+                _ = AttackReCharge(_rechargeCancelToken.Token);
+            }
+
         }
 
-        private async UniTask AttackChargeUp(CancellationToken token)
+        private async UniTask AttackChargeUp()
         {
+            Debug.Log("uni task charge up");
             IsChargingUp = true;
-            await UniTask.WaitForSeconds(stats.ChargeUpTime, cancellationToken: token);
+            await UniTask.WaitForSeconds(stats.ChargeUpTime);
+            Debug.Log("uni task charge up 2");
 
+            Attack();
+
+            /*/
             if (!token.IsCancellationRequested)
             {
                 Attack();
+                Debug.Log("charge up complete");
             }
+            /*/
 
             IsChargingUp = false;
         }

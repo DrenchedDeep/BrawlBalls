@@ -18,6 +18,8 @@ namespace Stats
         [field: SerializeField] public float MaxLifetime { get; private set; }
         [field: SerializeField] public bool  IsHomingProjectile { get; private set; }
         [field: SerializeField] public bool  IsAffectedByGravity { get; private set; }
+        [field: SerializeField] public bool  RotateTowardsVelocity { get; private set; }
+        [field: SerializeField] public bool  DoDamageAfterCollision { get; private set; }
 
         [field: SerializeField] public ProjectileDamageType DamageType { get; private set; }
 
