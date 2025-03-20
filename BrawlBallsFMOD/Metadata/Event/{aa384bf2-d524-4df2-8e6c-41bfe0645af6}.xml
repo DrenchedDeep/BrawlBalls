@@ -54,7 +54,11 @@
 			<destination>{025244bc-a3b4-427b-969d-6d7f81e8b42b}</destination>
 		</relationship>
 	</object>
-	<object class="EventAutomatableProperties" id="{caec98b6-ea4e-461e-b524-7692b4b00fa8}" />
+	<object class="EventAutomatableProperties" id="{caec98b6-ea4e-461e-b524-7692b4b00fa8}">
+		<property name="priority">
+			<value>3</value>
+		</property>
+	</object>
 	<object class="MarkerTrack" id="{08a25707-4a0e-4026-8f3d-c4ccd3aa5237}" />
 	<object class="GroupTrack" id="{baee81bd-1bf6-42f6-8b80-98065a6ce131}">
 		<relationship name="modules">
@@ -112,9 +116,6 @@
 		</relationship>
 	</object>
 	<object class="EventMixerGroup" id="{10d09753-032f-472b-b781-9138f11e902f}">
-		<property name="volume">
-			<value>-1</value>
-		</property>
 		<property name="name">
 			<value>Audio 1</value>
 		</property>
@@ -190,6 +191,7 @@
 	<object class="MixerBusFader" id="{b5a1d203-03a0-45b0-b6f2-fdbd5e80c8ae}" />
 	<object class="MixerBusEffectChain" id="{6a17ec18-0033-45ff-abe9-d209f1b9e28a}">
 		<relationship name="effects">
+			<destination>{5fc2a909-c3cb-4154-8613-f3b2560041ba}</destination>
 			<destination>{00359c3a-69a8-4c7f-b097-17d2028c9474}</destination>
 		</relationship>
 	</object>
@@ -202,6 +204,14 @@
 	</object>
 	<object class="MixerBusPanner" id="{d1796501-27b2-404a-94eb-fa99975c576f}" />
 	<object class="MixerBusFader" id="{becd7a81-ff18-4ed0-9586-20e8c1d6f869}" />
+	<object class="ThreeEQEffect" id="{5fc2a909-c3cb-4154-8613-f3b2560041ba}">
+		<property name="lowGain">
+			<value>-1.5</value>
+		</property>
+		<property name="crossoverSlope">
+			<value>0</value>
+		</property>
+	</object>
 	<object class="MixerBusFader" id="{00359c3a-69a8-4c7f-b097-17d2028c9474}" />
 	<object class="CompressorEffect" id="{6ff02dc0-5f3a-40cb-9268-b46f8e9b8219}">
 		<property name="threshold">

@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.02.00">
 	<object class="Event" id="{2bb201c9-6055-40aa-a9ad-b14d038b101e}">
 		<property name="name">
-			<value>UI_SpawnBalls.</value>
+			<value>UI_SpawnBalls</value>
 		</property>
 		<property name="outputFormat">
 			<value>1</value>
@@ -98,15 +98,33 @@
 	<object class="MixerBusPanner" id="{0134ad64-8c8a-499e-8249-1cfb22d6e5e4}" />
 	<object class="MixerBusEffectChain" id="{ce797076-4418-4e51-9180-da40d18de9f4}">
 		<relationship name="effects">
+			<destination>{3389791c-255d-4855-a1a7-a5b75916addb}</destination>
 			<destination>{7cbc5684-773b-48b1-9b86-1cb2dfdcfb08}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{c1a5b0b5-bf3b-4a87-8226-5f4ffb5dc1e2}" />
 	<object class="SingleSound" id="{b8cd76da-6ab4-4572-9dc2-5e1bb861accf}">
+		<property name="startOffset">
+			<value>1</value>
+		</property>
+		<property name="volume">
+			<value>-1</value>
+		</property>
+		<property name="pitch">
+			<value>2.60000014</value>
+		</property>
 		<relationship name="audioFile">
 			<destination>{8c949113-e9a1-44b8-8b94-0dd5e7776bb4}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusFader" id="{71028fca-c5ef-403d-9a58-fd2ac5e8b919}" />
+	<object class="TremoloEffect" id="{3389791c-255d-4855-a1a7-a5b75916addb}">
+		<property name="frequency">
+			<value>3</value>
+		</property>
+		<property name="depth">
+			<value>0.465000004</value>
+		</property>
+	</object>
 	<object class="MixerBusFader" id="{7cbc5684-773b-48b1-9b86-1cb2dfdcfb08}" />
 </objects>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <objects serializationModel="Studio.02.02.00">
-	<object class="ParameterPreset" id="{b44c955d-dd58-4a5f-b6db-4e4e87dcc4da}">
+	<object class="ParameterPreset" id="{a250dccd-e074-4d86-8c01-685f4d1f4e46}">
 		<property name="name">
 			<value>FindMatch</value>
 		</property>
@@ -8,12 +8,18 @@
 			<destination>{46b528d6-dbc3-42be-8b9d-d33a45bec524}</destination>
 		</relationship>
 		<relationship name="parameter">
-			<destination>{ec51dcac-500e-4b40-8045-e4ef26cc7551}</destination>
+			<destination>{651ba535-f6e1-4e5d-8158-11a8500fa824}</destination>
 		</relationship>
 	</object>
-	<object class="GameParameter" id="{ec51dcac-500e-4b40-8045-e4ef26cc7551}">
+	<object class="GameParameter" id="{651ba535-f6e1-4e5d-8158-11a8500fa824}">
+		<property name="isGlobal">
+			<value>true</value>
+		</property>
 		<property name="initialValue">
 			<value>0</value>
+		</property>
+		<property name="isExposedRecursively">
+			<value>false</value>
 		</property>
 	</object>
 </objects>

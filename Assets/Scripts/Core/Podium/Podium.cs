@@ -88,8 +88,11 @@ namespace Core.Podium
 
         public void CreateBall(int index)
         {
-            _audioSource.Play();
-            _audioSource.time = 0.1f;
+            //_audioSource.Play();
+            //_audioSource.time = 0.1f;
+            
+            AudioManager.instance.PlayOneShot(FMODEvents.instance.spawnBall, transform.position);
+            
             _ballIndex = index;
             SaveManager.BallStructure ballInfo = SaveManager.MyBalls.GetReadonlyBall(index);
             _myBall = ResourceManager.CreateBallDisabled(ballInfo.ball, ballInfo.weapon, ballPoint, out var b, out var w);
