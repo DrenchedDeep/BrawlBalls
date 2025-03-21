@@ -91,15 +91,14 @@ namespace Gameplay.Map
         {
             if (!offMapKills) return;
             //Check if any of the player have fallen off the map
-            for (var index = BallHandler.ActiveBalls.Count-1; index >=0 ; --index)
+            foreach (BallPlayer ball in BallHandler.ActiveBalls)
             {
-                var ball = BallHandler.ActiveBalls[index];
                 if (!ball.IsAlive)
                 {
                     Debug.Log("ball isnt alive??");
                     return;
                 }
-
+                
                 if (ball.transform.position.y < bottomY)
                 {
                     Debug.Log("Player died from falling out of map, atteker is 0?");
