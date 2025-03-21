@@ -125,10 +125,16 @@
 	<object class="MixerBusFader" id="{a2d249ac-02f7-47f5-976f-977fbccad42a}" />
 	<object class="TremoloEffect" id="{40baf29f-3e8b-4ed6-bc39-2ec446ce099e}">
 		<property name="frequency">
-			<value>0.159999996</value>
+			<value>0.699999988</value>
 		</property>
 		<property name="depth">
-			<value>0.129999995</value>
+			<value>0.0749999955</value>
+		</property>
+		<property name="shape">
+			<value>0.24499999</value>
+		</property>
+		<property name="duty">
+			<value>0.324999988</value>
 		</property>
 	</object>
 	<object class="DistortionEffect" id="{05d534b8-210e-4891-b43c-396426d51e1b}">
@@ -138,10 +144,10 @@
 	</object>
 	<object class="ChorusEffect" id="{8b453e16-1b9a-46ee-b67f-094ac3c90e90}">
 		<property name="rate">
-			<value>0.899999976</value>
+			<value>0.0899999961</value>
 		</property>
 		<property name="depth">
-			<value>72</value>
+			<value>57.5</value>
 		</property>
 	</object>
 	<object class="MixerBusFader" id="{2011ca3a-4d86-4d10-8577-2c4458b19836}" />
