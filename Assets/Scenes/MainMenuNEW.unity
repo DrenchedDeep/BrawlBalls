@@ -1470,6 +1470,11 @@ PrefabInstance:
       propertyPath: m_AnchorMin.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8208990328295906417, guid: 601b5b904d699d54e880c5e51589962c,
+        type: 3}
+      propertyPath: Value
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8281178859312124968, guid: 601b5b904d699d54e880c5e51589962c,
         type: 3}
       propertyPath: m_Name
@@ -2305,68 +2310,58 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7633386501606870393, guid: d1b5582dc1547a548b2f5e7a84b0f6a0,
         type: 3}
-      propertyPath: <click>k__BackingField.Path
-      value: event:/Ingame_Events/UI/UI_CasinoLockIn
+      propertyPath: <Beep>k__BackingField.Array.size
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7633386501606870393, guid: d1b5582dc1547a548b2f5e7a84b0f6a0,
         type: 3}
-      propertyPath: <scroll>k__BackingField.Path
-      value: event:/Ingame_Events/UI/UI_CasinoScrollWheel
+      propertyPath: <Beep>k__BackingField.Array.data[0].Path
+      value: event:/Ingame_Events/UI/UI_Countdown_1
       objectReference: {fileID: 0}
     - target: {fileID: 7633386501606870393, guid: d1b5582dc1547a548b2f5e7a84b0f6a0,
         type: 3}
-      propertyPath: <click>k__BackingField.Guid.Data1
-      value: 701531766
+      propertyPath: <Beep>k__BackingField.Array.data[1].Path
+      value: event:/Ingame_Events/UI/UI_RoundStart!
       objectReference: {fileID: 0}
     - target: {fileID: 7633386501606870393, guid: d1b5582dc1547a548b2f5e7a84b0f6a0,
         type: 3}
-      propertyPath: <click>k__BackingField.Guid.Data2
-      value: 1087263619
+      propertyPath: <Beep>k__BackingField.Array.data[0].Guid.Data1
+      value: 409487189
       objectReference: {fileID: 0}
     - target: {fileID: 7633386501606870393, guid: d1b5582dc1547a548b2f5e7a84b0f6a0,
         type: 3}
-      propertyPath: <click>k__BackingField.Guid.Data3
-      value: -1387258232
+      propertyPath: <Beep>k__BackingField.Array.data[0].Guid.Data2
+      value: 1291721481
       objectReference: {fileID: 0}
     - target: {fileID: 7633386501606870393, guid: d1b5582dc1547a548b2f5e7a84b0f6a0,
         type: 3}
-      propertyPath: <click>k__BackingField.Guid.Data4
-      value: 233485688
+      propertyPath: <Beep>k__BackingField.Array.data[0].Guid.Data3
+      value: 684456837
       objectReference: {fileID: 0}
     - target: {fileID: 7633386501606870393, guid: d1b5582dc1547a548b2f5e7a84b0f6a0,
         type: 3}
-      propertyPath: <scroll>k__BackingField.Guid.Data1
-      value: -2068226102
+      propertyPath: <Beep>k__BackingField.Array.data[0].Guid.Data4
+      value: -1943815778
       objectReference: {fileID: 0}
     - target: {fileID: 7633386501606870393, guid: d1b5582dc1547a548b2f5e7a84b0f6a0,
         type: 3}
-      propertyPath: <scroll>k__BackingField.Guid.Data2
-      value: 1169490964
+      propertyPath: <Beep>k__BackingField.Array.data[1].Guid.Data1
+      value: -1759727619
       objectReference: {fileID: 0}
     - target: {fileID: 7633386501606870393, guid: d1b5582dc1547a548b2f5e7a84b0f6a0,
         type: 3}
-      propertyPath: <scroll>k__BackingField.Guid.Data3
-      value: -923927661
+      propertyPath: <Beep>k__BackingField.Array.data[1].Guid.Data2
+      value: 1194840452
       objectReference: {fileID: 0}
     - target: {fileID: 7633386501606870393, guid: d1b5582dc1547a548b2f5e7a84b0f6a0,
         type: 3}
-      propertyPath: <scroll>k__BackingField.Guid.Data4
-      value: 1677423052
+      propertyPath: <Beep>k__BackingField.Array.data[1].Guid.Data3
+      value: -1852399189
       objectReference: {fileID: 0}
-    - target: {fileID: 8540819118801619178, guid: d1b5582dc1547a548b2f5e7a84b0f6a0,
+    - target: {fileID: 7633386501606870393, guid: d1b5582dc1547a548b2f5e7a84b0f6a0,
         type: 3}
-      propertyPath: sfxVolume
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8540819118801619178, guid: d1b5582dc1547a548b2f5e7a84b0f6a0,
-        type: 3}
-      propertyPath: musicVolume
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8540819118801619178, guid: d1b5582dc1547a548b2f5e7a84b0f6a0,
-        type: 3}
-      propertyPath: ambienceVolume
-      value: 1
+      propertyPath: <Beep>k__BackingField.Array.data[1].Guid.Data4
+      value: -1800194914
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
