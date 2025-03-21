@@ -28,7 +28,9 @@ namespace Gameplay.Weapons
                 return;
             }
             
-            Projectile projectile = ObjectPoolManager.Instance.GetObjectFromPool<Projectile>(projectileWeaponStats.ProjectilePoolName, firingPoint.position, firingPoint.rotation);
+            Projectile projectile = ObjectPoolManager.Instance.GetObjectFromPool<Projectile>(projectileWeaponStats.ProjectilePoolName,
+                firingPoint.position, firingPoint.rotation);
+            
             projectile.Init(_ballPlayer, out velocity);
             Debug.Log("projectile init");
             if (inVelocity > 0)
