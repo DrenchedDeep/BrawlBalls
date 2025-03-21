@@ -2,7 +2,6 @@ using System;
 using FMOD.Studio;
 using FMODUnity;
 using UnityEngine;
-using UnityEngine.Audio;
 using UnityEngine.UI;
 
 namespace Utilities.Common.Settings
@@ -18,6 +17,12 @@ namespace Utilities.Common.Settings
             private Bus _bus;
             [SerializeField] private string busPath;
 
+            public void Init()
+            {
+                GetBus();
+                Load();
+                slider.onValueChanged.AddListener(SetVolume);
+            }
             public Bus GetBus()
             {
                 if (!_bus.hasHandle()) _bus = RuntimeManager.GetBus(busPath);
@@ -42,11 +47,11 @@ namespace Utilities.Common.Settings
 
         }
         
-        private void Awake()
+        private void Start()
         {
             foreach (var t in audioPairings)
             {
-                t.slider.onValueChanged.AddListener(t.SetVolume);
+                t.Init();
             }
         }
 
