@@ -22,8 +22,9 @@ namespace Stats
         [field: SerializeField] public bool  DoDamageAfterCollision { get; private set; }
 
         [field: SerializeField] public ProjectileDamageType DamageType { get; private set; }
+        [field: SerializeField] public float EffectDisableTime { get; private set; }
 
-        
+
 
         protected override string CreateCommonTraits()
         {

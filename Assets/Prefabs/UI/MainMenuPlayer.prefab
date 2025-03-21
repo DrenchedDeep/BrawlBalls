@@ -1492,7 +1492,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 464c236ee6e0d8a49a5e3e0c1105b6e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sizeMult: 1
   speed: 50
   maxAngle: 15
 --- !u!114 &5313181141377681509
@@ -3222,7 +3221,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 464c236ee6e0d8a49a5e3e0c1105b6e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sizeMult: 1
   speed: 50
   maxAngle: 15
 --- !u!114 &632019637449779339
@@ -5828,7 +5826,7 @@ MonoBehaviour:
   m_Actions: {fileID: -944628639613478452, guid: d208d53a1c1765d458b57f71735f2219,
     type: 3}
   m_NotificationBehavior: 3
-  m_UIInputModule: {fileID: 0}
+  m_UIInputModule: {fileID: 3029933833550837931}
   m_DeviceLostEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -6288,7 +6286,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 464c236ee6e0d8a49a5e3e0c1105b6e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sizeMult: 1
   speed: 50
   maxAngle: 15
 --- !u!114 &2865661925840928794
@@ -7362,6 +7359,24 @@ PrefabInstance:
       propertyPath: cam
       value: 
       objectReference: {fileID: 5048122326541400928}
+    - target: {fileID: 6913585320225767076, guid: de288d77ef9a65347a675edb8cd5e404,
+        type: 3}
+      propertyPath: next
+      value: 
+      objectReference: {fileID: 8971036015570001769, guid: d208d53a1c1765d458b57f71735f2219,
+        type: 3}
+    - target: {fileID: 6913585320225767076, guid: de288d77ef9a65347a675edb8cd5e404,
+        type: 3}
+      propertyPath: select
+      value: 
+      objectReference: {fileID: 4948594924774983438, guid: d208d53a1c1765d458b57f71735f2219,
+        type: 3}
+    - target: {fileID: 6913585320225767076, guid: de288d77ef9a65347a675edb8cd5e404,
+        type: 3}
+      propertyPath: previous
+      value: 
+      objectReference: {fileID: 1958880719803592458, guid: d208d53a1c1765d458b57f71735f2219,
+        type: 3}
     - target: {fileID: 6913585320225767076, guid: de288d77ef9a65347a675edb8cd5e404,
         type: 3}
       propertyPath: localPlayerInputComponent

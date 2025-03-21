@@ -1,5 +1,6 @@
 using System;
 using Cysharp.Threading.Tasks;
+using Gameplay.Pools;
 using Managers.Local;
 using Stats;
 using UnityEngine;
@@ -28,18 +29,28 @@ namespace Gameplay.Weapons
 
         private readonly RaycastHit[] _hits = new RaycastHit[10];
 
+        private MeshRenderer[] _renderers;
+        private ParticleSystem[] _particleSystems;
+        private TrailRenderer _trailRenderer;
+        
+
         public bool CanDoDamage { get; set; }
 
         private void Awake()
         {
             _rigidbody = GetComponent<Rigidbody>();
+            _particleSystems = GetComponentsInChildren<ParticleSystem>();
+            _trailRenderer = GetComponentInChildren<TrailRenderer>();
+            _renderers = GetComponentsInChildren<MeshRenderer>();
+
         }
         
 
         //owner calls this function... they can setup velocity & the velocity is passed down to other clients
         public void Init(BallPlayer owner, out Vector3 velocity)
         {
-            _rigidbody = GetComponent<Rigidbody>(); //<< This can probably be removed? That or remove awake?
+            enabled = true;
+            
             _initialVelocity = transform.forward * stats.InitialVelocity;
             _owner = owner;
             CanDoDamage = true;
@@ -49,6 +60,7 @@ namespace Gameplay.Weapons
                 _initialVelocity += owner.GetBall.Velocity * ballVelocityIncreaseAmt;
             }
 
+            _rigidbody.isKinematic = false;
             _rigidbody.linearVelocity = _initialVelocity;
             velocity = _initialVelocity;
 
@@ -89,10 +101,41 @@ namespace Gameplay.Weapons
                 _castMode.Invoke();
             }
         }
-        public override void ReturnToPool()
+        public override async void ReturnToPool()
         {
-            _rigidbody.linearVelocity = Vector3.zero;
+            Debug.Log("Returning to pool");
+            _rigidbody.isKinematic = true;
+            enabled = false;
+            foreach (var ps in _particleSystems)
+            {
+                ps.Stop();
+            }
+
+            foreach (var mr in _renderers)
+            {
+                mr.gameObject.SetActive(false);
+            }
+            if(_trailRenderer) _trailRenderer.emitting = false;
+            await UniTask.WaitForSeconds(stats.EffectDisableTime);
+            Debug.Log("Returning to pool successful");
+
             base.ReturnToPool();
+        }
+
+        private void OnEnable()
+        {
+             //we must not be initialiazed
+            _rigidbody.isKinematic = false;
+            foreach (var ps in _particleSystems)
+            {
+                ps.Play();
+            }
+
+            foreach (var mr in _renderers)
+            {
+                mr.gameObject.SetActive(true);
+            }
+            if(_trailRenderer) _trailRenderer.emitting = true;
         }
 
         private void OnCollisionEnter(Collision other)
