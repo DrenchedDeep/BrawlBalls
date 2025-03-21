@@ -22,6 +22,7 @@ namespace Core.Podium
         [SerializeField] private InputActionReference previous;
         [SerializeField] private InputActionReference next;
         [SerializeField] private InputActionReference select;
+        [SerializeField] private InputActionReference press;
 
         public UnityEvent<int> onForwardSelected;
         public UnityEvent<int> onSelectedSide;
@@ -49,6 +50,7 @@ namespace Core.Podium
             localPlayerInputComponent.actions[previous.name].performed += RotateLeft;
             localPlayerInputComponent.actions[next.name].performed += RotateRight;
             localPlayerInputComponent.actions[select.name].performed += SelectCurrent;
+            localPlayerInputComponent.actions[press.name].performed += SelectForwardCursor;
         }
 
         private void OnDisable()
@@ -114,7 +116,7 @@ namespace Core.Podium
 
             Vector2 pointerPosition = Pointer.current.position.ReadValue();
             
-            Debug.Log("Pointer location: " + pointerPosition );
+           // Debug.Log("Pointer location: " + pointerPosition );
             
             
             // ReSharper disable once Unity.PerformanceCriticalCodeCameraMain
@@ -148,9 +150,42 @@ namespace Core.Podium
                 }
 
                 SelectPodium(p);
-                
+            }
+            else
+            {
+                SelectPodium(null);
+            }
+        }
 
-                if (!Pointer.current.press.wasPressedThisFrame) return;
+        private void SelectForwardCursor(InputAction.CallbackContext _)
+        {
+            
+            Vector2 pointerPosition = Pointer.current.position.ReadValue();
+            
+            // Debug.Log("Pointer location: " + pointerPosition );
+            
+            
+            // ReSharper disable once Unity.PerformanceCriticalCodeCameraMain
+            if(!cam) cam = Camera.main;
+            if (!cam)
+            {
+                
+                // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
+                Debug.LogError("Why is there no camera?");
+                return;
+            }
+            Ray ray = cam.ScreenPointToRay(pointerPosition);
+
+            if (Physics.Raycast(ray, out RaycastHit hit, 1000, _podiumLayer))
+            {
+                
+                Transform t = hit.transform.parent?.parent;
+
+
+                if (!t || !t.TryGetComponent(out Podium p))
+                {
+                    return;
+                }
                
                 if (p == podiums[CurForward])
                 {

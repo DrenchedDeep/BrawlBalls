@@ -53,7 +53,7 @@ namespace Managers.Local
                 List<InputDevice> t = firstPlayer.devices.ToList();
                 t.AddRange(playerInput.devices);
                 
-                firstPlayer.SwitchCurrentControlScheme("Controller", playerInput.devices.ToArray());
+                firstPlayer.SwitchCurrentControlScheme("Controller",playerInput.devices.ToArray());
                 Destroy(playerInput.gameObject);
                 return;
             }

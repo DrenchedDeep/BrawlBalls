@@ -33,12 +33,6 @@ namespace MainMenu
 
         }
 
-        private void OnDestroy()
-        {
-            _input.onDeviceRegained += OnChangedDevice;
-            _input.onDeviceLost += OnChangedDevice;
-        }
-
         private void OnChangedDevice(PlayerInput obj)
         {
             CurrentSpriteActionMap = ResourceManager.Instance.GetActionMap(obj.devices);

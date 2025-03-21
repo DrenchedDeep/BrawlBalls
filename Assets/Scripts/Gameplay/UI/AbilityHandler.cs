@@ -132,6 +132,7 @@ namespace Gameplay.UI
 
         public void SetUsingState(bool state)
         {
+            if(_capacity == 0) return;
             if(state) StartUsingAbility();
             else StopUsingAbility();
         }

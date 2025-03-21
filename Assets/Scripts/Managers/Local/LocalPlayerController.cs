@@ -64,7 +64,6 @@ namespace Managers.Local
             _playerInput = GetComponent<PlayerInput>();
             _spectatingManager = GetComponent<SpectatingManager>();
 
-            InitializeControls();
             
             //most will be half, so default to that :P
             _currentJoyStick = fullJoystick;
@@ -73,6 +72,9 @@ namespace Managers.Local
             _livesLeft = 3;
             LocalBallPlayer = this;
             enabled = false;
+            
+            InitializeControls();
+
         }
         
         private void InitializeControls()
@@ -97,7 +99,7 @@ namespace Managers.Local
             controlSteering.performed += ctx => SetSteer(ctx.ReadValue<Vector2>());
             pauseGame.performed += _ => TogglePauseState(true);
             unPauseGame.performed += _ => TogglePauseState(false);
-            
+            DisableControls();
             
           
         }
@@ -168,6 +170,8 @@ namespace Managers.Local
         {
             _currentJoyStick.enabled = true;
             //PlayerControls.EnableControls();
+            _playerInput.currentActionMap.Enable();
+
         }
     
         public void DisableControls()
@@ -175,23 +179,26 @@ namespace Managers.Local
             _currentJoyStick.enabled = false;
             TryDoAbility(false);
             TryDoWeapon(false);
+
             SetSteer(Vector2.zero);
             //PlayerControls.DisableControls();
+            _playerInput.currentActionMap.Disable();
+
         }
         private void TryDoAbility(bool state)
         {
-            specialAbility.SetUsingState(state);
+            if(IsActive) specialAbility.SetUsingState(state);
         }
 
         private void TryDoWeapon(bool state)
         {
-            attackAbility.SetUsingState(state); 
+            if(IsActive) attackAbility.SetUsingState(state); 
             
         }
 
         private void SetSteer(Vector2 direction)
         {
-            _currentJoyStick.SetInput(direction);
+            if(IsActive) _currentJoyStick.SetInput(direction);
         }
         
         #endregion

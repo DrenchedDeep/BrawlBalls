@@ -264,6 +264,7 @@ namespace Core.Podium
             _core.localPosition = localHoverOffset;
             _core.localScale = localHoverScale;
             _currentHoverTransitionTime = hoverTransitionTime;
+            
         }
 
         public async UniTask OnStopHover()
@@ -275,6 +276,7 @@ namespace Core.Podium
             {
                 if (_bTokenSource.Token.IsCancellationRequested)
                 {
+
                     return;
                 }
                 _currentHoverTransitionTime -= Time.deltaTime;
