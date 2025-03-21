@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<objects serializationModel="Studio.02.02.00">
+<objects serializationModel="Studio.02.03.00">
 	<object class="Event" id="{90ca3571-2be1-41b9-9718-75bbcc900902}">
 		<property name="name">
 			<value>MainMenuMusic</value>
@@ -413,10 +413,10 @@
 			<value>210</value>
 		</property>
 		<property name="lowShelfGain">
-			<value>-30.5</value>
+			<value>-30</value>
 		</property>
 		<property name="highCut">
-			<value>2000</value>
+			<value>740</value>
 		</property>
 		<property name="earlyLateMix">
 			<value>34</value>
@@ -509,7 +509,7 @@
 			<value>0.29999999999999999</value>
 		</property>
 		<property name="value">
-			<value>-80</value>
+			<value>-73.3333359</value>
 		</property>
 		<property name="curveShape">
 			<value>0.483904451</value>
@@ -520,7 +520,7 @@
 			<value>0</value>
 		</property>
 		<property name="value">
-			<value>-2</value>
+			<value>-1</value>
 		</property>
 		<property name="curveShape">
 			<value>-0.300657988</value>
@@ -531,7 +531,7 @@
 			<value>1</value>
 		</property>
 		<property name="value">
-			<value>-2</value>
+			<value>-1</value>
 		</property>
 	</object>
 	<object class="AutomationPoint" id="{79986f42-b950-4fd6-817d-43c1970264a7}">
@@ -539,7 +539,7 @@
 			<value>0.80000000000000004</value>
 		</property>
 		<property name="value">
-			<value>-34</value>
+			<value>-32</value>
 		</property>
 		<property name="curveShape">
 			<value>0.177156135</value>
