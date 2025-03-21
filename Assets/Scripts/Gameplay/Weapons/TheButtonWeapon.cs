@@ -93,4 +93,12 @@ public class TheButtonWeapon : BaseWeapon
         NetworkGameManager.Instance.PlayParticleGlobally_ServerRpc("Explosion", transform.position, transform.rotation);
         Owner.TakeDamage_ServerRpc(damageProperties);
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.GetComponent<BallPlayer>())
+        {
+           Explode_ServerRpc();
+        }
+    }
 }

@@ -9,9 +9,6 @@ public class ButtonCollider : MonoBehaviour
     
     public void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.GetComponent<BallPlayer>())
-        {
-            wpn.Explode_ServerRpc();
-        }
+        
     }
 }

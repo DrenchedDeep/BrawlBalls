@@ -4422,7 +4422,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000030517578}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &6571147731207540377
@@ -4518,9 +4518,9 @@ MonoBehaviour:
   m_XRTrackingOrigin: {fileID: 0}
   m_ActionsAsset: {fileID: -944628639613478452, guid: d208d53a1c1765d458b57f71735f2219,
     type: 3}
-  m_PointAction: {fileID: 1054132383583890850, guid: d208d53a1c1765d458b57f71735f2219,
+  m_PointAction: {fileID: 4824294335751686970, guid: d208d53a1c1765d458b57f71735f2219,
     type: 3}
-  m_MoveAction: {fileID: -5773499699134422038, guid: d208d53a1c1765d458b57f71735f2219,
+  m_MoveAction: {fileID: 3669892097484929692, guid: d208d53a1c1765d458b57f71735f2219,
     type: 3}
   m_SubmitAction: {fileID: -5477357654786184724, guid: d208d53a1c1765d458b57f71735f2219,
     type: 3}
@@ -5839,7 +5839,7 @@ MonoBehaviour:
   m_ActionEvents: []
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: PC
-  m_DefaultActionMap: UI
+  m_DefaultActionMap: Game
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 5048122326541400928}
 --- !u!1 &8493324106289465893
@@ -6564,6 +6564,11 @@ PrefabInstance:
       propertyPath: m_text
       value: Music Volume
       objectReference: {fileID: 0}
+    - target: {fileID: 86118408378784109, guid: 71c45faba18de0544b312b0e8a8a3d93,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 71.6
+      objectReference: {fileID: 0}
     - target: {fileID: 1330655056771234734, guid: 71c45faba18de0544b312b0e8a8a3d93,
         type: 3}
       propertyPath: m_Layer
@@ -7178,6 +7183,11 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 6.63
       objectReference: {fileID: 0}
+    - target: {fileID: 2766670217244630656, guid: de288d77ef9a65347a675edb8cd5e404,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2802436808733351073, guid: de288d77ef9a65347a675edb8cd5e404,
         type: 3}
       propertyPath: m_Layer
@@ -7744,6 +7754,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_text
       value: Effects Volume
+      objectReference: {fileID: 0}
+    - target: {fileID: 86118408378784109, guid: 71c45faba18de0544b312b0e8a8a3d93,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 71.6
       objectReference: {fileID: 0}
     - target: {fileID: 1330655056771234734, guid: 71c45faba18de0544b312b0e8a8a3d93,
         type: 3}
@@ -9630,7 +9645,7 @@ PrefabInstance:
     - target: {fileID: 2045961158136780300, guid: f9209c31a08f8cb40804bc8930bb7858,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 185
+      value: NaN
       objectReference: {fileID: 0}
     - target: {fileID: 2285296880087975223, guid: f9209c31a08f8cb40804bc8930bb7858,
         type: 3}
@@ -10654,7 +10669,7 @@ PrefabInstance:
     - target: {fileID: 2045961158136780300, guid: f9209c31a08f8cb40804bc8930bb7858,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 185
+      value: NaN
       objectReference: {fileID: 0}
     - target: {fileID: 2285296880087975223, guid: f9209c31a08f8cb40804bc8930bb7858,
         type: 3}
@@ -11479,7 +11494,7 @@ PrefabInstance:
     - target: {fileID: 2045961158136780300, guid: f9209c31a08f8cb40804bc8930bb7858,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 185
+      value: NaN
       objectReference: {fileID: 0}
     - target: {fileID: 2285296880087975223, guid: f9209c31a08f8cb40804bc8930bb7858,
         type: 3}

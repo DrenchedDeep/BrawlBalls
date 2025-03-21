@@ -159,7 +159,7 @@ namespace Core.Podium
                     }
                     return;
                 }
-                onSelectedSide.Invoke(hit.transform.parent.localPosition.x > podiums[CurForward].transform.localPosition.x ? 1:-1);
+                onSelectedSide.Invoke(t.localPosition.x > podiums[CurForward].transform.localPosition.x ? 1:-1);
                 
             }
             else
