@@ -171,7 +171,8 @@ namespace Managers.Local
             _currentJoyStick.enabled = true;
             //PlayerControls.EnableControls();
             _playerInput.currentActionMap.Enable();
-
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
         }
     
         public void DisableControls()
@@ -179,7 +180,8 @@ namespace Managers.Local
             _currentJoyStick.enabled = false;
             TryDoAbility(false);
             TryDoWeapon(false);
-
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
             SetSteer(Vector2.zero);
             //PlayerControls.DisableControls();
             _playerInput.currentActionMap.Disable();
