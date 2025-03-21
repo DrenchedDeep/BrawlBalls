@@ -194,6 +194,11 @@ namespace Gameplay
             NetworkGameManager.Instance.PlayParticleGlobally_ServerRpc("Confetti", transform.position,
                 transform.rotation);
 
+            if (killer == 100)
+            {
+                killer = _previousAttackerID.Value;
+            }
+            
             _currentHealth.Value = 0;
             Die_ClientRpc(killer);
         }
