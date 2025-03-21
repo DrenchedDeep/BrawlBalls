@@ -92,8 +92,8 @@ namespace Core.Podium
             //_audioSource.Play();
             //_audioSource.time = 0.1f;
             
-            //AudioManager.instance.PlayOneShot(FMODEvents.instance.spawnBall, transform.position);
-            Debug.LogError("Tried to play audio, carlos please fix -- Add ball spawn effect");
+            AudioManager.instance.PlayOneShot(FMODEvents.instance.spawnBall[0], transform.position);
+            //Debug.LogError("Tried to play audio, carlos please fix -- Add ball spawn effect");
             
             _ballIndex = index;
             SaveManager.BallStructure ballInfo = SaveManager.MyBalls.GetReadonlyBall(index);
@@ -242,6 +242,7 @@ namespace Core.Podium
 
         public async UniTask OnHover()
         {
+            AudioManager.instance.PlayOneShot(FMODEvents.instance.scroll, transform.position);
             if (!CanInteract) return;
             _bTokenSource?.Cancel();
             _aTokenSource = new();
@@ -296,7 +297,7 @@ namespace Core.Podium
 
         public void OnDeselect(BaseEventData eventData)
         {
-            
+            //RuntimeManager.PlayOneShot();
         }
     }
 }

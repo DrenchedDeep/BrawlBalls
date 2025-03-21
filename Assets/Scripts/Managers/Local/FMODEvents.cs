@@ -10,18 +10,27 @@ namespace Managers.Local
     {
         private float pitchModu = 0f;
         private float timer = 15;
-        
-        [field: Header("Confetti Explosion")]
-        [field: SerializeField]
-        public EventReference confettiExplosion { get; private set; }
-
-        [field: Header("Spawn Ball")]
-        [field: SerializeField]
-        public List<EventReference> spawnBall { get; private set; }
 
         [field: Header("BGM")]
         [field: SerializeField]
         public EventReference musicReference { get; private set; }
+        
+        [field: Header("Ball Explosions")]
+        [field: SerializeField]
+        public EventReference confettiExplosion { get; private set; }
+        
+        [field: SerializeField]
+        public EventReference soccerExplosion { get; private set; }
+        
+        [field: SerializeField]
+        public EventReference canonExplosion { get; private set; }
+        
+        [field: SerializeField]
+        public EventReference paintballExplosion { get; private set; }
+
+        [field: Header("Spawn Ball")]
+        [field: SerializeField]
+        public List<EventReference> spawnBall { get; private set; }
         
         [field: Header("Customization Scroll")]
         [field: SerializeField]

@@ -86,8 +86,12 @@
 		</relationship>
 	</object>
 	<object class="MultiSound" id="{3abd1685-7471-4a47-b225-913c32d1261d}">
+		<property name="playbackMode">
+			<value>1</value>
+		</property>
 		<relationship name="sounds">
-			<destination>{315a2e6e-75dd-4c0a-8495-92f1c610bc3d}</destination>
+			<destination>{6a69be41-3a43-452c-822c-24fb64838d63}</destination>
+			<destination>{208f33ac-240d-4314-97b3-ea1aa8675a8b}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusEffectChain" id="{ffdc016a-708f-4630-be89-096ecbabad51}">
@@ -98,18 +102,47 @@
 	<object class="MixerBusPanner" id="{329cb5dd-c925-4df1-9ce5-85d097a5ee9f}" />
 	<object class="MixerBusEffectChain" id="{bfea2f78-b0b7-4b7b-8140-556c91835a5f}">
 		<relationship name="effects">
+			<destination>{40baf29f-3e8b-4ed6-bc39-2ec446ce099e}</destination>
+			<destination>{05d534b8-210e-4891-b43c-396426d51e1b}</destination>
+			<destination>{8b453e16-1b9a-46ee-b67f-094ac3c90e90}</destination>
 			<destination>{2011ca3a-4d86-4d10-8577-2c4458b19836}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{fea167d5-406e-4792-af10-7878e138d7c9}" />
-	<object class="SingleSound" id="{315a2e6e-75dd-4c0a-8495-92f1c610bc3d}">
+	<object class="SingleSound" id="{6a69be41-3a43-452c-822c-24fb64838d63}">
 		<property name="volume">
-			<value>-1.5</value>
+			<value>-5</value>
 		</property>
 		<relationship name="audioFile">
-			<destination>{1a686a46-1315-47e8-ab3c-81ef3ec37504}</destination>
+			<destination>{40c0aaa9-83a4-4f49-829c-f3c60c5acf34}</destination>
+		</relationship>
+	</object>
+	<object class="SingleSound" id="{208f33ac-240d-4314-97b3-ea1aa8675a8b}">
+		<relationship name="audioFile">
+			<destination>{b9661935-e74d-4c45-b6ea-a36220b4e0af}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusFader" id="{a2d249ac-02f7-47f5-976f-977fbccad42a}" />
+	<object class="TremoloEffect" id="{40baf29f-3e8b-4ed6-bc39-2ec446ce099e}">
+		<property name="frequency">
+			<value>0.159999996</value>
+		</property>
+		<property name="depth">
+			<value>0.129999995</value>
+		</property>
+	</object>
+	<object class="DistortionEffect" id="{05d534b8-210e-4891-b43c-396426d51e1b}">
+		<property name="level">
+			<value>0.174999997</value>
+		</property>
+	</object>
+	<object class="ChorusEffect" id="{8b453e16-1b9a-46ee-b67f-094ac3c90e90}">
+		<property name="rate">
+			<value>0.899999976</value>
+		</property>
+		<property name="depth">
+			<value>72</value>
+		</property>
+	</object>
 	<object class="MixerBusFader" id="{2011ca3a-4d86-4d10-8577-2c4458b19836}" />
 </objects>
