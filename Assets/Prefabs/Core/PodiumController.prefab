@@ -433,7 +433,6 @@ MonoBehaviour:
   - {fileID: 8696253223988228215}
   - {fileID: 2318421519278131709}
   cam: {fileID: 0}
-  debugHide: 0
   localPlayerInputComponent: {fileID: 0}
   previous: {fileID: 1958880719803592458, guid: d208d53a1c1765d458b57f71735f2219,
     type: 3}
@@ -760,6 +759,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7214440670218005697, guid: a2bbd9fd970b80842b0edf4d32db5953,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:

@@ -424,8 +424,17 @@
                 },
                 {
                     "name": "Point",
-                    "type": "PassThrough",
+                    "type": "Value",
                     "id": "b222dc66-4ece-4831-8f29-b36ee539d338",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "VirtualSteer",
+                    "type": "PassThrough",
+                    "id": "c75313a6-73d4-4b42-ba51-540aba8de6bf",
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
@@ -438,7 +447,7 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": true
+                    "initialStateCheck": false
                 },
                 {
                     "name": "ScrollWheel",
@@ -602,6 +611,28 @@
                 },
                 {
                     "name": "",
+                    "id": "6aa76c01-aab5-4b11-827a-b0c27609df79",
+                    "path": "<VirtualMouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Controller",
+                    "action": "Point",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2094e06d-1078-4f0c-be51-dc8da90e3215",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Controller",
+                    "action": "VirtualSteer",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "ed5733cd-732e-494c-8fd8-95f12961a42e",
                     "path": "<Mouse>/leftButton",
                     "interactions": "",
@@ -618,6 +649,28 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Touch",
+                    "action": "Click",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b5243c76-e704-42ba-b87f-64a018b47d5d",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Controller",
+                    "action": "Click",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "eb8279dc-cbdf-4ad8-8508-f1e3a3b93209",
+                    "path": "<VirtualMouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Controller",
                     "action": "Click",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -1062,6 +1115,11 @@
                 {
                     "devicePath": "<Gamepad>",
                     "isOptional": false,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<VirtualMouse>",
+                    "isOptional": true,
                     "isOR": false
                 }
             ]

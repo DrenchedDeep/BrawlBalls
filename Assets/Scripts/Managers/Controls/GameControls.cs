@@ -510,8 +510,17 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Point"",
-                    ""type"": ""PassThrough"",
+                    ""type"": ""Value"",
                     ""id"": ""b222dc66-4ece-4831-8f29-b36ee539d338"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""VirtualSteer"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""c75313a6-73d4-4b42-ba51-540aba8de6bf"",
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -524,7 +533,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": true
+                    ""initialStateCheck"": false
                 },
                 {
                     ""name"": ""ScrollWheel"",
@@ -688,6 +697,28 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""6aa76c01-aab5-4b11-827a-b0c27609df79"",
+                    ""path"": ""<VirtualMouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Controller"",
+                    ""action"": ""Point"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2094e06d-1078-4f0c-be51-dc8da90e3215"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Controller"",
+                    ""action"": ""VirtualSteer"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""ed5733cd-732e-494c-8fd8-95f12961a42e"",
                     ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
@@ -704,6 +735,28 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Touch"",
+                    ""action"": ""Click"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b5243c76-e704-42ba-b87f-64a018b47d5d"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Controller"",
+                    ""action"": ""Click"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""eb8279dc-cbdf-4ad8-8508-f1e3a3b93209"",
+                    ""path"": ""<VirtualMouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Controller"",
                     ""action"": ""Click"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -1149,6 +1202,11 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""devicePath"": ""<Gamepad>"",
                     ""isOptional"": false,
                     ""isOR"": false
+                },
+                {
+                    ""devicePath"": ""<VirtualMouse>"",
+                    ""isOptional"": true,
+                    ""isOR"": false
                 }
             ]
         },
@@ -1185,6 +1243,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         m_UIGeneral_Submit = m_UIGeneral.FindAction("Submit", throwIfNotFound: true);
         m_UIGeneral_Cancel = m_UIGeneral.FindAction("Cancel", throwIfNotFound: true);
         m_UIGeneral_Point = m_UIGeneral.FindAction("Point", throwIfNotFound: true);
+        m_UIGeneral_VirtualSteer = m_UIGeneral.FindAction("VirtualSteer", throwIfNotFound: true);
         m_UIGeneral_Click = m_UIGeneral.FindAction("Click", throwIfNotFound: true);
         m_UIGeneral_ScrollWheel = m_UIGeneral.FindAction("ScrollWheel", throwIfNotFound: true);
         m_UIGeneral_MiddleClick = m_UIGeneral.FindAction("MiddleClick", throwIfNotFound: true);
@@ -1442,6 +1501,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_UIGeneral_Submit;
     private readonly InputAction m_UIGeneral_Cancel;
     private readonly InputAction m_UIGeneral_Point;
+    private readonly InputAction m_UIGeneral_VirtualSteer;
     private readonly InputAction m_UIGeneral_Click;
     private readonly InputAction m_UIGeneral_ScrollWheel;
     private readonly InputAction m_UIGeneral_MiddleClick;
@@ -1479,6 +1539,10 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "UIGeneral/Point".
         /// </summary>
         public InputAction @Point => m_Wrapper.m_UIGeneral_Point;
+        /// <summary>
+        /// Provides access to the underlying input action "UIGeneral/VirtualSteer".
+        /// </summary>
+        public InputAction @VirtualSteer => m_Wrapper.m_UIGeneral_VirtualSteer;
         /// <summary>
         /// Provides access to the underlying input action "UIGeneral/Click".
         /// </summary>
@@ -1557,6 +1621,9 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
             @Point.started += instance.OnPoint;
             @Point.performed += instance.OnPoint;
             @Point.canceled += instance.OnPoint;
+            @VirtualSteer.started += instance.OnVirtualSteer;
+            @VirtualSteer.performed += instance.OnVirtualSteer;
+            @VirtualSteer.canceled += instance.OnVirtualSteer;
             @Click.started += instance.OnClick;
             @Click.performed += instance.OnClick;
             @Click.canceled += instance.OnClick;
@@ -1610,6 +1677,9 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
             @Point.started -= instance.OnPoint;
             @Point.performed -= instance.OnPoint;
             @Point.canceled -= instance.OnPoint;
+            @VirtualSteer.started -= instance.OnVirtualSteer;
+            @VirtualSteer.performed -= instance.OnVirtualSteer;
+            @VirtualSteer.canceled -= instance.OnVirtualSteer;
             @Click.started -= instance.OnClick;
             @Click.performed -= instance.OnClick;
             @Click.canceled -= instance.OnClick;
@@ -1791,6 +1861,13 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnPoint(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "VirtualSteer" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnVirtualSteer(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "Click" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>

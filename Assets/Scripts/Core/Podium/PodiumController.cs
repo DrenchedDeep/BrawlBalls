@@ -17,7 +17,6 @@ namespace Core.Podium
 
         [SerializeField] private Podium[] podiums;
         [SerializeField] private Camera cam;
-        [SerializeField] private bool debugHide;
         
         [SerializeField] private PlayerInput localPlayerInputComponent;
         [SerializeField] private InputActionReference previous;
@@ -114,6 +113,10 @@ namespace Core.Podium
             
 
             Vector2 pointerPosition = Pointer.current.position.ReadValue();
+            
+            Debug.Log("Pointer location: " + pointerPosition );
+            
+            
             // ReSharper disable once Unity.PerformanceCriticalCodeCameraMain
             if(!cam) cam = Camera.main;
             if (!cam)
@@ -151,8 +154,7 @@ namespace Core.Podium
                
                 if (p == podiums[CurForward])
                 {
-                    Debug.Log($"{debugHide} || {podiums[CurForward].CanInteract}");
-                    if (debugHide || podiums[CurForward].CanInteract)
+                    if (podiums[CurForward].CanInteract)
                     {        
                         Debug.Log("Remember to disable the object if we're updating still!");
                         onForwardSelected?.Invoke(CurForward);
