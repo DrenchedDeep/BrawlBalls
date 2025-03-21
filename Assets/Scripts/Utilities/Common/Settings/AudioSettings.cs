@@ -26,7 +26,7 @@ namespace Utilities.Common.Settings
 
             public void SetVolume(float volume)
             {
-                GetBus().setVolume(Mathf.Pow(volume, 2.0f)); // Convert back to linear
+                GetBus().setVolume(volume); // Convert back to linear
             }
 
             public void Save()

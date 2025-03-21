@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<objects serializationModel="Studio.02.02.00">
+<objects serializationModel="Studio.02.03.00">
 	<object class="Event" id="{90ca3571-2be1-41b9-9718-75bbcc900902}">
 		<property name="name">
 			<value>MainMenuMusic</value>
@@ -125,8 +125,8 @@
 			<destination>{20c51081-ecb8-4619-a493-976f7cfc2f68}</destination>
 		</relationship>
 		<relationship name="markers">
-			<destination>{ddc96359-0d27-4c09-a219-cb02b3b23f42}</destination>
 			<destination>{e77c8e3a-bf31-4c62-ba40-f93d55d0e068}</destination>
+			<destination>{ddc96359-0d27-4c09-a219-cb02b3b23f42}</destination>
 		</relationship>
 	</object>
 	<object class="ParameterProxy" id="{c04ebeb1-b1b0-466f-9edb-baa6c7d48392}">
@@ -139,8 +139,8 @@
 	</object>
 	<object class="ParameterProxy" id="{91a33fda-79d2-449e-9929-cb19f5e90eef}">
 		<relationship name="modules">
-			<destination>{f5d5b8b6-8e2c-452d-9ae9-29a685820758}</destination>
 			<destination>{9cb0770d-d8d3-49ec-86bb-8906094d2b98}</destination>
+			<destination>{f5d5b8b6-8e2c-452d-9ae9-29a685820758}</destination>
 		</relationship>
 		<relationship name="preset">
 			<destination>{43af84a5-9785-459e-abd1-a713ba289c7a}</destination>
@@ -291,12 +291,9 @@
 			<destination>{41a23898-a96c-45a4-8263-43d8006d351c}</destination>
 		</relationship>
 	</object>
-	<object class="LoopRegion" id="{ddc96359-0d27-4c09-a219-cb02b3b23f42}">
+	<object class="TempoMarker" id="{e77c8e3a-bf31-4c62-ba40-f93d55d0e068}">
 		<property name="position">
 			<value>0</value>
-		</property>
-		<property name="length">
-			<value>18.285714285714285</value>
 		</property>
 		<relationship name="timeline">
 			<destination>{8140f288-af41-49c9-84b5-2a37829c39a3}</destination>
@@ -305,9 +302,12 @@
 			<destination>{4727337c-71f6-4aad-9c6a-6f5840df2c8f}</destination>
 		</relationship>
 	</object>
-	<object class="TempoMarker" id="{e77c8e3a-bf31-4c62-ba40-f93d55d0e068}">
+	<object class="LoopRegion" id="{ddc96359-0d27-4c09-a219-cb02b3b23f42}">
 		<property name="position">
 			<value>0</value>
+		</property>
+		<property name="length">
+			<value>18.285714285714285</value>
 		</property>
 		<relationship name="timeline">
 			<destination>{8140f288-af41-49c9-84b5-2a37829c39a3}</destination>
@@ -393,10 +393,10 @@
 			<destination>{301de00c-0e72-4da2-b130-99604650cf2a}</destination>
 		</relationship>
 		<relationship name="automationPoints">
-			<destination>{bbcf1ea8-291c-48ca-8225-dbebf2b9995a}</destination>
-			<destination>{c7e81c72-6dd6-4348-a0d7-8553044968c1}</destination>
 			<destination>{8fb41c6f-3b09-41b2-8694-32c6d511eb6e}</destination>
 			<destination>{79986f42-b950-4fd6-817d-43c1970264a7}</destination>
+			<destination>{bbcf1ea8-291c-48ca-8225-dbebf2b9995a}</destination>
+			<destination>{c7e81c72-6dd6-4348-a0d7-8553044968c1}</destination>
 		</relationship>
 	</object>
 	<object class="SFXReverbEffect" id="{c9e4fc7d-9608-475b-ab8d-c4927e2a5d98}">
@@ -504,6 +504,25 @@
 		</property>
 	</object>
 	<object class="MixerBusFader" id="{40db1f96-9659-4d17-8c96-ddcffa4f9b5d}" />
+	<object class="AutomationPoint" id="{8fb41c6f-3b09-41b2-8694-32c6d511eb6e}">
+		<property name="position">
+			<value>1</value>
+		</property>
+		<property name="value">
+			<value>-2</value>
+		</property>
+	</object>
+	<object class="AutomationPoint" id="{79986f42-b950-4fd6-817d-43c1970264a7}">
+		<property name="position">
+			<value>0.80000000000000004</value>
+		</property>
+		<property name="value">
+			<value>-7</value>
+		</property>
+		<property name="curveShape">
+			<value>0.0739438385</value>
+		</property>
+	</object>
 	<object class="AutomationPoint" id="{bbcf1ea8-291c-48ca-8225-dbebf2b9995a}">
 		<property name="position">
 			<value>0.29999999999999999</value>
@@ -524,25 +543,6 @@
 		</property>
 		<property name="curveShape">
 			<value>0.301798582</value>
-		</property>
-	</object>
-	<object class="AutomationPoint" id="{8fb41c6f-3b09-41b2-8694-32c6d511eb6e}">
-		<property name="position">
-			<value>1</value>
-		</property>
-		<property name="value">
-			<value>-2</value>
-		</property>
-	</object>
-	<object class="AutomationPoint" id="{79986f42-b950-4fd6-817d-43c1970264a7}">
-		<property name="position">
-			<value>0.80000000000000004</value>
-		</property>
-		<property name="value">
-			<value>-7</value>
-		</property>
-		<property name="curveShape">
-			<value>0.0739438385</value>
 		</property>
 	</object>
 </objects>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<objects serializationModel="Studio.02.02.00">
+<objects serializationModel="Studio.02.03.00">
 	<object class="Event" id="{aa384bf2-d524-4df2-8e6c-41bfe0645af6}">
 		<property name="name">
 			<value>FindMatches</value>
@@ -70,8 +70,8 @@
 	</object>
 	<object class="GroupTrack" id="{602aae28-2574-4d68-b6c4-1eda0d961cfa}">
 		<relationship name="modules">
-			<destination>{72552346-372b-4813-bb05-c90e6d25aac3}</destination>
 			<destination>{98d9e705-f028-4838-bb44-987a2b5c5e98}</destination>
+			<destination>{72552346-372b-4813-bb05-c90e6d25aac3}</destination>
 		</relationship>
 		<relationship name="mixerGroup">
 			<destination>{bde44806-f130-438d-818e-ca3b607e7b96}</destination>
@@ -79,9 +79,9 @@
 	</object>
 	<object class="Timeline" id="{b9a17c6b-d28a-4442-b1c9-c686d57df0f4}">
 		<relationship name="modules">
+			<destination>{98d9e705-f028-4838-bb44-987a2b5c5e98}</destination>
 			<destination>{ec1f35bb-1ef1-48a8-965c-eb6f5a10f001}</destination>
 			<destination>{72552346-372b-4813-bb05-c90e6d25aac3}</destination>
-			<destination>{98d9e705-f028-4838-bb44-987a2b5c5e98}</destination>
 		</relationship>
 		<relationship name="markers">
 			<destination>{debea65e-469e-499e-abc0-6598fdd6ed6c}</destination>
@@ -132,7 +132,10 @@
 			<destination>{768736ec-7768-4a91-bf2e-e8d39f223b02}</destination>
 		</relationship>
 	</object>
-	<object class="SingleSound" id="{72552346-372b-4813-bb05-c90e6d25aac3}">
+	<object class="SingleSound" id="{98d9e705-f028-4838-bb44-987a2b5c5e98}">
+		<property name="start">
+			<value>9.1428571428571423</value>
+		</property>
 		<property name="length">
 			<value>9.1428571428571423</value>
 		</property>
@@ -143,10 +146,7 @@
 			<destination>{0784fbcf-105b-4762-8145-9b26b3cfbaa4}</destination>
 		</relationship>
 	</object>
-	<object class="SingleSound" id="{98d9e705-f028-4838-bb44-987a2b5c5e98}">
-		<property name="start">
-			<value>9.1428571428571423</value>
-		</property>
+	<object class="SingleSound" id="{72552346-372b-4813-bb05-c90e6d25aac3}">
 		<property name="length">
 			<value>9.1428571428571423</value>
 		</property>
