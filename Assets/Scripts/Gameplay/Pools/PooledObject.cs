@@ -1,4 +1,5 @@
 using System;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class PooledObject : MonoBehaviour
@@ -17,6 +18,12 @@ public class PooledObject : MonoBehaviour
     public virtual void OnTakenFromPool()
     {
         OnTakenFromPoolEvent?.Invoke();
+    }
+    
+    public async UniTask ReturnToPoolTask(float time = 1f)
+    {
+        await UniTask.WaitForSeconds(time);
+        ReturnToPool();
     }
 
     public virtual void ReturnToPool()

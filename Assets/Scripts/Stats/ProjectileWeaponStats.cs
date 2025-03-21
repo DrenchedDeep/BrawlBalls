@@ -10,7 +10,7 @@ namespace Stats
     public class ProjectileWeaponStats : WeaponStats
     {
         
-        [field: SerializeField] public Projectile ProjectilePrefab { get; private set; }
+        [field: SerializeField] public string ProjectilePoolName { get; private set; }
 
     }
 }

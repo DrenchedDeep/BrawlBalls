@@ -1,4 +1,5 @@
 using System;
+using Cysharp.Threading.Tasks;
 using Managers.Local;
 using Stats;
 using UnityEngine;
@@ -10,7 +11,7 @@ namespace Gameplay.Weapons
     /**
  * this class is ONLY ran on the server, networkrigidtrans replicates the transform to other clients
  */
-    public class Projectile : MonoBehaviour
+    public class Projectile : PooledObject
     {
         [SerializeField] private float ballVelocityIncreaseAmt = 1;
         [SerializeField] private GameObject hitVFX;
@@ -33,6 +34,7 @@ namespace Gameplay.Weapons
         {
             _rigidbody = GetComponent<Rigidbody>();
         }
+        
 
         //owner calls this function... they can setup velocity & the velocity is passed down to other clients
         public void Init(BallPlayer owner, out Vector3 velocity)
@@ -57,15 +59,16 @@ namespace Gameplay.Weapons
                 _ => throw new ArgumentOutOfRangeException() // Default.
             };
 
-            Destroy(gameObject, stats.MaxLifetime);
+            _ = ReturnToPoolTask(stats.MaxLifetime);
         }
 
         //dummy init, essentially tell it to destroy itself and to not calculate damage
         public void Init()
         {
             CanDoDamage = false;
-            Destroy(gameObject, stats.MaxLifetime);
+            _ = ReturnToPoolTask(stats.MaxLifetime);
         }
+        
 
         public void OverrideVelocity(Vector3 velocity) => _rigidbody.linearVelocity = velocity;
 
@@ -86,6 +89,11 @@ namespace Gameplay.Weapons
                 _castMode.Invoke();
             }
         }
+        public override void ReturnToPool()
+        {
+            _rigidbody.linearVelocity = Vector3.zero;
+            base.ReturnToPool();
+        }
 
         private void OnCollisionEnter(Collision other)
         {
@@ -94,7 +102,7 @@ namespace Gameplay.Weapons
                 Instantiate(hitVFX, transform.position,
                     Quaternion.LookRotation(-transform.forward, Vector3.up));
                 CastForward_SphereCast();
-                Destroy(gameObject);
+                ReturnToPool();
             }
         }
 
@@ -121,7 +129,7 @@ namespace Gameplay.Weapons
 
                 GameObject hitVfx = Instantiate(hitVFX, hit.point, Quaternion.LookRotation(-forward, Vector3.up));
                 Debug.Log("projectile hit: " + hit.transform.gameObject.name);
-                Destroy(gameObject);
+                ReturnToPool();
             }
         }
 
@@ -143,7 +151,6 @@ namespace Gameplay.Weapons
 
                 c.attachedRigidbody.GetComponent<BallPlayer>().TakeDamage_ServerRpc(damageProperties);
             }
-
         }
     }
 }

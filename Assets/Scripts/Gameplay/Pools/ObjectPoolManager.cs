@@ -78,6 +78,11 @@ public class ObjectPoolManager : MonoBehaviour
 
             T component = obj.GetComponent<T>();
 
+            if (obj.TryGetComponent(out PooledObject pooledObject))
+            {
+                pooledObject.OnTakenFromPool();
+            }
+            
             if (component)
             {
                 return obj.GetComponent<T>();
