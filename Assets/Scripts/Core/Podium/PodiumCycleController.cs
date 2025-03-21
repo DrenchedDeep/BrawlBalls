@@ -51,7 +51,7 @@ namespace Core.Podium
                 tr = _podiumController.Podiums[start].transform;
                 Vector3 temp = tr.position;
                 Quaternion prvRotTemp = tr.rotation;
-                _ = SlerpIt(prv, prvRot, tr.transform, duration);
+                _ =  SlerpIt(prv, prvRot, tr.transform, duration);
                 prv = temp;
                 prvRot = prvRotTemp;
             } while (_podiumController.CurForward != start);
@@ -75,22 +75,30 @@ namespace Core.Podium
             id.SetPositionAndRotation(next, rotation);
 
             _podiumController.IsRotating = false;
+
         }
 
-        public void ToggleViewState()
+        public async void ToggleViewState()
         {
+            _podiumController.IsRotating = true;
             _isSide = !_isSide;
-
+            UniTask a;
+            UniTask b;
+    
             if (_isSide)
             {
-                _ = SlerpIt(podiumRootEnd.position, podiumRootEnd.rotation, podiumRoot,transitionTime);
-                _ = SlerpIt(camRotatorEnd.position, camRotatorEnd.rotation, camRotator,transitionTime);
+                a = SlerpIt(podiumRootEnd.position, podiumRootEnd.rotation, podiumRoot,transitionTime);
+                b = SlerpIt(camRotatorEnd.position, camRotatorEnd.rotation, camRotator,transitionTime);
             }
             else
             {
-                _ = SlerpIt(podiumRootStart.position, podiumRootStart.rotation, podiumRoot,transitionTime);
-                _ = SlerpIt(camRotatorStart.position, camRotatorStart.rotation, camRotator,transitionTime);
+                a = SlerpIt(podiumRootStart.position, podiumRootStart.rotation, podiumRoot,transitionTime);
+                b = SlerpIt(camRotatorStart.position, camRotatorStart.rotation, camRotator,transitionTime);
+               
             }
+
+            await UniTask.WhenAll(a,b);
+            _podiumController.IsRotating = false;
         }
 
       
