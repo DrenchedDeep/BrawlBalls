@@ -1,10 +1,12 @@
 using System.Collections.Generic;
-using Gameplay;
+using Core.ActionMaps;
 using Gameplay.Balls;
 using Gameplay.Weapons;
 using Stats;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Utilities;
 using BallPlayer = Gameplay.BallPlayer;
 
 namespace Managers.Local
@@ -24,12 +26,16 @@ namespace Managers.Local
 
         [SerializeField] private Sprite[] rarityIcons;
         [SerializeField] private Color[] rarityColors;
+#if !UNITY_ANDROID && !UNITY_IOS
+        [SerializeField] private InputSpriteActionMap[] actionMaps;
+#endif
 
+            
         public static readonly Dictionary<string, Ball> Balls = new();
         public static readonly Dictionary<string, BaseWeapon> Weapons = new();
         public static readonly Dictionary<string, AbilityStats> Abilities = new();
         public static readonly Dictionary<string, NetworkObject> SummonableObjects = new();
-
+        
         public static ResourceManager Instance { get; private set; }
         public BallPlayer Hull => hull;
 
@@ -45,8 +51,6 @@ namespace Managers.Local
 
             Instance = this;
             DontDestroyOnLoad(gameObject);
-
-
 
             Debug.LogError("Can this be converted to Addressables?", gameObject);
             
@@ -76,9 +80,22 @@ namespace Managers.Local
             {
                 SummonableObjects.Add(b.name, b);
             }
-
         }
-        
+#if !UNITY_ANDROID && !UNITY_IOS
+        public InputSpriteActionMap GetActionMap(ReadOnlyArray<InputDevice> inputDevices)
+        {
+            InputSpriteActionMap map = actionMaps[0];
+            for (int i = 1; i < actionMaps.Length; ++i)
+            {
+                Debug.Log("Trying to find action map for: " + inputDevices[i].displayName);
+                foreach (var t in inputDevices)
+                {
+                    if (t.displayName.Equals(actionMaps[i].DisplayName)) return map;
+                }
+            }
+            return map;
+        }
+#endif
         public static BallPlayer CreateBallDisabled(string ball, string weapon, Transform root,out Ball b, out BaseWeapon w)
         {
                             

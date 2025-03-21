@@ -64,6 +64,8 @@ namespace Utilities.Hover
                     _currentTransitionTime += Time.deltaTime;
                     yield return null;
                 }
+
+                _rectTransform.localScale = endScale;
             }
             else
             {
@@ -73,8 +75,10 @@ namespace Utilities.Hover
                     _currentTransitionTime += Time.deltaTime;
                     yield return null;
                 }
-            }
 
+                _rectTransform.sizeDelta = end;
+
+            }
 
             _currentTransitionTime = 0;
             _hoverCoroutine = null;

@@ -12,7 +12,7 @@ using UnityEngine.UI;
 
 namespace Core.Podium
 {
-    public class Podium : MonoBehaviour, ISelectHandler, IDeselectHandler
+    public class Podium : MonoBehaviour
     {
         [SerializeField] private MeshRenderer meshRenderer;
         [SerializeField] private Transform ballPoint;
@@ -104,7 +104,7 @@ namespace Core.Podium
             canvas.enabled = true;
             
             _myBall.SetAbility(stats);
-            TrailRenderer trail = _myBall.GetComponent<TrailRenderer>();
+            TrailRenderer trail = _myBall.GetComponentInChildren<TrailRenderer>();
 
             _ballObject = b.gameObject;
             _weaponObject = w.gameObject;
@@ -289,14 +289,5 @@ namespace Core.Podium
             _currentHoverTransitionTime = 0;
         }
 
-        public void OnSelect(BaseEventData eventData)
-        {
-            
-        }
-
-        public void OnDeselect(BaseEventData eventData)
-        {
-            
-        }
     }
 }
