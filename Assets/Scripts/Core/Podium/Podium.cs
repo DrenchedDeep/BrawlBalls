@@ -104,7 +104,7 @@ namespace Core.Podium
             canvas.enabled = true;
             
             _myBall.SetAbility(stats);
-            TrailRenderer trail = _myBall.GetComponent<TrailRenderer>();
+            TrailRenderer trail = _myBall.GetComponentInChildren<TrailRenderer>();
 
             _ballObject = b.gameObject;
             _weaponObject = w.gameObject;

@@ -31,13 +31,14 @@ namespace Utilities.Common.Settings
 
       public void Save()
       {
+         _settingsMenus ??= GetComponentsInChildren<ISettingsMenu>();
          foreach (var menu in _settingsMenus)
          {
             menu.Save();
          }
       }
 
-      private void OnDisable()
+      private void OnDestroy()
       {
          Save();
       }

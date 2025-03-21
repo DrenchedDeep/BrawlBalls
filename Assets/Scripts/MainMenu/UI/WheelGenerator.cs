@@ -34,8 +34,10 @@ namespace MainMenu.UI
         {
             foreach (ShopItemStats stats in items)
             {
+
                 WheelItem item = Instantiate(template, parent);
                 item.SetItem(stats);
+
             }
         }
 
