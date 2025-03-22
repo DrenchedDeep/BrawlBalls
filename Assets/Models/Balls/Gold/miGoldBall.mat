@@ -43,7 +43,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ERM:
-        m_Texture: {fileID: 2800000, guid: 31338a80d8212e945b4ce0200babd83a, type: 3}
+        m_Texture: {fileID: 2800000, guid: 09959ba878f7be54aa09d0d9bb5a1962, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -72,10 +72,12 @@ Material:
     - _CrackPercent: 0
     - _EMISSIONONLY: 0
     - _FlashPercent: 0
+    - _MetallicMulti: 0.63
     - _QueueControl: 0
     - _QueueOffset: 0
     - _RaiseScale: 160
     - _RiseScale: 10
+    - _RoughnessMulti: 2
     - _SpawnPercent: 0
     m_Colors:
     - _CrackColor: {r: 2.301887, g: 0.5991523, b: 0.05428978, a: 0}

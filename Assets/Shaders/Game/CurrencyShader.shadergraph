@@ -466,6 +466,7 @@
     "m_OutputNode": {
         "m_Id": ""
     },
+    "m_SubDatas": [],
     "m_ActiveTargets": [
         {
             "m_Id": "e4c69a6a4ec446f685fb3c3bb37576fb"
@@ -619,10 +620,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -875.0,
-            "y": -967.0001220703125,
-            "width": 207.99993896484376,
-            "height": 302.0
+            "x": -898.0,
+            "y": -868.9999389648438,
+            "width": 208.0,
+            "height": 301.99993896484377
         }
     },
     "m_Slots": [
@@ -1542,10 +1543,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -1503.0,
-            "y": -423.0,
+            "x": -1907.9998779296875,
+            "y": -522.0000610351563,
             "width": 208.0,
-            "height": 315.0000305175781
+            "height": 315.0
         }
     },
     "m_Slots": [
@@ -1673,7 +1674,7 @@
     "m_DefaultValue": {
         "x": 0.0,
         "y": 0.0,
-        "z": 0.0
+        "z": 1.0
     },
     "m_Labels": []
 }
@@ -1952,10 +1953,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -1044.15673828125,
-            "y": -290.3350524902344,
+            "x": -884.9998779296875,
+            "y": -522.0,
             "width": 208.0,
-            "height": 360.9999694824219
+            "height": 361.0
         }
     },
     "m_Slots": [
@@ -2612,6 +2613,9 @@
     "m_AlphaClip": false,
     "m_CastShadows": true,
     "m_ReceiveShadows": true,
+    "m_DisableTint": false,
+    "m_AdditionalMotionVectorMode": 0,
+    "m_AlembicMotionVectors": false,
     "m_SupportsLODCrossFade": false,
     "m_CustomEditorGUI": "",
     "m_SupportVFX": false
