@@ -71,7 +71,7 @@ namespace Gameplay
         {
             if (gameState == GameState.InGame)
             {
-                _rb.isKinematic = false;
+           //     _rb.isKinematic = false;
             }
         }
         
@@ -99,6 +99,7 @@ namespace Gameplay
 
             _rb = GetComponent<Rigidbody>();
             _rb.interpolation = RigidbodyInterpolation.Interpolate;
+            /*/
             if (NetworkGameManager.Instance.GameState.Value == GameState.SelectingBalls ||
                 NetworkGameManager.Instance.GameState.Value == GameState.StartingGame)
             {
@@ -108,6 +109,7 @@ namespace Gameplay
             {
                 _rb.isKinematic = false;
             }
+            /*/
             
             _rb.mass = GetBall.Stats.Mass + GetBaseWeapon.Stats.Mass;
 
@@ -222,8 +224,8 @@ namespace Gameplay
 
             NetworkGameManager.Instance.OnPlayerKilled(NetworkObject.OwnerClientId, killer);
 
-            transform.GetChild(1).GetComponent<NetworkObject>().Despawn();
-            transform.GetChild(2).GetComponent<NetworkObject>().Despawn();
+            transform.GetChild(3).GetComponent<NetworkObject>().Despawn();
+            transform.GetChild(4).GetComponent<NetworkObject>().Despawn();
             NetworkObject.Despawn();
 
         }

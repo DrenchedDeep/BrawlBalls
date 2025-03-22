@@ -41,12 +41,12 @@ namespace Core.Gameplay
 
         private void OnEnable()
         {
-            NetworkGameManager.Instance.OnGameStateUpdated += OnGameStateChanged;
+        //    NetworkGameManager.Instance.OnGameStateUpdated += OnGameStateChanged;
         }
 
         private void OnDisable()
         {
-            NetworkGameManager.Instance.OnGameStateUpdated -= OnGameStateChanged;
+     //       NetworkGameManager.Instance.OnGameStateUpdated -= OnGameStateChanged;
         }
 
         private void OnGameStateChanged(GameState gameState)
