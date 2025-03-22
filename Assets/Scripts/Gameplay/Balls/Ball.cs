@@ -86,6 +86,7 @@ namespace Gameplay.Balls
 
        private void FixedUpdate()
        {
+           //if (_rb.isKinematic) return;
            #if UNITY_EDITOR
            if (IsOwner || !NetworkManager.Singleton)
            {
