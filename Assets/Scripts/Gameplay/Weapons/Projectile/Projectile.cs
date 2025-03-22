@@ -2,6 +2,7 @@ using System;
 using Cysharp.Threading.Tasks;
 using Gameplay.Pools;
 using Managers.Local;
+using RotaryHeart.Lib.PhysicsExtension;
 using Stats;
 using UnityEngine;
 using Physics = UnityEngine.Physics;
@@ -179,9 +180,15 @@ namespace Gameplay.Weapons
         private void CastForward_SphereCast()
         {
             Vector3 pos = transform.position;
-            Collider[] cols = Physics.OverlapSphere(pos, 10, StaticUtilities.PlayerLayers);
+            Collider[] cols = Physics.OverlapSphere(pos, stats.MaxRadius, StaticUtilities.PlayerLayers);
+            
+            #if UNITY_EDITOR
+            
+            DebugExtensions.DebugWireSphere(pos, Color.red, stats.MaxRadius, 5f, PreviewCondition.Both, false);
+            #endif
             foreach (Collider c in cols)
             {
+                Debug.Log(c.gameObject.name);
                 Vector3 ePos = c.ClosestPoint(pos);
                 Vector3 dir = ePos - pos;
                 float damage = ParticleManager.EvalauteExplosiveDistance(dir.magnitude / 10) * 200;
