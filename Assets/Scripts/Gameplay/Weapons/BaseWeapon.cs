@@ -68,7 +68,7 @@ namespace Gameplay.Weapons
             
             if (lookUpWhileNotMoving) dir = Vector3.Lerp(Vector3.up,  dir, Owner.GetBall.Speed * 5);
             
-            Debug.Log(dir);
+         //   Debug.Log(dir);
             transform.forward = dir;
         }
 
