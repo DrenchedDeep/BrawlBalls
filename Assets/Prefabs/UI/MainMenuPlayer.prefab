@@ -1173,6 +1173,7 @@ GameObject:
   - component: {fileID: 1500214312683098004}
   - component: {fileID: 5313181141377681509}
   - component: {fileID: 7346344515728114735}
+  - component: {fileID: 5198228336447344570}
   m_Layer: 15
   m_Name: Discord
   m_TagString: Untagged
@@ -1419,6 +1420,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   websiteUrl: https://discord.com/invite/kw5ysTbtHJ
+--- !u!114 &5198228336447344570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1776122567332170075}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -1238868625
+      Data2: 1277096955
+      Data3: -1988400713
+      Data4: 500442908
+    Path: event:/Ingame_Events/UI/UI_YOUWINSOMETHING
+  Event: 
+  EventPlayTrigger: 19
+  EventStopTrigger: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1 &1785833087614680160
 GameObject:
   m_ObjectHideFlags: 0
@@ -2919,6 +2951,7 @@ GameObject:
   - component: {fileID: 358207364835619049}
   - component: {fileID: 5032772952016313654}
   - component: {fileID: 632019637449779339}
+  - component: {fileID: 145435573732528639}
   m_Layer: 15
   m_Name: Shop
   m_TagString: Untagged
@@ -3140,6 +3173,37 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &145435573732528639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3583174195294668672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -411324998
+      Data2: 1230108413
+      Data3: 927232936
+      Data4: 177095930
+    Path: event:/Ingame_Events/UI/UI_Seclect
+  Event: 
+  EventPlayTrigger: 19
+  EventStopTrigger: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1 &3667359219865627577
 GameObject:
   m_ObjectHideFlags: 0
@@ -6052,6 +6116,7 @@ GameObject:
   - component: {fileID: 4127465664176001887}
   - component: {fileID: 3062538197073829513}
   - component: {fileID: 2865661925840928794}
+  - component: {fileID: 9016773225828102540}
   m_Layer: 15
   m_Name: Settings
   m_TagString: Untagged
@@ -6297,6 +6362,37 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &9016773225828102540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8706705323730394766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -411324998
+      Data2: 1230108413
+      Data3: 927232936
+      Data4: 177095930
+    Path: event:/Ingame_Events/UI/UI_Seclect
+  Event: 
+  EventPlayTrigger: 20
+  EventStopTrigger: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1 &8827089418061529574
 GameObject:
   m_ObjectHideFlags: 0

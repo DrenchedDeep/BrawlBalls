@@ -52,9 +52,7 @@ namespace Core.Podium
         private GameObject _weaponObject;
         private Material _ballMaterial;
         private Material[] _weaponMaterial;
-
-
-        private AudioSource _audioSource;
+        
 
         public bool IsBlocked
         {
@@ -72,7 +70,6 @@ namespace Core.Podium
 
         private void Awake()
         {
-            _audioSource = GetComponent<AudioSource>();
             canvas.enabled = false;
             _core = transform.GetChild(0);
             _originalHoverOffset = _core.localPosition;
@@ -81,7 +78,6 @@ namespace Core.Podium
 
         private void OnEnable()
         {
-
             if(!_material) _material = meshRenderer.material;
             _ = FadeEmissive(PillarIsEmpty ? inactiveColor : activeColor);
         }
@@ -170,6 +166,7 @@ namespace Core.Podium
 
         public void SetWeapon(GameObject w)
         {
+            AudioManager.instance.PlayOneShot(FMODEvents.instance.click, transform.position);
             Debug.Log($"Changing the WEAPON from {SaveManager.MyBalls.GetReadonlyBall(_ballIndex).ball} to {w.name}");
             SaveManager.MyBalls.SetBallWeapon(_ballIndex,  w.name);
             
@@ -198,6 +195,7 @@ namespace Core.Podium
 
         public void SetBall(GameObject b)
         {
+            AudioManager.instance.PlayOneShot(FMODEvents.instance.click, transform.position);
             Debug.Log($"Changing the BALL from {SaveManager.MyBalls.GetReadonlyBall(_ballIndex).ball} to {b.name}");
             SaveManager.MyBalls.SetBallType(_ballIndex, b.name);
             Destroy(_ballObject);
@@ -216,6 +214,7 @@ namespace Core.Podium
 
         public void SetAbility(AbilityStats a)
         {
+            AudioManager.instance.PlayOneShot(FMODEvents.instance.click, transform.position);
             Debug.Log($"Changing the ABILITY from {SaveManager.MyBalls.GetReadonlyBall(_ballIndex).ability} to {a.name}");
             SaveManager.MyBalls.SetBallAbility(_ballIndex, a.name);
             _ = TransitionMaterial(_ballMaterial, StaticUtilities.FlashPercentID, 1,0);
@@ -243,6 +242,7 @@ namespace Core.Podium
         public async UniTask OnHover()
         {
             AudioManager.instance.PlayOneShot(FMODEvents.instance.scroll, transform.position);
+            
             if (!CanInteract) return;
             _bTokenSource?.Cancel();
             _aTokenSource = new();
@@ -294,7 +294,7 @@ namespace Core.Podium
 
         public void OnSelect(BaseEventData eventData)
         {
-            
+            AudioManager.instance.PlayOneShot(FMODEvents.instance.scroll, transform.position);
         }
 
         public void OnDeselect(BaseEventData eventData)
