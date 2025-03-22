@@ -26,9 +26,7 @@ namespace Gameplay.Object_Scripts
         protected virtual void OnTriggerEnter(Collider other)
         {
             Debug.LogWarning("Object collected");
-            //Play effect...
             Award(other.transform.parent.GetComponent<BallPlayer>());
-       
         }
     
     

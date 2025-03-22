@@ -23,6 +23,7 @@ public class TheButtonWeapon : BaseWeapon
     {
         _cancellationTokenSource = new CancellationTokenSource();
         _ = ButtonCountdown(_cancellationTokenSource.Token);
+        buttonTransform.localScale = new Vector3(1f, .1f, 1f);
     }
 
     public override void AttackEnd()

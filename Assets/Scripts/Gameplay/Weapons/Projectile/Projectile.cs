@@ -16,6 +16,7 @@ namespace Gameplay.Weapons
     {
         [SerializeField] private float ballVelocityIncreaseAmt = 1;
         [SerializeField] private GameObject hitVFX;
+        [SerializeField] private float gravMult = 1;
         [SerializeField] private ProjectileStats stats;
 
         private BallPlayer _owner;
@@ -43,6 +44,7 @@ namespace Gameplay.Weapons
             _trailRenderer = GetComponentInChildren<TrailRenderer>();
             _renderers = GetComponentsInChildren<MeshRenderer>();
 
+            _rigidbody.useGravity = false;
         }
         
 
@@ -86,11 +88,9 @@ namespace Gameplay.Weapons
 
         private void FixedUpdate()
         {
-            if (stats.IsAffectedByGravity)
-            {
-                _rigidbody.AddForce(Physics.gravity * _rigidbody.mass);
-            }
-
+            _rigidbody.AddForce(Physics.gravity * gravMult * Time.fixedDeltaTime, ForceMode.Force);
+            
+            
             if (stats.RotateTowardsVelocity)
             {
                 transform.rotation = Quaternion.LookRotation(_rigidbody.linearVelocity);

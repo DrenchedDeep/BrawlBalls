@@ -33,7 +33,6 @@ namespace Gameplay.Weapons
                 firingPoint.position, firingPoint.rotation);
             
             projectile.Init(_ballPlayer, out velocity);
-            Debug.Log("projectile init");
             if (inVelocity > 0)
             {
                 projectile.OverrideVelocity(firingPoint.forward * inVelocity);

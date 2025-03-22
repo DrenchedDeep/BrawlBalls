@@ -8,6 +8,7 @@ public class CannonWeapon : ProjectileWeaponBase
     [SerializeField] private Parabola parabola;
     [SerializeField] private float minFirePowerBeforeAttack = 0.2f;
     [SerializeField] private float maxFirePower = 20f;
+    [SerializeField] private float firePowerMultiplier = 2f;
     [SerializeField] private float chargeRate = 10f; 
 
     private bool _updateParabola;
@@ -15,15 +16,12 @@ public class CannonWeapon : ProjectileWeaponBase
     
     public override void AttackStart()
     {
-        Debug.Log("attack start???");
-
         _updateParabola = true;
         parabola.ToggleLineRenderer(true);
     }
 
     public override void AttackEnd()
     {
-        Debug.Log("attack end???");
         if (_firePower >= minFirePowerBeforeAttack)
         {
             Attack();
@@ -40,7 +38,7 @@ public class CannonWeapon : ProjectileWeaponBase
         for (int i = 0; i < projectileWeapons.Length; i++)
         {
             //fire locally
-            projectileWeapons[i].Fire(stats, out Vector3 velocity, _firePower);
+            projectileWeapons[i].Fire(stats, out Vector3 velocity, _firePower * firePowerMultiplier);
             
             //tell server to spawn projectiles for every other clients
             if (NetworkManager.Singleton)
