@@ -7,8 +7,10 @@ using Managers.Network;
 using Stats;
 using TMPro;
 using Unity.Cinemachine;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 //Player handles UI, and is the main interface for players...
 namespace Managers.Local
@@ -47,8 +49,6 @@ namespace Managers.Local
         public bool IsActive => _currentBall;
 
 
-        private bool _tickRespawn;
-        private float _respawnTimer;
         private const float RespawnTime = 5;
 
         private int _livesLeft;
@@ -112,34 +112,37 @@ namespace Managers.Local
 
         private void OnEnable()
         {
-            NetworkGameManager.Instance.OnGameEnd += OnGameEnded;
+      //      NetworkGameManager.Instance.OnGameEnd += OnGameEnded;
+            NetworkGameManager.Instance.OnHostDisconnected += OnHostDisconnected;
         }
 
         private void OnDisable()
         {
-            NetworkGameManager.Instance.OnGameEnd -= OnGameEnded;
-
+          //  NetworkGameManager.Instance.OnGameEnd -= OnGameEnded;
+            NetworkGameManager.Instance.OnHostDisconnected -= OnHostDisconnected;
         }
 
-        public void SwapJoySticks(bool isFull)
+        public void OnGameEnded()
         {
-            /*/
-            AssetStore.Joystick_Pack.Scripts.Base.Joystick nextJoystick = isFull ? fullJoystick : halfJoystick;
-
-            _currentJoyStick = nextJoystick;
-            fullJoystick.gameObject.SetActive(nextJoystick == fullJoystick);
-            halfJoystick.gameObject.SetActive(nextJoystick != fullJoystick);
-            /*/
-        }
-
-        private void OnGameEnded()
-        {
+            Debug.Log("game end?");
             rootCanvas.enabled = false;
             respawnUI.SetActive(false);
             _spectatingManager.StopSpectating();
             _spectatingManager.enabled = false;
-            _tickRespawn = false;
             DisableControls();
+        }
+        
+        private void OnHostDisconnected()
+        {
+            //other logic... let the player know?? for now just return to main menu
+            ReturnToMainMenu();
+        }
+
+
+        public void ReturnToMainMenu()
+        {
+            Debug.Log("client is returning to main menu!");
+            SceneManager.LoadScene("MainMenuNEW");
         }
         
 
@@ -149,21 +152,6 @@ namespace Managers.Local
             x.y = 0;
             _currentBall.GetBall.Foward.Value = x.normalized;
             _currentBall.GetBall.MoveDirection.Value = _currentJoyStick.Direction;
-
-            /*/
-            //this should probs be done on the server....
-            if (_tickRespawn)
-            {
-                _respawnTimer -= Time.deltaTime;
-
-                respawnTimerText.text = ("RESPAWNING IN : " + (int)_respawnTimer);
-                if (_respawnTimer <= 0)
-                {
-                    Unbind();
-                    _tickRespawn = false;
-                }
-            }
-            /*/
         }
 
         #region Interaction
@@ -240,7 +228,6 @@ namespace Managers.Local
             respawnUI.SetActive(true);
             rootCanvas.enabled = false;
 
-            Debug.Log(killer);
             killedByText.text = (killer == 100) ? "WORLD" : NetworkGameManager.Instance.GetPlayerName(killer);
             DisableControls();
 
@@ -249,7 +236,6 @@ namespace Managers.Local
 
         private async UniTask ProcessRespawn()
         {
-            _tickRespawn = true;
             float respawnTime = RespawnTime;
             while (respawnTime > 0)
             {
@@ -259,7 +245,6 @@ namespace Managers.Local
             }
 
             respawnTimerText.text = ("RESPAWNING IN : " + 0);
-            _tickRespawn = false;
             Unbind();
         }
 

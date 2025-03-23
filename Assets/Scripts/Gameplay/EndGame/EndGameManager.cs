@@ -28,12 +28,20 @@ namespace Gameplay.EndGame
 
         private void OnEnable()
         {
-     //       NetworkGameManager.Instance.OnGameEnd += OnGameEnd;
+            NetworkGameManager.Instance.OnGameStateUpdated += OnGameStateChanged;
+        }
+        
+        private void OnDisable()
+        { 
+            NetworkGameManager.Instance.OnGameStateUpdated -= OnGameStateChanged;
         }
 
-        private void OnDisable()
-       {
-            NetworkGameManager.Instance.OnGameEnd -= OnGameEnd;
+        private void OnGameStateChanged(GameState state)
+        {
+            if (state == GameState.EndingGameCinematic)
+            {
+                OnGameEnd();
+            }
         }
 
         public void OnGameEnd()

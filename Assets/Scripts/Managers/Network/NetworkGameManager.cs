@@ -124,8 +124,8 @@ namespace Managers.Network
          private CancellationTokenSource _matchCancelTokenSource;
 
          private readonly TupleList<float, Action> _timedMatchEvents = new();
-
-      //   public NetworkVariable<bool> GameStarted { get; private set; } = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+         
+         
          public NetworkVariable<float> CurrentTime { get; private set; } = new NetworkVariable<float>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
          
          //doubt these two need to be replicated buttt ill make them just to be sure :P
@@ -396,8 +396,9 @@ namespace Managers.Network
                  return;
              }
             
-             Debug.Log("Now Entering overtime!");
-            
+             Debug.LogWarning("Well I guess everyone who's alive is a winner! TODO: Actually make this work");
+             GameState.Value = Network.GameState.EndingGame;
+             
              await ProcessTimeFrame(matchOverTimeDuration, token);
             
              if (token.IsCancellationRequested)
@@ -406,8 +407,8 @@ namespace Managers.Network
                  return;
              }
             
-             Debug.LogWarning("Well I guess everyone who's alive is a winner! TODO: Actually make this work");
-             GameState.Value = Network.GameState.EndingGame;
+             Debug.LogWarning("ending game cinematic time now!");
+             GameState.Value = Network.GameState.EndingGameCinematic;
          }
     
          private async UniTask ProcessTimeFrame(float duration, CancellationToken token)

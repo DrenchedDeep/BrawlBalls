@@ -80,7 +80,7 @@ namespace Gameplay.Balls
 
        private void SetupJoystick()
        {
-           LocalPlayerController.LocalBallPlayer.SwapJoySticks(fullJoyStick);
+        //   LocalPlayerController.LocalBallPlayer.SwapJoySticks(fullJoyStick);
        }
 
 
