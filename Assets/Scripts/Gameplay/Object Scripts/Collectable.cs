@@ -17,10 +17,17 @@ namespace Gameplay.Object_Scripts
             //Award this collectable type to the owner.
             getComponent.GiveAward(collectableType);
             //Play particle...
-        
-            //Destroy self...
-            Destroy(gameObject);
+            
+            ToggleState_ServerRpc(false);
         }
+
+        [ServerRpc]
+        private void ToggleState_ServerRpc(bool state)
+        {
+            gameObject.SetActive(state);
+        }
+        
+        
     
 
         protected virtual void OnTriggerEnter(Collider other)
