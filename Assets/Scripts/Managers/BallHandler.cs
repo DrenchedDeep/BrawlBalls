@@ -58,8 +58,6 @@ namespace Managers
             NetworkObject pl = player.GetComponent<NetworkObject>();
             pl.SpawnWithOwnership(id.Receive.SenderClientId, true);
             Physics.SyncTransforms();
-
-            
             
             obs[0].TrySetParent(pl);
             obs[1].TrySetParent(pl);

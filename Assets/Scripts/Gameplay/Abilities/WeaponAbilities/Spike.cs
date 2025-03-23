@@ -20,7 +20,6 @@ namespace Gameplay.Abilities.WeaponAbilities
 
         public override void CancelAbility(BallPlayer owner)
         {
-            throw new System.NotImplementedException();
         }
 
         public static IEnumerator Move(BaseWeapon baseWeapon, float speed)

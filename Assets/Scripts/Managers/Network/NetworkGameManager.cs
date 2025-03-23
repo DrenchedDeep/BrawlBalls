@@ -331,7 +331,7 @@ namespace Managers.Network
              if (_players.Count == NetworkManager.ConnectedClients.Count)
              {
                  //if all players have joined, play the intro cinematic
-                 GameState.Value = Network.GameState.InGame;
+                 GameState.Value = Network.GameState.SelectingBalls;
                  
                  //only the server should be updating the match timers... clients can get that info through the NetworkedVariables, this is to keep it consistent 
              }
@@ -450,6 +450,7 @@ namespace Managers.Network
              return Mathf.Approximately(CurrentTimePeriod.Value, matchTime) &&
                     GameState.Value >= Network.GameState.SelectingBalls;
                     /*/
+
              
              return GameState.Value >= Network.GameState.SelectingBalls;
          }
@@ -539,12 +540,13 @@ namespace Managers.Network
 
          public void OnBallSpawned()
          {
+             /*/
              if (GameState.Value != Network.GameState.InGame)
              {
                  GameState.Value = Network.GameState.InGame;
              }
-
              /*/
+             
              if (GameState.Value == Network.GameState.SelectingBalls)
              {
                  _ballsSpawned++;
@@ -556,7 +558,6 @@ namespace Managers.Network
                      _ = ManagerMatchTimer(_matchCancelTokenSource.Token);
                  }
              }
-             /*/
          }
     
          //ideally particles shouldn't be spawned with RPC'S, they should be spawned with replicated variables... atleast in unreal, not sure in this.. so leaving it as is for now.

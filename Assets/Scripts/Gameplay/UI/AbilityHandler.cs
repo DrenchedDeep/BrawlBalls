@@ -59,7 +59,7 @@ namespace Gameplay.UI
             {
                 button.Interactable = false;
                 root.enabled = false;
-                //Debug.Log($"Ability is out of charges! {_boundAbility.name}", gameObject);
+                Debug.Log($"Ability is out of charges! {_boundAbility.name}", gameObject);
             }
             else
             {

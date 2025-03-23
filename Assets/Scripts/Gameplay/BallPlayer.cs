@@ -64,6 +64,12 @@ namespace Gameplay
 
             _currentHealth.OnValueChanged += OnDamageTaken;
 
+            //default this to impossible number
+            if (IsServer)
+            {
+                _previousAttackerID.Value = 200; 
+            }
+
             NetworkGameManager.Instance.OnGameStateUpdated += OnGameStateUpdated;
         }
 
@@ -71,7 +77,7 @@ namespace Gameplay
         {
             if (gameState == GameState.InGame)
             {
-           //     _rb.isKinematic = false;
+                _rb.isKinematic = false;
             }
         }
         
@@ -93,13 +99,13 @@ namespace Gameplay
             GetBall = GetComponentInChildren<Ball>();
             GetBaseWeapon = GetComponentInChildren<BaseWeapon>();
             Physics.SyncTransforms();
-            
+            _currentHealth.Value = GetBall.Stats.MaxHealth;
+
             GetBall.Init(this);
 
 
             _rb = GetComponent<Rigidbody>();
             _rb.interpolation = RigidbodyInterpolation.Interpolate;
-            /*/
             if (NetworkGameManager.Instance.GameState.Value == GameState.SelectingBalls ||
                 NetworkGameManager.Instance.GameState.Value == GameState.StartingGame)
             {
@@ -109,7 +115,6 @@ namespace Gameplay
             {
                 _rb.isKinematic = false;
             }
-            /*/
             
             _rb.mass = GetBall.Stats.Mass + GetBaseWeapon.Stats.Mass;
 
@@ -119,10 +124,7 @@ namespace Gameplay
             {
                 child.gameObject.layer = gameObject.layer;
             }
-
-            if (IsHost ) _currentHealth.Value = GetBall.Stats.MaxHealth;
-
-
+            
             if (IsOwner) LocalPlayerController.LocalBallPlayer.BindTo(this);
         }
 
@@ -143,14 +145,14 @@ namespace Gameplay
             _rb.interpolation = RigidbodyInterpolation.Interpolate;
             _rb.isKinematic = false;
             
-            //gameObject.layer = IsOwner ? StaticUtilities.LocalBallLayerLiteral : StaticUtilities.EnemyLayerLiteral;
+            gameObject.layer = IsOwner ? StaticUtilities.LocalBallLayerLiteral : StaticUtilities.EnemyLayerLiteral;
 
-            /*
+            
             foreach (Transform child in transform)
             {
                 child.gameObject.layer = gameObject.layer;
             }
-            */
+            
 
             _currentHealth.Value = GetBall.Stats.MaxHealth;
             LocalPlayerController.LocalBallPlayer.BindTo(this);
@@ -161,6 +163,11 @@ namespace Gameplay
         [ServerRpc(RequireOwnership = false)]
         public void TakeDamage_ServerRpc(DamageProperties damageInfo)
         {
+            if (_currentHealth.Value <= 0)
+            {
+                return;
+            }
+            
             _currentHealth.Value -= damageInfo.Damage;
             
             print(name + "Ouchie! I took damage: " + damageInfo.Damage + ",  " + damageInfo.Direction + ", I have reamining health: " +

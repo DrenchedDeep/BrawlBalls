@@ -141,12 +141,17 @@ namespace Gameplay.Weapons
 
         private void OnCollisionEnter(Collision other)
         {
-            if (stats.DoDamageAfterCollision && CanDoDamage)
+            if (stats.DoDamageAfterCollision)
             {
+                if (CanDoDamage)
+                {
+                    CastForward_SphereCast();
+                }
+
+                ReturnToPool();
                 Instantiate(hitVFX, transform.position,
                     Quaternion.LookRotation(-transform.forward, Vector3.up));
-                CastForward_SphereCast();
-                ReturnToPool();
+
             }
         }
 

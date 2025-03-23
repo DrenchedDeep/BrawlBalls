@@ -1,4 +1,5 @@
 using Core.Podium;
+using Cysharp.Threading.Tasks;
 using Gameplay;
 using Gameplay.UI;
 using Gameplay.Weapons;
@@ -147,10 +148,9 @@ namespace Managers.Local
             Vector3 x = cam.transform.forward;
             x.y = 0;
             _currentBall.GetBall.Foward.Value = x.normalized;
-            //_currentBall.GetBall.Foward.Value = cam.transform.forward;
             _currentBall.GetBall.MoveDirection.Value = _currentJoyStick.Direction;
-            //_currentBall.GetBall.MoveDirection.Value = joystick.Direction;
 
+            /*/
             //this should probs be done on the server....
             if (_tickRespawn)
             {
@@ -163,6 +163,7 @@ namespace Managers.Local
                     _tickRespawn = false;
                 }
             }
+            /*/
         }
 
         #region Interaction
@@ -239,11 +240,27 @@ namespace Managers.Local
             respawnUI.SetActive(true);
             rootCanvas.enabled = false;
 
+            Debug.Log(killer);
             killedByText.text = (killer == 100) ? "WORLD" : NetworkGameManager.Instance.GetPlayerName(killer);
             DisableControls();
 
+            _ = ProcessRespawn();
+        }
+
+        private async UniTask ProcessRespawn()
+        {
             _tickRespawn = true;
-            _respawnTimer = RespawnTime;
+            float respawnTime = RespawnTime;
+            while (respawnTime > 0)
+            {
+                respawnTime -= Time.deltaTime;
+                respawnTimerText.text = ("RESPAWNING IN : " + (int)respawnTime);
+                await UniTask.Yield();
+            }
+
+            respawnTimerText.text = ("RESPAWNING IN : " + 0);
+            _tickRespawn = false;
+            Unbind();
         }
 
         public void Unbind()

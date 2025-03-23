@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using Managers;
 using Managers.Network;
 using Unity.Netcode;
@@ -9,13 +10,11 @@ namespace Gameplay.Map
 {
     public class Level : NetworkBehaviour
     {
-
-        
         [Header("Coin")]
         [SerializeField] private Transform coinStart;
         
         [Header("Map")]
-        [field: SerializeField] public Transform [] SpawnPoints { get; private set; }
+        [field: SerializeField] public BallSpawnPoint [] SpawnPoints { get; private set; }
         [SerializeField] private float bottomY;
         [SerializeField] private bool offMapKills;
         
@@ -26,12 +25,31 @@ namespace Gameplay.Map
 
         public static Vector3 GetNextSpawnPoint()
         {
-            return Instance.SpawnPoints[Random.Range(0, Instance.SpawnPoints.Length)].position;
-        }
+            for (int i = 0; i < Instance.SpawnPoints.Length; i++)
+            {
+                if (Instance.SpawnPoints[i].HasBallPlayer)
+                {
+                    continue;
+                }
 
+                Instance.SpawnPoints[i].OnPlayerSpawned();
+                return Instance.SpawnPoints[i].Point.position;
+            }
+
+            return Instance.SpawnPoints[0].Point.position;
+        }
+        
+        
         //All levels drop coins from center...
         private void Awake()
         {
+            if (SpawnPoints.Length == 0)
+            {
+                SpawnPoints =
+                    FindObjectsByType<BallSpawnPoint>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
+                
+            }
+
             Instance = this;
         }
 
