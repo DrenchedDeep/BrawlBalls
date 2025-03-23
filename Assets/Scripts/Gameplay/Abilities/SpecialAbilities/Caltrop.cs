@@ -15,7 +15,6 @@ namespace Gameplay.Abilities.SpecialAbilities
 
         public override void CancelAbility(BallPlayer owner)
         {
-            throw new System.NotImplementedException();
         }
 
         [ServerRpc(RequireOwnership = false)]

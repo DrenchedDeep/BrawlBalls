@@ -17,7 +17,6 @@ namespace Gameplay.Abilities.SpecialAbilities
 
         public override void CancelAbility(BallPlayer owner)
         {
-      //      throw new System.NotImplementedException();
         }
 
         private async UniTask ImmortalityTimer(BallPlayer owner)
