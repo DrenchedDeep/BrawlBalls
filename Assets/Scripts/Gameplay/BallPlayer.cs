@@ -167,6 +167,11 @@ namespace Gameplay
             {
                 return;
             }
+
+            if (NetworkGameManager.Instance.GameState.Value > GameState.InGame)
+            {
+                return;
+            }
             
             _currentHealth.Value -= damageInfo.Damage;
             
@@ -201,6 +206,12 @@ namespace Gameplay
         //called on the SERVER
         public void Die_Server(ulong killer)
         {
+            //cant die if the game has ended...
+            if (NetworkGameManager.Instance.GameState.Value > GameState.InGame)
+            {
+                return;
+            }
+            
             NetworkGameManager.Instance.PlayParticleGlobally_ServerRpc("Confetti", transform.position,
                 transform.rotation);
 

@@ -367,9 +367,12 @@ namespace Managers.Network
                      NetworkManager.DisconnectClient(client.Key);
                  }
                  
+                 
+                 
                //  NetworkManager.dis
              }
 
+             NetworkManager.Singleton.Shutdown();
              SceneManager.LoadScene("MainMenuNEW");
          }
         
