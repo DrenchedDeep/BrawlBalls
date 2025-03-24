@@ -173,7 +173,7 @@ namespace Managers.Local
             Cursor.lockState = CursorLockMode.None;
             SetSteer(Vector2.zero);
             //PlayerControls.DisableControls();
-            _playerInput.currentActionMap.Disable();
+            //_playerInput.currentActionMap.Disable();
 
         }
         private void TryDoAbility(bool state)
