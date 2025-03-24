@@ -253,7 +253,6 @@ namespace Managers.Network
          public void OnPlayerKilled(ulong killedID, ulong killerID)
          {
              //100 id is the out of bounds
-
              if (killerID != 99)
              {
                  int scoreIncreaseIndex = GetPlayerBallInfoIndex(killerID);
@@ -269,7 +268,6 @@ namespace Managers.Network
                  rpcParams.Send.TargetClientIds = new[] { killerID };
                  OnLocalPlayerKilledPlayer_ClientRpc(killedID, rpcParams);
              }
-             
          }
 
          [ServerRpc(RequireOwnership = false)]
@@ -323,6 +321,7 @@ namespace Managers.Network
              if (playersLeft <= minPlayers)
              {
                  GameState.Value = Network.GameState.EndingGame;
+                 _ = EndGameEarlyTask();
              }
          }
 
@@ -411,6 +410,13 @@ namespace Managers.Network
              }
             
              Debug.LogWarning("ending game cinematic time now!");
+             GameState.Value = Network.GameState.EndingGameCinematic;
+         }
+
+         //temp function...
+         private async UniTask EndGameEarlyTask()
+         {
+             await UniTask.WaitForSeconds(matchOverTimeDuration);
              GameState.Value = Network.GameState.EndingGameCinematic;
          }
     

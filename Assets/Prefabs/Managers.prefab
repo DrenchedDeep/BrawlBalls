@@ -398,6 +398,18 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+        - m_Target: {fileID: 6149868911234680410}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: SetActive
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
     disableStateEvent:
       m_PersistentCalls:
         m_Calls: []
@@ -7990,6 +8002,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2999908450068129943}
     m_Modifications:
+    - target: {fileID: 711319328256473071, guid: c62ad9c03215860419b871602d94b0aa,
+        type: 3}
+      propertyPath: onForwardSelected.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1795942656654685639, guid: c62ad9c03215860419b871602d94b0aa,
         type: 3}
       propertyPath: m_Name
@@ -8103,6 +8120,12 @@ Transform:
 --- !u!1 &5694128117280099522 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3782570986698243775, guid: c62ad9c03215860419b871602d94b0aa,
+    type: 3}
+  m_PrefabInstance: {fileID: 8897986001299026557}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6149868911234680410 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3324578118052557863, guid: c62ad9c03215860419b871602d94b0aa,
     type: 3}
   m_PrefabInstance: {fileID: 8897986001299026557}
   m_PrefabAsset: {fileID: 0}
