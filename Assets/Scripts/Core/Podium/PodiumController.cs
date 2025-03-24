@@ -54,8 +54,9 @@ namespace Core.Podium
             localPlayerInputComponent.actions[next.name].performed += RotateRight;
             localPlayerInputComponent.actions[select.name].performed += SelectCurrent;
             localPlayerInputComponent.actions[press.name].performed += SelectForwardCursor;
-
- 
+            
+            localPlayerInputComponent.SwitchCurrentActionMap("UI");
+            
             
         }
 
@@ -66,6 +67,9 @@ namespace Core.Podium
             previous.action.performed -= RotateLeft;
             next.action.performed -= RotateRight;
             select.action.performed -= SelectCurrent;
+            
+            localPlayerInputComponent.SwitchCurrentActionMap("Game");
+
         }
 
         private int _podiumLayer;
@@ -129,7 +133,6 @@ namespace Core.Podium
                     Debug.LogError("Why is there no camera?");
                     return;
                 }
-                Debug.Log("Temporary cheese");
                 Ray l = cam.ScreenPointToRay(Pointer.current.position.ReadValue());
                 Debug.DrawRay(l.origin + Vector3.down, l.direction * 1000, Color.red);
 
@@ -150,7 +153,6 @@ namespace Core.Podium
                         return;
                     }
                 
-                    Debug.Log("I am hovering over: " + p.name, p);
                     SelectPodium(p);
                 }
                 else
@@ -178,7 +180,7 @@ namespace Core.Podium
                 return;
             }
             Ray ray;
-            if (SplitscreenPlayerManager.Instance.PlayerCount <= 1)
+            if (!SplitscreenPlayerManager.Instance || SplitscreenPlayerManager.Instance.PlayerCount <= 1)
             {
                 ray = cam.ScreenPointToRay(Pointer.current.position.ReadValue());
             }
@@ -206,7 +208,6 @@ namespace Core.Podium
                     return;
                 }
                 
-                Debug.Log("I am hovering over: " + p.name, p);
                 SelectPodium(p);
             }
             else
@@ -217,12 +218,11 @@ namespace Core.Podium
 
         private void SelectForwardCursor(InputAction.CallbackContext ctx)
         {
-
-            if (SplitscreenPlayerManager.Instance.PlayerCount > 1)
+            Debug.Log("Pressed on Balls: " + ctx.ReadValueAsButton() +", " + !IsRotating );
+            if (!ctx.ReadValueAsButton() || IsRotating) return;
+            if (SplitscreenPlayerManager.Instance && SplitscreenPlayerManager.Instance.PlayerCount > 1)
             {
 
-                if (!ctx.ReadValueAsButton() && IsRotating)
-                    return;
                 Debug.Log("How many times did I trip?");
 
                 if (_currentPodium)
@@ -231,6 +231,8 @@ namespace Core.Podium
                     {
                         onForwardSelected?.Invoke(CurForward);
                         _currentPodium = podiums[CurForward];
+                        Debug.Log("Pressed on Center ball");
+
                         return;
                     }
 
@@ -238,6 +240,9 @@ namespace Core.Podium
                                           podiums[CurForward].transform.localPosition.x
                         ? 1
                         : -1);
+                    
+                    Debug.Log("Pressed on side ball");
+
                 }
                 else
                 {
