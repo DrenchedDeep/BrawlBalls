@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Loading;
+using MainMenu;
 using MainMenu.UI;
 using Managers.Local;
 using Unity.Netcode;
@@ -20,8 +21,6 @@ namespace Managers.Network
     public class LobbySystemManager : MonoBehaviour
     {
 
-        [SerializeField] private Button beginGameButton;
-        [SerializeField] private PlayerCard[] playerCards;
 
         
         private Lobby _myLobby;
@@ -34,6 +33,8 @@ namespace Managers.Network
         public UnityEvent onPlayerLeftLobby;
         public UnityEvent onLocalGameStarting;
 
+        private List<MainMenuPlayer> _players = new();
+
         [SerializeField] private string[] inRotationMaps =
         {
             "RooftopWreckers_NEW"
@@ -41,14 +42,25 @@ namespace Managers.Network
 
         private readonly LobbyEventCallbacks _events = new();
 
-        bool isCreated = false;
         
+        public static LobbySystemManager Instance { get; private set; }
+        private bool _isReady;
+
+        private void Start()
+        {
+            if (Instance && Instance != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
+            Instance = this;
+        }
+
         public void Initialize()
         {
-            if (isCreated)
-                return;
-
-            isCreated = true;
+            if (_isReady) return;
+            _isReady = true;
+            
             Dictionary<string, PlayerDataObject> d = new Dictionary<string, PlayerDataObject>()
             {
                 //Member is visible for everyone in lobby.
@@ -105,42 +117,50 @@ namespace Managers.Network
         
         private void LazyRegenCards()
         {
-            //Don't destroy cards.
-            for (int index = 0; index < playerCards.Length; index++)
+            foreach (MainMenuPlayer ply in _players)
             {
-                if (index >= _myLobby.Players.Count)
+
+
+                //Don't destroy cards.
+                for (int index = 0; index < ply.playerCards.Length; index++)
                 {
-                    if (playerCards[index].isActiveAndEnabled)
+                    if (index >= _myLobby.Players.Count)
                     {
-                        onPlayerLeftLobby?.Invoke();
+                        if (ply.playerCards[index].isActiveAndEnabled)
+                        {
+                            onPlayerLeftLobby?.Invoke();
+                        }
+
+                        ply.playerCards[index].RemovePlayer();
+                        continue;
                     }
 
-                    playerCards[index].RemovePlayer();
-                    continue;
-                }
+                    if (!ply.playerCards[index].isActiveAndEnabled)
+                    {
+                        onPlayerJoinedLobby?.Invoke();
+                    }
 
-                if (!playerCards[index].isActiveAndEnabled)
-                {
-                    onPlayerJoinedLobby?.Invoke();
+                    Player p = _myLobby.Players[index];
+                    ply.playerCards[index].UpdatePlayer(p.Data["Name"].Value, "1",
+                        p.Id == AuthenticationService.Instance.PlayerId);
                 }
-                
-                Player p = _myLobby.Players[index];
-                playerCards[index].UpdatePlayer(p.Data["Name"].Value, "1", p.Id == AuthenticationService.Instance.PlayerId);
             }
-            
-            
 
-            beginGameButton.gameObject.SetActive(_myLobby.HostId == AuthenticationService.Instance.PlayerId);
+
+            _players[0].beginGameButton.gameObject.SetActive(_myLobby.HostId == AuthenticationService.Instance.PlayerId);
         }
 
         private void ClearCards()
         {
-            foreach (var t in playerCards)
+            foreach (MainMenuPlayer ply in _players)
             {
-                t.RemovePlayer();
+                foreach (var t in ply.playerCards)
+                {
+                    t.RemovePlayer();
+                }
             }
 
-            beginGameButton.gameObject.SetActive(false);
+            _players[0].beginGameButton.gameObject.SetActive(false);
         }
         
         private async UniTask WaitForAllClientsToConnect()
@@ -187,7 +207,7 @@ namespace Managers.Network
             
             string map = inRotationMaps[Random.Range(0, inRotationMaps.Length)];
             
-            beginGameButton.interactable = false;
+            _players[0].beginGameButton.interactable = false;
 
             Debug.Log("Starting game!");
 
@@ -210,15 +230,16 @@ namespace Managers.Network
             //await LobbyService.Instance.DeleteLobbyAsync(_myLobby.Id); // Do we need to discard the lobby?
             NetworkManager.Singleton.SceneManager.LoadScene(map, LoadSceneMode.Single);
             
-            beginGameButton.interactable = true;
+            _players[0].beginGameButton.interactable = true;
             
         }
                 
         
-        public async void QuickPlay()
+        public async void QuickPlay(MainMenuPlayer player)
         {
             Initialize();
           
+            _players.Add(player);
 
             try
             {
@@ -238,7 +259,7 @@ namespace Managers.Network
                 };
 
                 _myLobby = await LobbyService.Instance.QuickJoinLobbyAsync(options);
-                beginGameButton.gameObject.SetActive(false);
+                _players[0].beginGameButton.gameObject.SetActive(false);
             }
             catch (LobbyServiceException e)
             {
@@ -246,7 +267,8 @@ namespace Managers.Network
                 {
                     try
                     {
-                        int n = playerCards.Length;
+                        
+                        int n = _players[0].playerCards.Length;
                         Debug.Log("There is a max of " + n + " player cards, so the lobby size is this.");
                         _myLobby = await LobbyService.Instance.CreateLobbyAsync(
                             AuthenticationService.Instance.PlayerId + "'s lobby", n, new CreateLobbyOptions()
@@ -284,6 +306,8 @@ namespace Managers.Network
         
         public async void LeaveLobby()
         {
+            _players.Clear();
+
             try
             {
                 if (_myLobby == null) return;

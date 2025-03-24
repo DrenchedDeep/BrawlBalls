@@ -92,14 +92,14 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   m_JoinAction:
-    m_UseReference: 0
+    m_UseReference: 1
     m_Action:
       m_Name: Join
       m_Type: 1
       m_ExpectedControlType: Button
       m_Id: d097576a-956e-4ea1-ab61-50e79466ca03
       m_Processors: 
-      m_Interactions: 
+      m_Interactions: Tap
       m_SingletonActionBindings:
       - m_Name: 
         m_Id: 6a347192-98fe-4c65-9f36-ab339464d81a
@@ -117,17 +117,10 @@ MonoBehaviour:
         m_Groups: 
         m_Action: Join
         m_Flags: 0
-      - m_Name: 
-        m_Id: c0555149-73fc-4a24-aeb8-688023c390eb
-        m_Path: '*/{Submit}'
-        m_Interactions: 
-        m_Processors: 
-        m_Groups: 
-        m_Action: Join
-        m_Flags: 0
-      m_Flags: 1
-    m_Reference: {fileID: 0}
-  m_PlayerPrefab: {fileID: 8281178859312124968, guid: 5524c64df2fdbc44490bddf4d56eb705,
+      m_Flags: 0
+    m_Reference: {fileID: 7689899345624363117, guid: d208d53a1c1765d458b57f71735f2219,
+      type: 3}
+  m_PlayerPrefab: {fileID: 8281178859312124968, guid: 601b5b904d699d54e880c5e51589962c,
     type: 3}
   m_SplitScreen: 1
   m_MaintainAspectRatioInSplitScreen: 0

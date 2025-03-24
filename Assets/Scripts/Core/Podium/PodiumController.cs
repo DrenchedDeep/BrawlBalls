@@ -2,12 +2,14 @@ using System;
 using Cysharp.Threading.Tasks;
 using Loading;
 using MainMenu.UI;
+using Managers.Local;
 using Stats;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using Utilities.Layout;
+using Utilities.UI_General;
 
 namespace Core.Podium
 {
@@ -19,6 +21,9 @@ namespace Core.Podium
         [SerializeField] private Camera cam;
         
         [SerializeField] private PlayerInput localPlayerInputComponent;
+        [SerializeField]  private EventSystem eventSystem;
+        [SerializeField]  private BestVirtualCursor cursor;
+
         [SerializeField] private InputActionReference previous;
         [SerializeField] private InputActionReference next;
         [SerializeField] private InputActionReference select;
@@ -29,11 +34,10 @@ namespace Core.Podium
 
         public Podium[] Podiums => podiums;
         private Podium _currentPodium;
-
         public int CurForward { get; set; } = 1;
         
         [NonSerialized] public bool IsRotating;
-
+        
 
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -41,7 +45,6 @@ namespace Core.Podium
         {
             _ = SpawnBalls();
             _podiumLayer = 1 << gameObject.layer;
-        
         }
 
         private void OnEnable()
@@ -51,8 +54,13 @@ namespace Core.Podium
             localPlayerInputComponent.actions[next.name].performed += RotateRight;
             localPlayerInputComponent.actions[select.name].performed += SelectCurrent;
             localPlayerInputComponent.actions[press.name].performed += SelectForwardCursor;
+
+ 
+            
         }
 
+        
+        
         private void OnDisable()
         {
             previous.action.performed -= RotateLeft;
@@ -74,7 +82,12 @@ namespace Core.Podium
 
         private void SelectCurrent(InputAction.CallbackContext _)
         {
-            if (!IsRotating) onForwardSelected.Invoke(CurForward);
+            if (!IsRotating)
+            {
+                onForwardSelected.Invoke(CurForward);
+                _currentPodium = podiums[CurForward];
+
+            }
         }
 
         private async UniTask SpawnBalls()
@@ -102,19 +115,55 @@ namespace Core.Podium
 
         private void Update()
         {
-            
-            
-            if (Pointer.current == null || IsRotating)
-                return;
-            
-            if (EventSystem.current.IsPointerOverGameObject())
+
+            if (!eventSystem)
             {
-                return; // Block the raycast if UI is in the way
+                if (IsRotating || EventSystem.current.IsPointerOverGameObject())
+                    return;
+                // ReSharper disable once Unity.PerformanceCriticalCodeCameraMain
+                if(!cam) cam = Camera.main;
+                if (!cam)
+                {
+                
+                    // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
+                    Debug.LogError("Why is there no camera?");
+                    return;
+                }
+                Debug.Log("Temporary cheese");
+                Ray l = cam.ScreenPointToRay(Pointer.current.position.ReadValue());
+                Debug.DrawRay(l.origin + Vector3.down, l.direction * 1000, Color.red);
+
+                if (Physics.Raycast(l, out RaycastHit k, 1000, _podiumLayer))
+                {
+                
+                    Transform t = k.transform.parent?.parent;
+                    if (!t)
+                    {
+                        SelectPodium(null);
+                        return;
+                    }
+
+
+                    if (!t.TryGetComponent(out Podium p))
+                    {
+                        SelectPodium(null);
+                        return;
+                    }
+                
+                    Debug.Log("I am hovering over: " + p.name, p);
+                    SelectPodium(p);
+                }
+                else
+                {
+                    SelectPodium(null);
+                }
+                return;
             }
 
-            
+            if (IsRotating || eventSystem.IsPointerOverGameObject(localPlayerInputComponent.playerIndex))
+                return;
 
-            Vector2 pointerPosition = Pointer.current.position.ReadValue();
+            
             
            // Debug.Log("Pointer location: " + pointerPosition );
             
@@ -128,8 +177,16 @@ namespace Core.Podium
                 Debug.LogError("Why is there no camera?");
                 return;
             }
-
-            Ray ray = cam.ScreenPointToRay(pointerPosition);
+            Ray ray;
+            if (SplitscreenPlayerManager.Instance.PlayerCount <= 1)
+            {
+                ray = cam.ScreenPointToRay(Pointer.current.position.ReadValue());
+            }
+            else
+            {
+                ray = cam.ScreenPointToRay(cursor.Mouse.position.ReadValue());
+            }
+            
             Debug.DrawRay(ray.origin + Vector3.down, ray.direction * 1000, Color.red);
 
             if (Physics.Raycast(ray, out RaycastHit hit, 1000, _podiumLayer))
@@ -148,7 +205,8 @@ namespace Core.Podium
                     SelectPodium(null);
                     return;
                 }
-
+                
+                Debug.Log("I am hovering over: " + p.name, p);
                 SelectPodium(p);
             }
             else
@@ -157,13 +215,39 @@ namespace Core.Podium
             }
         }
 
-        private void SelectForwardCursor(InputAction.CallbackContext _)
+        private void SelectForwardCursor(InputAction.CallbackContext ctx)
         {
-            
-            Vector2 pointerPosition = Pointer.current.position.ReadValue();
+
+            if (SplitscreenPlayerManager.Instance.PlayerCount > 1)
+            {
+
+                if (!ctx.ReadValueAsButton() && IsRotating)
+                    return;
+                Debug.Log("How many times did I trip?");
+
+                if (_currentPodium)
+                {
+                    if (_currentPodium == podiums[CurForward] && podiums[CurForward].CanInteract)
+                    {
+                        onForwardSelected?.Invoke(CurForward);
+                        _currentPodium = podiums[CurForward];
+                        return;
+                    }
+
+                    onSelectedSide.Invoke(_currentPodium.transform.localPosition.x >
+                                          podiums[CurForward].transform.localPosition.x
+                        ? 1
+                        : -1);
+                }
+                else
+                {
+                    SelectPodium(null);
+                }
+
+                return;
+            }
             
             // Debug.Log("Pointer location: " + pointerPosition );
-            
             
             // ReSharper disable once Unity.PerformanceCriticalCodeCameraMain
             if(!cam) cam = Camera.main;
@@ -174,7 +258,7 @@ namespace Core.Podium
                 Debug.LogError("Why is there no camera?");
                 return;
             }
-            Ray ray = cam.ScreenPointToRay(pointerPosition);
+            Ray ray = cam.ScreenPointToRay(Pointer.current.position.ReadValue());
 
             if (Physics.Raycast(ray, out RaycastHit hit, 1000, _podiumLayer))
             {
@@ -184,6 +268,7 @@ namespace Core.Podium
 
                 if (!t || !t.TryGetComponent(out Podium p))
                 {
+                    Debug.Log("I selected nothing");
                     return;
                 }
                
@@ -191,18 +276,20 @@ namespace Core.Podium
                 {
                     if (podiums[CurForward].CanInteract)
                     {        
-                        Debug.Log("Remember to disable the object if we're updating still!");
+                        Debug.Log("I selected the forward one!");
                         onForwardSelected?.Invoke(CurForward);
                     }
                     return;
                 }
+                Debug.Log("I Selected the side one!");
                 onSelectedSide.Invoke(t.localPosition.x > podiums[CurForward].transform.localPosition.x ? 1:-1);
-                
             }
             else
             {
+                Debug.Log("I selected nothing");
                 SelectPodium(null);
             }
+            
         }
 
         private void SelectPodium(Podium podium)

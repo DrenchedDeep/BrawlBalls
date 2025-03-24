@@ -78,6 +78,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2070703233303201350}
   - component: {fileID: 1523475672717469796}
+  - component: {fileID: 5524232707874506825}
   m_Layer: 10
   m_Name: CameraPivot
   m_TagString: Untagged
@@ -115,7 +116,7 @@ MonoBehaviour:
   Priority:
     Enabled: 0
     m_Value: 0
-  OutputChannel: 1
+  OutputChannel: 2
   StandbyUpdate: 2
   m_StreamingVersion: 20241001
   m_LegacyPriority: 0
@@ -124,7 +125,7 @@ MonoBehaviour:
     LookAtTarget: {fileID: 0}
     CustomLookAtTarget: 0
   Lens:
-    FieldOfView: 40
+    FieldOfView: 39.43049
     OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 5000
@@ -143,6 +144,21 @@ MonoBehaviour:
       BarrelClipping: 0.25
       Anamorphism: 0
   BlendHint: 0
+--- !u!114 &5524232707874506825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 372529300402080373}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44d70cc20219cd84593f67d248eafe36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Offset: {x: 0, y: 0, z: -10}
+  ApplyAfter: 3
+  PreserveComposition: 0
 --- !u!1 &776283673639727564
 GameObject:
   m_ObjectHideFlags: 0
@@ -434,11 +450,13 @@ MonoBehaviour:
   - {fileID: 2318421519278131709}
   cam: {fileID: 0}
   localPlayerInputComponent: {fileID: 0}
-  previous: {fileID: 1958880719803592458, guid: d208d53a1c1765d458b57f71735f2219,
+  eventSystem: {fileID: 0}
+  cursor: {fileID: 0}
+  previous: {fileID: -7890671315013340322, guid: d208d53a1c1765d458b57f71735f2219,
     type: 3}
-  next: {fileID: 8971036015570001769, guid: d208d53a1c1765d458b57f71735f2219, type: 3}
-  select: {fileID: -5477357654786184724, guid: d208d53a1c1765d458b57f71735f2219, type: 3}
-  press: {fileID: -3177302503273393367, guid: d208d53a1c1765d458b57f71735f2219, type: 3}
+  next: {fileID: 8661493806098857226, guid: d208d53a1c1765d458b57f71735f2219, type: 3}
+  select: {fileID: 3814830604172527688, guid: d208d53a1c1765d458b57f71735f2219, type: 3}
+  press: {fileID: 6771346073505861405, guid: d208d53a1c1765d458b57f71735f2219, type: 3}
   onForwardSelected:
     m_PersistentCalls:
       m_Calls:
@@ -764,7 +782,7 @@ PrefabInstance:
     - target: {fileID: 7214440670218005697, guid: a2bbd9fd970b80842b0edf4d32db5953,
         type: 3}
       propertyPath: m_ConstrainProportionsScale
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:

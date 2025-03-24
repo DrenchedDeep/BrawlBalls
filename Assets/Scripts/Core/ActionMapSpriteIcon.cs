@@ -8,9 +8,9 @@ namespace Core
     [RequireComponent(typeof(Image))]
     public class ActionMapSpriteIcon : MonoBehaviour
     {
+#if !UNITY_ANDROID && !UNITY_IOS
         [SerializeField] private ESpriteInputRequest request;
         private Image _image;
-
         private void Awake()
         {
             _image = GetComponent<Image>();
@@ -26,5 +26,6 @@ namespace Core
         {
             _image.sprite = map.GetSpriteByEnum(request);
         }
+#endif
     }
 }

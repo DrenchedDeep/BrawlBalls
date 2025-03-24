@@ -1,32 +1,35 @@
 using System;
 using Core.ActionMaps;
+using MainMenu.UI;
 using Managers.Local;
+using Managers.Network;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 namespace MainMenu
 {
     [RequireComponent(typeof(PlayerInput))]
     public class MainMenuPlayer : MonoBehaviour
     {
-        #if !UNITY_ANDROID && !UNITY_IOS
         PlayerInput _input;
         
-        const string MainMenuActionMap = "MainMenuActionMap";
-        const string UIActionMap =             "UIActionMap";
 
         public event Action<InputSpriteActionMap> OnDeviceChanged;
         public InputSpriteActionMap CurrentSpriteActionMap { get; private set; }
+        
+        public PlayerCard[] playerCards;
+        public Button beginGameButton;
+
 
         private void Start()
         {
             _input = GetComponent<PlayerInput>();
-            CurrentSpriteActionMap = ResourceManager.Instance.GetActionMap(_input.devices);
-            OnDeviceChanged?.Invoke(CurrentSpriteActionMap);
+            //CurrentSpriteActionMap = ResourceManager.Instance.GetActionMap(_input.devices);
+            //OnDeviceChanged?.Invoke(CurrentSpriteActionMap);
             
-            _input.onDeviceRegained += OnChangedDevice;
-            _input.onDeviceLost += OnChangedDevice;
+            //_input.onDeviceRegained += OnChangedDevice;
+           // _input.onDeviceLost += OnChangedDevice;
             
             //Okay so, what we want to do is make the game entirely controllable via buttons while controller is connected. We need to make selectable objects more clear.
             //Additionally, we want to add hotkeys to do some actions quicker.
@@ -38,6 +41,25 @@ namespace MainMenu
             CurrentSpriteActionMap = ResourceManager.Instance.GetActionMap(obj.devices);
             OnDeviceChanged?.Invoke(CurrentSpriteActionMap);
         }
-#endif
+
+        public void StartFindingMatch()
+        {
+            Debug.Log("StartFindingMatch", gameObject);
+            LobbySystemManager.Instance.QuickPlay(this);
+        }
+
+        public void StopFindingMatch()
+        {
+            Debug.Log("StopFindingMatch", gameObject);
+            LobbySystemManager.Instance.LeaveLobby();
+
+        }
+
+        public void ForceStartMatch()
+        {
+            Debug.Log("ForceStartMatch", gameObject);
+            LobbySystemManager.Instance.StartGame();
+
+        }
     }
 }

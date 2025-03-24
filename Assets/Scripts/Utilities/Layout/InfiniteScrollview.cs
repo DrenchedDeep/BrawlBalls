@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections;
+# if UNITY_EDITOR
+using UnityEditor;
+#endif
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -50,7 +53,7 @@ namespace Utilities.Layout
         protected override void Start()
         {
 #if UNITY_EDITOR
-            if (!Application.isPlaying) return;
+            if (!Application.isPlaying || PrefabUtility.IsPartOfPrefabAsset(gameObject)) return;
 #endif
             
             base.Start();
@@ -118,6 +121,13 @@ namespace Utilities.Layout
             
 
             _currentItemNum = GetCurrentNum();
+            if (_currentItemNum == -1)
+            {
+                enabled = false;
+                Debug.LogError("Unity decided to clear your data or you left you scrollview empty :D");
+            }
+
+            
             _currentSelectedNum = _currentItemNum;
             _items[_currentSelectedNum].OnSelected();
             //Why the fuck?
@@ -135,7 +145,7 @@ namespace Utilities.Layout
         protected override void LateUpdate()
         {
 #if UNITY_EDITOR
-            if (!Application.isPlaying) return;
+            if (!Application.isPlaying || PrefabUtility.IsPartOfPrefabAsset(gameObject)) return;
 #endif
             
             base.LateUpdate();
@@ -156,7 +166,6 @@ namespace Utilities.Layout
 
             int itemNum = GetCurrentNum();
             
-            
             //return;
             if (itemNum != _currentItemNum)
             {
@@ -173,6 +182,7 @@ namespace Utilities.Layout
 
         private int GetCurrentNum()
         {
+            if (_numItems == 0) return -1;
             // Each item occupies its height plus spacing.
             float itemSlot = _itemSize.y + _spacing;
             // Determine the center of the viewport in the content’s coordinate space.

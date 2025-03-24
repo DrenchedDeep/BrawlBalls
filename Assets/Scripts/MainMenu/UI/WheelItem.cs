@@ -134,7 +134,7 @@ namespace MainMenu.UI
         {
             _itemStats = stats;
 
-            titleText.text = stats.name;
+            titleText.text = stats.Stats.name;
             icon.sprite = stats.Stats.Icon;
 
             ResourceManager.Instance.GetRarityInformation(stats.Stats.Rarity, out _, out Sprite rarityIcon);

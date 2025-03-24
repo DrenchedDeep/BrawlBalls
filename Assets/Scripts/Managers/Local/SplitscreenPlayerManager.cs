@@ -1,8 +1,7 @@
-using System.Collections.Generic;
-using System.Linq;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
+//using Utilities.UI_General;
 
 namespace Managers.Local
 {
@@ -10,10 +9,12 @@ namespace Managers.Local
     public class SplitscreenPlayerManager : MonoBehaviour
     {
         private PlayerInputManager _playerInputManager;
-        private PlayerInput firstPlayer;
+        //private PlayerInput _firstPlayer;
         public static SplitscreenPlayerManager Instance { get; private set; }
+        public int PlayerCount { get; set; }
 
-        private bool _firstPlayerReplaced;
+
+        //private bool _firstPlayerReplaced;
         
         private void Awake()
         {
@@ -23,7 +24,7 @@ namespace Managers.Local
                 return;
             }
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
 
             _playerInputManager = GetComponent<PlayerInputManager>();
             
@@ -37,26 +38,33 @@ namespace Managers.Local
         private void OnPlayerLeft(PlayerInput playerInput)
         {
             Debug.Log("A player has disconnected");
+            PlayerCount -= 1;
         }
 
-        private void OnPlayerJoined(PlayerInput playerInput)
+    private void OnPlayerJoined(PlayerInput playerInput)
         {
             Debug.Log("A player has Joined");
-
-            if (!firstPlayer)
+            PlayerCount += 1;
+            /*
+            if (!_firstPlayer)
             {
-                firstPlayer = playerInput;
+                _firstPlayer = playerInput;
             }
             else if (!_firstPlayerReplaced)
             {
                 _firstPlayerReplaced = true;
-                List<InputDevice> t = firstPlayer.devices.ToList();
-                t.AddRange(playerInput.devices);
-                
-                firstPlayer.SwitchCurrentControlScheme("Controller",playerInput.devices.ToArray());
+
+                Debug.Log("I've made this player in my image (the image of player 1), but now with a controller");
+                _firstPlayer.SwitchCurrentControlScheme("Controller", playerInput.devices.ToArray());
                 Destroy(playerInput.gameObject);
+
+                _firstPlayer.GetComponentInChildren<BestVirtualCursor>().SetNewOwner(_firstPlayer);
+                
+                
+                
                 return;
             }
+            */
 
             bool controller = false;
             foreach (var div in playerInput.devices)
@@ -105,7 +113,11 @@ namespace Managers.Local
             {
                 c.OutputChannel = myChannel;
             }
+           // if(controller) playerInput.GetComponentInChildren<BestVirtualCursor>().SetNewOwner(playerInput);
         }
+
+
+
 
     }
 }
