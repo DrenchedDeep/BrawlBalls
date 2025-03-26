@@ -46,6 +46,7 @@ namespace Managers.Local
 
         //We can't let this be static for local multiplayer.
         public static LocalPlayerController LocalBallPlayer { get; private set; }
+        public PlayerInput PlayerInput => _playerInput;
         public bool IsActive => _currentBall;
 
 

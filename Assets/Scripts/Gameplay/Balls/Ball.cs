@@ -4,6 +4,7 @@ using RotaryHeart.Lib.PhysicsExtension;
 using Stats;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Physics = UnityEngine.Physics;
 using Random = UnityEngine.Random;
 
@@ -12,7 +13,15 @@ namespace Gameplay.Balls
     public class Ball : NetworkBehaviour
     {
         [SerializeField] private BallStats stats;
-        [SerializeField] private bool fullJoyStick = false;
+        [SerializeField] private PlayerInput localPlayerInputComponent;
+        [SerializeField] private InputActionReference jump;
+
+        [Space] 
+        
+        [Header("JUMP")] 
+        [SerializeField] private bool scaleByMass;
+        [SerializeField] protected float defaultJumpForce = 1500;
+        
         public BallStats Stats => stats;
         
         private Rigidbody _rb;
@@ -56,18 +65,23 @@ namespace Gameplay.Balls
                SetupJoystick();
            }
        }
+       
        public override void OnNetworkSpawn()
        {
            if (IsOwner)
            {
                SetupJoystick();
+
+               localPlayerInputComponent = LocalPlayerController.LocalBallPlayer.PlayerInput;
+               
+               localPlayerInputComponent.actions[jump.name].performed += _ => Jump();
+
            }
        }
 
        [ServerRpc(RequireOwnership = false)]
        public void AddImpulse_ServerRpc(Vector3 velocity)
        {
-     
            AddImpulse_ClientRpc(velocity);
        }
        
@@ -104,6 +118,24 @@ namespace Gameplay.Balls
 
            UpdateState();
        }
+       
+       protected virtual bool CanJump()
+       {
+           return _isGrounded;
+       }
+
+
+       protected virtual void Jump()
+       {
+           Debug.Log("JUMP called");
+           if (CanJump())
+           {
+               Debug.Log("can jump");
+               float jumpVelocity = scaleByMass ? defaultJumpForce : _rb.mass * defaultJumpForce; 
+               
+               RigidBody.AddForce(defaultJumpForce * Vector3.up, ForceMode.Impulse);
+           }
+       }
 
        
        //CALLED FROM BALL PLAYER: CLIENT ONLY FUNCTION
@@ -125,9 +157,19 @@ namespace Gameplay.Balls
 
        public virtual void ChangeVelocity(Vector3 dir, ForceMode forceMode = ForceMode.Impulse, bool stop = false)
        {
-           if (!IsOwner) return;
+           if (!IsOwner)
+           {
+               Debug.Log("is not owner");
+               return;
+               
+           }
+
            if (stop)
+           {
+               Debug.Log("Stop");
                _rb.linearVelocity = Vector3.zero;
+           }
+
            _rb.AddForce(dir, forceMode);
        }
         
@@ -159,7 +201,7 @@ namespace Gameplay.Balls
                _isGrounded = hit;
                OnGroundStateChanged?.Invoke();
            }
-
+           
 #if UNITY_EDITOR
            DebugExtensions.DebugSphereCast(_rb.position, Vector3.down,  stats.FootRadius, hit?Color.red:Color.green, stats.FootRange, 0, CastDrawType.Complete, PreviewCondition.Editor,true);
 #endif

@@ -107,4 +107,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 11400000, guid: bd12ae860f097fd499176e055ed2750e, type: 2}
-  fullJoyStick: 1
+  localPlayerInputComponent: {fileID: 0}
+  jump: {fileID: 8566638868233455419, guid: d208d53a1c1765d458b57f71735f2219, type: 3}
+  scaleByMass: 0
+  defaultJumpForce: 1500
