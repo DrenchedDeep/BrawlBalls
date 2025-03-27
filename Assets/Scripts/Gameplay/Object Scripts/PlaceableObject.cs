@@ -1,3 +1,4 @@
+using System;
 using Cysharp.Threading.Tasks;
 using Managers;
 using Managers.Local;
@@ -10,6 +11,7 @@ namespace Gameplay.Object_Scripts
     {
         [SerializeField] private bool canCollideWithSelf;
         [SerializeField] private ESurfaceBindMethod bindToSurface;
+        [SerializeField] private ECollisionType collisionType;
 
         private enum ESurfaceBindMethod
         {
@@ -17,6 +19,15 @@ namespace Gameplay.Object_Scripts
             Down,
             Sphere
         }
+        
+        
+        private enum ECollisionType
+        {
+            None,
+            Trigger,
+            Collision
+        }
+        
 
         protected virtual bool UseDelay => true;
         private void Awake()
@@ -74,15 +85,35 @@ namespace Gameplay.Object_Scripts
         //Can only collide with other players...
         private void OnTriggerEnter(Collider other)
         {
-            int layer = 1<<other.gameObject.layer;
-            print(layer +", " + StaticUtilities.PlayerLayers);
-            if ((layer & StaticUtilities.PlayerLayers) == 0) return; // If it's not a player, we can't hit it...
-            
-            BallPlayer b = other.attachedRigidbody?.GetComponent<BallPlayer>();
-            
-            if (b == null || (!canCollideWithSelf && b.OwnerClientId == OwnerClientId)) return;
-            OnHit(b);
+            if (collisionType == ECollisionType.Trigger)
+            {
+                Debug.Log("trigger enter!");
+                int layer = 1 << other.gameObject.layer;
+                print(layer + ", " + StaticUtilities.PlayerLayers);
+                if ((layer & StaticUtilities.PlayerLayers) == 0) return; // If it's not a player, we can't hit it...
 
+                BallPlayer b = other.attachedRigidbody?.GetComponent<BallPlayer>();
+
+                if (b == null || (!canCollideWithSelf && b.OwnerClientId == OwnerClientId)) return;
+                OnHit(b);
+            }
+
+        }
+
+        private void OnCollisionEnter(Collision other)
+        {
+            if (collisionType == ECollisionType.Collision)
+            {
+                Debug.Log("trigger enter!");
+                int layer = 1 << other.gameObject.layer;
+                print(layer + ", " + StaticUtilities.PlayerLayers);
+                if ((layer & StaticUtilities.PlayerLayers) == 0) return; // If it's not a player, we can't hit it...
+
+                BallPlayer b = other.rigidbody?.GetComponent<BallPlayer>();
+
+                if (b == null || (!canCollideWithSelf && b.OwnerClientId == OwnerClientId)) return;
+                OnHit(b);
+            }
         }
 
         protected abstract void OnHit(BallPlayer hit);

@@ -178,8 +178,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  canCollideWithSelf: 0
+  canCollideWithSelf: 1
   bindToSurface: 0
+  collisionType: 2
 --- !u!114 &-1215586307135677874
 MonoBehaviour:
   m_ObjectHideFlags: 0

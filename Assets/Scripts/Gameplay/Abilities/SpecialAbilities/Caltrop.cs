@@ -1,4 +1,5 @@
 using Managers.Local;
+using Managers.Network;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -10,7 +11,13 @@ namespace Gameplay.Abilities.SpecialAbilities
 
         public override void ExecuteAbility(BallPlayer owner)
         {
-            SpawnCaltrops_ServerRpc("Caltrop", owner.transform.position + Vector3.one * 6,  Quaternion.identity, owner.GetBall.Velocity.normalized, 150);
+            for (int i = 0; i < 3; ++i)
+            {
+                NetworkGameManager.Instance.SpawnObjectGlobally_ServerRpc("Caltrop",
+                    owner.transform.position + Vector3.one * 6, Quaternion.identity);
+            }
+            
+            //  SpawnCaltrops_ServerRpc("Caltrop", owner.transform.position + Vector3.one * 6,  Quaternion.identity, owner.GetBall.Velocity.normalized, 150);
         }
 
         public override void CancelAbility(BallPlayer owner)
@@ -24,6 +31,8 @@ namespace Gameplay.Abilities.SpecialAbilities
             
             for (int i = 0; i < 3; ++i)
             {
+              //  NetworkGameManager.Instance.SpawnObjectGlobally_ServerRpc("Caltrop", owner.transform.position + Vector3.one * 6,  Quaternion.identity);
+                
                 NetworkObject ngo = Object.Instantiate(ResourceManager.SummonableObjects[objectName], location, rotation);
                 ngo.GetComponent<Rigidbody>().AddForce(Quaternion.AngleAxis((i * 25) * ((i&1)==0?-1:1), axis) * new Vector3(0,force,0), ForceMode.Impulse);
                 ngo.SpawnWithOwnership(@params.Receive.SenderClientId);
