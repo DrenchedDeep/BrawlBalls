@@ -59,7 +59,7 @@ namespace Gameplay.Object_Scripts
             createdMat.SetInt(StaticUtilities.RandomTexID, _material.GetInt(StaticUtilities.RandomTexID));
             createdMat.SetVector(StaticUtilities.RandomOffsetID, _material.GetVector(StaticUtilities.RandomOffsetID));
             
-            hit.GetBall.ApplyEffect_ServerRpc(0);
+         //   hit.GetBall.ApplyEffect_ServerRpc(0);
 
             NetworkObject.Despawn();
 

@@ -172,6 +172,12 @@ namespace Gameplay
             {
                 return;
             }
+
+            //if were protected :D
+            if (GetBall.IsProtected.Value)
+            {
+                return;
+            }
             
             _currentHealth.Value -= damageInfo.Damage;
             

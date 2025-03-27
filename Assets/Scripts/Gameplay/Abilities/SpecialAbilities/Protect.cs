@@ -23,14 +23,22 @@ namespace Gameplay.Abilities.SpecialAbilities
         {
             Debug.Log("Immortality_Start");
         
-            //int refMat = ParticleManager.ProtectMat.GetHashCode();
-            owner.GetBall.ApplyEffect_ServerRpc(1);
+            //  owner.GetBall.ApplyEffect_ServerRpc(1);
 
-            await UniTask.Delay(3000);
+            if (owner.GetBall)
+            {
+                owner.GetBall.IsProtected.Value = true;
+            }
+
+            await UniTask.WaitForSeconds(10);
+
+            if (owner.GetBall)
+            {
+                Debug.Log("Immortaltiy_End");
+                owner.GetBall.IsProtected.Value = false;
+            }
             
-            Debug.Log("Immortaltiy_End");
-        
-            owner.GetBall.RemoveEffect_ServerRpc(1, ParticleManager.ProtectMat.GetHashCode() );
+           // owner.GetBall.RemoveEffect_ServerRpc(1, ParticleManager.ProtectMat.GetHashCode() );
         }
 
     }

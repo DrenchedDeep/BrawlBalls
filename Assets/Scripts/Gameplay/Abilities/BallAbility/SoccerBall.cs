@@ -7,6 +7,8 @@ using UnityEngine;
 
 public class SoccerBall : Ball
 {
+    [SerializeField] private int maxInAirJumps = 1;
+    
     private int _inAirJumpCount;
 
     protected override void Start()
@@ -29,7 +31,7 @@ public class SoccerBall : Ball
     {
         if (!IsGrounded)
         {
-            return _inAirJumpCount == 0;
+            return _inAirJumpCount < maxInAirJumps;
         }
 
         return true;

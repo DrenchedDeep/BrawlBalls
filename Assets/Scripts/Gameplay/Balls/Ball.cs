@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Managers.Local;
 using RotaryHeart.Lib.PhysicsExtension;
 using Stats;
@@ -34,6 +36,9 @@ namespace Gameplay.Balls
         public Rigidbody RigidBody => _rb;
 
         public event Action OnGroundStateChanged;
+
+
+        public NetworkVariable<bool> IsProtected { get; set; } = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
         
         
        // [NonSerialized] public Vector2 MoveDirection;
@@ -73,11 +78,12 @@ namespace Gameplay.Balls
                SetupJoystick();
 
                localPlayerInputComponent = LocalPlayerController.LocalBallPlayer.PlayerInput;
-               
                localPlayerInputComponent.actions[jump.name].performed += _ => Jump();
-
            }
+
+           IsProtected.OnValueChanged += OnIsProtectedChanged;
        }
+       
 
        [ServerRpc(RequireOwnership = false)]
        public void AddImpulse_ServerRpc(Vector3 velocity)
@@ -127,16 +133,13 @@ namespace Gameplay.Balls
 
        protected virtual void Jump()
        {
-           Debug.Log("JUMP called");
            if (CanJump())
            {
-               Debug.Log("can jump");
-               float jumpVelocity = scaleByMass ? defaultJumpForce : _rb.mass * defaultJumpForce; 
+              // float jumpVelocity = scaleByMass ? defaultJumpForce : _rb.mass * defaultJumpForce; 
                
                RigidBody.AddForce(defaultJumpForce * Vector3.up, ForceMode.Impulse);
            }
        }
-
        
        //CALLED FROM BALL PLAYER: CLIENT ONLY FUNCTION
        public virtual void Init(BallPlayer ballPlayer)
@@ -223,6 +226,8 @@ namespace Gameplay.Balls
        }
 
        #region Effects MOVE THESE LATER
+       
+       /*/
        [ServerRpc]
        public void ApplyEffect_ServerRpc(int type, ServerRpcParams @params = default)
        {
@@ -238,8 +243,11 @@ namespace Gameplay.Balls
            }
            AddMaterialClientRpc(type);
        }
-        
-        
+       /*/
+       
+       
+       /*/
+       
        [ServerRpc]
        public void RemoveEffect_ServerRpc(int type, int materialHashID = -1)
        {
@@ -250,15 +258,9 @@ namespace Gameplay.Balls
                    break;
            }
        }
-        
-       [ClientRpc]
-       private void ApplySlowClientRpc(ulong id)
-       {
-           //_previousAttackerID = id;
-           Debug.Log("Re-implement previous attacker logic.");
-           Acceleration *= 0.7f;
-       }
+       /*/
 
+       /*/
         [ClientRpc]
         private void ApplyImmortalityClientRpc()
         {
@@ -271,7 +273,113 @@ namespace Gameplay.Balls
             _rb.gameObject.layer = IsOwner?StaticUtilities.LocalBallLayerLiteral:StaticUtilities.EnemyLayerLiteral;
             RemoveMaterial(hash);
         }
+        /*/
 
+       [ClientRpc]
+       private void ApplySlowClientRpc(ulong id)
+       {
+           //_previousAttackerID = id;
+           Debug.Log("Re-implement previous attacker logic.");
+           Acceleration *= 0.7f;
+       }
+       
+       private void OnIsProtectedChanged(bool old, bool current)
+       {
+           if (current)
+           {
+               _rb.gameObject.layer = StaticUtilities.ImmortalLayerLiteral;
+               AddMaterial(1);
+           }
+           else
+           {
+               RemoveImmortality();
+           }
+       }
+
+       
+       
+        private void RemoveImmortality()
+        {
+            _rb.gameObject.layer = IsOwner?StaticUtilities.LocalBallLayerLiteral:StaticUtilities.EnemyLayerLiteral;
+            RemoveMaterial("Protect");
+        }
+
+        private List<string> _testMats = new List<string>();
+
+        private void AddMaterial(int id)
+        {
+            Material mat = null;
+            switch (id)
+            {
+                case 0:
+                    mat = new Material(ParticleManager.GlueBallMat);
+                    //Kill me :(
+                    //TODO: Generate a material that is actually the same as the one in game... I probably have to do some mapping shenanigans to actullay pull this off.
+                    mat.SetFloat(StaticUtilities.ColorID, Random.Range(0,1f));
+                    mat.SetInt(StaticUtilities.RandomTexID, Random.Range(0,4));
+                    mat.SetVector(StaticUtilities.RandomOffsetID, new Vector2(Random.Range(-0.25f,0.25f),Random.Range(-0.25f,0.25f)));
+                    break;
+                case 1:
+                    mat = ParticleManager.ProtectMat;
+                    break;
+
+            }
+
+            if (mat)
+            {
+                _testMats.Add(mat.name);
+            }
+
+            int l = _mr.materials.Length;
+            Material[] mats = new Material[l + 1];
+            for (int index = 0; index < l; index++)
+            {
+                mats[index] = _mr.materials[index];
+            }
+
+            mats[l] = mat;
+            _mr.materials = mats;
+        }
+        
+        private void RemoveMaterial(string inName)
+        {
+            List<Material> materials = _mr.materials.ToList();
+
+            for (int i = 0; i < materials.Count; i++)
+            {
+                if (materials[i].name.Contains(inName))
+                {
+                    Debug.Log("REMOVE MATERIAL: " + materials[i].name);
+                    materials.RemoveAt(i);
+                }
+            }
+                        
+            foreach (Material mat in materials)
+            {
+                Debug.Log("Material is: " + mat.name);
+            }
+
+            
+            _mr.materials = materials.ToArray();
+
+            
+            /*/
+            int l = _mr.materials.Length;
+            Material[] mats = new Material[l]; //-1 so we don't do unneeded ones
+            int m = 0;
+            for (int index = 0; index < l; index++)
+            {
+                if (_mr.materials[index].name != matName)
+                {
+                    mats[index] = _mr.materials[index];
+                }
+            }
+            _mr.materials = mats;
+            /*/
+        }
+        
+        /*/
+        
         [ClientRpc]
         private void AddMaterialClientRpc(int id)
         {
@@ -303,21 +411,7 @@ namespace Gameplay.Balls
             mats[l] = mat;
             _mr.materials = mats;
         }
-        
-        
-        private void RemoveMaterial(int hashID)
-        {
-            int l = _mr.materials.Length;
-            Material[] mats = new Material[l - 1]; //-1 so we don't do unneeded ones
-            int m = 0;
-            for (int index = 0; index < l; index++)
-            {
-                if (_mr.materials[index].GetHashCode() != hashID)
-                    mats[index] = _mr.materials[m++];
-            }
-
-            _mr.materials = mats;
-        }
+        /*/
         #endregion
     }
 }

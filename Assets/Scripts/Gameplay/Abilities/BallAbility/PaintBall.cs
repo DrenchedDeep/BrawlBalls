@@ -23,7 +23,7 @@ namespace Gameplay.Abilities.BallAbility
                 createdMat.SetFloat(StaticUtilities.ColorID, Random.Range(0,1f));
                 createdMat.SetInt(StaticUtilities.RandomTexID, Random.Range(0,4));
                 createdMat.SetVector(StaticUtilities.RandomOffsetID, new Vector4(Random.Range(-0.25f,0.25f),Random.Range(-0.25f,0.25f)));
-                c.transform.parent.GetComponent<Ball>().ApplyEffect_ServerRpc(0);
+             //   c.transform.parent.GetComponent<Ball>().ApplyEffect_ServerRpc(0);
             }
         }
     
