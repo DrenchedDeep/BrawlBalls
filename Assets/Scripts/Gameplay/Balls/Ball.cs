@@ -39,7 +39,8 @@ namespace Gameplay.Balls
 
 
         public NetworkVariable<bool> IsProtected { get; set; } = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-        
+        public NetworkVariable<bool> IsGlued { get; set; } = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+
         
        // [NonSerialized] public Vector2 MoveDirection;
         public readonly NetworkVariable<Vector2> MoveDirection = new(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
@@ -82,6 +83,7 @@ namespace Gameplay.Balls
            }
 
            IsProtected.OnValueChanged += OnIsProtectedChanged;
+           IsGlued.OnValueChanged += OnIsGluedChanged;
        }
        
 
@@ -296,6 +298,14 @@ namespace Gameplay.Balls
            }
        }
 
+       private void OnIsGluedChanged(bool old, bool current)
+       {
+           if (current)
+           {
+               AddMaterial(0);
+           }
+       }
+
        
        
         private void RemoveImmortality()
@@ -303,9 +313,7 @@ namespace Gameplay.Balls
             _rb.gameObject.layer = IsOwner?StaticUtilities.LocalBallLayerLiteral:StaticUtilities.EnemyLayerLiteral;
             RemoveMaterial("Protect");
         }
-
-        private List<string> _testMats = new List<string>();
-
+        
         private void AddMaterial(int id)
         {
             Material mat = null;
@@ -324,11 +332,7 @@ namespace Gameplay.Balls
                     break;
 
             }
-
-            if (mat)
-            {
-                _testMats.Add(mat.name);
-            }
+            
 
             int l = _mr.materials.Length;
             Material[] mats = new Material[l + 1];
@@ -349,7 +353,6 @@ namespace Gameplay.Balls
             {
                 if (materials[i].name.Contains(inName))
                 {
-                    Debug.Log("REMOVE MATERIAL: " + materials[i].name);
                     materials.RemoveAt(i);
                 }
             }

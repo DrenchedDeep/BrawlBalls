@@ -19,16 +19,19 @@ public class TheButtonWeapon : BaseWeapon
     
     private CancellationTokenSource _cancellationTokenSource;
     private float _currentTime;
+    private bool _isHoldingDown;
     public override void AttackStart()
     {
         _cancellationTokenSource = new CancellationTokenSource();
         _ = ButtonCountdown(_cancellationTokenSource.Token);
         buttonTransform.localScale = new Vector3(1f, .1f, 1f);
+        _isHoldingDown = true;
     }
 
     public override void AttackEnd()
     {
         buttonTransform.localScale = Vector3.one;
+        _isHoldingDown = false;
         _cancellationTokenSource.Cancel();
     }
 
@@ -63,7 +66,10 @@ public class TheButtonWeapon : BaseWeapon
 
     void OnDeath(ulong killer)
     {
-        Explode_ServerRpc();
+        if (_isHoldingDown)
+        {
+            Explode_ServerRpc();
+        }
     }
 
     [ServerRpc(RequireOwnership = false)]

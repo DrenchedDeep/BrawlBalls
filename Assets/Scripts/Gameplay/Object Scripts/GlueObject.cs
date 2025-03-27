@@ -58,12 +58,10 @@ namespace Gameplay.Object_Scripts
             createdMat.SetFloat(StaticUtilities.ColorID, _material.GetFloat(StaticUtilities.ColorID));
             createdMat.SetInt(StaticUtilities.RandomTexID, _material.GetInt(StaticUtilities.RandomTexID));
             createdMat.SetVector(StaticUtilities.RandomOffsetID, _material.GetVector(StaticUtilities.RandomOffsetID));
-            
-         //   hit.GetBall.ApplyEffect_ServerRpc(0);
+
+            hit.GetBall.IsGlued.Value = true;
 
             NetworkObject.Despawn();
-
-            //Destroy(transform.parent.gameObject);
         }
     }
 }

@@ -20,7 +20,6 @@ namespace Gameplay.Abilities.SpecialAbilities
 
         public override void CancelAbility(BallPlayer owner)
         {
-            Debug.LogError("LIAM IMPLEMENT CANCEL ABILITY, AVOID USING THROW BECAUSE IT'LL LITERALLY BREAK EVERYTHING");
         }
     }
 }
