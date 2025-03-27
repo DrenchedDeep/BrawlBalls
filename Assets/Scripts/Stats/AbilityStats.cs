@@ -5,6 +5,7 @@ using Gameplay;
 using Gameplay.Abilities.SpecialAbilities;
 using Gameplay.Abilities.WeaponAbilities;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Stats
 {
@@ -13,6 +14,7 @@ namespace Stats
     {
         [field: SerializeField] public int Capacity { get; private set; }
         [field: SerializeField] public float Cooldown { get; private set; }
+        
         [SerializeField] private string abilityFileName;
 
 

@@ -131,14 +131,14 @@ namespace Gameplay.Balls
        }
 
 
-       protected virtual void Jump()
+       public virtual void Jump(bool checkForCanJump = true)
        {
-           if (CanJump())
+           if (checkForCanJump && !CanJump())
            {
-              // float jumpVelocity = scaleByMass ? defaultJumpForce : _rb.mass * defaultJumpForce; 
-               
-               RigidBody.AddForce(defaultJumpForce * Vector3.up, ForceMode.Impulse);
+               return;
            }
+           
+           RigidBody.AddForce(defaultJumpForce * Vector3.up, ForceMode.Impulse);
        }
        
        //CALLED FROM BALL PLAYER: CLIENT ONLY FUNCTION

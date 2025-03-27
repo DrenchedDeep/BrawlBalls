@@ -92,25 +92,33 @@ namespace Gameplay.Object_Scripts
             int toID;
         
 
+            //scrap the moon :P
+            /*/
             if (!_someoneGotLucky && Random.Range(0, ChanceToGetLucky) == 0)
             {
                 toID = 0;
+                Debug.Log("got lucky... to moon ?");
                 _someoneGotLucky = true;
             }
             else
             {
                 toID = ActivePortalIds[Random.Range(0, ActivePortalIds.Count)];
             }
+            /*/
+
+            toID = ActivePortalIds[Random.Range(0, ActivePortalIds.Count)];
 
             //Choose another portal
             PortalObject outPortal = Portals[toID];
             Transform outPortalTrans = outPortal.transform;
-            Vector3 direction = outPortalTrans.forward;
 
-            hit.transform.GetChild(0).position = outPortalTrans.position + direction;
+            hit.transform.position = outPortalTrans.position + new Vector3(0, 1.5f, 0);
+          //  hit.transform.GetChild(0).position = outPortalTrans.position + direction;
 
-            hit.GetBall.ChangeVelocity(direction*hit.GetBall.Speed*-2f, ForceMode.Impulse, true);
-        
+          //  hit.GetBall.ChangeVelocity(direction*hit.GetBall.Speed*-2f, ForceMode.Impulse, true);
+          
+          
+          
             StartCooldown();
             PlayParticles();
         
@@ -147,11 +155,13 @@ namespace Gameplay.Object_Scripts
             if (cooldown)
             {
                 ActivePortalIds.Remove(_myId);
+                Debug.Log("remover portal");
                 _myMat.SetFloat(StaticUtilities.SpeedID, 0.5f);
             }
             else
             {
                 ActivePortalIds.Add(_myId);
+                Debug.Log("add portal");
                 _myMat.SetFloat(StaticUtilities.SpeedID, 3f);
             }
         

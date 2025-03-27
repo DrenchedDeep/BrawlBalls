@@ -1,4 +1,5 @@
 using Managers.Network;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace Gameplay.Abilities.SpecialAbilities
@@ -9,7 +10,7 @@ namespace Gameplay.Abilities.SpecialAbilities
 
         public override void ExecuteAbility(BallPlayer owner)
         {
-            NetworkGameManager.Instance.SpawnObjectGlobally_ServerRpc("Portal", owner.transform.position, Quaternion.identity);
+            NetworkGameManager.Instance.SpawnObjectGlobally_ServerRpc("Portal", owner.transform.position, quaternion.identity);
         }
 
         public override void CancelAbility(BallPlayer owner)

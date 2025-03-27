@@ -21,20 +21,11 @@ namespace Gameplay.Object_Scripts
         protected virtual bool UseDelay => true;
         private void Awake()
         {
-
-            print("PlacableObject deployed.");
-            if (!IsOwnedByServer)
-            {
-                enabled = false;
-                return;
-            }
-            print("Is owner of said object");
-            
             Vector3 position = transform.position;
             switch (bindToSurface)
             {
                 case ESurfaceBindMethod.Down:
-                    Physics.Raycast(position, Vector3.down,  out RaycastHit h,3, StaticUtilities.GroundLayers);
+                    Physics.Raycast(position, Vector3.down,  out RaycastHit h,100, StaticUtilities.GroundLayers);
                     //transform.parent = h.transform; Parenting literally breaks fucking everything. Unity is garbage
                     transform.forward = h.normal;
                     Debug.Log(transform.position);
