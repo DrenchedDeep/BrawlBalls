@@ -38,6 +38,11 @@ namespace Managers.Local
 
         public static bool TryGetPlayerData(PlayerInput playerInput, out PlayerData data) => _playerData.TryGetValue(RetrieveClientNameFromPlayerInput(playerInput), out data);
 
+        public static void Clear()
+        {
+         Debug.LogWarning("Probably come up with a better way to discard the data / recompile it.");
+            _playerData.Clear();
+        }
         public static string GetCompiledNames(string delimiter = ";")
         {
             StringBuilder sb = new();
@@ -345,7 +350,8 @@ namespace Managers.Local
             public string ability;
         }
 
-        
+
+
     }
     
 

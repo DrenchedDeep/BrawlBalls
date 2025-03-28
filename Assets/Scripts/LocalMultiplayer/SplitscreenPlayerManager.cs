@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Managers.Local;
+using Managers.Network;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -10,7 +11,7 @@ using UnityEngine.SceneManagement;
 
 namespace LocalMultiplayer
 {
-    [RequireComponent(typeof(PlayerInputManager)), DefaultExecutionOrder(1000)]
+    [RequireComponent(typeof(PlayerInputManager)), DefaultExecutionOrder(-1000)]
     public class SplitscreenPlayerManager : MonoBehaviour
     {
         private PlayerInputManager _playerInputManager;
@@ -24,10 +25,9 @@ namespace LocalMultiplayer
         [SerializeField] private GameObject mainMenuPrefab;
         [SerializeField] private GameObject inGamePrefab;
         //[SerializeField] private InputActionReference leaveGameAction;
-        
-        
-        
-        private void Awake()
+        private DataParasite[] _activeParasites;
+
+        private void OnEnable()
         {
             if (Instance != null && Instance != this)
             {
@@ -36,6 +36,11 @@ namespace LocalMultiplayer
             }
             Instance = this;
             DontDestroyOnLoad(gameObject);
+        }
+
+        private void Awake()
+        {
+       
             
             _playerInputManager = GetComponent<PlayerInputManager>();
             
@@ -50,9 +55,28 @@ namespace LocalMultiplayer
             SceneManager.sceneLoaded += OnSceneChanged;
         }
 
+        private void Start()
+        {
+            LobbySystemManager.Instance.OnGameStarting += CreateDataParasites;
+        }
+
+        private void CreateDataParasites()
+        {
+            _activeParasites = new DataParasite[LocalPlayers.Count];
+            for (int i = 0; i < _activeParasites.Length; ++i)
+            {
+                _activeParasites[i] = new DataParasite(LocalPlayers[i]);
+            }
+            Debug.Log("Player Data Containers have been generated.");
+        }
+
+
         private void OnSceneChanged(Scene scene, LoadSceneMode arg1)
         {          
-            _playerInputManager.playerPrefab = SceneManager.GetActiveScene().buildIndex < 2 ? mainMenuPrefab : inGamePrefab;
+            Debug.Log("We are now in a new scene: " + scene.name);
+            _playerInputManager.playerPrefab =scene.buildIndex < 2 ? mainMenuPrefab : inGamePrefab;
+            LocalPlayers.Clear();
+            SaveManager.Clear();
             if(scene.buildIndex == 1) _playerInputManager.EnableJoining();
             #if !UNITY_EDITOR
             else {
@@ -60,13 +84,13 @@ _playerInputManager.DisableJoining();
 Debug.Log("We've disabled controls because you may not join from this scene.")
             }
 #endif
+            Debug.Log("We've loaded a scene, do we know about anyone that currently exists?" + LocalPlayers.Count +"...Data containers: " + (_activeParasites?.Length ?? 0) +" Build index: " + scene.buildIndex);
+
             if (scene.buildIndex == 0) return;
-            Debug.Log("We've loaded a scene, do we know about anyone that currently exists?" + LocalPlayers.Count);
-            foreach (var player in PlayerInput.all)
+            if (_activeParasites == null) return;
+            foreach (DataParasite player in _activeParasites)
             {
-                // Destroy the previous player and spawn a new one
-                Destroy(player.gameObject);
-                OnPlayerJoined(player);
+                OnPlayerJoined(PlayerInput.Instantiate(_playerInputManager.playerPrefab, pairWithDevices: player.Devices));
             }
 
         }
@@ -99,8 +123,11 @@ Debug.Log("We've disabled controls because you may not join from this scene.")
     private void OnPlayerJoined(PlayerInput playerInput)
         {
             Debug.Log("A player has Joined");
+
             LocalPlayers.Add(playerInput);
 
+            
+            Debug.LogError("REMINDER, Sync playerIndex? Idk too tired.");
             if (!LocalHost)
             {
                 LocalHost = playerInput;
@@ -174,9 +201,21 @@ Debug.Log("We've disabled controls because you may not join from this scene.")
             {
                 c.OutputChannel = myChannel;
             }
-           // if(controller) playerInput.GetComponentInChildren<BestVirtualCursor>().SetNewOwner(playerInput);
+            // if(controller) playerInput.GetComponentInChildren<BestVirtualCursor>().SetNewOwner(playerInput);
            
-           OnClientsUpdated?.Invoke();
+            OnClientsUpdated?.Invoke();
+        }
+    }
+
+    public struct DataParasite
+    {
+        public readonly InputDevice[] Devices;
+        public readonly int PlayerIndex;
+        public DataParasite(PlayerInput playerInput)
+        {
+            _ = SaveManager.TryGetPlayerData(playerInput, out var output);
+            PlayerIndex = output.PlayerIndex;
+            Devices = playerInput.devices.ToArray();
         }
     }
 }
