@@ -1,13 +1,13 @@
 using Core.Podium;
 using Cysharp.Threading.Tasks;
 using Gameplay;
+using Gameplay.Spectating;
 using Gameplay.UI;
 using Gameplay.Weapons;
 using Managers.Network;
 using Stats;
 using TMPro;
 using Unity.Cinemachine;
-using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -15,7 +15,7 @@ using UnityEngine.SceneManagement;
 //Player handles UI, and is the main interface for players...
 namespace Managers.Local
 {
-    public class LocalPlayerController : MonoBehaviour
+    public class PlayerController : MonoBehaviour
     {
         private BallPlayer _currentBall;
     
@@ -42,11 +42,8 @@ namespace Managers.Local
         
         
         private PlayerInput _playerInput;
-        private SpectatingManager _spectatingManager;
-
-        //We can't let this be static for local multiplayer.
-        public static LocalPlayerController LocalBallPlayer { get; private set; }
         public PlayerInput PlayerInput => _playerInput;
+        private SpectatingManager _spectatingManager;
         public bool IsActive => _currentBall;
 
 
@@ -54,25 +51,19 @@ namespace Managers.Local
 
         private int _livesLeft;
 
+        private SelectionMenu _selectionMenu;
+
         private void Awake()
         {
             rootCanvas.enabled = false;
-            if (LocalBallPlayer != null && LocalBallPlayer != this)
-            {
-                Destroy(gameObject);
-                return;
-            }
-            
             _playerInput = GetComponent<PlayerInput>();
             _spectatingManager = GetComponent<SpectatingManager>();
-
             
             //most will be half, so default to that :P
             _currentJoyStick = fullJoystick;
             fullJoystick.gameObject.SetActive(true);
            // halfJoystick.gameObject.SetActive(true);
             _livesLeft = 3;
-            LocalBallPlayer = this;
             enabled = false;
             
             InitializeControls();
@@ -207,7 +198,7 @@ namespace Managers.Local
             rootCanvas.enabled = true;
             cam.enabled = true;
             
-            SelectionMenu.Instance.EndDisplaying();
+            _selectionMenu.EndDisplaying();
 
             ballPlayer.OnDestroyed += OnBallKilled;
             
@@ -265,7 +256,7 @@ namespace Managers.Local
                 rootCanvas.enabled = false;
                 enabled = false;
                 cam.enabled = false;
-                SelectionMenu.Instance.BeginDisplaying();
+                _selectionMenu.BeginDisplaying();
             }
 
             //  DisableControls();
@@ -285,5 +276,10 @@ namespace Managers.Local
             specialAbility.SetAbility(ballPlayerGetAbility, _currentBall);
         }
         #endregion
+
+        public void SetSelectionMenu(SelectionMenu selectionMenu)
+        {
+            _selectionMenu = selectionMenu;
+        }
     }
 }

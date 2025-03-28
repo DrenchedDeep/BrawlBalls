@@ -4,6 +4,7 @@ using Managers.Local;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 //using Utilities.UI_General;
 
@@ -17,12 +18,15 @@ namespace LocalMultiplayer
         public static SplitscreenPlayerManager Instance { get; private set; }
         public readonly List<PlayerInput> LocalPlayers = new();
         public PlayerInput LocalHost { get; private set; }
-        public int GetMaxNumLocalPlayers => _playerInputManager.maxPlayerCount;
         public event Action OnLocalSplitscreenHostChanged;
-
-        public bool IsQueueing { get; private set; }
         public event Action OnClientsUpdated;
-
+        
+        [SerializeField] private GameObject mainMenuPrefab;
+        [SerializeField] private GameObject inGamePrefab;
+        //[SerializeField] private InputActionReference leaveGameAction;
+        
+        
+        
         private void Awake()
         {
             if (Instance != null && Instance != this)
@@ -31,19 +35,45 @@ namespace LocalMultiplayer
                 return;
             }
             Instance = this;
-            //DontDestroyOnLoad(gameObject);
-
+            DontDestroyOnLoad(gameObject);
+            
             _playerInputManager = GetComponent<PlayerInputManager>();
             
-            _playerInputManager.playerJoinedEvent.AddListener(OnPlayerJoined);
-            _playerInputManager.playerLeftEvent.AddListener(OnPlayerLeft);
-
+           // _playerInputManager.playerPrefab = SceneManager.GetActiveScene().buildIndex == 1 ? mainMenuPrefab : inGamePrefab;
             
+           // _playerInputManager.onPlayerJoined += (OnPlayerJoined);
+          //  _playerInputManager.onPlayerLeft += (OnPlayerLeft);
+
             
             Debug.LogWarning("We're doing a temporary check to see if any objects in the scene already have playerInput. In the future, this should not be the case...");
             LocalHost = FindFirstObjectByType<PlayerInput>(FindObjectsInactive.Exclude);
-            
+            SceneManager.sceneLoaded += OnSceneChanged;
+        }
 
+        private void OnSceneChanged(Scene scene, LoadSceneMode arg1)
+        {          
+            _playerInputManager.playerPrefab = SceneManager.GetActiveScene().buildIndex < 2 ? mainMenuPrefab : inGamePrefab;
+            if(scene.buildIndex == 1) _playerInputManager.EnableJoining();
+            #if !UNITY_EDITOR
+            else {
+_playerInputManager.DisableJoining();
+Debug.Log("We've disabled controls because you may not join from this scene.")
+            }
+#endif
+            if (scene.buildIndex == 0) return;
+            Debug.Log("We've loaded a scene, do we know about anyone that currently exists?" + LocalPlayers.Count);
+            foreach (var player in PlayerInput.all)
+            {
+                // Destroy the previous player and spawn a new one
+                Destroy(player.gameObject);
+                OnPlayerJoined(player);
+            }
+
+        }
+
+        private void OnDestroy()
+        {
+            SceneManager.sceneLoaded -= OnSceneChanged;
         }
 
 
@@ -148,9 +178,5 @@ namespace LocalMultiplayer
            
            OnClientsUpdated?.Invoke();
         }
-
-
-
-
     }
 }

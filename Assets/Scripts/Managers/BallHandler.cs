@@ -33,7 +33,7 @@ namespace Managers
 
 
         [ServerRpc(RequireOwnership = false)]
-        public void SpawnBall_ServerRpc(string ball, string weapon, string ability, ServerRpcParams id =default)
+        public void SpawnBall_ServerRpc(string ball, string weapon, string ability, int playerIndex, ServerRpcParams id =default)
         {
             Vector3 spawnPoint = Level.GetNextSpawnPoint();
 
@@ -71,12 +71,12 @@ namespace Managers
             
             NetworkGameManager.Instance.OnBallSpawned();
             
-            player.Initialize(ability);
+            player.Initialize(ability, playerIndex);
         }
         
 
         #if UNITY_EDITOR
-        public void SpawnBall_Offline(string ball, string weapon, string ability)
+        public void SpawnBall_Offline(string ball, string weapon, string ability, int playerIndex)
         {
             Vector3 spawnPoint = Level.GetNextSpawnPoint();
             Debug.Log(spawnPoint);
@@ -94,7 +94,7 @@ namespace Managers
                 ActiveBalls.Remove(player);
             };
             
-            player.Initialize_Offline(ability);
+            player.Initialize_Offline(ability, playerIndex);
         }
         #endif
     }

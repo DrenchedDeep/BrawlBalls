@@ -41,7 +41,6 @@ namespace Core.Podium
             Transform tr = _podiumController.Podiums[start].transform;
             Vector3 prv =tr.position;
             Quaternion prvRot = tr.rotation;
-            _podiumController.IsRotating = true;
             print("rotating: " + dir);
             do
             {
@@ -62,6 +61,8 @@ namespace Core.Podium
 
         private async UniTask SlerpIt(Vector3 next, Quaternion rotation, Transform id, float time)
         {
+            _podiumController.IsRotating = true;
+
             float curTime = 0;
             Vector3 origin = id.position;
             Quaternion rot = id.rotation;

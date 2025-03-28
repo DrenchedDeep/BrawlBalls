@@ -259,7 +259,16 @@ namespace Managers.Local
             }
             return true;
         }
+        public static PlayerData FindPlayerByID(int playerIndex)
+        {
+            foreach (var kvp in _playerData)
+            {
+               if(playerIndex==kvp.Value.PlayerIndex)
+                 return kvp.Value;
+            }
 
+            return null;
+        }
         [DataContract]
         public class PlayerData
         {
@@ -335,6 +344,8 @@ namespace Managers.Local
             public string weapon;
             public string ability;
         }
+
+        
     }
     
 

@@ -1,13 +1,14 @@
 ﻿using System;
 using Gameplay.Balls;
-using Gameplay.Map;
 using Gameplay.Pools;
 using Gameplay.Weapons;
+using LocalMultiplayer;
 using Managers.Local;
 using Managers.Network;
 using Stats;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Gameplay
 {
@@ -58,6 +59,8 @@ namespace Gameplay
         
         [SerializeField] private Transform damageNumberSpawnPoint;
 
+        public PlayerController Owner { get; private set; }
+        
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
@@ -81,19 +84,19 @@ namespace Gameplay
             }
         }
         
-        public void Initialize(string abilityID)
+        public void Initialize(string abilityID, int playerIndex)
         {
             //server should know bout these aswell
             GetBall = GetComponentInChildren<Ball>();
             GetBaseWeapon = GetComponentInChildren<BaseWeapon>();
             GetBall.Init(this);
-            Initialize_ClientRpc(abilityID);
+            Initialize_ClientRpc(abilityID, playerIndex);
             
         }
 
 
         [ClientRpc]
-        public void Initialize_ClientRpc(string abilityId)
+        public void Initialize_ClientRpc(string abilityId, int playerIndex)
         {
             GetAbility = ResourceManager.Abilities[abilityId];
             GetBall = GetComponentInChildren<Ball>();
@@ -124,13 +127,17 @@ namespace Gameplay
             {
                 child.gameObject.layer = gameObject.layer;
             }
-            
-            if (IsOwner) LocalPlayerController.LocalBallPlayer.BindTo(this);
+
+            if (IsOwner)
+            {
+                Owner = SaveManager.FindPlayerByID(playerIndex).LocalInput.GetComponent<PlayerController>();
+                Owner.BindTo(this);
+            }
         }
 
 
         #if UNITY_EDITOR
-        public void Initialize_Offline(string abilityId)
+        public void Initialize_Offline(string abilityId, int playerIndex)
         {
             if (NetworkManager.Singleton != null) return;
             Debug.Log("We are now initialized", gameObject);
@@ -155,7 +162,9 @@ namespace Gameplay
             
 
             _currentHealth.Value = GetBall.Stats.MaxHealth;
-            LocalPlayerController.LocalBallPlayer.BindTo(this);
+            
+            Owner = SaveManager.FindPlayerByID(playerIndex).LocalInput.GetComponent<PlayerController>();
+            Owner.BindTo(this);
             
         }
         #endif

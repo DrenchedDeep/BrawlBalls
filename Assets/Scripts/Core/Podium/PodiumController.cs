@@ -124,8 +124,6 @@ namespace Core.Podium
             {
                 if (IsRotating || EventSystem.current.IsPointerOverGameObject())
                     return;
-                // ReSharper disable once Unity.PerformanceCriticalCodeCameraMain
-                if(!cam) cam = Camera.main;
                 if (!cam)
                 {
                 
@@ -169,8 +167,6 @@ namespace Core.Podium
             
             
             
-            // ReSharper disable once Unity.PerformanceCriticalCodeCameraMain
-            if(!cam) cam = Camera.main;
             if (!cam)
             {
                 
@@ -255,7 +251,6 @@ namespace Core.Podium
             // Debug.Log("Pointer location: " + pointerPosition );
             
             // ReSharper disable once Unity.PerformanceCriticalCodeCameraMain
-            if(!cam) cam = Camera.main;
             if (!cam)
             {
                 

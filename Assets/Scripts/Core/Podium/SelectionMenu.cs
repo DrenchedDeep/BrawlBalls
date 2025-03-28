@@ -13,18 +13,10 @@ namespace Core.Podium
         [SerializeField] private CinemachineCamera cam;
         [SerializeField] private PodiumController podiumController;
         
-        public static SelectionMenu Instance { get; private set; }
-
 
         private void Awake()
         {
-            if (Instance && Instance != this)
-            {
-                Destroy(gameObject);
-                return;
-            }
-            Instance = this;
-            
+            transform.root.GetComponent<PlayerController>().SetSelectionMenu(this);
             podiumController.onForwardSelected.AddListener(TrySpawnSelectedBall);
             
             BeginDisplaying();
@@ -74,11 +66,9 @@ namespace Core.Podium
         
         public void TrySpawnSelectedBall(int i)
         {
-            if (!SaveManager.TryGetPlayerData(podiumController.localPlayerInputComponent,
-                    out SaveManager.PlayerData playerData))
+            if (!SaveManager.TryGetPlayerData(podiumController.localPlayerInputComponent, out SaveManager.PlayerData playerData))
             {
-                Debug.LogError("This save data does not exist: " +
-                               podiumController.localPlayerInputComponent.user.platformUserAccountId, gameObject);
+                Debug.LogError("This save data does not exist: " + playerData.Username, gameObject);
                 return;
             }
             SaveManager.BallStructure myBall = playerData.GetReadonlyBall(i);
@@ -93,10 +83,10 @@ namespace Core.Podium
             Debug.LogWarning("Add server side check to see if we can still spawn that ball, or if we've already spent it.", gameObject);
 #if UNITY_EDITOR
             if(!NetworkManager.Singleton || !NetworkManager.Singleton.IsConnectedClient)
-                BallHandler.Instance.SpawnBall_Offline(myBall.ball, myBall.weapon, myBall.ability);
+                BallHandler.Instance.SpawnBall_Offline(myBall.ball, myBall.weapon, myBall.ability, playerData.PlayerIndex);
             else
             {
-                BallHandler.Instance.SpawnBall_ServerRpc(myBall.ball, myBall.weapon, myBall.ability);
+                BallHandler.Instance.SpawnBall_ServerRpc(myBall.ball, myBall.weapon, myBall.ability, playerData.PlayerIndex);
                 Debug.Log("is online spawn ball request");
             }
 #else
