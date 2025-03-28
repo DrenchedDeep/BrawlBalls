@@ -1239,6 +1239,7 @@ retry:
             }
             catch (EventNotFoundException)
             {
+                // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
                 RuntimeUtils.DebugLogWarning("[FMOD] Event not found: " + eventReference);
             }
         }
@@ -1327,25 +1328,23 @@ retry:
 
         public static FMOD.Studio.EventDescription GetEventDescription(FMOD.GUID guid)
         {
-            FMOD.Studio.EventDescription eventDesc;
-            if (Instance.cachedDescriptions.ContainsKey(guid) && Instance.cachedDescriptions[guid].isValid())
+            if (Instance.cachedDescriptions.TryGetValue(guid, out FMOD.Studio.EventDescription eventDesc) && eventDesc.isValid())
             {
-                eventDesc = Instance.cachedDescriptions[guid];
+                return eventDesc;
             }
-            else
+            
+            var result = Instance.studioSystem.getEventByID(guid, out eventDesc);
+            
+            if (result != FMOD.RESULT.OK)
             {
-                var result = Instance.studioSystem.getEventByID(guid, out eventDesc);
-
-                if (result != FMOD.RESULT.OK)
-                {
-                    throw new EventNotFoundException(guid);
-                }
-
-                if (eventDesc.isValid())
-                {
-                    Instance.cachedDescriptions[guid] = eventDesc;
-                }
+                throw new EventNotFoundException(guid);
             }
+            
+            if (eventDesc.isValid())
+            {
+                Instance.cachedDescriptions[guid] = eventDesc;
+            }
+            
             return eventDesc;
         }
 

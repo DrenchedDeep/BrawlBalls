@@ -29,8 +29,6 @@ namespace Loading.LoadingCheckpoints
 
             try
             {
-                
-                Debug.LogWarning("Implement Profile Switching -- Probably need to revisit for local conncections");
                 await AuthenticationService.Instance.SignInAnonymouslyAsync();
             }
             catch (ServicesInitializationException)

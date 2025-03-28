@@ -162,30 +162,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 0
-      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MainMenu.UI.DescriptionController, Assembly-CSharp
         m_MethodName: OnItemGained
         m_Mode: 0
@@ -445,11 +421,13 @@ MonoBehaviour:
   template: {fileID: 4951958244642968487, guid: 6ff7cec31c9a5a44d90a77abb26dc72a,
     type: 3}
   items:
-  - {fileID: 11400000, guid: 2976434e3c0f83345ac4f92f662b354a, type: 2}
-  - {fileID: 11400000, guid: 5aaa38f08fa03b64988a9d9b24e50d49, type: 2}
-  - {fileID: 11400000, guid: 574ac8562dd01e34c9f7809ba1a0962b, type: 2}
-  - {fileID: 11400000, guid: 1bb23015655265a48849dfbfa83ebd5e, type: 2}
-  - {fileID: 11400000, guid: 783ae889dc37f104891db9a50ceeb7ac, type: 2}
+  - {fileID: 11400000, guid: 030d3431be0d9fc48b076044961e8a19, type: 2}
+  - {fileID: 11400000, guid: b8297234ba5427048ba480bbaf68c1b4, type: 2}
+  - {fileID: 11400000, guid: e818f95312cb4074fb462229e0be4b73, type: 2}
+  - {fileID: 11400000, guid: 7222ef7780d499a4b8bcbbce8f65fb9a, type: 2}
+  - {fileID: 11400000, guid: 75d079f2cfee7224a8fc69e99fe4e8ee, type: 2}
+  - {fileID: 11400000, guid: 5f5b8c2c6a83a8a44ae4d7252dc0b17f, type: 2}
+  - {fileID: 11400000, guid: 44a6accb044d6f642af2a78b55f6b066, type: 2}
 --- !u!223 &6925580837234406930
 Canvas:
   m_ObjectHideFlags: 0

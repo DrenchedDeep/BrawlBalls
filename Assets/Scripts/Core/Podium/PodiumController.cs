@@ -300,8 +300,12 @@ namespace Core.Podium
         private void SelectPodium(Podium podium)
         {
             if (_currentPodium == podium) return;
-            _currentPodium?.OnStopHover();
-            podium?.OnHover();
+            if (_currentPodium)
+            {
+                _currentPodium.StopAllCoroutines();
+                _currentPodium.StartCoroutine(_currentPodium.OnStopHover());
+            }
+            if(podium && podium.CanInteract) podium.StartCoroutine(podium.OnHover());
             _currentPodium = podium;
         }
 

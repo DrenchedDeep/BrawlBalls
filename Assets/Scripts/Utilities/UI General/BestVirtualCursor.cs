@@ -1,3 +1,4 @@
+using LocalMultiplayer;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -38,7 +39,9 @@ namespace Utilities.UI_General
             {
                 _owner.onDeviceLost += OnPlayerChanged;
                 _owner.onDeviceRegained += OnPlayerChanged;
+                
             }
+            SplitscreenPlayerManager.Instance.OnClientsUpdated += OnRectTransformDimensionsChange;
         }
 
         protected override void OnDisable()
@@ -52,6 +55,7 @@ namespace Utilities.UI_General
                 _owner.onDeviceLost -= OnPlayerChanged;
                 _owner.onDeviceRegained -= OnPlayerChanged;
             }
+            SplitscreenPlayerManager.Instance.OnClientsUpdated += OnRectTransformDimensionsChange;
         }
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -122,6 +126,7 @@ namespace Utilities.UI_General
             
             _owner.onDeviceLost += OnPlayerChanged;
             _owner.onDeviceRegained += OnPlayerChanged;
+            
         }
         
         private void SetVisibility()
@@ -184,7 +189,7 @@ namespace Utilities.UI_General
             _max = new Vector2(_camera.pixelWidth- r.xMax,_camera.pixelHeight-r.yMax);
 
             
-            Debug.Log("Setting New Rect Bounds");
+            Debug.Log("Setting New Rect Bounds", gameObject);
             Vector2 center = (_max-_min)*0.5f;
             _rectTransform.anchoredPosition = center;
         }

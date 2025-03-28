@@ -21,7 +21,8 @@ namespace LocalMultiplayer
         public event Action OnLocalSplitscreenHostChanged;
 
         public bool IsQueueing { get; private set; }
-        
+        public event Action OnClientsUpdated;
+
         private void Awake()
         {
             if (Instance != null && Instance != this)
@@ -50,7 +51,8 @@ namespace LocalMultiplayer
         {
             Debug.Log("A player has disconnected");
             LocalPlayers.Remove(playerInput);
-
+            
+            
             if (LocalHost == playerInput)
             {
                 if(LocalPlayers.Count == 0)
@@ -61,7 +63,7 @@ namespace LocalMultiplayer
                 LocalHost = LocalPlayers[0];
                 OnLocalSplitscreenHostChanged?.Invoke();
             }
-            
+            OnClientsUpdated?.Invoke();
         }
 
     private void OnPlayerJoined(PlayerInput playerInput)
@@ -143,6 +145,8 @@ namespace LocalMultiplayer
                 c.OutputChannel = myChannel;
             }
            // if(controller) playerInput.GetComponentInChildren<BestVirtualCursor>().SetNewOwner(playerInput);
+           
+           OnClientsUpdated?.Invoke();
         }
 
 

@@ -11,6 +11,7 @@ namespace LocalMultiplayer
     /// </summary>
     public class LocalLobbyController : MonoBehaviour
     {
+        [SerializeField] private GameObject[] hostOnlyObjects;
         [SerializeField] private PlayerCard[] playerCards;
         [SerializeField] private Button beginGameButton;
         [SerializeField] private Button startSearchButton;
@@ -60,6 +61,11 @@ namespace LocalMultiplayer
                 beginGameButton.onClick.AddListener(LobbySystemManager.Instance.StartGame);
                 startSearchButton.onClick.AddListener(LobbySystemManager.Instance.QuickPlay);
                 stopSearchButton.onClick.AddListener(LobbySystemManager.Instance.LeaveLobby);
+            }
+
+            foreach (var obj in hostOnlyObjects)
+            {
+                obj.SetActive(x);
             }
             
             LazyRegenCards();

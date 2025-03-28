@@ -41,6 +41,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: e64edbfea65a8ba418e117c7f95a869a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Overlay:
+        m_Texture: {fileID: 2800000, guid: 1f3f40c05d2e8454aab20ccf0448a406, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -55,13 +59,19 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _EdgeWidth: -0.25
+    - _EdgeWidth: -0.38
     - _HexScale: 1
-    - _Pow: 16
-    - _Start: -0.1
+    - _OuterPow: 3.48
+    - _Pow: 0.5
+    - _Start: 0.3
     m_Colors:
-    - _Color: {r: 0.35144356, g: 4.5105686, b: 10.643712, a: 0.7607843}
-    - _Speed: {r: 0, g: 1, b: 0, a: 0}
-    - _Tiling: {r: 50, g: 50, b: 0, a: 0}
+    - _BackgroundColor: {r: 0, g: 0.55433774, b: 1, a: 1}
+    - _Color: {r: 0.7914174, g: 10.157371, b: 23.968626, a: 1}
+    - _InnerColor: {r: 0.9528302, g: 0.68583834, b: 0.6786668, a: 0}
+    - _Offset: {r: 0.36, g: -0.24, b: 0, a: 0}
+    - _OverlayOffset: {r: -1, g: -1.25, b: 0, a: 0}
+    - _OverlayTiling: {r: 3, g: 3, b: 0, a: 0}
+    - _Speed: {r: 0, g: 0.5, b: 0, a: 0}
+    - _Tiling: {r: 25, g: 15, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
