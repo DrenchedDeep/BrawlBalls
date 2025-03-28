@@ -30,10 +30,7 @@ namespace Utilities.UI_General
         protected override void OnEnable()
         {
             base.OnEnable();
-            if (_mVirtualMouse == null)
-                _mVirtualMouse = (Mouse)InputSystem.AddDevice("VirtualMouse");
-            else if (!_mVirtualMouse.added)
-                InputSystem.AddDevice(_mVirtualMouse);
+            TryAddDevice();
     
             if (_owner)
             {
@@ -63,6 +60,8 @@ namespace Utilities.UI_General
         {
             
             base.Start();
+            TryAddDevice();
+            
             PlayerInput root  = transform.root.GetComponent<PlayerInput>();
             _rectTransform = graphic.rectTransform;
             
@@ -76,9 +75,24 @@ namespace Utilities.UI_General
             OnRectTransformDimensionsChange();
         }
 
+        private void TryAddDevice()
+        {
+            if (_mVirtualMouse == null)
+            {
+                _mVirtualMouse = (Mouse)InputSystem.AddDevice("VirtualMouse");
+                Debug.Log("Creating Virtual Mouse");
+            }
+            else if (!_mVirtualMouse.added)
+            {
+                InputSystem.AddDevice(_mVirtualMouse);
+                Debug.Log("Adding virtual mouse");
+            }
+        }
+
         private void HandleInteract(InputAction.CallbackContext obj)
         {
-            
+            Debug.Log("Trying to HandleInteracts");
+
             var mouseState = new MouseState
             {
                 buttons = (ushort) (obj.ReadValueAsButton()?1:0)// 1 for pressed, 0 for released
@@ -97,6 +111,7 @@ namespace Utilities.UI_General
         } 
         private void HandleMove(InputAction.CallbackContext obj)
         {
+            
             _movementVector = obj.ReadValue<Vector2>();
         }
 

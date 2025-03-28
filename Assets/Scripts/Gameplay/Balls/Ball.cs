@@ -47,9 +47,6 @@ namespace Gameplay.Balls
         //[NonSerialized] public Vector3 Foward;
         public readonly NetworkVariable<Vector3> Foward = new(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
        
-       
-       
-       public BallPlayer BallPlayer { get; private set; } 
        public float Speed { get; private set; }
        public Vector3 Velocity { get; private set; }
        public float Acceleration { get; private set; }
@@ -74,14 +71,6 @@ namespace Gameplay.Balls
        
        public override void OnNetworkSpawn()
        {
-           if (IsOwner)
-           {
-               SetupJoystick();
-
-               localPlayerInputComponent = BallPlayer.Owner.PlayerInput;
-               localPlayerInputComponent.actions[jump.name].performed += _ => Jump();
-           }
-
            IsProtected.OnValueChanged += OnIsProtectedChanged;
            IsGlued.OnValueChanged += OnIsGluedChanged;
        }
@@ -146,8 +135,10 @@ namespace Gameplay.Balls
        //CALLED FROM BALL PLAYER: CLIENT ONLY FUNCTION
        public virtual void Init(BallPlayer ballPlayer)
        {
-           //SERVER DONT KNOW BOUT THIS
-           BallPlayer = ballPlayer;
+           SetupJoystick();
+           localPlayerInputComponent = ballPlayer.Owner.PlayerInput;
+           localPlayerInputComponent.actions[jump.name].performed += _ => Jump();
+
        }
 
 

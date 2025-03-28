@@ -65,6 +65,8 @@ namespace Gameplay
         {
             base.OnNetworkSpawn();
 
+            
+            
             _currentHealth.OnValueChanged += OnDamageTaken;
 
             //default this to impossible number
@@ -89,7 +91,7 @@ namespace Gameplay
             //server should know bout these aswell
             GetBall = GetComponentInChildren<Ball>();
             GetBaseWeapon = GetComponentInChildren<BaseWeapon>();
-            GetBall.Init(this);
+            //GetBall.Init(this);
             Initialize_ClientRpc(abilityID, playerIndex);
             
         }
@@ -98,6 +100,12 @@ namespace Gameplay
         [ClientRpc]
         public void Initialize_ClientRpc(string abilityId, int playerIndex)
         {
+            if (IsOwner)
+            {
+                Owner = SaveManager.FindPlayerByID(playerIndex).LocalInput.GetComponent<PlayerController>();
+                Owner.BindTo(this);
+            }
+            
             GetAbility = ResourceManager.Abilities[abilityId];
             GetBall = GetComponentInChildren<Ball>();
             GetBaseWeapon = GetComponentInChildren<BaseWeapon>();
@@ -128,11 +136,7 @@ namespace Gameplay
                 child.gameObject.layer = gameObject.layer;
             }
 
-            if (IsOwner)
-            {
-                Owner = SaveManager.FindPlayerByID(playerIndex).LocalInput.GetComponent<PlayerController>();
-                Owner.BindTo(this);
-            }
+            
         }
 
 
@@ -140,6 +144,11 @@ namespace Gameplay
         public void Initialize_Offline(string abilityId, int playerIndex)
         {
             if (NetworkManager.Singleton != null) return;
+        
+            Owner = SaveManager.FindPlayerByID(playerIndex).LocalInput.GetComponent<PlayerController>();
+            Owner.BindTo(this);
+            
+            
             Debug.Log("We are now initialized", gameObject);
             GetAbility = ResourceManager.Abilities[abilityId];
             GetBall = GetComponentInChildren<Ball>();
@@ -163,8 +172,6 @@ namespace Gameplay
 
             _currentHealth.Value = GetBall.Stats.MaxHealth;
             
-            Owner = SaveManager.FindPlayerByID(playerIndex).LocalInput.GetComponent<PlayerController>();
-            Owner.BindTo(this);
             
         }
         #endif

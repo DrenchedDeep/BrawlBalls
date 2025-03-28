@@ -247,6 +247,7 @@ namespace Managers.Network
 
              _players.Add(@params.Receive.SenderClientId);
 
+             Debug.Log("Adding conjoined player object:  " + playerNames);
              string[] players = playerNames.ToString().Split(';');
              for (int i = 0; i < players.Length; i++)
              {

@@ -60,13 +60,16 @@ namespace Gameplay.Weapons
 
         private void Rotate()
         {
+            float s = Owner.GetBall.Speed;
+            if (s < 0.02f) return;
+            
             Vector3 dir = Owner.GetBall.Velocity;
             
             if (blockVerticalOrientation) dir.y = 0;
             
             dir.Normalize();
             
-            if (lookUpWhileNotMoving) dir = Vector3.Lerp(Vector3.up,  dir, Owner.GetBall.Speed * 5);
+            if (lookUpWhileNotMoving) dir = Vector3.Lerp(Vector3.up,  dir, s * 5);
             
          //   Debug.Log(dir);
             transform.forward = dir;

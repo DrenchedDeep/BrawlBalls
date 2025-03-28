@@ -50,7 +50,7 @@ namespace Managers.Local
             foreach (var kvp in _playerData)
             {
                 sb.Append(kvp.Key);
-                if(++n <= _playerData.Count) sb.Append(delimiter);
+                if(++n < _playerData.Count) sb.Append(delimiter);
             }
             return sb.ToString();
         }

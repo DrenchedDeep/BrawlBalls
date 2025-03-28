@@ -78,20 +78,12 @@ namespace Managers.Local
                 return;
             }
             
-            //Gameplay Actions
-            var useWeapon = _playerInput.actions["Weapon"];
-            var useAbility = _playerInput.actions["Ability"];
-            var controlSteering = _playerInput.actions["Steer"];
-            var pauseGame = _playerInput.actions["EnterPause"];
-
-            //UI Actions
-            var unPauseGame = _playerInput.actions["ExitPause"];
             
-            useWeapon.performed += ctx => TryDoWeapon(ctx.ReadValueAsButton());
-            useAbility.performed += ctx => TryDoAbility(ctx.ReadValueAsButton());
-            controlSteering.performed += ctx => SetSteer(ctx.ReadValue<Vector2>());
-            pauseGame.performed += _ => TogglePauseState(true);
-            unPauseGame.performed += _ => TogglePauseState(false);
+            _playerInput.actions["Weapon"].performed += ctx => TryDoWeapon(ctx.ReadValueAsButton());
+            _playerInput.actions["Ability"].performed += ctx => TryDoAbility(ctx.ReadValueAsButton());
+            _playerInput.actions["Steer"].performed += ctx => SetSteer(ctx.ReadValue<Vector2>());
+            _playerInput.actions["EnterPause"].performed += _ => TogglePauseState(true);
+            _playerInput.actions["ExitPause"].performed += _ => TogglePauseState(false);
             DisableControls();
             
           
@@ -154,6 +146,8 @@ namespace Managers.Local
             _playerInput.currentActionMap.Enable();
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
+            _playerInput.SwitchCurrentActionMap("Game");
+
         }
     
         public void DisableControls()
@@ -165,7 +159,7 @@ namespace Managers.Local
             Cursor.lockState = CursorLockMode.None;
             SetSteer(Vector2.zero);
             //PlayerControls.DisableControls();
-            //_playerInput.currentActionMap.Disable();
+            _playerInput.SwitchCurrentActionMap("UI");
 
         }
         private void TryDoAbility(bool state)

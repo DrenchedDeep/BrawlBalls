@@ -25,6 +25,10 @@ namespace LocalMultiplayer
         
         [SerializeField] private GameObject mainMenuPrefab;
         [SerializeField] private GameObject inGamePrefab;
+        [SerializeField] private GameObject screenBlockerPrefab;
+
+        private GameObject _screenBlocker;
+        
         //[SerializeField] private InputActionReference leaveGameAction;
         private readonly List<DataParasite> _activeParasites = new();
 
@@ -98,7 +102,10 @@ Debug.Log("We've disabled controls because you may not join from this scene.")
                 foreach (var x in player.Devices)
                 {
 
-                    if (!x.native) continue; // Skip virtual mice
+                    if (!x.native) {
+                        InputSystem.RemoveDevice(x);
+                        continue; // Skip virtual mice
+                    }
                     
                     Debug.Log($"Device: {x}");
                     devices.Add(x);
@@ -138,7 +145,11 @@ Debug.Log("We've disabled controls because you may not join from this scene.")
         {
             Debug.Log("A player has Joined");
 
+            if(_screenBlocker) Destroy(_screenBlocker);
+            
             LocalPlayers.Add(playerInput);
+
+            if (LocalPlayers.Count == 3) Instantiate(screenBlockerPrefab);
 
             
             Debug.LogError("REMINDER, Sync playerIndex? Idk too tired.");
