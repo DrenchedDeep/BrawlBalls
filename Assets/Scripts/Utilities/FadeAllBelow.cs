@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 namespace Utilities
 {
+   [DefaultExecutionOrder(-250)]
     public class FadeAllBelow : MonoBehaviour
     {
        public UnityEvent onFaded;
@@ -25,7 +26,7 @@ namespace Utilities
        private float _currentTransitionTime;
        private Coroutine _actionRoutine;
 
-       private void Awake()
+       private void OnEnable()
        {
           _graphics = GetComponentsInChildren<Graphic>();
           
@@ -39,16 +40,16 @@ namespace Utilities
              public void Toggle()
              {
                 if(isVisible) FadeAway();
-                else BecomeVisable();
+                else BecomeVisible();
              }
        
              public void SetState(bool state)
              {
                 if(!state) FadeAway();
-                else BecomeVisable();
+                else BecomeVisible();
              }
        
-             public void BecomeVisable()
+             public void BecomeVisible()
              {
                 if (_actionRoutine != null)
                 {

@@ -6,7 +6,7 @@ using Utilities;
 
 namespace Loading
 {
-    [RequireComponent(typeof(FadeAllBelow), typeof(Canvas))]
+    [RequireComponent(typeof(FadeAllBelow), typeof(Canvas)), DefaultExecutionOrder(-200)]
     public class LoadingHelper : MonoBehaviour
     {
         [SerializeField] private Slider progressBar; 
@@ -16,7 +16,7 @@ namespace Loading
         private FadeAllBelow _fadeAllBelow;
         private Canvas _canvas;
 
-        private void Awake()
+        private void OnEnable()
         {
             if (Instance)
             {
@@ -43,7 +43,7 @@ namespace Loading
 
         public void SetProgress(float value, bool alwaysShow = false)
         {
-            progressBar.gameObject.SetActive(alwaysShow || value == 0);
+            progressBar.gameObject.SetActive(alwaysShow || value is > 0 and < 1);
             progressBar.value = value;
         }
 
@@ -57,8 +57,7 @@ namespace Loading
 
             infoText.enabled = false;
         }
-        
-        
+
 
     }
 }

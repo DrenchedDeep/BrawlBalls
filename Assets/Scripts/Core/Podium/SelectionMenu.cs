@@ -74,7 +74,14 @@ namespace Core.Podium
         
         public void TrySpawnSelectedBall(int i)
         {
-            SaveManager.BallStructure myBall = SaveManager.MyBalls.GetReadonlyBall(i);
+            if (!SaveManager.TryGetPlayerData(podiumController.localPlayerInputComponent,
+                    out SaveManager.PlayerData playerData))
+            {
+                Debug.LogError("This save data does not exist: " +
+                               podiumController.localPlayerInputComponent.user.platformUserAccountId, gameObject);
+                return;
+            }
+            SaveManager.BallStructure myBall = playerData.GetReadonlyBall(i);
             Debug.Log("Selecting ball: " + myBall.ball, gameObject);
             if ((!NetworkGameManager.Instance.CanRespawn()) && NetworkManager.Singleton)
             {

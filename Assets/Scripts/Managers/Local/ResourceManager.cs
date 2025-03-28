@@ -52,7 +52,7 @@ namespace Managers.Local
             Instance = this;
             DontDestroyOnLoad(gameObject);
 
-            Debug.LogError("Can this be converted to Addressables?", gameObject);
+            Debug.LogWarning("Can this be converted to Addressables?", gameObject);
             
             Application.targetFrameRate = -1; // native default... (BIND IN SETTINGS LATER)
             

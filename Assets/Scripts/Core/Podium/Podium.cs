@@ -1,17 +1,21 @@
+using System.Collections;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Gameplay;
 using Gameplay.Balls;
 using Gameplay.Weapons;
+using Loading;
 using Managers.Local;
 using Stats;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 namespace Core.Podium
 {
+    [DefaultExecutionOrder(100)]
     public class Podium : MonoBehaviour, ISelectHandler, IDeselectHandler
     {
         [SerializeField] private MeshRenderer meshRenderer;
@@ -52,6 +56,7 @@ namespace Core.Podium
         private GameObject _weaponObject;
         private Material _ballMaterial;
         private Material[] _weaponMaterial;
+        private SaveManager.PlayerData _myPlayerData;
         
 
         public bool IsBlocked
@@ -68,12 +73,18 @@ namespace Core.Podium
         
         public bool CanInteract => !PillarIsEmpty && !IsBlocked;
 
-        private void Awake()
+        private IEnumerator Start()
         {
             canvas.enabled = false;
             _core = transform.GetChild(0);
             _originalHoverOffset = _core.localPosition;
             _originalHoverScale = _core.localScale;
+            var playerInput = transform.root.GetComponent<PlayerInput>();
+            yield return new WaitWhile(() => LoadingController.IsLoading);
+            if (!SaveManager.TryGetPlayerData(playerInput, out _myPlayerData))
+            {
+                Debug.LogError("SOMEHOW WE LOADED A PLAYER WHO HAS NO DATA???", gameObject);
+            }
         }
 
         private void OnEnable()
@@ -92,7 +103,7 @@ namespace Core.Podium
             //Debug.LogError("Tried to play audio, carlos please fix -- Add ball spawn effect");
             
             _ballIndex = index;
-            SaveManager.BallStructure ballInfo = SaveManager.MyBalls.GetReadonlyBall(index);
+            SaveManager.BallStructure ballInfo = _myPlayerData.GetReadonlyBall(index);
             _myBall = ResourceManager.CreateBallDisabled(ballInfo.ball, ballInfo.weapon, ballPoint, out var b, out var w);
             AbilityStats stats = ResourceManager.Abilities[ballInfo.ability];
             abilityIcon.sprite = stats.Icon;
@@ -167,8 +178,8 @@ namespace Core.Podium
         public void SetWeapon(GameObject w)
         {
             AudioManager.instance.PlayOneShot(FMODEvents.instance.click, transform.position);
-            Debug.Log($"Changing the WEAPON from {SaveManager.MyBalls.GetReadonlyBall(_ballIndex).ball} to {w.name}");
-            SaveManager.MyBalls.SetBallWeapon(_ballIndex,  w.name);
+            Debug.Log($"Changing the WEAPON from {_myPlayerData.GetReadonlyBall(_ballIndex).ball} to {w.name}");
+            _myPlayerData.SetBallWeapon(_ballIndex,  w.name);
             
             Destroy(_weaponObject);
 
@@ -196,8 +207,8 @@ namespace Core.Podium
         public void SetBall(GameObject b)
         {
             AudioManager.instance.PlayOneShot(FMODEvents.instance.click, transform.position);
-            Debug.Log($"Changing the BALL from {SaveManager.MyBalls.GetReadonlyBall(_ballIndex).ball} to {b.name}");
-            SaveManager.MyBalls.SetBallType(_ballIndex, b.name);
+            Debug.Log($"Changing the BALL from {_myPlayerData.GetReadonlyBall(_ballIndex).ball} to {b.name}");
+            _myPlayerData.SetBallType(_ballIndex, b.name);
             Destroy(_ballObject);
             
             _ballObject = Instantiate(b, ballPoint);
@@ -215,8 +226,8 @@ namespace Core.Podium
         public void SetAbility(AbilityStats a)
         {
             AudioManager.instance.PlayOneShot(FMODEvents.instance.click, transform.position);
-            Debug.Log($"Changing the ABILITY from {SaveManager.MyBalls.GetReadonlyBall(_ballIndex).ability} to {a.name}");
-            SaveManager.MyBalls.SetBallAbility(_ballIndex, a.name);
+            Debug.Log($"Changing the ABILITY from {_myPlayerData.GetReadonlyBall(_ballIndex).ability} to {a.name}");
+            _myPlayerData.SetBallAbility(_ballIndex, a.name);
             _ = TransitionMaterial(_ballMaterial, StaticUtilities.FlashPercentID, 1,0);
 
             abilityIcon.sprite = a.Icon;

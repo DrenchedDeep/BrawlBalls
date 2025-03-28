@@ -1,4 +1,5 @@
 using Core.ActionMaps;
+using LocalMultiplayer;
 using MainMenu;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,12 +15,12 @@ namespace Core
         private void Awake()
         {
             _image = GetComponent<Image>();
-            transform.root.GetComponent<MainMenuPlayer>().OnDeviceChanged += SetActionMap;
+            transform.root.GetComponent<LocalPlayer>().OnDeviceChanged += SetActionMap;
         }
 
         private void OnDestroy()
         {
-            transform.root.GetComponent<MainMenuPlayer>().OnDeviceChanged -= SetActionMap;
+            transform.root.GetComponent<LocalPlayer>().OnDeviceChanged -= SetActionMap;
         }
 
         public void SetActionMap(InputSpriteActionMap map)

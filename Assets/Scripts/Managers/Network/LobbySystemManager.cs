@@ -3,37 +3,37 @@ using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Loading;
-using MainMenu;
-using MainMenu.UI;
+using LocalMultiplayer;
 using Managers.Local;
 using Unity.Netcode;
 using Unity.Services.Authentication;
 using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 namespace Managers.Network
 {
+    [DefaultExecutionOrder(-1000)]
     public class LobbySystemManager : MonoBehaviour
     {
 
 
-        
-        private Lobby _myLobby;
+
+        public Lobby MyLobby { get; private set; }
         private const int HeartbeatTimer = 15000;
         private const int PollTimer = 1100;
-        private Player _playerObject;
+        private Player _playerObjects;
 
-        public UnityEvent onLocalDisconnectedFromLobby;
-        public UnityEvent onPlayerJoinedLobby;
-        public UnityEvent onPlayerLeftLobby;
-        public UnityEvent onLocalGameStarting;
+        private const int MaxLobbySize = 8;
+        
+        public event Action OnClientConnected;
+        public event Action OnClientDisconnected;
+        public event Action OnLobbyClosed;
+        public event Action OnLobbyOpened;
+        public event Action OnGameStarting;
 
-        private List<MainMenuPlayer> _players = new();
 
         [SerializeField] private string[] inRotationMaps =
         {
@@ -42,47 +42,42 @@ namespace Managers.Network
 
         private readonly LobbyEventCallbacks _events = new();
 
-        
+
         public static LobbySystemManager Instance { get; private set; }
-        private bool _isReady;
 
-        private void Start()
+
+
+        
+        private async void RecompileLobbyParameters()
         {
-            if (Instance && Instance != this)
+            Debug.Log("Recompiling lobby parameters... " + IsHost());
+            if (!IsHost()) return;
+            
+            int lobbySize = MaxLobbySize;
+            foreach (Player player in MyLobby.Players)
             {
-                Destroy(gameObject);
-                return;
+                if (!int.TryParse(player.Data["ChildCount"].Value, out int numChildren))
+                {
+                    Debug.LogError("Somehow we're trying to create an invalid number of children???: " + player.Data["ChildCount"].Value);
+                    return;
+                }
+                lobbySize -= numChildren;
             }
-            Instance = this;
-        }
+            
+            Debug.Log("There is now a max lobby size of: " + lobbySize);
 
-        public void Initialize()
-        {
-            if (_isReady) return;
-            _isReady = true;
-            
-            Dictionary<string, PlayerDataObject> d = new Dictionary<string, PlayerDataObject>()
+            try
             {
-                //Member is visible for everyone in lobby.
-                //Private is visible to self
-                //Public is visible to everyone
-                { "Name", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, SaveManager.MyBalls.Username) },
-                { "Ready", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, "0") }
-            };
-            
-            _playerObject = new(AuthenticationService.Instance.PlayerId)
+                MyLobby = await LobbyService.Instance.UpdateLobbyAsync(MyLobby.Id, new UpdateLobbyOptions()
+                {
+                    MaxPlayers = lobbySize,
+                });
+            }
+            catch (Exception e)
             {
-                Data = d,
-                
-            };
-            _events.DataChanged += CheckStartGame;
-            //_events.PlayerJoined += x => LazyRegenCards();
-            //_events.PlayerLeft += x => LazyRegenCards();
-            _events.LobbyChanged += changes =>
-            {
-                if(changes.LobbyDeleted) ClearCards();
-                else if (changes.PlayerJoined.Changed || changes.PlayerLeft.Changed)  LazyRegenCards();
-            };
+                Debug.LogError("We failed to changed the lobby size: "+ e);
+            }
+
         }
 
 
@@ -97,10 +92,10 @@ namespace Managers.Network
             {
                 while (true)
                 {
-                    await UniTask.Delay(HeartbeatTimer, cancellationToken: token);  // Delay with cancellation token
-                    if (_myLobby == null || token.IsCancellationRequested) return;
+                    await UniTask.Delay(HeartbeatTimer, cancellationToken: token); // Delay with cancellation token
+                    if (MyLobby == null || token.IsCancellationRequested) return;
 
-                    await LobbyService.Instance.SendHeartbeatPingAsync(_myLobby.Id);
+                    await LobbyService.Instance.SendHeartbeatPingAsync(MyLobby.Id);
 
                     if (token.IsCancellationRequested) return;
 
@@ -111,61 +106,17 @@ namespace Managers.Network
             {
                 // Handle cancellation if necessary
             }
-            
-        }
-        
-        
-        private void LazyRegenCards()
-        {
-            foreach (MainMenuPlayer ply in _players)
-            {
 
-
-                //Don't destroy cards.
-                for (int index = 0; index < ply.playerCards.Length; index++)
-                {
-                    if (index >= _myLobby.Players.Count)
-                    {
-                        if (ply.playerCards[index].isActiveAndEnabled)
-                        {
-                            onPlayerLeftLobby?.Invoke();
-                        }
-
-                        ply.playerCards[index].RemovePlayer();
-                        continue;
-                    }
-
-                    if (!ply.playerCards[index].isActiveAndEnabled)
-                    {
-                        onPlayerJoinedLobby?.Invoke();
-                    }
-
-                    Player p = _myLobby.Players[index];
-                    ply.playerCards[index].UpdatePlayer(p.Data["Name"].Value, "1",
-                        p.Id == AuthenticationService.Instance.PlayerId);
-                }
-            }
-
-
-            _players[0].beginGameButton.gameObject.SetActive(_myLobby.HostId == AuthenticationService.Instance.PlayerId);
         }
 
-        private void ClearCards()
-        {
-            foreach (MainMenuPlayer ply in _players)
-            {
-                foreach (var t in ply.playerCards)
-                {
-                    t.RemovePlayer();
-                }
-            }
 
-            _players[0].beginGameButton.gameObject.SetActive(false);
-        }
-        
+
+
+
+
         private async UniTask WaitForAllClientsToConnect()
         {
-            int expectedClients = _myLobby.Players.Count;
+            int expectedClients = MyLobby.Players.Count;
 
             int attempts = 20; // Number of retries before timing out
             while (attempts-- > 0)
@@ -176,150 +127,227 @@ namespace Managers.Network
                 if (connectedClients == expectedClients)
                 {
                     Debug.Log("All clients are connected!");
-                                        
+
                     return;
                 }
 
-                await UniTask.Delay(PollTimer); 
+                await UniTask.Delay(PollTimer);
             }
 
-            Debug.LogWarning($"Not all clients connected in time. {NetworkManager.Singleton.ConnectedClientsIds.Count}/{_myLobby.Players.Count}");
+            Debug.LogWarning(
+                $"Not all clients connected in time. {NetworkManager.Singleton.ConnectedClientsIds.Count}/{MyLobby.Players.Count}");
         }
-        
+
         private async void CheckStartGame(Dictionary<string, ChangedOrRemovedLobbyValue<DataObject>> obj)
         {
-            if (_myLobby.Data["RelayCode"].Value != "0")
+            if (MyLobby.Data["RelayCode"].Value != "0")
             {
-                Debug.Log("HEARD: Game starting request: " + NetworkManager.ServerClientId + " --> " + _myLobby.Data["RelayCode"].Value);
+                Debug.Log("HEARD: Game starting request: " + NetworkManager.ServerClientId + " --> " +
+                          MyLobby.Data["RelayCode"].Value);
                 LoadingHelper.Instance.Activate();
-                onLocalGameStarting?.Invoke();
-                await RelayHandler.Instance.JoinRelay(_myLobby.Data["RelayCode"].Value);
-                _myLobby = null;
+                OnGameStarting?.Invoke();
+                await RelayHandler.Instance.JoinRelay(MyLobby.Data["RelayCode"].Value);
+                MyLobby = null;
             }
         }
+
         #region Buttons
+
         public async void StartGame()
         {
-            if (_myLobby.HostId != AuthenticationService.Instance.PlayerId) return;
+            if (!IsHost()) return;
             
-            LoadingHelper.Instance.Activate();
-
-            
-            string map = inRotationMaps[Random.Range(0, inRotationMaps.Length)];
-            
-            _players[0].beginGameButton.interactable = false;
-
-            Debug.Log("Starting game!");
-
-            
-            string relayCode = await RelayHandler.Instance.CreateRelay(_myLobby.Players.Count);
-
-            _myLobby = await LobbyService.Instance.UpdateLobbyAsync(_myLobby.Id, new UpdateLobbyOptions()
-            {
-                Data = new Dictionary<string, DataObject>
-                {
-                    {"Map", new DataObject(DataObject.VisibilityOptions.Member, map)},
-                    {"RelayCode", new DataObject(DataObject.VisibilityOptions.Member, relayCode)},
-                },
-                IsLocked = true,
-            });
-
-            
-            onLocalGameStarting?.Invoke();
-            await WaitForAllClientsToConnect();
-            //await LobbyService.Instance.DeleteLobbyAsync(_myLobby.Id); // Do we need to discard the lobby?
-            NetworkManager.Singleton.SceneManager.LoadScene(map, LoadSceneMode.Single);
-            
-            _players[0].beginGameButton.interactable = true;
-            
-        }
-                
-        
-        public async void QuickPlay(MainMenuPlayer player)
-        {
-            Initialize();
-          
-            _players.Add(player);
-
             try
             {
+                LoadingHelper.Instance.Activate();
 
 
+                string map = inRotationMaps[Random.Range(0, inRotationMaps.Length)];
+                
+                Debug.Log("Starting game!");
+
+
+                string relayCode = await RelayHandler.Instance.CreateRelay(MyLobby.Players.Count);
+
+                MyLobby = await LobbyService.Instance.UpdateLobbyAsync(MyLobby.Id, new UpdateLobbyOptions()
+                {
+                    Data = new Dictionary<string, DataObject>
+                    {
+                        { "Map", new DataObject(DataObject.VisibilityOptions.Member, map) },
+                        { "RelayCode", new DataObject(DataObject.VisibilityOptions.Member, relayCode) },
+                    },
+                    IsLocked = true,
+                });
+
+
+                OnGameStarting?.Invoke();
+                await WaitForAllClientsToConnect();
+                
+                Debug.Log("Beginning Network loading!");
+                //NOTE: there's a return type here that may be useful
+                NetworkManager.Singleton.SceneManager.LoadScene(map, LoadSceneMode.Single);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("Failed to start the game: " + e);
+            }
+
+        }
+
+        public bool IsHost() => MyLobby != null && MyLobby.HostId == AuthenticationService.Instance.PlayerId;
+
+        private void PopulateLocalLobby()
+        {
+            int n = SplitscreenPlayerManager.Instance.LocalPlayers.Count;
+
+            if (!SaveManager.TryGetPlayerData(SplitscreenPlayerManager.Instance.LocalPlayers[0],
+                    out SaveManager.PlayerData localHost))
+            {
+                Debug.LogError("The local host is not present??");
+                return;
+            }
+
+            Dictionary<string, PlayerDataObject> d = new Dictionary<string, PlayerDataObject>()
+            {
+                {
+                    "Name", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, localHost.Username)
+                },
+                {
+                    "ChildCount",
+                    new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, (n - 1).ToString())
+                },
+                {
+                    "Ready", new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, "0")
+                }
+            };
+
+            Debug.Log("Commiting player to lobby as LOCAL HOST: " + localHost.Username);
+
+            for (var index = 1; index < SplitscreenPlayerManager.Instance.LocalPlayers.Count; index++)
+            {
+                var t = SplitscreenPlayerManager.Instance.LocalPlayers[index];
+                if (!SaveManager.TryGetPlayerData(t, out SaveManager.PlayerData pd))
+                {
+                    Debug.LogError(
+                        "Lobby is trying to initialize, but there are no players matching the id " +
+                        pd.Username, t);
+                    return;
+                }
+
+                d.Add("Name" + index, new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, pd.Username));
+
+                Debug.Log("Commiting player to lobby as CHILD: " + pd.Username);
+            }
+
+            _playerObjects = new Player()
+            {
+                Data = d
+            };
+        }
+
+
+        public async void QuickPlay()
+        {
+            Debug.Log("Initializing Quick play.");
+
+            await SaveManager.SaveAllPlayers();
+            
+            PopulateLocalLobby();
+
+            int numberClients = SplitscreenPlayerManager.Instance.LocalPlayers.Count;
+            try
+            {
                 // Quick-join a random lobby with a maximum capacity of 10 or more players.
                 QuickJoinLobbyOptions options = new QuickJoinLobbyOptions
                 {
                     Filter = new List<QueryFilter>()
                     {
-                        new(QueryFilter.FieldOptions.AvailableSlots, "0",
+                        new(QueryFilter.FieldOptions.AvailableSlots, (numberClients - 1).ToString(),
                             QueryFilter.OpOptions.GT), // Check that there are open slots.
                         new(QueryFilter.FieldOptions.IsLocked, "0",
                             QueryFilter.OpOptions.EQ) // Make sure lobby is not locked
                     },
-                    Player = _playerObject // We are the local player
+                    Player = _playerObjects // We are the local player
                 };
-
-                _myLobby = await LobbyService.Instance.QuickJoinLobbyAsync(options);
-                _players[0].beginGameButton.gameObject.SetActive(false);
+                MyLobby = await LobbyService.Instance.QuickJoinLobbyAsync(options);
+                Debug.Log("We have completed joined a lobby!");
             }
             catch (LobbyServiceException e)
             {
                 if (e.Reason == LobbyExceptionReason.NoOpenLobbies)
                 {
-                    try
-                    {
-                        
-                        int n = _players[0].playerCards.Length;
-                        Debug.Log("There is a max of " + n + " player cards, so the lobby size is this.");
-                        _myLobby = await LobbyService.Instance.CreateLobbyAsync(
-                            AuthenticationService.Instance.PlayerId + "'s lobby", n, new CreateLobbyOptions()
-                            {
-                                IsPrivate = false,
-                                Player = _playerObject,
-                                Data = new()
-                                {
-                                    { "Map", new DataObject(DataObject.VisibilityOptions.Member, "") },
-                                    { "RelayCode", new DataObject(DataObject.VisibilityOptions.Member, "0") }
-                                }
-                            });
+                    bool result = await CreateLobby();
 
-                    }
-                    catch (LobbyServiceException e2)
+                    if (!result)
                     {
-                        Debug.LogError("Failed to create lobby: " + e2.Reason);
+                        Debug.LogError("Failed to quick join: " + e.Reason);
+                        await SceneManager.LoadSceneAsync(0);
+                        return;
                     }
                 }
                 else
                 {
                     Debug.LogError("Failed to quick join: " + e.Reason);
-                    SceneManager.LoadSceneAsync(0);
+                    await SceneManager.LoadSceneAsync(0);
                     return;
                 }
             }
-            
 
-            await LobbyService.Instance.SubscribeToLobbyEventsAsync(_myLobby!.Id, _events);
+            //Subscribe to that lobbies events.
+            await LobbyService.Instance.SubscribeToLobbyEventsAsync(MyLobby.Id, _events);
 
+            //Register the heartbeat clock.
             HeartBeat();
-            LazyRegenCards();
 
+            OnLobbyOpened?.Invoke();
         }
-        
+
+        private async UniTask<bool> CreateLobby()
+        {
+            Debug.Log("Trying to create a fresh lobby");
+            try
+            {
+                //8 Seats total, we restrict seats belonging to our children, excluding our selves. 4 players, but 3 children.
+                int childCount = SplitscreenPlayerManager.Instance.LocalPlayers.Count - 1;
+                int n = MaxLobbySize - childCount;
+                
+                Debug.Log("This lobby will be locked to " + n + " players as there is a child count of: " + (childCount));
+                MyLobby = await LobbyService.Instance.CreateLobbyAsync(
+                    AuthenticationService.Instance.PlayerId + "'s lobby", n, new CreateLobbyOptions()
+                    {
+                        IsPrivate = false,
+                        Player = _playerObjects,
+                        Data = new()
+                        {
+                            { "Map", new DataObject(DataObject.VisibilityOptions.Member, "") },
+                            { "RelayCode", new DataObject(DataObject.VisibilityOptions.Member, "0") }
+                        }
+                    });
+                Debug.Log("We successfully created the lobby");
+                return true;
+            }
+            catch (LobbyServiceException e2)
+            {
+                Debug.LogError("Failed to create lobby: " + e2.Reason);
+            }
+
+            return false;
+        }
+
         public async void LeaveLobby()
         {
-            _players.Clear();
 
             try
             {
-                if (_myLobby == null) return;
+                if (MyLobby == null) return;
                 _cancellationTokenSource?.Cancel();
-                if (_myLobby.HostId == AuthenticationService.Instance.PlayerId) // player ID is always null?
+                if (IsHost()) // player ID is always null?
                 {
-                    if (_myLobby.Players.Count == 1)
+                    if (MyLobby.Players.Count == 1)
                     {
                         Debug.Log("Destroying an empty lobby.");
-                        await LobbyService.Instance.DeleteLobbyAsync(_myLobby.Id);
-                        onLocalDisconnectedFromLobby?.Invoke();
-                        ClearCards();
+                        await LobbyService.Instance.DeleteLobbyAsync(MyLobby.Id);
+                        OnLobbyClosed?.Invoke();
                         return;
                     }
                     /*
@@ -334,16 +362,14 @@ namespace Managers.Network
                 }
                 
 
-                await LobbyService.Instance.RemovePlayerAsync(_myLobby.Id, AuthenticationService.Instance.PlayerId);
+                await LobbyService.Instance.RemovePlayerAsync(MyLobby.Id, AuthenticationService.Instance.PlayerId);
 
-                _myLobby = null;
+                MyLobby = null;
                 
                 
                 Debug.Log("I have left the lobby, later nerds!");
                 
-                onLocalDisconnectedFromLobby?.Invoke();
-                
-                ClearCards();
+                OnLobbyClosed?.Invoke();
 
             }
             catch (LobbyServiceException e)
@@ -355,6 +381,35 @@ namespace Managers.Network
 
         private void OnEnable()
         {
+            if (Instance && Instance != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
+
+            Instance = this;
+            
+            _events.DataChanged += CheckStartGame;
+            //_events.PlayerJoined += x => LazyRegenCards();
+            //_events.PlayerLeft += x => LazyRegenCards();
+            _events.LobbyChanged += changes =>
+            {
+                if (changes.LobbyDeleted)
+                {
+                    OnLobbyClosed?.Invoke();
+                }
+                else if (changes.PlayerJoined.Changed)
+                {
+                    OnClientConnected?.Invoke();
+                }
+                else if (changes.PlayerLeft.Changed)
+                {
+                    OnClientDisconnected?.Invoke();
+                }
+            };
+
+            OnClientConnected += RecompileLobbyParameters;
+            
             Application.quitting += LeaveLobby;
         }
 

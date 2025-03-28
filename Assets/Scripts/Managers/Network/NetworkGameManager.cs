@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Text;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Gameplay;
@@ -166,8 +167,7 @@ namespace Managers.Network
              {
                  GameState.Value = Network.GameState.WaitingForPlayers;
              }
-             
-             CheckGameStart_ServerRpc(SaveManager.MyBalls.Username);
+             CheckGameStart_ServerRpc(SaveManager.GetCompiledNames());
 
          }
 
@@ -241,12 +241,20 @@ namespace Managers.Network
          }
 
          [ServerRpc(RequireOwnership = false)]
-         private void CheckGameStart_ServerRpc(FixedString64Bytes playerName, ServerRpcParams @params = default)
+         private void CheckGameStart_ServerRpc(FixedString512Bytes playerNames, ServerRpcParams @params = default)
          {
              Debug.Log("Player has connected and been registered: " + @params.Receive.SenderClientId);
 
              _players.Add(@params.Receive.SenderClientId);
-             Players.Add(new BallPlayerInfo(playerName, @params.Receive.SenderClientId,0, 0));
+
+             string[] players = playerNames.ToString().Split(';');
+             for (int i = 0; i < players.Length; i++)
+             {
+                 string str = players[i];
+                 Debug.Log("Adding network player while considering local multiplayer: " + str);
+                 Players.Add(new BallPlayerInfo(str, @params.Receive.SenderClientId, 0, 0));
+             }
+
              CheckStartGame();
          }
 

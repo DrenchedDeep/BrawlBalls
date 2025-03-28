@@ -1,8 +1,8 @@
 using System;
 using Cysharp.Threading.Tasks;
 using Loading;
+using LocalMultiplayer;
 using MainMenu.UI;
-using Managers.Local;
 using Stats;
 using UnityEngine;
 using UnityEngine.Events;
@@ -20,7 +20,7 @@ namespace Core.Podium
         [SerializeField] private Podium[] podiums;
         [SerializeField] private Camera cam;
         
-        [SerializeField] private PlayerInput localPlayerInputComponent;
+        public PlayerInput localPlayerInputComponent;
         [SerializeField]  private EventSystem eventSystem;
         [SerializeField]  private BestVirtualCursor cursor;
 
@@ -167,7 +167,6 @@ namespace Core.Podium
 
             
             
-           // Debug.Log("Pointer location: " + pointerPosition );
             
             
             // ReSharper disable once Unity.PerformanceCriticalCodeCameraMain
@@ -180,8 +179,9 @@ namespace Core.Podium
                 return;
             }
             Ray ray;
-            if (!SplitscreenPlayerManager.Instance || SplitscreenPlayerManager.Instance.PlayerCount <= 1)
+            if (!SplitscreenPlayerManager.Instance || SplitscreenPlayerManager.Instance.LocalPlayers.Count <= 1)
             {
+                //Debug.Log("Stupid way of checking for mouse position");
                 ray = cam.ScreenPointToRay(Pointer.current.position.ReadValue());
             }
             else
@@ -220,10 +220,10 @@ namespace Core.Podium
         {
             Debug.Log("Pressed on Balls: " + ctx.ReadValueAsButton() +", " + !IsRotating );
             if (!ctx.ReadValueAsButton() || IsRotating) return;
-            if (SplitscreenPlayerManager.Instance && SplitscreenPlayerManager.Instance.PlayerCount > 1)
+            if (SplitscreenPlayerManager.Instance && SplitscreenPlayerManager.Instance.LocalPlayers.Count > 1)
             {
 
-                Debug.Log("How many times did I trip?");
+                //Debug.Log("How many times did I trip? - stupid way of checking for mouse");
 
                 if (_currentPodium)
                 {
