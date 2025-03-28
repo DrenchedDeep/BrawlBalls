@@ -5,6 +5,7 @@ using Managers.Network;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.UI;
 using UnityEngine.SceneManagement;
 
 //using Utilities.UI_General;
@@ -25,7 +26,7 @@ namespace LocalMultiplayer
         [SerializeField] private GameObject mainMenuPrefab;
         [SerializeField] private GameObject inGamePrefab;
         //[SerializeField] private InputActionReference leaveGameAction;
-        private DataParasite[] _activeParasites;
+        private readonly List<DataParasite> _activeParasites = new();
 
         private void OnEnable()
         {
@@ -36,6 +37,7 @@ namespace LocalMultiplayer
             }
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            SceneManager.sceneLoaded += OnSceneChanged;
         }
 
         private void Awake()
@@ -52,7 +54,7 @@ namespace LocalMultiplayer
             
             Debug.LogWarning("We're doing a temporary check to see if any objects in the scene already have playerInput. In the future, this should not be the case...");
             LocalHost = FindFirstObjectByType<PlayerInput>(FindObjectsInactive.Exclude);
-            SceneManager.sceneLoaded += OnSceneChanged;
+            
         }
 
         private void Start()
@@ -62,35 +64,47 @@ namespace LocalMultiplayer
 
         private void CreateDataParasites()
         {
-            _activeParasites = new DataParasite[LocalPlayers.Count];
-            for (int i = 0; i < _activeParasites.Length; ++i)
+            _activeParasites.Clear();
+            foreach (var t in LocalPlayers)
             {
-                _activeParasites[i] = new DataParasite(LocalPlayers[i]);
+                _activeParasites.Add(new DataParasite(t));
             }
             Debug.Log("Player Data Containers have been generated.");
         }
 
 
-        private void OnSceneChanged(Scene scene, LoadSceneMode arg1)
+        private void OnSceneChanged(Scene newScene, LoadSceneMode loadSceneMode)
         {          
-            Debug.Log("We are now in a new scene: " + scene.name);
-            _playerInputManager.playerPrefab =scene.buildIndex < 2 ? mainMenuPrefab : inGamePrefab;
+            Debug.Log("We are now in a new scene: " + newScene.name);
+            _playerInputManager.playerPrefab =newScene.buildIndex < 2 ? mainMenuPrefab : inGamePrefab;
             LocalPlayers.Clear();
             SaveManager.Clear();
-            if(scene.buildIndex == 1) _playerInputManager.EnableJoining();
+            if(newScene.buildIndex == 1) _playerInputManager.EnableJoining();
             #if !UNITY_EDITOR
             else {
 _playerInputManager.DisableJoining();
 Debug.Log("We've disabled controls because you may not join from this scene.")
             }
 #endif
-            Debug.Log("We've loaded a scene, do we know about anyone that currently exists?" + LocalPlayers.Count +"...Data containers: " + (_activeParasites?.Length ?? 0) +" Build index: " + scene.buildIndex);
+            Debug.Log("We've loaded a scene, do we know about anyone that currently exists?" + LocalPlayers.Count +"...Data containers: " + (_activeParasites?.Count ?? 0) +$"Build index: {newScene.buildIndex}");
 
-            if (scene.buildIndex == 0) return;
+            if (newScene.buildIndex == 0) return;
             if (_activeParasites == null) return;
             foreach (DataParasite player in _activeParasites)
             {
-                OnPlayerJoined(PlayerInput.Instantiate(_playerInputManager.playerPrefab, pairWithDevices: player.Devices));
+                Debug.Log("Creating a new player:");
+
+                List<InputDevice> devices = new();
+                foreach (var x in player.Devices)
+                {
+
+                    if (!x.native) continue; // Skip virtual mice
+                    
+                    Debug.Log($"Device: {x}");
+                    devices.Add(x);
+                }
+
+                OnPlayerJoined(PlayerInput.Instantiate(_playerInputManager.playerPrefab, pairWithDevices: devices.ToArray()));
             }
 
         }

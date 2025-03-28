@@ -148,7 +148,7 @@ namespace Utilities.UI_General
         protected override void OnRectTransformDimensionsChange()
         {
             base.OnRectTransformDimensionsChange();
-            if (_mVirtualMouse == null)return;
+            if (_mVirtualMouse == null || !canvas)return;
             _rectTransform ??= graphic.rectTransform;
             _camera ??= canvas.worldCamera;
             

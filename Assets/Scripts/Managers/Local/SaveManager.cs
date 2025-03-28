@@ -81,7 +81,7 @@ namespace Managers.Local
             {
                 if (playerInput == kvp.Value.LocalInput) return kvp.Value.Username;
             }
-            Debug.LogWarning("We failed to find the player input: " , playerInput);
+            Debug.LogWarning($"We failed to find the player input out of {_playerData.Count} players: " , playerInput );
             return null;
 
             // Check to see if the name exists... See how many players are connected via the LocalMultiPlayer system... Retrieve the name from player prefs at that index?
