@@ -120,7 +120,7 @@ namespace LocalMultiplayer
                 
                 int numChildren = int.Parse(player.Data["ChildCount"].Value);
 
-                string userName = lobby.Players[index].Data["Name"].Value;
+                string userName = player.Data["Name"].Value;
                 playerCards[index].UpdatePlayer( userName, "1",  userName == id, false);
                 
                 //Go through all the children, and enable a card for each child
