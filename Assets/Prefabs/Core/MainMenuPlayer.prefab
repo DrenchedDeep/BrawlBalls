@@ -6763,6 +6763,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5977535987618625278}
     m_Modifications:
+    - target: {fileID: 86118408378784109, guid: 71c45faba18de0544b312b0e8a8a3d93,
+        type: 3}
+      propertyPath: m_text
+      value: Master Volume
+      objectReference: {fileID: 0}
+    - target: {fileID: 86118408378784109, guid: 71c45faba18de0544b312b0e8a8a3d93,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 71.6
+      objectReference: {fileID: 0}
     - target: {fileID: 1330655056771234734, guid: 71c45faba18de0544b312b0e8a8a3d93,
         type: 3}
       propertyPath: m_Layer
