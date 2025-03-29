@@ -217,6 +217,10 @@ Debug.Log("We've disabled controls because you may not join from this scene.")
             foreach (var c in cams)
             {
                 c.OutputChannel = myChannel;
+                if (c.TryGetComponent(out CinemachineInputAxisController x))
+                {
+                    x.PlayerIndex = playerInput.playerIndex;
+                }
             }
             // if(controller) playerInput.GetComponentInChildren<BestVirtualCursor>().SetNewOwner(playerInput);
            
