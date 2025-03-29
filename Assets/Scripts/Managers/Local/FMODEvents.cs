@@ -13,6 +13,10 @@ namespace Managers.Local
         [field: SerializeField]
         public EventReference musicReference { get; private set; }
         
+        [field: Header("Ambience")]
+        [field: SerializeField]
+        public EventReference AmbienceReference { get; private set; }
+        
         [field: Header("Ball Explosions")]
         [field: SerializeField]
         public EventReference confettiExplosion { get; private set; }

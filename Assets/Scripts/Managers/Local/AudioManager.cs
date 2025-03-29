@@ -41,6 +41,7 @@ namespace Managers.Local
         private void Start()
         {
             InitializeMusic(FMODEvents.instance.musicReference);
+            //InitializeEventEmitter()
         }
 
         public void SetMusicVolume(float num)
@@ -65,6 +66,26 @@ namespace Managers.Local
         {
             musicEventInstance = CreateInstance(musicEventReference);
             musicEventInstance.start();
+        }
+
+        public void TriggerAction(int volume)
+        {
+            musicEventInstance.setParameterByName("Action", volume);
+        }
+
+        public void TriggerInSelection(int volume)
+        {
+            musicEventInstance.setParameterByName("InSelection", volume);
+        }
+
+        public void TriggerGameState(int volume)
+        {
+            musicEventInstance.setParameterByName("GameState", volume);
+        }
+
+        public void TriggerDeath(int volume)
+        {
+            musicEventInstance.setParameterByName("Death", volume);
         }
 
         EventInstance CreateInstance(EventReference eventReference)

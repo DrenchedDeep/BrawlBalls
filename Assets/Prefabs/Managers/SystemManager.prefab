@@ -101,7 +101,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2195595346442362094
 Transform:
   m_ObjectHideFlags: 0
@@ -5175,7 +5175,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6844542430262262857
 Transform:
   m_ObjectHideFlags: 0
@@ -10145,6 +10145,7 @@ MonoBehaviour:
   - {r: 0.21960786, g: 0.46274513, b: 0.7960785, a: 1}
   - {r: 0.6509804, g: 0.27058825, b: 0.7019608, a: 1}
   - {r: 0.80392164, g: 0.19607845, b: 0.19607845, a: 1}
+  actionMaps: []
 --- !u!114 &1132711916559351373
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10259,13 +10260,14 @@ GameObject:
   - component: {fileID: 8164598466809636189}
   - component: {fileID: 639376320520346646}
   - component: {fileID: 5510978961551560969}
+  - component: {fileID: 7046265347704517803}
   m_Layer: 0
   m_Name: Explosion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8164598466809636189
 Transform:
   m_ObjectHideFlags: 0
@@ -15148,6 +15150,37 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &7046265347704517803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8658856349059488653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -1836038704
+      Data2: 1325187996
+      Data3: -1742362216
+      Data4: -1731523640
+    Path: event:/Ingame_Events/Oneshots/Players/Player_Rocket_Explosion
+  Event: 
+  EventPlayTrigger: 11
+  EventStopTrigger: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1001 &4329688812368876393
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15215,6 +15248,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: SparkleExplosion
+      objectReference: {fileID: 0}
+    - target: {fileID: 5632457730274001550, guid: 818e35538a714d64590c60ad3f7089d3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5632457730274001550, guid: 818e35538a714d64590c60ad3f7089d3,
         type: 3}
@@ -15435,6 +15473,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Confetti
+      objectReference: {fileID: 0}
+    - target: {fileID: 6438829251099132769, guid: fab805b150a627a44a04429a5b482e7c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6438829251099132769, guid: fab805b150a627a44a04429a5b482e7c,
         type: 3}

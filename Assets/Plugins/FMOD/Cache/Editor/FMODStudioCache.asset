@@ -50,6 +50,33 @@ MonoBehaviour:
   IsGlobal: 1
   Labels: []
   Exists: 1
+--- !u!114 &-8602439576192826119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Ingame_Events/Oneshots/Maps/BuildingDestructions_1
+  m_EditorClassIdentifier: 
+  Path: event:/Ingame_Events/Oneshots/Maps/BuildingDestructions_1
+  Guid:
+    Data1: 43698206
+    Data2: 1249471703
+    Data3: 426914476
+    Data4: -50684848
+  Banks:
+  - {fileID: 8863628385748998373}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &-8512545807301439529
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65,10 +92,10 @@ MonoBehaviour:
   Path: BrawlBallsFMOD/Build/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 638781226252942995
+  lastModified: 638787949981800722
   FileSizes:
   - Name: Desktop
-    Value: 4368928
+    Value: 4369248
   Exists: 1
 --- !u!114 &-7943391685654642062
 MonoBehaviour:
@@ -109,7 +136,7 @@ MonoBehaviour:
   Path: BrawlBallsFMOD/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638781157977586475
+  lastModified: 638787951141329934
   FileSizes:
   - Name: Desktop
     Value: 3230
@@ -352,6 +379,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &-1954349325941440187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Ingame_Events/Oneshots/Maps/Ambience_1_Stereo
+  m_EditorClassIdentifier: 
+  Path: event:/Ingame_Events/Oneshots/Maps/Ambience_1_Stereo
+  Guid:
+    Data1: 988275148
+    Data2: 1250829206
+    Data3: 137363113
+    Data4: -649892836
+  Banks:
+  - {fileID: 8863628385748998373}
+  IsStream: 1
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 75857
 --- !u!114 &-1936879205533800432
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -427,6 +481,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &-183399696421377004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Ingame_Events/Oneshots/Maps/RockRumbles
+  m_EditorClassIdentifier: 
+  Path: event:/Ingame_Events/Oneshots/Maps/RockRumbles
+  Guid:
+    Data1: -327585973
+    Data2: 1167234666
+    Data3: -203229296
+    Data4: -1048211472
+  Banks:
+  - {fileID: 8863628385748998373}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -468,6 +549,9 @@ MonoBehaviour:
   - {fileID: -5745700776922734416}
   - {fileID: -5381575562253778251}
   - {fileID: 7208942366039824265}
+  - {fileID: -8602439576192826119}
+  - {fileID: -183399696421377004}
+  - {fileID: -1954349325941440187}
   EditorParameters:
   - {fileID: 8489258654355211449}
   - {fileID: -8783761867706329071}
@@ -476,7 +560,7 @@ MonoBehaviour:
   - {fileID: -6826461039419286180}
   StringsBanks:
   - {fileID: 7393136385153924571}
-  cacheTime: 638781226252942995
+  cacheTime: 638787951141682733
   cacheVersion: 131846
 --- !u!114 &336609697266231283
 MonoBehaviour:
@@ -759,7 +843,7 @@ MonoBehaviour:
   Path: BrawlBallsFMOD/Build/Desktop/One-Shots.bank
   Name: One-Shots
   StudioPath: bank:/In_Game_SFXs/One-Shots
-  lastModified: 638781211752144489
+  lastModified: 638781152999311526
   FileSizes:
   - Name: Desktop
     Value: 177536
@@ -833,7 +917,7 @@ MonoBehaviour:
   Path: BrawlBallsFMOD/Build/Desktop/UI.bank
   Name: UI
   StudioPath: bank:/In_Game_SFXs/UI
-  lastModified: 638781157977742345
+  lastModified: 638781132804922206
   FileSizes:
   - Name: Desktop
     Value: 190976
@@ -958,10 +1042,10 @@ MonoBehaviour:
   Path: BrawlBallsFMOD/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638781211751957982
+  lastModified: 638787951141359981
   FileSizes:
   - Name: Desktop
-    Value: 2508
+    Value: 2680
   Exists: 1
 --- !u!114 &7487246396143731203
 MonoBehaviour:
@@ -1132,10 +1216,10 @@ MonoBehaviour:
   Path: BrawlBallsFMOD/Build/Desktop/Ambience.bank
   Name: Ambience
   StudioPath: bank:/In_Game_SFXs/Ambience
-  lastModified: 638781157977571633
+  lastModified: 638787951141682733
   FileSizes:
   - Name: Desktop
-    Value: 506
+    Value: 1167232
   Exists: 1
 --- !u!114 &8945699506501672728
 MonoBehaviour:
