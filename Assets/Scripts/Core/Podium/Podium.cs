@@ -144,10 +144,6 @@ namespace Core.Podium
 
                 _myBall.transform.localScale = Vector3.one;
                 
-                
-                
-                Debug.Log("Spawning a ball", _myBall.gameObject);
-                
                 _ = FadeEmissive(activeColor);
                 
                 _ballObject.layer = gameObject.layer;

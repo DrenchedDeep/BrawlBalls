@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Managers.Local;
 using Managers.Network;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
+using UnityEngine.InputSystem.Users;
 using UnityEngine.SceneManagement;
 
 //using Utilities.UI_General;
@@ -30,7 +32,7 @@ namespace LocalMultiplayer
         private GameObject _screenBlocker;
         
         //[SerializeField] private InputActionReference leaveGameAction;
-        private readonly List<DataParasite> _activeParasites = new();
+        private static readonly List<DataParasite> ActiveParasites = new();
 
         private void OnEnable()
         {
@@ -68,17 +70,17 @@ namespace LocalMultiplayer
 
         private void CreateDataParasites()
         {
-            _activeParasites.Clear();
+            ActiveParasites.Clear();
             foreach (var t in LocalPlayers)
             {
-                _activeParasites.Add(new DataParasite(t, t.playerIndex, t.splitScreenIndex));
+                ActiveParasites.Add(new DataParasite(t, t.playerIndex, t.splitScreenIndex));
                 Debug.Log("Storing player index: " + t.playerIndex +", " + t.splitScreenIndex);
             }
             Debug.Log("Player Data Containers have been generated.");
         }
 
 
-        private void OnSceneChanged(Scene newScene, LoadSceneMode loadSceneMode)
+        private async void OnSceneChanged(Scene newScene, LoadSceneMode loadSceneMode)
         {          
             Debug.Log("We are now in a new scene: " + newScene.name);
             _playerInputManager.playerPrefab =newScene.buildIndex < 2 ? mainMenuPrefab : inGamePrefab;
@@ -91,16 +93,24 @@ _playerInputManager.DisableJoining();
 Debug.Log("We've disabled controls because you may not join from this scene.")
             }
 #endif
-            Debug.Log("We've loaded a scene, do we know about anyone that currently exists?" + _playerInputManager.playerCount +"...Data containers: " + (_activeParasites?.Count ?? 0) +$"Build index: {newScene.buildIndex}");
+            Debug.Log("We've loaded a scene, do we know about anyone that currently exists?" + _playerInputManager.playerCount +"...Data containers: " + (ActiveParasites?.Count ?? 0) +$"Build index: {newScene.buildIndex}");
 
             if (newScene.buildIndex == 0) return;
-            if (_activeParasites == null) return;
-            
-            
-            foreach (DataParasite player in _activeParasites)
-            {
-                Debug.Log("Creating a new player:");
+            DeployParasites();
 
+
+        }
+
+        private void OnDestroy()
+        {
+            SceneManager.sceneLoaded -= OnSceneChanged;
+        }
+
+        private void DeployParasites()
+        {
+            if (ActiveParasites == null) return;
+            foreach (DataParasite player in ActiveParasites)
+            {
                 List<InputDevice> devices = new();
                 
                 foreach (var x in player.Devices)
@@ -111,23 +121,15 @@ Debug.Log("We've disabled controls because you may not join from this scene.")
                         continue; // Skip virtual mice
                     }
                     
-                    Debug.Log($"Device: {x}");
+                    Debug.Log($"Remember Device: {x} with user {player.PlayerIndex} at screen {player.SplitScreenIndex}");
                     devices.Add(x);
                 }
                 OnPlayerJoined(PlayerInput.Instantiate(_playerInputManager.playerPrefab, 
                     playerIndex: player.PlayerIndex, 
                     pairWithDevices: devices.ToArray()));
-                    
-
             }
-            _activeParasites.Clear();
+            ActiveParasites.Clear();
         }
-
-        private void OnDestroy()
-        {
-            SceneManager.sceneLoaded -= OnSceneChanged;
-        }
-
 
         private void OnPlayerLeft(PlayerInput playerInput)
         {
@@ -231,7 +233,7 @@ Debug.Log("We've disabled controls because you may not join from this scene.")
         public DataParasite(PlayerInput playerInput, int index, int splitScreenIndex)
         {
             _ = SaveManager.TryGetPlayerData(playerInput, out var output);
-            PlayerIndex = output.PlayerIndex;
+            PlayerIndex = index;//output.PlayerIndex;
             SplitScreenIndex = splitScreenIndex;
             Devices = playerInput.devices.ToArray();
         }

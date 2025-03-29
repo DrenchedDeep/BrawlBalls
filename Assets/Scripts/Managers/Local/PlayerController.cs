@@ -64,7 +64,7 @@ namespace Managers.Local
             fullJoystick.gameObject.SetActive(true);
            // halfJoystick.gameObject.SetActive(true);
             _livesLeft = 3;
-            enabled = false;
+            //enabled = false;
             
             InitializeControls();
 

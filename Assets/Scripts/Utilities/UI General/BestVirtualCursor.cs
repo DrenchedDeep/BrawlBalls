@@ -126,7 +126,7 @@ namespace Utilities.UI_General
             }
             _owner = obj;
 
-            graphic.color = _owner.user.id switch
+            graphic.color = _owner.playerIndex switch
             {
                 0 => Color.red,
                 1 => Color.green,
@@ -204,7 +204,6 @@ namespace Utilities.UI_General
             _max = new Vector2(_camera.pixelWidth- r.xMax,_camera.pixelHeight-r.yMax);
 
             
-            Debug.Log("Setting New Rect Bounds", gameObject);
             Vector2 center = (_max-_min)*0.5f;
             _rectTransform.anchoredPosition = center;
         }
