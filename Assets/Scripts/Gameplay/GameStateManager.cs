@@ -54,7 +54,6 @@ namespace Core.Gameplay
             Debug.LogWarning("Game state changed:" + gameState);
             gameStateSettings[_currentGameStateSettings].disableStateEvent?.Invoke();
             _currentGameStateSettings = GetIndexFromGameState(gameState);
-            Debug.Log(_currentGameStateSettings);
             CurrentGameStateSettings.enableStateEvent?.Invoke();
         }
 

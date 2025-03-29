@@ -71,7 +71,8 @@ namespace LocalMultiplayer
             _activeParasites.Clear();
             foreach (var t in LocalPlayers)
             {
-                _activeParasites.Add(new DataParasite(t));
+                _activeParasites.Add(new DataParasite(t, t.playerIndex, t.splitScreenIndex));
+                Debug.Log("Storing player index: " + t.playerIndex +", " + t.splitScreenIndex);
             }
             Debug.Log("Player Data Containers have been generated.");
         }
@@ -90,18 +91,21 @@ _playerInputManager.DisableJoining();
 Debug.Log("We've disabled controls because you may not join from this scene.")
             }
 #endif
-            Debug.Log("We've loaded a scene, do we know about anyone that currently exists?" + LocalPlayers.Count +"...Data containers: " + (_activeParasites?.Count ?? 0) +$"Build index: {newScene.buildIndex}");
+            Debug.Log("We've loaded a scene, do we know about anyone that currently exists?" + _playerInputManager.playerCount +"...Data containers: " + (_activeParasites?.Count ?? 0) +$"Build index: {newScene.buildIndex}");
 
             if (newScene.buildIndex == 0) return;
             if (_activeParasites == null) return;
+            
+            
             foreach (DataParasite player in _activeParasites)
             {
                 Debug.Log("Creating a new player:");
 
                 List<InputDevice> devices = new();
+                
                 foreach (var x in player.Devices)
                 {
-
+                    //InputSystem.DisableDevice(x);
                     if (!x.native) {
                         InputSystem.RemoveDevice(x);
                         continue; // Skip virtual mice
@@ -110,10 +114,13 @@ Debug.Log("We've disabled controls because you may not join from this scene.")
                     Debug.Log($"Device: {x}");
                     devices.Add(x);
                 }
+                OnPlayerJoined(PlayerInput.Instantiate(_playerInputManager.playerPrefab, 
+                    playerIndex: player.PlayerIndex, 
+                    pairWithDevices: devices.ToArray()));
+                    
 
-                OnPlayerJoined(PlayerInput.Instantiate(_playerInputManager.playerPrefab, pairWithDevices: devices.ToArray()));
             }
-
+            _activeParasites.Clear();
         }
 
         private void OnDestroy()
@@ -130,7 +137,7 @@ Debug.Log("We've disabled controls because you may not join from this scene.")
             
             if (LocalHost == playerInput)
             {
-                if(LocalPlayers.Count == 0)
+                if(_playerInputManager.playerCount == 0)
                 {
                     Debug.Log("Game should be shutting down");
                     return;
@@ -144,13 +151,18 @@ Debug.Log("We've disabled controls because you may not join from this scene.")
     private void OnPlayerJoined(PlayerInput playerInput)
         {
             Debug.Log("A player has Joined");
-
-            if(_screenBlocker) Destroy(_screenBlocker);
             
             LocalPlayers.Add(playerInput);
 
-            if (LocalPlayers.Count == 3) Instantiate(screenBlockerPrefab);
-
+            if (_playerInputManager.playerCount == 3)
+            {
+                Debug.Log("I am creating the screen blocker.");
+                Instantiate(screenBlockerPrefab);
+            }
+            else if (_screenBlocker)
+            {
+                Destroy(_screenBlocker.gameObject);
+            }
             
             Debug.LogError("REMINDER, Sync playerIndex? Idk too tired.");
             if (!LocalHost)
@@ -158,26 +170,6 @@ Debug.Log("We've disabled controls because you may not join from this scene.")
                 LocalHost = playerInput;
                 Debug.Log("We have a new host: ", LocalHost.gameObject);
             }
-            /*
-            if (!_firstPlayer)
-            {
-                _firstPlayer = playerInput;
-            }
-            else if (!_firstPlayerReplaced)
-            {
-                _firstPlayerReplaced = true;
-
-                Debug.Log("I've made this player in my image (the image of player 1), but now with a controller");
-                _firstPlayer.SwitchCurrentControlScheme("Controller", playerInput.devices.ToArray());
-                Destroy(playerInput.gameObject);
-
-                _firstPlayer.GetComponentInChildren<BestVirtualCursor>().SetNewOwner(_firstPlayer);
-                
-                
-                
-                return;
-            }
-            */
 
             bool controller = false;
             foreach (var div in playerInput.devices)
@@ -191,9 +183,7 @@ Debug.Log("We've disabled controls because you may not join from this scene.")
             }
 
             playerInput.SwitchCurrentControlScheme(controller ? "Controller" : "PC", playerInput.devices.ToArray());
-
-    
-
+            
             int id = (StaticUtilities.PlayerOneLayerLiteral + playerInput.playerIndex);
             
             Transform[] transforms = playerInput.GetComponentsInChildren<Transform>();
@@ -230,16 +220,19 @@ Debug.Log("We've disabled controls because you may not join from this scene.")
            
             OnClientsUpdated?.Invoke();
         }
+    
     }
 
     public struct DataParasite
     {
         public readonly InputDevice[] Devices;
         public readonly int PlayerIndex;
-        public DataParasite(PlayerInput playerInput)
+        public readonly int SplitScreenIndex;
+        public DataParasite(PlayerInput playerInput, int index, int splitScreenIndex)
         {
             _ = SaveManager.TryGetPlayerData(playerInput, out var output);
             PlayerIndex = output.PlayerIndex;
+            SplitScreenIndex = splitScreenIndex;
             Devices = playerInput.devices.ToArray();
         }
     }
