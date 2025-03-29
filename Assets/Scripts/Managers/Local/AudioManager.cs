@@ -22,7 +22,7 @@ namespace Managers.Local
         private List<EventInstance> eventInstances;
         private List<StudioEventEmitter> eventEmitters;
         
-        private EventInstance ambienceInstance;
+        private EventInstance ambienceEventInstance;
         private EventInstance musicEventInstance; //Make sure that the music loops through the entirety of the game
         
 
@@ -41,7 +41,7 @@ namespace Managers.Local
         private void Start()
         {
             InitializeMusic(FMODEvents.instance.musicReference);
-            //InitializeEventEmitter()
+            InitializeAmbience(FMODEvents.instance.ambienceReference);
         }
 
         public void SetMusicVolume(float num)
@@ -52,6 +52,12 @@ namespace Managers.Local
         public void PlayOneShot(EventReference sound, Vector3 worldPos)
         {
             RuntimeManager.PlayOneShot(sound, worldPos);
+        }
+
+        void InitializeAmbience(EventReference soundReference)
+        {
+            ambienceEventInstance = CreateInstance(soundReference);
+            ambienceEventInstance.start();
         }
 
         public StudioEventEmitter InitializeEventEmitter(EventReference eventReference, GameObject emitterObject)

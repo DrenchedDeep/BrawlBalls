@@ -15,7 +15,7 @@ namespace Managers.Local
         
         [field: Header("Ambience")]
         [field: SerializeField]
-        public EventReference AmbienceReference { get; private set; }
+        public EventReference ambienceReference { get; private set; }
         
         [field: Header("Ball Explosions")]
         [field: SerializeField]
