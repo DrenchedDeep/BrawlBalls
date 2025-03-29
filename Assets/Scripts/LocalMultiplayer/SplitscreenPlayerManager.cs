@@ -1,13 +1,10 @@
 using System;
 using System.Collections.Generic;
-using Cysharp.Threading.Tasks;
 using Managers.Local;
 using Managers.Network;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.UI;
-using UnityEngine.InputSystem.Users;
 using UnityEngine.SceneManagement;
 
 //using Utilities.UI_General;
@@ -80,7 +77,7 @@ namespace LocalMultiplayer
         }
 
 
-        private async void OnSceneChanged(Scene newScene, LoadSceneMode loadSceneMode)
+        private void OnSceneChanged(Scene newScene, LoadSceneMode loadSceneMode)
         {          
             Debug.Log("We are now in a new scene: " + newScene.name);
             _playerInputManager.playerPrefab =newScene.buildIndex < 2 ? mainMenuPrefab : inGamePrefab;
@@ -93,7 +90,7 @@ _playerInputManager.DisableJoining();
 Debug.Log("We've disabled controls because you may not join from this scene.")
             }
 #endif
-            Debug.Log("We've loaded a scene, do we know about anyone that currently exists?" + _playerInputManager.playerCount +"...Data containers: " + (ActiveParasites?.Count ?? 0) +$"Build index: {newScene.buildIndex}");
+            Debug.Log("We've loaded a scene, do we know about anyone that currently exists?" + LocalPlayers.Count +"...Data containers: " + (ActiveParasites?.Count ?? 0) +$"Build index: {newScene.buildIndex}");
 
             if (newScene.buildIndex == 0) return;
             DeployParasites();
@@ -139,7 +136,7 @@ Debug.Log("We've disabled controls because you may not join from this scene.")
             
             if (LocalHost == playerInput)
             {
-                if(_playerInputManager.playerCount == 0)
+                if(LocalPlayers.Count == 0)
                 {
                     Debug.Log("Game should be shutting down");
                     return;
@@ -156,17 +153,17 @@ Debug.Log("We've disabled controls because you may not join from this scene.")
             
             LocalPlayers.Add(playerInput);
 
-            if (_playerInputManager.playerCount == 3)
+            if (LocalPlayers.Count == 3)
             {
                 Debug.Log("I am creating the screen blocker.");
-                Instantiate(screenBlockerPrefab);
+                _screenBlocker = Instantiate(screenBlockerPrefab);
             }
             else if (_screenBlocker)
             {
+                Debug.Log("I am Destroying the screen blocker.");
                 Destroy(_screenBlocker.gameObject);
             }
             
-            Debug.LogError("REMINDER, Sync playerIndex? Idk too tired.");
             if (!LocalHost)
             {
                 LocalHost = playerInput;
@@ -222,7 +219,6 @@ Debug.Log("We've disabled controls because you may not join from this scene.")
                     x.PlayerIndex = playerInput.playerIndex;
                 }
             }
-            // if(controller) playerInput.GetComponentInChildren<BestVirtualCursor>().SetNewOwner(playerInput);
            
             OnClientsUpdated?.Invoke();
         }
@@ -236,7 +232,7 @@ Debug.Log("We've disabled controls because you may not join from this scene.")
         public readonly int SplitScreenIndex;
         public DataParasite(PlayerInput playerInput, int index, int splitScreenIndex)
         {
-            _ = SaveManager.TryGetPlayerData(playerInput, out var output);
+            _ = SaveManager.TryGetPlayerData(playerInput, out _);
             PlayerIndex = index;//output.PlayerIndex;
             SplitScreenIndex = splitScreenIndex;
             Devices = playerInput.devices.ToArray();
