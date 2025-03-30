@@ -27,7 +27,7 @@ namespace Gameplay.Object_Scripts
         {
             //Again verify with upgrades and whatnot...
             Debug.Log("ball player hit spike: " + hit.name);
-            hit.TakeDamage_ServerRpc(new DamageProperties(hit.GetBall.Speed*3, hit.GetBall.Velocity * -5f + Vector3.up*20, NetworkManager.Singleton.LocalClientId));
+            hit.TakeDamage_ServerRpc(new DamageProperties(hit.GetBall.Speed*3, hit.GetBall.Velocity * -5f + Vector3.up*20, NetworkManager.Singleton.LocalClientId, -1));
             
             //hit.TakeDamage(50, 15, owner.player);
          //   hit.TakeDamage_ClientRpc(hit.GetBall.Speed*3, hit.GetBall.Velocity * -5f + Vector3.up*20, NetworkManager.Singleton.LocalClientId);

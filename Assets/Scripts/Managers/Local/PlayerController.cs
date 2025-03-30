@@ -8,6 +8,7 @@ using Managers.Network;
 using Stats;
 using TMPro;
 using Unity.Cinemachine;
+using Unity.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -53,6 +54,10 @@ namespace Managers.Local
 
         private SelectionMenu _selectionMenu;
 
+        private FixedString64Bytes _playerName;
+        
+        public FixedString64Bytes PlayerName => _playerName;
+
         private void Awake()
         {
             rootCanvas.enabled = false;
@@ -64,10 +69,9 @@ namespace Managers.Local
             fullJoystick.gameObject.SetActive(true);
            // halfJoystick.gameObject.SetActive(true);
             _livesLeft = 3;
-            enabled = false;
             
             InitializeControls();
-
+            enabled = false;
         }
         
         private void InitializeControls()
@@ -96,17 +100,17 @@ namespace Managers.Local
 
         private void OnEnable()
         {
-      //      NetworkGameManager.Instance.OnGameEnd += OnGameEnded;
+            NetworkGameManager.Instance.OnGameEnd += OnGameEnded;
             NetworkGameManager.Instance.OnHostDisconnected += OnHostDisconnected;
         }
 
         private void OnDisable()
         {
-          //  NetworkGameManager.Instance.OnGameEnd -= OnGameEnded;
+            NetworkGameManager.Instance.OnGameEnd -= OnGameEnded;
             NetworkGameManager.Instance.OnHostDisconnected -= OnHostDisconnected;
         }
 
-        public void OnGameEnded()
+        private void OnGameEnded()
         {
             Debug.Log("game end?");
             rootCanvas.enabled = false;
@@ -199,7 +203,7 @@ namespace Managers.Local
             EnableControls();
         }
 
-        private void OnBallKilled(ulong killer)
+        private void OnBallKilled(ulong killer, int childID)
         {
             BallPlayer[] allBalls = FindObjectsByType<BallPlayer>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
             foreach (BallPlayer ball in allBalls)
@@ -214,7 +218,7 @@ namespace Managers.Local
             respawnUI.SetActive(true);
             rootCanvas.enabled = false;
 
-            killedByText.text = (killer == 100) ? "WORLD" : NetworkGameManager.Instance.GetPlayerName(killer);
+            killedByText.text = (killer == 100) ? "WORLD" : NetworkGameManager.Instance.GetPlayerName(killer, childID);
             DisableControls();
 
             _ = ProcessRespawn();

@@ -64,7 +64,7 @@ public class TheButtonWeapon : BaseWeapon
         Explode_ServerRpc();
     }
 
-    void OnDeath(ulong killer)
+    void OnDeath(ulong killer, int childID)
     {
         if (_isHoldingDown)
         {
@@ -75,7 +75,7 @@ public class TheButtonWeapon : BaseWeapon
     [ServerRpc(RequireOwnership = false)]
     public void Explode_ServerRpc()
     {
-        DamageProperties damageProperties = new DamageProperties(1000, transform.forward, Owner.OwnerClientId);
+        DamageProperties damageProperties = new DamageProperties(1000, transform.forward, Owner.OwnerClientId, Owner.ChildID.Value);
 
         Collider[] results = Physics.OverlapSphere(transform.position, explosionRadius, stats.HitLayers);
 

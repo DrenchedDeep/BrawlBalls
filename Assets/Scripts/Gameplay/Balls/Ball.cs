@@ -50,6 +50,10 @@ namespace Gameplay.Balls
        public float Speed { get; private set; }
        public Vector3 Velocity { get; private set; }
        public float Acceleration { get; private set; }
+
+       private BallPlayer _ballPlayer;
+       
+       public BallPlayer BallPlayer => _ballPlayer;
        
        
 
@@ -57,6 +61,7 @@ namespace Gameplay.Balls
        {
            _rb = GetComponentInParent<Rigidbody>();
            _mr = GetComponent<MeshRenderer>();
+           _ballPlayer = transform.parent.GetComponent<BallPlayer>();
             
            Acceleration = stats.Acceleration;         
 
@@ -214,7 +219,7 @@ namespace Gameplay.Balls
                if (n && n.TryGetComponent(out BallPlayer b))
                {
                    Debug.LogWarning("LANDED ON EM: " + b.name + ", " + name); 
-                   b.TakeDamage_ServerRpc(new DamageProperties(1000000, Vector3.zero, ulong.MaxValue));
+                   b.TakeDamage_ServerRpc(new DamageProperties(1000000, Vector3.zero, ulong.MaxValue, -1));
                }
            }
        }

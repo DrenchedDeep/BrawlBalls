@@ -56,7 +56,7 @@ namespace Gameplay.Spectating
             _localPlayerController.SetBall(allBalls[_currentIndex]);
 
             string playerName =
-                NetworkGameManager.Instance.GetPlayerName(allBalls[_currentIndex].NetworkObject.OwnerClientId);
+                NetworkGameManager.Instance.GetPlayerName(allBalls[_currentIndex].NetworkObject.OwnerClientId, allBalls[_currentIndex].ChildID.Value);
         
             Debug.Log("I am now spectating: " +
                       playerName);
@@ -66,7 +66,7 @@ namespace Gameplay.Spectating
 
         }
 
-        private void OnCurrentSpectatingPlayerDied(ulong killer)
+        private void OnCurrentSpectatingPlayerDied(ulong killer, int childID)
         {
             SpectateNextPlayer(1);
         }

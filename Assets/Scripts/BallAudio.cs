@@ -53,5 +53,5 @@ public class BallAudio : MonoBehaviour
     /// <summary>
     /// DO YOUR FMOD STUFF HERE -- THIS WILL PLAY ON EVERY CLIENT SO EVERYBODY WILL HEAR THE AUDIO... IF U DONT WANT THEM LMK 
     /// </summary>
-    private void OnBallDied(ulong killer) { }
+    private void OnBallDied(ulong killer, int childID) { }
 }

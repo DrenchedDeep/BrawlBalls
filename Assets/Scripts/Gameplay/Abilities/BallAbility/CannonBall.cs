@@ -32,6 +32,7 @@ namespace Gameplay.Abilities.BallAbility
                 damageProperties.Damage = damage;
                 damageProperties.Direction = damage * dir;
                 damageProperties.Attacker = OwnerClientId;
+                damageProperties.ChildID = BallPlayer.ChildID.Value;
 
 
                 c.attachedRigidbody.GetComponent<BallPlayer>().TakeDamage_ServerRpc(damageProperties);

@@ -173,6 +173,7 @@ namespace Gameplay.Weapons
                     damageProperties.Damage = Mathf.Max(0, dmg);
                     damageProperties.Direction = forward * (dmg * stats.ForceMultiplier);
                     damageProperties.Attacker = _owner.OwnerClientId;
+                    damageProperties.ChildID = _owner.Owner.PlayerInput.playerIndex;
                     b.TakeDamage_ServerRpc(damageProperties);
                 }
 
@@ -202,6 +203,7 @@ namespace Gameplay.Weapons
                 damageProperties.Damage = damage;
                 damageProperties.Direction = damage * dir;
                 damageProperties.Attacker = _owner.OwnerClientId;
+                damageProperties.ChildID = _owner.Owner.PlayerInput.playerIndex;
 
 
                 c.attachedRigidbody.GetComponent<BallPlayer>().TakeDamage_ServerRpc(damageProperties);

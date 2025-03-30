@@ -80,7 +80,7 @@ namespace Gameplay.Object_Scripts
             constraint.SetSources(new List<ConstraintSource>(){s});
         }
         
-        private void OnOwnerKilled(ulong killer)
+        private void OnOwnerKilled(ulong killer, int childID)
         {
             if (_owner)
             {

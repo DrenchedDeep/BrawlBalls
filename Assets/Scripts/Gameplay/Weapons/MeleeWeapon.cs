@@ -40,6 +40,7 @@ namespace Gameplay.Weapons
                     damageProperties.Damage = Mathf.Max(0, dmg);
                     damageProperties.Direction = forward * (dmg * stats.ForceMultiplier);
                     damageProperties.Attacker = OwnerClientId;
+                    damageProperties.ChildID = Owner.ChildID.Value;
                     b.TakeDamage_ServerRpc(damageProperties);
                 }
             }

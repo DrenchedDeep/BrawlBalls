@@ -7,6 +7,7 @@ using Cysharp.Threading.Tasks;
 using Gameplay;
 using Gameplay.UI;
 using Loading;
+using LocalMultiplayer;
 using MainMenu.UI;
 using Managers.Local;
 using Unity.Collections;
@@ -38,6 +39,7 @@ namespace Managers.Network
         public float Score;
         public int LivesLeft;
         public int TeamID;
+        public int ChildID;
         
         //any other data that needs to be replicated...
         public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
@@ -69,17 +71,23 @@ namespace Managers.Network
             LivesLeft--;
         }
 
+        public bool IsMyPlayer(ulong clientID, int childID)
+        {
+            return ClientID == clientID && childID == ChildID;
+        }
+
         public bool IsOut()
         {
             return LivesLeft <= 0;
         } 
 
-        public BallPlayerInfo(FixedString64Bytes username, ulong clientID, float score, int teamID)
+        public BallPlayerInfo(FixedString64Bytes username, ulong clientID, float score, int teamID, int childID)
         {
             Username = username;
             Score = score;
             TeamID = teamID;
             ClientID = clientID;
+            ChildID = childID;
             LivesLeft = 3;
         }
 
@@ -172,7 +180,7 @@ namespace Managers.Network
                  GameState.Value = Network.GameState.WaitingForPlayers;
              }
              CheckGameStart_ServerRpc(SaveManager.GetCompiledNames());
-
+             
          }
 
          private void OnGameStateChanged(GameState old, GameState current)
@@ -282,29 +290,31 @@ namespace Managers.Network
              {
                  string str = players[i];
                  Debug.Log("Adding network player while considering local multiplayer: " + str);
-                 Players.Add(new BallPlayerInfo(str, @params.Receive.SenderClientId, 0, 0));
+                 Players.Add(new BallPlayerInfo(str, @params.Receive.SenderClientId, 0, 0, i));
              }
 
              CheckStartGame();
          }
 
-         public void OnPlayerKilled(ulong killedID, ulong killerID)
+         public void OnPlayerKilled(ulong killedID, int killedChildID, ulong killerID, int killerChildID)
          {
              //100 id is the out of bounds
              if (killerID != 99)
              {
-                 int scoreIncreaseIndex = GetPlayerBallInfoIndex(killerID);
-                 if (scoreIncreaseIndex != -1)
+                 for (int i = 0; i < Players.Count; i++)
                  {
-                     BallPlayerInfo newInfo = Players[scoreIncreaseIndex];
-                     newInfo.UpdateScore(1);
-                     Players[scoreIncreaseIndex] = newInfo;
-                     
+                     if (Players[i].IsMyPlayer(killerID, killerChildID))
+                     {
+                         BallPlayerInfo newInfo = Players[i];
+                         newInfo.UpdateScore(1);
+                         Players[i] = newInfo;
+                         break;
+                     }
                  }
                  
                  ClientRpcParams rpcParams = default;
                  rpcParams.Send.TargetClientIds = new[] { killerID };
-                 OnLocalPlayerKilledPlayer_ClientRpc(killedID, rpcParams);
+                 OnLocalPlayerKilledPlayer_ClientRpc(killerChildID, GetPlayerName(killedID, killedChildID), rpcParams);
              }
          }
 
@@ -324,9 +334,16 @@ namespace Managers.Network
          }
 
          [ClientRpc(RequireOwnership = false)]
-         void OnLocalPlayerKilledPlayer_ClientRpc(ulong killedID, ClientRpcParams rpcParams = default)
+         void OnLocalPlayerKilledPlayer_ClientRpc(int childID, FixedString64Bytes victimName, ClientRpcParams rpcParams = default)
          {
-             GameUI.Instance.ShowElimUI(GetPlayerName(killedID));
+             PlayerController pc = PlayerSplitScreenManager.Instance.FindChild(childID);
+             if (pc)
+             {
+                 if(pc.TryGetComponent(out PlayerHUD hud))
+                 {
+                     hud.OnKilledPlayer(victimName.ToString());
+                 }
+             }
          }
         
          private void OnServerStopped(bool obj)
@@ -554,11 +571,11 @@ namespace Managers.Network
              return new BallPlayerInfo();
          }
 
-         public string GetPlayerName(ulong id)
+         public string GetPlayerName(ulong id, int childID)
          {
              foreach(var player in Players)
              {
-                 if (player.ClientID == id)
+                 if (player.IsMyPlayer(id, childID))
                  {
                      return player.Username.ToString();
                  }
@@ -566,6 +583,7 @@ namespace Managers.Network
 
              return "";
          }
+         
 
          //probs a better way to do this :P
          [ServerRpc(RequireOwnership = false)]

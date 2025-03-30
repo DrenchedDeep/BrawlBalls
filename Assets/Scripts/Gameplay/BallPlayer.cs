@@ -6,6 +6,7 @@ using LocalMultiplayer;
 using Managers.Local;
 using Managers.Network;
 using Stats;
+using Unity.Collections;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -18,19 +19,22 @@ namespace Gameplay
         public float Damage;
         public Vector3 Direction;
         public ulong Attacker;
+        public int ChildID;
         
         public void NetworkSerialize<T>(BufferSerializer<T> serializer) where T : IReaderWriter
         {
             serializer.SerializeValue(ref Damage);
             serializer.SerializeValue(ref Direction);
             serializer.SerializeValue(ref Attacker);
+            serializer.SerializeValue(ref ChildID);
         }
 
-        public DamageProperties(float damage, Vector3 direction, ulong attacker)
+        public DamageProperties(float damage, Vector3 direction, ulong attacker, int childID)
         {
             Damage = damage;
             Direction = direction;
             Attacker = attacker;
+            ChildID = childID;
         }
     }
     
@@ -44,7 +48,7 @@ namespace Gameplay
 
         private Rigidbody _rb;
 
-        public event Action<ulong> OnDestroyed;
+        public event Action<ulong, int> OnDestroyed;
         public event Action OnDamaged;
         public event Action OnHealed;
 
@@ -58,6 +62,10 @@ namespace Gameplay
 
         private readonly NetworkVariable<ulong> _previousAttackerID = new NetworkVariable<ulong>(0,
             NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+        
+        public NetworkVariable<int> ChildID { get; private set; } = 
+            new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+
         
         [SerializeField] private Transform damageNumberSpawnPoint;
 
@@ -122,7 +130,7 @@ namespace Gameplay
             if (IsOwner)
             {
                 Owner = SaveManager.FindPlayerByID(playerIndex).LocalInput.GetComponent<PlayerController>();
-                Debug.LogError("OWNER IS: " + Owner);
+                ChildID.Value = Owner.PlayerInput.playerIndex;
                 Owner.BindTo(this);
                 GetBall.Init(this);
             }
@@ -226,7 +234,7 @@ namespace Gameplay
             if (_currentHealth.Value <= 0)
             {
                 _ = MessageManager.Instance.HandleScreenMessage("Died to: <color=#ff000>" + damageInfo.Attacker + "</color>", 3f);
-                Die_Server(damageInfo.Attacker);
+                Die_Server(damageInfo.Attacker, damageInfo.ChildID);
                 return;
             }
             
@@ -246,7 +254,7 @@ namespace Gameplay
         }
 
         //called on the SERVER
-        public void Die_Server(ulong killer)
+        public void Die_Server(ulong killer, int killerChildID)
         {
             //cant die if the game has ended...
             if (NetworkGameManager.Instance.GameState.Value > GameState.InGame)
@@ -263,26 +271,26 @@ namespace Gameplay
             }
             
             _currentHealth.Value = 0;
-            Die_ClientRpc(killer);
+            Die_ClientRpc(killer, killerChildID);
         }
         
         //doing this cuz the client needs to verify they know that their ball has died before we can despawn it... probs a better work around but for now this will work and given time constraints MAKE IT WORK! 
         [ClientRpc]
-        public void Die_ClientRpc(ulong killer)
+        public void Die_ClientRpc(ulong killer, int killerChildID)
         {
-            OnDestroyed?.Invoke(killer);
-            ActualDie_ServerRpc(killer);
+            OnDestroyed?.Invoke(killer, killerChildID);
+            ActualDie_ServerRpc(killer, killerChildID);
         }
         
         [ServerRpc(RequireOwnership = false)]
-        private void ActualDie_ServerRpc(ulong killer)
+        private void ActualDie_ServerRpc(ulong killer, int killerChildID)
         {
             if (!IsHost)
             {
-                OnDestroyed?.Invoke(killer);
+                OnDestroyed?.Invoke(killer, killerChildID);
             }
 
-            NetworkGameManager.Instance.OnPlayerKilled(NetworkObject.OwnerClientId, killer);
+            NetworkGameManager.Instance.OnPlayerKilled(OwnerClientId, ChildID.Value, killer, killerChildID);
 
             transform.GetChild(3).GetComponent<NetworkObject>().Despawn();
             transform.GetChild(4).GetComponent<NetworkObject>().Despawn();

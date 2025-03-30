@@ -70,11 +70,11 @@ public class PlayerHUD : MonoBehaviour
         eliminationAnimator.SetTrigger(Show);
         eliminationPlayerText.text = victimName;
 
-        await UniTask.WaitUntil(() => eliminationAnimator.GetCurrentAnimatorStateInfo(0).IsName("Show"));
+        await UniTask.WaitForSeconds(1f);
         
         eliminationAnimator.SetTrigger(Hide);
-        
-        await UniTask.WaitUntil(() => eliminationAnimator.GetCurrentAnimatorStateInfo(0).IsName("Hide"));
+
+        await UniTask.WaitForSeconds(0.5f);
         
         eliminationAnimator.gameObject.SetActive(false);
     }

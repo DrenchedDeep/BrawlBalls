@@ -64,7 +64,7 @@ namespace Managers
 
             ActiveBalls.Add(player);
 
-            player.OnDestroyed += (_) =>
+            player.OnDestroyed += (id, value) =>
             {
                 ActiveBalls.Remove(player);
             };
@@ -72,6 +72,11 @@ namespace Managers
             NetworkGameManager.Instance.OnBallSpawned();
             
             player.Initialize(ability, playerIndex);
+        }
+
+        private void RemoveBall(ulong killer, int childID)
+        {
+            
         }
         
 
@@ -89,7 +94,8 @@ namespace Managers
 
             ActiveBalls.Add(player);
 
-            player.OnDestroyed += (_) =>
+            
+            player.OnDestroyed += (id, value) =>
             {
                 ActiveBalls.Remove(player);
             };
