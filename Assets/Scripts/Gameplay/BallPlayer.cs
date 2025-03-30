@@ -71,7 +71,7 @@ namespace Gameplay
             //default this to impossible number
             if (IsServer)
             {
-                _currentHealth.Value = GetBall.Stats.MaxHealth;
+//                _currentHealth.Value = GetBall.Stats.MaxHealth;
                 _previousAttackerID.Value = 200; 
             }
 
@@ -118,6 +118,7 @@ namespace Gameplay
             if (IsOwner)
             {
                 Owner = SaveManager.FindPlayerByID(playerIndex).LocalInput.GetComponent<PlayerController>();
+                Debug.LogError("OWNER IS: " + Owner);
                 Owner.BindTo(this);
             }
             
@@ -125,7 +126,11 @@ namespace Gameplay
             GetBall = GetComponentInChildren<Ball>();
             GetBaseWeapon = GetComponentInChildren<BaseWeapon>();
             Physics.SyncTransforms();
-            _currentHealth.Value = GetBall.Stats.MaxHealth;
+
+            if (IsServer)
+            {
+                _currentHealth.Value = GetBall.Stats.MaxHealth;
+            }
 
             GetBall.Init(this);
 

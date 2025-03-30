@@ -137,6 +137,7 @@ namespace Gameplay.Balls
        {
            SetupJoystick();
            localPlayerInputComponent = ballPlayer.Owner.PlayerInput;
+           Debug.LogError("is player input null? " + localPlayerInputComponent);
            localPlayerInputComponent.actions[jump.name].performed += _ => Jump();
 
        }

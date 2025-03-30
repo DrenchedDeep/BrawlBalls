@@ -19,7 +19,6 @@ namespace Core.Gameplay
             public UnityEvent disableStateEvent;
         }
 
-        public static GameStateManager Instance { get; private set; }
 
         [SerializeField] private GameStateSettings[] gameStateSettings = Array.Empty<GameStateSettings>();
         
@@ -27,18 +26,7 @@ namespace Core.Gameplay
         private int _currentGameStateSettings;
 
         public GameStateSettings CurrentGameStateSettings => gameStateSettings[_currentGameStateSettings];
-
-        private void Awake()
-        {
-            if (Instance != null)
-            {
-                Destroy(gameObject);
-                return;
-            }
-
-            Instance = this;
-        }
-
+        
         private void OnEnable()
         {
             NetworkGameManager.Instance.OnGameStateUpdated += OnGameStateChanged;
@@ -51,9 +39,17 @@ namespace Core.Gameplay
 
         private void OnGameStateChanged(GameState gameState)
         {
-            Debug.LogWarning("Game state changed:" + gameState);
-            gameStateSettings[_currentGameStateSettings].disableStateEvent?.Invoke();
+            if (_currentGameStateSettings >= 0 && _currentGameStateSettings < gameStateSettings.Length)
+            {
+                gameStateSettings[_currentGameStateSettings].disableStateEvent?.Invoke();
+            }
+
             _currentGameStateSettings = GetIndexFromGameState(gameState);
+
+            if (_currentGameStateSettings == -1)
+            {
+                return;
+            }
             CurrentGameStateSettings.enableStateEvent?.Invoke();
         }
 

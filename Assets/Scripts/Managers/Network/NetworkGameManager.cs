@@ -122,6 +122,7 @@ namespace Managers.Network
 
          public event Action OnGameReachedOverTime;
          public event Action<int> OnGameCountdownDecremented;
+         public event Action<float> OnCurrentTimeChanged;
     
 
          private CancellationTokenSource _matchCancelTokenSource;
@@ -204,7 +205,10 @@ namespace Managers.Network
                      _cachedCountdownTime = time;
                  }
              }
+             
+             OnCurrentTimeChanged?.Invoke(current);
          }
+         
 
 
          private void PlayersOnOnListChanged(NetworkListEvent<BallPlayerInfo> changeevent)
