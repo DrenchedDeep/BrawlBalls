@@ -29,7 +29,7 @@ namespace Gameplay.Weapons
             for (int i = 0; i < hitCount; ++i)
             {
                 Rigidbody n = Hits[i].rigidbody;
-                if (n && n.TryGetComponent(out BallPlayer b) /*/&& b != Owner/*/)
+                if (n && n.TryGetComponent(out BallPlayer b) && b != Owner)
                 {
                     //FIX this doesn't consider speed...
                     float dmg = CurDamage;

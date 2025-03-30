@@ -115,25 +115,25 @@ namespace Gameplay
         [ClientRpc]
         public void Initialize_ClientRpc(string abilityId, int playerIndex)
         {
+            GetAbility = ResourceManager.Abilities[abilityId];
+            GetBall = GetComponentInChildren<Ball>();
+            GetBaseWeapon = GetComponentInChildren<BaseWeapon>();
+            
             if (IsOwner)
             {
                 Owner = SaveManager.FindPlayerByID(playerIndex).LocalInput.GetComponent<PlayerController>();
                 Debug.LogError("OWNER IS: " + Owner);
                 Owner.BindTo(this);
+                GetBall.Init(this);
             }
             
-            GetAbility = ResourceManager.Abilities[abilityId];
-            GetBall = GetComponentInChildren<Ball>();
-            GetBaseWeapon = GetComponentInChildren<BaseWeapon>();
             Physics.SyncTransforms();
 
             if (IsServer)
             {
                 _currentHealth.Value = GetBall.Stats.MaxHealth;
             }
-
-            GetBall.Init(this);
-
+            
 
             _rb = GetComponent<Rigidbody>();
             _rb.interpolation = RigidbodyInterpolation.Interpolate;
