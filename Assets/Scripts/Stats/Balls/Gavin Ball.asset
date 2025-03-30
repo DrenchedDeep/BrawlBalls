@@ -12,10 +12,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c36b8809fe610545b4ab6588944cf6b, type: 3}
   m_Name: Gavin Ball
   m_EditorClassIdentifier: 
-  <Icon>k__BackingField: {fileID: 944759104, guid: 8ecca2b8b9136894093ae23c6d16fe01,
+  <Icon>k__BackingField: {fileID: -1627316378, guid: 69de42be0a3b6f64682125f579658ceb,
     type: 3}
-  <Rarity>k__BackingField: 0
-  <Description>k__BackingField: "\t"
+  <Rarity>k__BackingField: 3
+  <Comment>k__BackingField: IT IS HIM
+  doNotEditDescription: "<color=#90EE90>+ IT IS HIM</color>\n<color=#90EE90>+ Excellent
+    Handling</color>\n<color=#90EE90>+ On enemy destroyed: shoot lasers</color>\n<color=#90EE90>+
+    On enemy destroyed: refresh all abilities and weapons</color>\n<color=#FFFFFF>\u2022
+    On enemy destroyed: become more massive</color>\n"
+  tags:
+  - traitType: 2
+    information: IT IS HIM
+  - traitType: 2
+    information: Excellent Handling
+  - traitType: 2
+    information: 'On enemy destroyed: shoot lasers'
+  - traitType: 2
+    information: 'On enemy destroyed: refresh all abilities and weapons'
+  - traitType: 0
+    information: 'On enemy destroyed: become more massive'
   <MaxHealth>k__BackingField: 100
   <MaxSpeed>k__BackingField: 45
   <AngularDrag>k__BackingField: 2

@@ -10,19 +10,34 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 031f2bf145e82ba48aa4ff8384faab4b, type: 3}
-  m_Name: Betsy
+  m_Name: Sonic Boom
   m_EditorClassIdentifier: 
   <Icon>k__BackingField: {fileID: 283255884, guid: 1f11056d7ed987a4d9c8cec340ed4452,
     type: 3}
-  <Rarity>k__BackingField: 1
-  <Description>k__BackingField: Push or Pull enemies
+  <Rarity>k__BackingField: 0
+  <Comment>k__BackingField: Prepare for the beat down
+  doNotEditDescription: '<color=#90EE90>+ Pushes all enemies away</color>
+
+    <color=#98FB98>+
+    Does not affect team mates</color>
+
+    <color=#FF6961>- Does no damage</color>
+
+'
+  tags:
+  - traitType: 2
+    information: Pushes all enemies away
+  - traitType: 1
+    information: Does not affect team mates
+  - traitType: -2
+    information: Does no damage
   <Damage>k__BackingField: 0
   <Mass>k__BackingField: 1.5
   <ForceMultiplier>k__BackingField: 10
   <MaxRange>k__BackingField: 5
   <MaxRadius>k__BackingField: 3
   <ChargeUpTime>k__BackingField: 0
-  <Ammo>k__BackingField: 3
+  <Ammo>k__BackingField: 1
   <Ability>k__BackingField: {fileID: 11400000, guid: 2ec90043fea1fae45affb88af40e50b1,
     type: 2}
   <HitLayers>k__BackingField:

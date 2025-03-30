@@ -170,7 +170,7 @@ namespace Utilities.Layout
             if (itemNum != _currentItemNum)
             {
 #if UNITY_EDITOR
-                if (_items.Length <= itemNum || _items[itemNum]==null) return;
+                if (_items == null || itemNum >= _items.Length || _items[itemNum]==null) return;
 #endif
                 _items[itemNum].OnHover();
                 _items[_currentItemNum].OnUnHover();

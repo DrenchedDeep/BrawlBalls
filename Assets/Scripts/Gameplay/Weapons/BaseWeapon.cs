@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Gameplay.Abilities.WeaponAbilities;
@@ -7,7 +5,6 @@ using RotaryHeart.Lib.PhysicsExtension;
 using Stats;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Gameplay.Weapons
 {

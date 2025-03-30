@@ -17,6 +17,7 @@ namespace MainMenu.UI
         [SerializeField] private Image backing;
         [SerializeField] private TextMeshProUGUI header;
         [SerializeField] private TextMeshProUGUI description;
+        [SerializeField] private TextMeshProUGUI comment;
 
         PopupMenu _popupMenu;
         private ShopItemStats _currentItem;
@@ -54,6 +55,7 @@ namespace MainMenu.UI
             //backing.color = color;
             
             header.text = _currentItem.Stats.name;
+            comment.text = _currentItem.Stats.Comment;
             description.text = _currentItem.Stats.Description;
         }
 

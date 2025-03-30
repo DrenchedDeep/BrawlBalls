@@ -9,22 +9,35 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 031f2bf145e82ba48aa4ff8384faab4b, type: 3}
+  m_Script: {fileID: 11500000, guid: efa6cf228b054114fb35fc898ffc6eba, type: 3}
   m_Name: Boomstick
   m_EditorClassIdentifier: 
   <Icon>k__BackingField: {fileID: 505402379, guid: 1f11056d7ed987a4d9c8cec340ed4452,
     type: 3}
-  <Rarity>k__BackingField: 1
-  <Description>k__BackingField: 
-  <Damage>k__BackingField: 20
+  <Rarity>k__BackingField: 0
+  <Comment>k__BackingField: You get to play as artillery?
+  doNotEditDescription: "<color=#90EE90>+ Moderate explosion on collision</color>\n<color=#FFFFFF>\u2022
+    Charge up for further distance</color>\n<color=#FFFFFF>\u2022 Heavy</color>\n<color=#FFA07A>-
+    Long cooldown period</color>\n"
+  tags:
+  - traitType: 2
+    information: Moderate explosion on collision
+  - traitType: 0
+    information: Charge up for further distance
+  - traitType: 0
+    information: Heavy
+  - traitType: -1
+    information: Long cooldown period
+  <Damage>k__BackingField: 45
   <Mass>k__BackingField: 3
   <ForceMultiplier>k__BackingField: 2
   <MaxRange>k__BackingField: 50
-  <MaxRadius>k__BackingField: 1.5
+  <MaxRadius>k__BackingField: 300
+  <ChargeUpTime>k__BackingField: 0
+  <Ammo>k__BackingField: 1
   <Ability>k__BackingField: {fileID: 11400000, guid: 46e548c89abfc474e90779455e76f3be,
     type: 2}
   <HitLayers>k__BackingField:
     serializedVersion: 2
     m_Bits: 320
-  <BlockVerticalOrientation>k__BackingField: 1
-  <LookUpWhileNotMoving>k__BackingField: 0
+  <ProjectilePoolName>k__BackingField: RocketProjectile

@@ -14,8 +14,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Icon>k__BackingField: {fileID: -1256749732, guid: 8ecca2b8b9136894093ae23c6d16fe01,
     type: 3}
-  <Rarity>k__BackingField: 1
-  <Description>k__BackingField: "\t"
+  <Rarity>k__BackingField: 0
+  <Comment>k__BackingField: "Opponents got you feeling blue? Say it ain\u2019t so!
+    The hackey sack ball has great handling and is extra bouncy, making it a great
+    life taker!"
+  doNotEditDescription: "<color=#98FB98>+ Great Handling</color>\n<color=#98FB98>+
+    Improved Air control</color>\n<color=#FFFFFF>\u2022 Extra bouncy</color>\n<color=#FFFFFF>\u2022
+    Low mass</color>\n<color=#FFA07A>- Low health</color>\n"
+  tags:
+  - traitType: 1
+    information: Great Handling
+  - traitType: 1
+    information: Improved Air control
+  - traitType: 0
+    information: Extra bouncy
+  - traitType: 0
+    information: Low mass
+  - traitType: -1
+    information: Low health
   <MaxHealth>k__BackingField: 100
   <MaxSpeed>k__BackingField: 60
   <AngularDrag>k__BackingField: 2

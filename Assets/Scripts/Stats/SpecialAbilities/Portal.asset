@@ -15,10 +15,23 @@ MonoBehaviour:
   <Icon>k__BackingField: {fileID: -602314282, guid: fca22d174dd3acc42b515aca2c562c0c,
     type: 3}
   <Rarity>k__BackingField: 1
-  <Description>k__BackingField: Place a vortex, when there are more than two active
-    vortexes, entering a vortex will bring you to another vortex.
+  <Comment>k__BackingField: I transformed myself into a ball morty!
+  doNotEditDescription: "<color=#98FB98>+ Create a portal that can be used every
+    5 seconds</color>\n<color=#FFFFFF>\u2022 Hold button to launch portal forward
+    when deploying</color>\n<color=#FFFFFF>\u2022 All portals are linked</color>\n<color=#FFFFFF>\u2022
+    Entering a portal leads to a random portal</color>\n<color=#FFA07A>- Portals
+    do nothing if there is only 1 portal on the map</color>\n"
+  tags:
+  - traitType: 1
+    information: Create a portal that can be used every 5 seconds
+  - traitType: 0
+    information: Hold button to launch portal forward when deploying
+  - traitType: 0
+    information: All portals are linked
+  - traitType: 0
+    information: Entering a portal leads to a random portal
+  - traitType: -1
+    information: Portals do nothing if there is only 1 portal on the map
   <Capacity>k__BackingField: 2
   <Cooldown>k__BackingField: 1
-  <InputButton>k__BackingField: {fileID: 4101257991926329481, guid: d208d53a1c1765d458b57f71735f2219,
-    type: 3}
   abilityFileName: Portal

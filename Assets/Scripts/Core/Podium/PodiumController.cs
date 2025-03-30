@@ -96,17 +96,20 @@ namespace Core.Podium
 
         private async UniTask SpawnBalls()
         {
-            await UniTask.WaitUntil(() => !LoadingController.IsLoading);
+            await UniTask.WaitWhile(() => LoadingController.IsLoading);
             await UniTask.Delay(1200);
             try
             {
                 Debug.Log("We're spawning these balls!");
+                Debug.Log("CENTER");
                 podiums[1].CreateBall(1);
                 //podiums[1].ForceActivate();
                 await UniTask.Delay(100);
+                Debug.Log("LEFT");
                 podiums[0].CreateBall(0);
                 //podiums[0].ForceActivate();
                 await UniTask.Delay(100);
+                Debug.Log("RIGHT");
                 podiums[2].CreateBall(2);
                 //podiums[2].ForceActivate();
             }

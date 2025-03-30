@@ -15,7 +15,19 @@ MonoBehaviour:
   <Icon>k__BackingField: {fileID: 1569576277, guid: 8ecca2b8b9136894093ae23c6d16fe01,
     type: 3}
   <Rarity>k__BackingField: 0
-  <Description>k__BackingField: 
+  <Comment>k__BackingField: This ball is sure to leave a mark
+  doNotEditDescription: "<color=#98FB98>+ On destroyed: leave behind a glue pile,
+    slowing enemies down</color>\n<color=#98FB98>+ Good Handling</color>\n<color=#FFFFFF>\u2022
+    Low Mass</color>\n<color=#FFA07A>- Low Health</color>\n"
+  tags:
+  - traitType: 1
+    information: 'On destroyed: leave behind a glue pile, slowing enemies down'
+  - traitType: 1
+    information: Good Handling
+  - traitType: 0
+    information: Low Mass
+  - traitType: -1
+    information: Low Health
   <MaxHealth>k__BackingField: 75
   <MaxSpeed>k__BackingField: 40
   <AngularDrag>k__BackingField: 1

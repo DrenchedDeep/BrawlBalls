@@ -14,10 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Icon>k__BackingField: {fileID: 735789200, guid: fca22d174dd3acc42b515aca2c562c0c,
     type: 3}
-  <Rarity>k__BackingField: 3
-  <Description>k__BackingField: Immortality is only a bit unfair.
+  <Rarity>k__BackingField: 2
+  <Comment>k__BackingField: Always bring protection.
+  doNotEditDescription: "<color=#90EE90>+ Temporary Invulnerability</color>\n<color=#98FB98>+
+    Unlimited usages</color>\n<color=#FFFFFF>\u2022 Still affected by forces</color>\n<color=#FFA07A>-
+    Long cooldown</color>\n"
+  tags:
+  - traitType: 2
+    information: Temporary Invulnerability
+  - traitType: 1
+    information: Unlimited usages
+  - traitType: 0
+    information: Still affected by forces
+  - traitType: -1
+    information: Long cooldown
   <Capacity>k__BackingField: -1
   <Cooldown>k__BackingField: 30
-  <InputButton>k__BackingField: {fileID: 4101257991926329481, guid: d208d53a1c1765d458b57f71735f2219,
-    type: 3}
   abilityFileName: Protect

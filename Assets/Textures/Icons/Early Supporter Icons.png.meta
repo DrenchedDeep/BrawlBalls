@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 8ecca2b8b9136894093ae23c6d16fe01
+guid: 69de42be0a3b6f64682125f579658ceb
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -69,7 +69,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 512
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -126,7 +126,7 @@ TextureImporter:
     textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
-    crunchedCompression: 1
+    crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
     ignorePlatformSupport: 0
@@ -136,13 +136,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: CannonBallUI
+      name: ballGavinIconUI
       rect:
         serializedVersion: 2
-        x: 0
-        y: 256
-        width: 256
-        height: 256
+        x: 11
+        y: 257
+        width: 211
+        height: 218
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -151,20 +151,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 40021f87bbfcc1e418262a1e4c292f48
-      internalID: -1439210338
+      spriteID: 6f1296523c8e2a645acc53dbae5acdcd
+      internalID: -1627316378
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: GoldBallUI
+      name: ballIceIconUI
       rect:
         serializedVersion: 2
-        x: 256
-        y: 256
-        width: 256
-        height: 256
+        x: 261
+        y: 252
+        width: 225
+        height: 229
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -173,20 +173,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 529860a9341c2124a84a7b145357dcde
-      internalID: 929387589
+      spriteID: 1c863e92adae851458a1b19c07a988cd
+      internalID: 348890278
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SoccerBallUI
+      name: ballSnowballIconUI
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 256
-        height: 256
+        x: 10
+        y: 5
+        width: 214
+        height: 217
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -195,52 +195,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8ea864aa00a5a2b49bfa965bd9bbe987
-      internalID: 944759104
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PaintBallUI
-      rect:
-        serializedVersion: 2
-        x: 256
-        y: 0
-        width: 256
-        height: 256
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 7146142770503c3419e4b6b0c928df40
-      internalID: 1569576277
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: HackeySackBallUIN
-      rect:
-        serializedVersion: 2
-        x: 512
-        y: 256
-        width: 256
-        height: 256
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 1f2462fb85586ec4583014ed8096aed9
-      internalID: -1256749732
+      spriteID: 2074819705ef4c24ea2179ab89d1b1a4
+      internalID: -417367324
       vertices: []
       indices: 
       edges: []
@@ -249,7 +205,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 983b2b78530cf554aa0a6178a6345710
+    spriteID: af3d62853e26e544fa511b2d878bfece
     internalID: 0
     vertices: []
     indices: 
@@ -259,11 +215,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      CannonBallUI: -1439210338
-      GoldBallUI: 929387589
-      HackeySackBallUIN: -1256749732
-      PaintBallUI: 1569576277
-      SoccerBallUI: 944759104
+      ballGavinIconUI: -1627316378
+      ballIceIconUI: 348890278
+      ballSnowballIconUI: -417367324
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

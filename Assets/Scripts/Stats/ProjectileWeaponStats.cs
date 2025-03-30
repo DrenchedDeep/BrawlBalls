@@ -1,7 +1,3 @@
-using System.Text;
-using Gameplay.Weapons;
-using Managers.Local;
-using Unity.Netcode;
 using UnityEngine;
 
 namespace Stats

@@ -15,9 +15,18 @@ MonoBehaviour:
   <Icon>k__BackingField: {fileID: 1243357472, guid: fca22d174dd3acc42b515aca2c562c0c,
     type: 3}
   <Rarity>k__BackingField: 0
-  <Description>k__BackingField: Ew. Sticky.
-  <Capacity>k__BackingField: 3
-  <Cooldown>k__BackingField: 10
-  <InputButton>k__BackingField: {fileID: 4101257991926329481, guid: d208d53a1c1765d458b57f71735f2219,
-    type: 3}
+  <Comment>k__BackingField: Take to the skies, and leave behind your droppings!
+  doNotEditDescription: '<color=#98FB98>+ Leave behind a glue trap, permanently slowing
+    enemies</color>
+
+    <color=#98FB98>+ Cannot affect teammates</color>
+
+'
+  tags:
+  - traitType: 1
+    information: Leave behind a glue trap, permanently slowing enemies
+  - traitType: 1
+    information: Cannot affect teammates
+  <Capacity>k__BackingField: 5
+  <Cooldown>k__BackingField: 1
   abilityFileName: Glue

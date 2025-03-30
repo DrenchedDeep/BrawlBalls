@@ -113,7 +113,7 @@ namespace Managers.Local
             return createdBallPlayer;
         }
 
-        public void GetRarityInformation(BaseSelectorStats.ERarity statsRarity, out Color color, out Sprite image)
+        public void GetRarityInformation(ERarity statsRarity, out Color color, out Sprite image)
         {
             int id = (int)statsRarity;
             color = rarityColors[id];

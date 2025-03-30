@@ -15,7 +15,17 @@ MonoBehaviour:
   <Icon>k__BackingField: {fileID: 929387589, guid: 8ecca2b8b9136894093ae23c6d16fe01,
     type: 3}
   <Rarity>k__BackingField: 2
-  <Description>k__BackingField: "\t"
+  <Comment>k__BackingField: Legend says, the family jewels were melted to forge this
+    ball.
+  doNotEditDescription: "<color=#90EE90>+ Tokens and Diamonds collected are doubled</color>\n<color=#FFFFFF>\u2022
+    On Collection: become more massive</color>\n<color=#FFA07A>- Poor Handling</color>\n"
+  tags:
+  - traitType: 2
+    information: Tokens and Diamonds collected are doubled
+  - traitType: 0
+    information: 'On Collection: become more massive'
+  - traitType: -1
+    information: Poor Handling
   <MaxHealth>k__BackingField: 100
   <MaxSpeed>k__BackingField: 35
   <AngularDrag>k__BackingField: 2

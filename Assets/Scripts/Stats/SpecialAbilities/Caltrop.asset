@@ -15,10 +15,16 @@ MonoBehaviour:
   <Icon>k__BackingField: {fileID: -1458407554, guid: fca22d174dd3acc42b515aca2c562c0c,
     type: 3}
   <Rarity>k__BackingField: 0
-  <Description>k__BackingField: A dangerous trap, damage is based on how fast the
-    collision is!
-  <Capacity>k__BackingField: 4
-  <Cooldown>k__BackingField: 2
-  <InputButton>k__BackingField: {fileID: 4101257991926329481, guid: d208d53a1c1765d458b57f71735f2219,
-    type: 3}
+  <Comment>k__BackingField: You are not a ninja monkey, don't get ideas.
+  doNotEditDescription: "<color=#98FB98>+ Deploy 3 caltrops</color>\n<color=#FFFFFF>\u2022
+    Caltrops hurt based on force</color>\n<color=#FFA07A>- Only one usage</color>\n"
+  tags:
+  - traitType: 1
+    information: Deploy 3 caltrops
+  - traitType: 0
+    information: Caltrops hurt based on force
+  - traitType: -1
+    information: Only one usage
+  <Capacity>k__BackingField: 0
+  <Cooldown>k__BackingField: 1
   abilityFileName: Caltrop

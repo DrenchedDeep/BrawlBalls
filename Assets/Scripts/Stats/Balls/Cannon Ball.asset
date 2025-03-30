@@ -14,8 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Icon>k__BackingField: {fileID: -1439210338, guid: 8ecca2b8b9136894093ae23c6d16fe01,
     type: 3}
-  <Rarity>k__BackingField: 3
-  <Description>k__BackingField: 
+  <Rarity>k__BackingField: 2
+  <Comment>k__BackingField: Polly want a cracker?
+  doNotEditDescription: "<color=#90EE90>+ Moderate explosion on death</color>\n<color=#98FB98>+
+    Great health</color>\n<color=#FFFFFF>\u2022 Very heavy</color>\n<color=#FFFFFF>\u2022
+    Does not bounce</color>\n"
+  tags:
+  - traitType: 2
+    information: Moderate explosion on death
+  - traitType: 1
+    information: Great health
+  - traitType: 0
+    information: Very heavy
+  - traitType: 0
+    information: Does not bounce
   <MaxHealth>k__BackingField: 150
   <MaxSpeed>k__BackingField: 30
   <AngularDrag>k__BackingField: 1

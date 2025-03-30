@@ -53,8 +53,9 @@ namespace Stats
         }
         
         #if UNITY_EDITOR
-        private void OnValidate()
+        protected override void OnValidate()
         {
+            base.OnValidate();
             if(Ability == null) Debug.LogError($"Ability '{abilityFileName}' not found in factory. Check AbilityStats.cs and or your spelling.");
         }
         #endif

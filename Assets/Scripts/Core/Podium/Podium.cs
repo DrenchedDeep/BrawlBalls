@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Threading;
 using Cysharp.Threading.Tasks;
@@ -71,14 +72,29 @@ namespace Core.Podium
             
             public bool CanInteract => !PillarIsEmpty && !IsBlocked;
 
-            private IEnumerator Start()
+            private void Start()
             {
                 canvas.enabled = false;
                 _core = transform.GetChild(0);
                 _originalHoverOffset = _core.localPosition;
                 _originalHoverScale = _core.localScale;
+             
+                try
+                {
+                    _ = UnitySucks();
+                }
+                catch (Exception e)
+                {
+                    Debug.Log(e);
+                }
+            }
+
+            private async UniTaskVoid UnitySucks()
+            {
+                Debug.Log("I am waiting for loading");
+                await UniTask.WaitWhile(() => LoadingController.IsLoading);
+                Debug.Log("I am done for loading");
                 var playerInput = transform.root.GetComponent<PlayerInput>();
-                yield return new WaitWhile(() => LoadingController.IsLoading);
                 if (!SaveManager.TryGetPlayerData(playerInput, out _myPlayerData))
                 {
                     Debug.LogError("SOMEHOW WE LOADED A PLAYER WHO HAS NO DATA???", gameObject);
@@ -91,13 +107,9 @@ namespace Core.Podium
                 _ = FadeEmissive(PillarIsEmpty ? inactiveColor : activeColor);
             }
 
-            private bool Ready() => _myPlayerData != null;
             
-            public async void CreateBall(int index)
+            public void CreateBall(int index)
             {
-
-                await UniTask.WaitUntil(Ready);
-                
                 //_audioSource.Play();
                 //_audioSource.time = 0.1f;
                 
@@ -109,6 +121,8 @@ namespace Core.Podium
                 _myBall = ResourceManager.CreateBallDisabled(ballInfo.ball, ballInfo.weapon, ballPoint, out var b, out var w);
                 AbilityStats stats = ResourceManager.Abilities[ballInfo.ability];
                 abilityIcon.sprite = stats.Icon;
+                
+                Debug.Log("Ball created");
 
                 canvas.enabled = true;
                 

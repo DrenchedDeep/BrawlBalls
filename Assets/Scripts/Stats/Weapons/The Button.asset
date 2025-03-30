@@ -15,7 +15,23 @@ MonoBehaviour:
   <Icon>k__BackingField: {fileID: -809545533, guid: 1f11056d7ed987a4d9c8cec340ed4452,
     type: 3}
   <Rarity>k__BackingField: 2
-  <Description>k__BackingField: 
+  <Comment>k__BackingField: Mutually assured destruction... Is this really the best
+    choice?
+  doNotEditDescription: "<color=#90EE90>+ Massive Explosion on use</color>\n<color=#90EE90>+
+    Does insane damage to everything</color>\n<color=#FFFFFF>\u2022 Once activation
+    begins it cannot be stopped</color>\n<color=#FFFFFF>\u2022 Long charge up time</color>\n<color=#FF6961>-
+    Does insane damage to everything</color>\n"
+  tags:
+  - traitType: 2
+    information: Massive Explosion on use
+  - traitType: 2
+    information: Does insane damage to everything
+  - traitType: 0
+    information: Once activation begins it cannot be stopped
+  - traitType: 0
+    information: Long charge up time
+  - traitType: -2
+    information: Does insane damage to everything
   <Damage>k__BackingField: 20
   <Mass>k__BackingField: 1.2
   <ForceMultiplier>k__BackingField: 0

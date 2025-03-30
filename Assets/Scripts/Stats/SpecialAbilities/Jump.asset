@@ -15,9 +15,27 @@ MonoBehaviour:
   <Icon>k__BackingField: {fileID: 1062552207, guid: fca22d174dd3acc42b515aca2c562c0c,
     type: 3}
   <Rarity>k__BackingField: 0
-  <Description>k__BackingField: Rolling is for losers anyways.
-  <Capacity>k__BackingField: 6
-  <Cooldown>k__BackingField: 0.5
-  <InputButton>k__BackingField: {fileID: 8566638868233455419, guid: d208d53a1c1765d458b57f71735f2219,
-    type: 3}
+  <Comment>k__BackingField: One small roll for ball, one giant leap for spherekind.
+  doNotEditDescription: '<color=#98FB98>+ Launch yourself up and forward</color>
+
+    <color=#98FB98>+
+    Works in the air</color>
+
+    <color=#98FB98>+ Unlimited usages</color>
+
+    <color=#FFA07A>-
+    Long cooldown</color>
+
+'
+  tags:
+  - traitType: 1
+    information: Launch yourself up and forward
+  - traitType: 1
+    information: Works in the air
+  - traitType: 1
+    information: Unlimited usages
+  - traitType: -1
+    information: Long cooldown
+  <Capacity>k__BackingField: -1
+  <Cooldown>k__BackingField: 15
   abilityFileName: Jump
