@@ -120,6 +120,8 @@ namespace Managers.Network
          
          public event Action<GameState> OnGameStateUpdated;
 
+         public event Action OnGameReachedOverTime;
+         public event Action<int> OnGameCountdownDecremented;
     
 
          private CancellationTokenSource _matchCancelTokenSource;
@@ -142,6 +144,8 @@ namespace Managers.Network
 
          private int _clientsFinishedIntroCinematic;
          private int _ballsSpawned;
+         private bool _isInOverTime;
+         private int _cachedCountdownTime;
 
         private void Awake() 
         {
@@ -158,9 +162,8 @@ namespace Managers.Network
          {
              base.OnNetworkSpawn();
 
-        //     GameStarted.OnValueChanged += OnGameStartedChanged;
              GameState.OnValueChanged += OnGameStateChanged;
-             
+             CurrentTime.OnValueChanged += OnCurrentTimeChange;
              Players.OnListChanged += PlayersOnOnListChanged;
              
              if (IsServer)
@@ -178,6 +181,28 @@ namespace Managers.Network
              if (current != Network.GameState.WaitingForPlayers)
              {
                  LoadingHelper.Instance.Deactivate();
+             }
+         }
+
+         private void OnCurrentTimeChange(float old, float current)
+         {
+             if (GameState.Value == Network.GameState.InGame)
+             {
+                 float time = matchTime - current;
+                 if (time <= 60 && !_isInOverTime)
+                 {
+                     _isInOverTime = true;
+                     OnGameReachedOverTime?.Invoke();
+                 }
+             }
+             else if (GameState.Value == Network.GameState.StartingGame)
+             {
+                 int time = (int)(timeToMatchStart - current);
+                 if (time != _cachedCountdownTime)
+                 {
+                     OnGameCountdownDecremented?.Invoke(time);
+                     _cachedCountdownTime = time;
+                 }
              }
          }
 
@@ -340,8 +365,6 @@ namespace Managers.Network
              {
                  //if all players have joined, play the intro cinematic
                  GameState.Value = Network.GameState.SelectingBalls;
-                 
-                 //only the server should be updating the match timers... clients can get that info through the NetworkedVariables, this is to keep it consistent 
              }
          }
 
@@ -374,10 +397,6 @@ namespace Managers.Network
                  {
                      NetworkManager.DisconnectClient(client.Key);
                  }
-                 
-                 
-                 
-               //  NetworkManager.dis
              }
 
              NetworkManager.Singleton.Shutdown();
@@ -437,7 +456,6 @@ namespace Managers.Network
                  float dt = Time.deltaTime;
                  CurrentTime.Value += dt;
                  TotalTimePassed.Value += dt;
-                // Debug.LogWarning("time event balls" + _timedMatchEvents.Count);
 
                  if (_timedMatchEvents.Count != 0 && GetTotalTimePassed >= _timedMatchEvents[0].Item1)
                  {

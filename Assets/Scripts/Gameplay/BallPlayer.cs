@@ -45,7 +45,9 @@ namespace Gameplay
         private Rigidbody _rb;
 
         public event Action<ulong> OnDestroyed;
-        
+        public event Action OnDamaged;
+        public event Action OnHealed;
+
         
         //getters for NetworkedVariables
         public float CurrentHealth => _currentHealth.Value;
@@ -66,14 +68,15 @@ namespace Gameplay
             base.OnNetworkSpawn();
 
             
-            
-            _currentHealth.OnValueChanged += OnDamageTaken;
-
             //default this to impossible number
             if (IsServer)
             {
+                _currentHealth.OnValueChanged += OnDamageTaken;
                 _previousAttackerID.Value = 200; 
             }
+
+            _currentHealth.OnValueChanged += OnHealthChanged;
+
 
             NetworkGameManager.Instance.OnGameStateUpdated += OnGameStateUpdated;
         }
@@ -83,6 +86,18 @@ namespace Gameplay
             if (gameState == GameState.InGame)
             {
                 _rb.isKinematic = false;
+            }
+        }
+
+        private void OnHealthChanged(float old, float current)
+        {
+            if (old > current)
+            {
+                OnDamaged?.Invoke();
+            }
+            else
+            {
+                OnHealed?.Invoke();
             }
         }
         
