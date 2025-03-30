@@ -71,7 +71,7 @@ namespace Gameplay
             //default this to impossible number
             if (IsServer)
             {
-                _currentHealth.OnValueChanged += OnDamageTaken;
+                _currentHealth.Value = GetBall.Stats.MaxHealth;
                 _previousAttackerID.Value = 200; 
             }
 
