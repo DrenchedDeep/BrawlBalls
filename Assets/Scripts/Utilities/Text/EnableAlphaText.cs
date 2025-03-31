@@ -25,11 +25,11 @@ public class EnableAlphaText : MonoBehaviour
         {
             float p = t / duration;
             t += Time.deltaTime;
-            c.a  = Mathf.Lerp(startAlpha, endAlpha, alphaCurveScale.Evaluate(p));
+            c.a  = Mathf.LerpUnclamped(startAlpha, endAlpha, alphaCurveScale.Evaluate(p));
             tmp.color = c;
             yield return null;
         }
-        c.a = Mathf.Lerp(startAlpha, endAlpha, alphaCurveScale.Evaluate(1));
+        c.a = Mathf.LerpUnclamped(startAlpha, endAlpha, alphaCurveScale.Evaluate(1));
         tmp.color = c;
     }
 

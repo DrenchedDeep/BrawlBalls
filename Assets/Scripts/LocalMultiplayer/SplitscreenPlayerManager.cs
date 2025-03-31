@@ -6,6 +6,8 @@ using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
+using Utilities;
 
 //using Utilities.UI_General;
 
@@ -25,6 +27,7 @@ namespace LocalMultiplayer
         [SerializeField] private GameObject mainMenuPrefab;
         [SerializeField] private GameObject inGamePrefab;
         [SerializeField] private GameObject screenBlockerPrefab;
+        [SerializeField] private GameObject defaultCamera;
 
         private GameObject _screenBlocker;
         
@@ -149,6 +152,11 @@ Debug.Log("We've disabled controls because you may not join from this scene.")
 
     private void OnPlayerJoined(PlayerInput playerInput)
         {
+            if (defaultCamera)
+            {
+                Destroy(defaultCamera);
+            }
+
             Debug.Log("A player has Joined");
             
             LocalPlayers.Add(playerInput);

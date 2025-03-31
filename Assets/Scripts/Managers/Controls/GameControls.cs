@@ -1208,11 +1208,11 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""f95ec8d6-1791-41e7-a9e5-5a69a46827b5"",
-                    ""path"": ""<Keyboard>/enter"",
+                    ""id"": ""80d06b22-bf35-464d-97ef-805ccc0d274b"",
+                    ""path"": ""*/{Submit}"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": "";PC"",
+                    ""groups"": "";Controller"",
                     ""action"": ""Join"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -1220,21 +1220,10 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""5f3015be-784b-4f11-b59b-4b84bfdd936d"",
-                    ""path"": ""<Keyboard>/numpadEnter"",
+                    ""path"": ""<Keyboard>/anyKey"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";PC"",
-                    ""action"": ""Join"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""19067757-8069-4afe-96b3-49dcc8f54686"",
-                    ""path"": ""*/{Submit}"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
                     ""action"": ""Join"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
