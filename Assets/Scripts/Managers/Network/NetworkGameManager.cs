@@ -319,9 +319,9 @@ namespace Managers.Network
          }
 
          [ServerRpc(RequireOwnership = false)]
-         public void FuckingLazyWayToDoThis_ServerRpc(ulong clientID, int livesLeft)
+         public void FuckingLazyWayToDoThis_ServerRpc(ulong clientID, int childID)
          {
-             int livesLostIndex = GetPlayerBallInfoIndex(clientID);
+             int livesLostIndex = GetPlayerBallInfoIndex(clientID, childID);
              
              
              if (livesLostIndex != -1)
@@ -514,11 +514,11 @@ namespace Managers.Network
          }
 
 
-         public int GetPlayerBallInfoIndex(ulong clientID)
+         public int GetPlayerBallInfoIndex(ulong clientID, int childID)
          {
              for (int i = 0; i < Players.Count; i++)
              {
-                 if (clientID == Players[i].ClientID)
+                 if (Players[i].IsMyPlayer(clientID, childID))
                  {
                      return i;
                  }

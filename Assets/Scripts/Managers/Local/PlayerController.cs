@@ -241,7 +241,7 @@ namespace Managers.Local
         public void Unbind()
         {
             _livesLeft--;
-            NetworkGameManager.Instance.FuckingLazyWayToDoThis_ServerRpc(NetworkGameManager.Instance.NetworkManager.LocalClientId, _livesLeft);
+            NetworkGameManager.Instance.FuckingLazyWayToDoThis_ServerRpc(NetworkGameManager.Instance.NetworkManager.LocalClientId, PlayerInput.playerIndex);
 
             if (_livesLeft <= 0)
             {
