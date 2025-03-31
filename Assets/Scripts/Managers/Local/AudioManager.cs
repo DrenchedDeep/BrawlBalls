@@ -76,7 +76,7 @@ namespace Managers.Local
 
         public void TriggerAction(int volume)
         {
-            musicEventInstance.setParameterByName("Action", volume);
+            FMOD
         }
 
         public void TriggerInSelection(int volume)

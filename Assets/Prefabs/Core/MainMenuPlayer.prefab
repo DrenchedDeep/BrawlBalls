@@ -1041,7 +1041,7 @@ Transform:
   m_GameObject: {fileID: 920285796518524079}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: -6}
+  m_LocalPosition: {x: 0, y: 1, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1080,7 +1080,7 @@ Camera:
     height: 1
   near clip plane: 0.1
   far clip plane: 5000
-  field of view: 58.715508
+  field of view: 42.995667
   orthographic: 0
   orthographic size: 10
   m_Depth: 0
@@ -2223,7 +2223,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CollisionTag: 
   Parameter: Action
-  TriggerEvent: 0
+  TriggerEvent: 19
   Value: 0
 --- !u!1 &2575277314884923386
 GameObject:
@@ -4598,7 +4598,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1925663285861658910}
   m_HandleRect: {fileID: 7567336626056525831}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -8513,7 +8513,7 @@ PrefabInstance:
     - target: {fileID: 5029011400337297337, guid: dbfe6dd2408a4814aaf13bf62bc41bbc,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 699.99994
+      value: 700
       objectReference: {fileID: 0}
     - target: {fileID: 5029011400337297337, guid: dbfe6dd2408a4814aaf13bf62bc41bbc,
         type: 3}
@@ -11346,7 +11346,7 @@ PrefabInstance:
     - target: {fileID: 5029011400337297337, guid: dbfe6dd2408a4814aaf13bf62bc41bbc,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 999.99994
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 5029011400337297337, guid: dbfe6dd2408a4814aaf13bf62bc41bbc,
         type: 3}

@@ -38,6 +38,7 @@ public class GameAudio : MonoBehaviour
         if (value == 0)
         {
             AudioManager.instance.PlayOneShot(FMODEvents.instance.Beep[1], transform.position);
+            AudioManager.instance.TriggerAction(1);
         }
         else if (value > 0 && value < 4)
         {
