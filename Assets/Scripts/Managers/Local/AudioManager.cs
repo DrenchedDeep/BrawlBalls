@@ -76,12 +76,12 @@ namespace Managers.Local
 
         public void TriggerAction(int volume)
         {
-            //FMOD
+            RuntimeManager.StudioSystem.setParameterByName("Action", volume);
         }
 
         public void TriggerInSelection(int volume)
         {
-            musicEventInstance.setParameterByName("InSelection", volume);
+            RuntimeManager.StudioSystem.setParameterByName("InSelection", volume);
         }
 
         public void TriggerGameState(int volume)
@@ -91,7 +91,7 @@ namespace Managers.Local
 
         public void TriggerDeath(int volume)
         {
-            musicEventInstance.setParameterByName("Death", volume);
+            RuntimeManager.StudioSystem.setParameterByName("Death", volume);
         }
 
         EventInstance CreateInstance(EventReference eventReference)
