@@ -373,7 +373,7 @@ namespace Managers.Network
 
              int minPlayers = NetworkManager.ConnectedClients.Count <= 1 ? 0 : 1;
              //only one player or less left, we can just end game now
-             if (playersLeft <= minPlayers)
+             if (playersLeft <= 1)
              {
                  GameState.Value = Network.GameState.EndingGame;
                  _ = EndGameEarlyTask();

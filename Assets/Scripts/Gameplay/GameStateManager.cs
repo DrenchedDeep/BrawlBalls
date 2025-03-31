@@ -39,6 +39,7 @@ namespace Core.Gameplay
 
         private void OnGameStateChanged(GameState gameState)
         {
+            Debug.Log("GAME STATE IS NOW: " + gameState);
             if (_currentGameStateSettings >= 0 && _currentGameStateSettings < gameStateSettings.Length)
             {
                 gameStateSettings[_currentGameStateSettings].disableStateEvent?.Invoke();
