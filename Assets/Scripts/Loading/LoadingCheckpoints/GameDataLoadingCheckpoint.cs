@@ -20,7 +20,7 @@ namespace Loading.LoadingCheckpoints
         {
             _localPlayer = GetComponent<PlayerInput>();
             LoadingController.Instance.RegisterLoadingComponent(this);
-            _ = LoadingController.Instance.BeginLoading();
+            LoadingController.Instance.BeginLoading();
         }
 
         public async UniTask Execute()
