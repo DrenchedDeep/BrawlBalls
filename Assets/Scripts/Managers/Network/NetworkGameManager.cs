@@ -303,7 +303,7 @@ namespace Managers.Network
              {
                  for (int i = 0; i < Players.Count; i++)
                  {
-                     if (Players[i].IsMyPlayer(killerID, killerChildID))
+                     if (Players[i].IsMyPlayer(killerID, killerChildID) && !Players[i].IsMyPlayer(killedID, killedChildID))
                      {
                          BallPlayerInfo newInfo = Players[i];
                          newInfo.UpdateScore(1);

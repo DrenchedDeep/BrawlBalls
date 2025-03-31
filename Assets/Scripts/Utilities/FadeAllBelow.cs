@@ -22,6 +22,7 @@ namespace Utilities
        private float[] _cachedColors;
        
        public bool IsVisible => isVisible;
+       public bool IsFading { get; private set; }
       
        private float _currentTransitionTime;
        private Coroutine _actionRoutine;
@@ -73,7 +74,7 @@ namespace Utilities
              private IEnumerator FadeInTranition()
              {
                 onUnFaded?.Invoke();
-                
+                IsFading = true;
                 isVisible = true;
 
                 if (shouldDisableObject)
@@ -107,14 +108,14 @@ namespace Utilities
                    color.a = _cachedColors[index];
                    g.color = color;
                 }
-                
+                IsFading = false;
                 
              }
 
              private IEnumerator FadeAwayTransition()
              {
-                
-  
+
+                IsFading = true;
                 
                 while (_currentTransitionTime < transitionDuration)
                 {
@@ -147,6 +148,7 @@ namespace Utilities
                 }
                 
                 isVisible = false;
+                IsFading = false;
                 onFaded?.Invoke();
              }
              

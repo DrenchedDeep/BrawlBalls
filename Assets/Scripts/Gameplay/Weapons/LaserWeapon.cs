@@ -12,6 +12,7 @@ public class LaserWeapon : ProjectileWeaponBase
 
     public readonly RaycastHit[] Hits = new RaycastHit[10];
 
+    /*/
     private void Update()
     {
         Transform tr = transform;
@@ -26,4 +27,5 @@ public class LaserWeapon : ProjectileWeaponBase
     }
     
     
+    /*/
 }
