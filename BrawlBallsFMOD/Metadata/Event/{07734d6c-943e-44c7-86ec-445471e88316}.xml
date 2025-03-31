@@ -116,6 +116,8 @@
 	<object class="MixerBusEffectChain" id="{bc7be94e-36c8-43d4-a888-c0ed3f4bb32b}">
 		<relationship name="effects">
 			<destination>{85e5cb25-ea71-46f0-981e-0e8bece1b297}</destination>
+			<destination>{26ce6850-b2f0-4d70-903b-c75f85f3160d}</destination>
+			<destination>{ec7ef9ef-ad9c-4add-8fba-d0762e17cda7}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{219834b6-a267-4873-b46c-deb16536c35d}" />
@@ -135,6 +137,31 @@
 	</object>
 	<object class="MixerBusPanner" id="{96241048-6741-49db-86f8-e295cf839d01}" />
 	<object class="MixerBusFader" id="{85e5cb25-ea71-46f0-981e-0e8bece1b297}" />
+	<object class="PitchShifterEffect" id="{26ce6850-b2f0-4d70-903b-c75f85f3160d}">
+		<property name="pitch">
+			<value>1</value>
+		</property>
+		<property name="overlap">
+			<value>5.5999999</value>
+		</property>
+		<property name="maxChannels">
+			<value>1.20000005</value>
+		</property>
+		<relationship name="modulators">
+			<destination>{cb01b2ee-6f74-4fda-ba5d-823aebf522d2}</destination>
+		</relationship>
+	</object>
+	<object class="FlangerEffect" id="{ec7ef9ef-ad9c-4add-8fba-d0762e17cda7}">
+		<property name="rate">
+			<value>6.5</value>
+		</property>
+		<property name="delay">
+			<value>0.459999979</value>
+		</property>
+		<property name="mix">
+			<value>100</value>
+		</property>
+	</object>
 	<object class="AutomationPoint" id="{00d60ea6-feaf-4b01-a76b-e58b4535090f}">
 		<property name="position">
 			<value>0</value>
@@ -155,4 +182,12 @@
 		</property>
 	</object>
 	<object class="MixerBusFader" id="{9704f2a5-51ce-41e0-91b1-8212f9dfcef9}" />
+	<object class="RandomizerModulator" id="{cb01b2ee-6f74-4fda-ba5d-823aebf522d2}">
+		<property name="nameOfPropertyBeingModulated">
+			<value>pitch</value>
+		</property>
+		<property name="amount">
+			<value>2.5</value>
+		</property>
+	</object>
 </objects>

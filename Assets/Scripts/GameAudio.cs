@@ -27,6 +27,7 @@ public class GameAudio : MonoBehaviour
     private void OnGameReachedOverTime()
     {
         AudioManager.instance.TriggerGameState(1);
+        AudioManager.instance.TriggerDeath(0);
     }
     
     /// <summary>
