@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="ParameterPreset" id="{59c56fbf-5e64-428d-b8ad-af4c1d110c59}">
+		<property name="name">
+			<value>Event Death</value>
+		</property>
+		<relationship name="folder">
+			<destination>{46b528d6-dbc3-42be-8b9d-d33a45bec524}</destination>
+		</relationship>
+		<relationship name="parameter">
+			<destination>{5d06b636-7e22-467e-8878-cdb118dd5c07}</destination>
+		</relationship>
+	</object>
+	<object class="GameParameter" id="{5d06b636-7e22-467e-8878-cdb118dd5c07}">
+		<property name="initialValue">
+			<value>0</value>
+		</property>
+	</object>
+</objects>
