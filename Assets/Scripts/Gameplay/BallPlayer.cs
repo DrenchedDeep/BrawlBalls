@@ -228,7 +228,7 @@ namespace Gameplay
             print(name + "Ouchie! I took damage: " + damageInfo.Damage + ",  " + damageInfo.Direction + ", I have reamining health: " +
                   _currentHealth);
 
-            OnDamageTaken_ClientRpc((int)damageInfo.Damage);
+            OnDamageTaken_ClientRpc((int)damageInfo.Damage, damageInfo.Direction);
             _previousAttackerID.Value = damageInfo.Attacker;
 
             if (_currentHealth.Value <= 0)
@@ -238,11 +238,10 @@ namespace Gameplay
                 return;
             }
             
-            _rb.AddForce(damageInfo.Direction, ForceMode.Impulse);
         }
 
         [ClientRpc(RequireOwnership = false)]
-        private void OnDamageTaken_ClientRpc(int damage)
+        private void OnDamageTaken_ClientRpc(int damage, Vector3 direction)
         {
             HitDamageNumber hitDamageNumber = 
                 ObjectPoolManager.Instance.GetObjectFromPool<HitDamageNumber>("DamageNumber", damageNumberSpawnPoint.position, damageNumberSpawnPoint.rotation);
@@ -251,6 +250,9 @@ namespace Gameplay
             {
                 hitDamageNumber.Init(damage);
             }
+            
+            _rb.AddForce(direction, ForceMode.Impulse);
+
         }
 
         //called on the SERVER

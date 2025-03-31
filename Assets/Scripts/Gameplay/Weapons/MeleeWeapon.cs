@@ -1,4 +1,5 @@
-﻿using Managers.Local;
+﻿using Cysharp.Threading.Tasks;
+using Managers.Local;
 using RotaryHeart.Lib.PhysicsExtension;
 using UnityEngine;
 using Physics = RotaryHeart.Lib.PhysicsExtension.Physics;
@@ -7,11 +8,34 @@ namespace Gameplay.Weapons
 {
     public class MeleeWeapon : BaseWeapon
     {
+        [SerializeField] private float damageTickRate = 0.2f;
+        
         public readonly RaycastHit[] Hits = new RaycastHit[10];
 
-        private void FixedUpdate()
+        private float _currentTime;
+
+        public override void Start()
         {
-            CastForward();
+            base.Start();
+
+            _ = CastForwardTask();
+        }
+
+        private async UniTask CastForwardTask()
+        {
+            float currentTime = 0;
+            while (true)
+            {
+                currentTime += Time.deltaTime;
+
+                if (currentTime >= damageTickRate)
+                {
+                    CastForward();
+                    currentTime = 0;
+                }
+
+                await UniTask.Yield();
+            }
         }
         
         //The server should just process this?
@@ -33,8 +57,8 @@ namespace Gameplay.Weapons
                 {
                     //FIX this doesn't consider speed...
                     float dmg = CurDamage;
-                    dmg *= Owner.Mass * Owner.GetBall.Speed;
-                    print("Doing damage: " + dmg);
+                    dmg *= Owner.Mass * Owner.GetBall.Speed * 0.001f;
+                    print("spike Doing damage: " + dmg);
                     
                     DamageProperties damageProperties;
                     damageProperties.Damage = Mathf.Max(0, dmg);

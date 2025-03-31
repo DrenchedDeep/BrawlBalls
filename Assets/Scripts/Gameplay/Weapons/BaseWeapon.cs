@@ -61,7 +61,6 @@ namespace Gameplay.Weapons
             if (s < 0.02f) return;
             
             Vector3 dir = Owner.GetBall.Velocity;
-            Debug.Log("velocity dir: " + dir);
             
             if (blockVerticalOrientation) dir.y = 0;
             
