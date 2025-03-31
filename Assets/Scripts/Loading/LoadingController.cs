@@ -33,7 +33,7 @@ namespace Loading
 
         private void Start()
         {
-            if(loadOnAwake) _ = BeginLoading();
+            if(loadOnAwake)  BeginLoading();
         }
 
         public void RegisterLoadingComponent(ILoadingCheckpoint loadingComponent)
@@ -47,7 +47,7 @@ namespace Loading
         
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
-        public async UniTaskVoid BeginLoading()
+        public async void BeginLoading()
         {
             if (IsLoading) return;
             
