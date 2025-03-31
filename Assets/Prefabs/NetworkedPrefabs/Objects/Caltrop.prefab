@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 1273949396663621385}
   - component: {fileID: -1215586307135677874}
   - component: {fileID: -1165457876080180740}
+  - component: {fileID: -1021717344277027099}
   m_Layer: 0
   m_Name: Caltrop
   m_TagString: Untagged
@@ -234,3 +235,34 @@ MonoBehaviour:
   UseRigidBodyForMotion: 1
   AutoUpdateKinematicState: 1
   AutoSetKinematicOnDespawn: 1
+--- !u!114 &-1021717344277027099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2315529364227250698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 243880580
+      Data2: 1317647893
+      Data3: 2083136928
+      Data4: 2062781883
+    Path: event:/Ingame_Events/Oneshots/Items/Item_Caltrop
+  Event: 
+  EventPlayTrigger: 3
+  EventStopTrigger: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20

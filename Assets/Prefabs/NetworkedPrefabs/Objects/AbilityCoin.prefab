@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 8611621752566256346}
   - component: {fileID: 7046406618561386611}
   - component: {fileID: 2448553071566338417}
+  - component: {fileID: -6582069824923966020}
   m_Layer: 7
   m_Name: AbilityCoin
   m_TagString: Untagged
@@ -210,6 +211,37 @@ MonoBehaviour:
   SwitchTransformSpaceWhenParented: 0
   Interpolate: 1
   SlerpPosition: 0
+--- !u!114 &-6582069824923966020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5279281766168156128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -754240859
+      Data2: 1109771811
+      Data3: -100385102
+      Data4: 1091255681
+    Path: event:/Ingame_Events/Oneshots/Items/Item_Coin
+  Event: 
+  EventPlayTrigger: 3
+  EventStopTrigger: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1 &6628793482150372433
 GameObject:
   m_ObjectHideFlags: 0

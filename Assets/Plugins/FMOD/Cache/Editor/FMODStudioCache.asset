@@ -26,6 +26,33 @@ MonoBehaviour:
   - Normal
   - Aggro
   Exists: 1
+--- !u!114 &-8958442246064555532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Ingame_Events/Oneshots/Players/BallCollisions/MarbleBall_Collision
+  m_EditorClassIdentifier: 
+  Path: event:/Ingame_Events/Oneshots/Players/BallCollisions/MarbleBall_Collision
+  Guid:
+    Data1: 994180555
+    Data2: 1185868255
+    Data3: 445231494
+    Data4: -1925665148
+  Banks:
+  - {fileID: 4618208537171737765}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &-8783761867706329071
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -136,7 +163,7 @@ MonoBehaviour:
   Path: BrawlBallsFMOD/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638787951141329934
+  lastModified: 638789849662089089
   FileSizes:
   - Name: Desktop
     Value: 3230
@@ -165,6 +192,57 @@ MonoBehaviour:
   IsGlobal: 1
   Labels: []
   Exists: 1
+--- !u!114 &-6579856356483014583
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/Fire/Event Death
+  m_EditorClassIdentifier: 
+  Name: Event Death
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 381317763
+    data2: 3273953
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
+--- !u!114 &-6073172545283880933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Ingame_Events/Oneshots/Players/BallCollisions/PaintBall_Collision
+  m_EditorClassIdentifier: 
+  Path: event:/Ingame_Events/Oneshots/Players/BallCollisions/PaintBall_Collision
+  Guid:
+    Data1: 1481074076
+    Data2: 1131651599
+    Data3: 875306930
+    Data4: 817729137
+  Banks:
+  - {fileID: 4618208537171737765}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &-5745700776922734416
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -302,6 +380,33 @@ MonoBehaviour:
   IsGlobal: 1
   Labels: []
   Exists: 1
+--- !u!114 &-4461613400562750227
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Ingame_Events/Oneshots/Players/BallCollisions/GavinBall_Collision
+  m_EditorClassIdentifier: 
+  Path: event:/Ingame_Events/Oneshots/Players/BallCollisions/GavinBall_Collision
+  Guid:
+    Data1: 12027173
+    Data2: 1256101285
+    Data3: -1922381920
+    Data4: -928973351
+  Banks:
+  - {fileID: 4618208537171737765}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &-3740272492330551931
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -379,6 +484,89 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &-3001926262332138646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Ingame_Events/Oneshots/Players/BallMovements/SoccerBall_Movement
+  m_EditorClassIdentifier: 
+  Path: event:/Ingame_Events/Oneshots/Players/BallMovements/SoccerBall_Movement
+  Guid:
+    Data1: -1164792330
+    Data2: 1103717893
+    Data3: 1680802731
+    Data4: 872336288
+  Banks:
+  - {fileID: 4618208537171737765}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-2097427938544102472
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Ingame_Events/Oneshots/Players/Player_Lazer_Zapped
+  m_EditorClassIdentifier: 
+  Path: event:/Ingame_Events/Oneshots/Players/Player_Lazer_Zapped
+  Guid:
+    Data1: -2071010943
+    Data2: 1224359343
+    Data3: -986945654
+    Data4: -830963289
+  Banks:
+  - {fileID: 4618208537171737765}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-2033450454726538546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Ingame_Events/Oneshots/Maps/Fire
+  m_EditorClassIdentifier: 
+  Path: event:/Ingame_Events/Oneshots/Maps/Fire
+  Guid:
+    Data1: -1677470785
+    Data2: 1158479420
+    Data3: 285347235
+    Data4: -431037576
+  Banks:
+  - {fileID: 8863628385748998373}
+  - {fileID: 4618208537171737765}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 0
+  Parameters:
+  - {fileID: -6579856356483014583}
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 30513
 --- !u!114 &-1954349325941440187
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -430,6 +618,33 @@ MonoBehaviour:
   IsGlobal: 1
   Labels: []
   Exists: 1
+--- !u!114 &-1597970580673446139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Ingame_Events/Oneshots/Players/BallMovements/MarbleBall_Movement
+  m_EditorClassIdentifier: 
+  Path: event:/Ingame_Events/Oneshots/Players/BallMovements/MarbleBall_Movement
+  Guid:
+    Data1: -1237490563
+    Data2: 1302175969
+    Data3: -2136618057
+    Data4: -6618157
+  Banks:
+  - {fileID: 4618208537171737765}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &-778222523285118342
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -552,6 +767,20 @@ MonoBehaviour:
   - {fileID: -8602439576192826119}
   - {fileID: -183399696421377004}
   - {fileID: -1954349325941440187}
+  - {fileID: -2033450454726538546}
+  - {fileID: 8827217253507866352}
+  - {fileID: 2473392753528669784}
+  - {fileID: -4461613400562750227}
+  - {fileID: 4144650189918863490}
+  - {fileID: -1597970580673446139}
+  - {fileID: -2097427938544102472}
+  - {fileID: 609709090568093797}
+  - {fileID: -6073172545283880933}
+  - {fileID: 8230993036187911675}
+  - {fileID: -8958442246064555532}
+  - {fileID: -3001926262332138646}
+  - {fileID: 6513718684366387772}
+  - {fileID: 4219647437253797732}
   EditorParameters:
   - {fileID: 8489258654355211449}
   - {fileID: -8783761867706329071}
@@ -560,7 +789,7 @@ MonoBehaviour:
   - {fileID: -6826461039419286180}
   StringsBanks:
   - {fileID: 7393136385153924571}
-  cacheTime: 638788032541954077
+  cacheTime: 638789849662571484
   cacheVersion: 131846
 --- !u!114 &336609697266231283
 MonoBehaviour:
@@ -580,6 +809,33 @@ MonoBehaviour:
     Data2: 1129730234
     Data3: -1295467374
     Data4: -2068877541
+  Banks:
+  - {fileID: 4618208537171737765}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &609709090568093797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Ingame_Events/Oneshots/Players/Player_Jump
+  m_EditorClassIdentifier: 
+  Path: event:/Ingame_Events/Oneshots/Players/Player_Jump
+  Guid:
+    Data1: -1557694589
+    Data2: 1075835002
+    Data3: -2074386787
+    Data4: -1443981146
   Banks:
   - {fileID: 4618208537171737765}
   IsStream: 0
@@ -667,6 +923,33 @@ MonoBehaviour:
   IsGlobal: 1
   Labels: []
   Exists: 1
+--- !u!114 &2473392753528669784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Ingame_Events/Oneshots/Players/BallCollisions/SoccerBal_Collision
+  m_EditorClassIdentifier: 
+  Path: event:/Ingame_Events/Oneshots/Players/BallCollisions/SoccerBal_Collision
+  Guid:
+    Data1: 1688627748
+    Data2: 1234532934
+    Data3: -226637911
+    Data4: -1470165409
+  Banks:
+  - {fileID: 4618208537171737765}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &2503046926087762709
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -774,6 +1057,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 9
   Length: 18285
+--- !u!114 &4144650189918863490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Ingame_Events/Oneshots/Items/Item_Gem
+  m_EditorClassIdentifier: 
+  Path: event:/Ingame_Events/Oneshots/Items/Item_Gem
+  Guid:
+    Data1: 124996972
+    Data2: 1153930302
+    Data3: 1413803142
+    Data4: 377743473
+  Banks:
+  - {fileID: 4618208537171737765}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 406
 --- !u!114 &4169189121067579782
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -794,6 +1104,33 @@ MonoBehaviour:
     Data4: 608838441
   Banks:
   - {fileID: 4726843598664218068}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &4219647437253797732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Ingame_Events/Oneshots/Items/Item_Caltrop
+  m_EditorClassIdentifier: 
+  Path: event:/Ingame_Events/Oneshots/Items/Item_Caltrop
+  Guid:
+    Data1: 243880580
+    Data2: 1317647893
+    Data3: 2083136928
+    Data4: 2062781883
+  Banks:
+  - {fileID: 4618208537171737765}
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
@@ -843,10 +1180,10 @@ MonoBehaviour:
   Path: BrawlBallsFMOD/Build/Desktop/One-Shots.bank
   Name: One-Shots
   StudioPath: bank:/In_Game_SFXs/One-Shots
-  lastModified: 638788032541954077
+  lastModified: 638789849662571484
   FileSizes:
   - Name: Desktop
-    Value: 177536
+    Value: 548960
   Exists: 1
 --- !u!114 &4641892766574539756
 MonoBehaviour:
@@ -1000,6 +1337,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &6513718684366387772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Ingame_Events/Oneshots/Items/Item_Coin
+  m_EditorClassIdentifier: 
+  Path: event:/Ingame_Events/Oneshots/Items/Item_Coin
+  Guid:
+    Data1: -754240859
+    Data2: 1109771811
+    Data3: -100385102
+    Data4: 1091255681
+  Banks:
+  - {fileID: 4618208537171737765}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &7208942366039824265
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1042,10 +1406,10 @@ MonoBehaviour:
   Path: BrawlBallsFMOD/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638787951141359981
+  lastModified: 638789849662099037
   FileSizes:
   - Name: Desktop
-    Value: 2680
+    Value: 3454
   Exists: 1
 --- !u!114 &7487246396143731203
 MonoBehaviour:
@@ -1098,6 +1462,33 @@ MonoBehaviour:
   IsGlobal: 1
   Labels: []
   Exists: 1
+--- !u!114 &8230993036187911675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Ingame_Events/Oneshots/Players/BallMovements/PaintBall_Movement
+  m_EditorClassIdentifier: 
+  Path: event:/Ingame_Events/Oneshots/Players/BallMovements/PaintBall_Movement
+  Guid:
+    Data1: 907568841
+    Data2: 1232754432
+    Data3: -893844087
+    Data4: -389828765
+  Banks:
+  - {fileID: 4618208537171737765}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &8355572703777982528
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1201,6 +1592,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 14000
+--- !u!114 &8827217253507866352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Ingame_Events/Oneshots/Players/BallMovements/GavinBall_Movement
+  m_EditorClassIdentifier: 
+  Path: event:/Ingame_Events/Oneshots/Players/BallMovements/GavinBall_Movement
+  Guid:
+    Data1: -499388664
+    Data2: 1332227238
+    Data3: 68525451
+    Data4: -27939102
+  Banks:
+  - {fileID: 4618208537171737765}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &8863628385748998373
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1216,10 +1634,10 @@ MonoBehaviour:
   Path: BrawlBallsFMOD/Build/Desktop/Ambience.bank
   Name: Ambience
   StudioPath: bank:/In_Game_SFXs/Ambience
-  lastModified: 638788032540561903
+  lastModified: 638789841155408718
   FileSizes:
   - Name: Desktop
-    Value: 1167232
+    Value: 1494848
   Exists: 1
 --- !u!114 &8945699506501672728
 MonoBehaviour:
