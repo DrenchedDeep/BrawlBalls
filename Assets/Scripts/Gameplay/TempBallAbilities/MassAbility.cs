@@ -7,16 +7,19 @@ public class MassAbility : BallAbilityBase
     
     protected override void ActivateAbility()
     {
-        Debug.Log("Activiate Ability thhangs");
+        Ball.BallPlayer.transform.localScale *= massGainAmt;
+        Ball.BallPlayer.Rb.mass *= massGainAmt;
         GainMass_ServerRpc();
     }
 
     [ServerRpc]
     private void GainMass_ServerRpc()
     {
-        Ball.BallPlayer.transform.localScale *= massGainAmt;
+        Debug.Log("DID THE THING");
+
+     //   Ball.BallPlayer.transform.localScale *= massGainAmt;
+     //   Ball.BallPlayer.Rb.mass *= massGainAmt;
         Ball.BallPlayer.RestoreHealth(); 
         Ball.BallPlayer.IncreaseMaxHealth(massGainAmt);
-        Ball.BallPlayer.Rb.mass *= massGainAmt;
     }
 }

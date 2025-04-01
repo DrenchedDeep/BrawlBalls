@@ -58,15 +58,9 @@ namespace Gameplay.Balls
        private BallPlayer _ballPlayer;
        
        public BallPlayer BallPlayer => _ballPlayer;
-
-
-       private void Awake()
-       {
-           _ballPlayer = transform.parent.GetComponent<BallPlayer>();
-
-       }
-
-
+       
+       
+       
        protected virtual void Start()
        {
            _rb = GetComponentInParent<Rigidbody>();
@@ -74,6 +68,7 @@ namespace Gameplay.Balls
             
            Acceleration = stats.Acceleration;   
            MaxSpeed = stats.MaxSpeed;
+           _ballPlayer = transform.parent.GetComponent<BallPlayer>();
 
            _rb.useGravity = true;
            _rb.angularDamping = stats.AngularDrag;
