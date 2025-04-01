@@ -29,6 +29,10 @@ namespace Managers.Local
         
         [field: SerializeField]
         public EventReference paintballExplosion { get; private set; }
+        
+        [field: Header("Abilities")]
+        [field: SerializeField]
+        public EventReference RocketExplosion { get; private set; }
 
         [field: Header("Spawn Ball")]
         [field: SerializeField]

@@ -37,21 +37,33 @@ public class BallAudio : MonoBehaviour
         OnBallSpawned();
     }
 
-    private void OnBallSpawned() { }
+    private void OnBallSpawned()
+    {
+        
+    }
 
     /// <summary>
     /// DO YOUR FMOD STUFF HERE -- THIS WILL PLAY ON EVERY CLIENT SO EVERYBODY WILL HEAR THE AUDIO... IF U DONT WANT THEM LMK 
     /// </summary>
-    private void OnBallTookDamage() { }
+    private void OnBallTookDamage()
+    {
+        
+    }
 
     /// <summary>
     /// DO YOUR FMOD STUFF HERE -- THIS WILL PLAY ON EVERY CLIENT SO EVERYBODY WILL HEAR THE AUDIO... IF U DONT WANT THEM LMK 
     /// </summary>
-    private void OnBallHealed() { }
+    private void OnBallHealed()
+    {
+        
+    }
 
 
     /// <summary>
     /// DO YOUR FMOD STUFF HERE -- THIS WILL PLAY ON EVERY CLIENT SO EVERYBODY WILL HEAR THE AUDIO... IF U DONT WANT THEM LMK 
     /// </summary>
-    private void OnBallDied(ulong killer, int childID) { }
+    private void OnBallDied(ulong killer, int childID)
+    {
+        
+    }
 }
