@@ -339,10 +339,7 @@ namespace Managers.Network
              PlayerController pc = PlayerSplitScreenManager.Instance.FindChild(childID);
              if (pc)
              {
-                 if(pc.TryGetComponent(out PlayerHUD hud))
-                 {
-                     hud.OnKilledPlayer(victimName.ToString());
-                 }
+                 pc.OnKilledPlayer(0,0, victimName.ToString());
              }
          }
         

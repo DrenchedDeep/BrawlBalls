@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Cysharp.Threading.Tasks;
 using Managers.Local;
 using RotaryHeart.Lib.PhysicsExtension;
 using Stats;
@@ -40,6 +41,8 @@ namespace Gameplay.Balls
 
         public NetworkVariable<bool> IsProtected { get; set; } = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
         public NetworkVariable<bool> IsGlued { get; set; } = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+        
+        public NetworkVariable<bool> IsSlowed { get; set; } = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
         
        // [NonSerialized] public Vector2 MoveDirection;
@@ -50,20 +53,27 @@ namespace Gameplay.Balls
        public float Speed { get; private set; }
        public Vector3 Velocity { get; private set; }
        public float Acceleration { get; private set; }
+       public float MaxSpeed { get; private set; }
 
        private BallPlayer _ballPlayer;
        
        public BallPlayer BallPlayer => _ballPlayer;
-       
-       
+
+
+       private void Awake()
+       {
+           _ballPlayer = transform.parent.GetComponent<BallPlayer>();
+
+       }
+
 
        protected virtual void Start()
        {
            _rb = GetComponentInParent<Rigidbody>();
            _mr = GetComponent<MeshRenderer>();
-           _ballPlayer = transform.parent.GetComponent<BallPlayer>();
             
-           Acceleration = stats.Acceleration;         
+           Acceleration = stats.Acceleration;   
+           MaxSpeed = stats.MaxSpeed;
 
            _rb.useGravity = true;
            _rb.angularDamping = stats.AngularDrag;
@@ -74,10 +84,12 @@ namespace Gameplay.Balls
            }
        }
        
+
        public override void OnNetworkSpawn()
        {
            IsProtected.OnValueChanged += OnIsProtectedChanged;
            IsGlued.OnValueChanged += OnIsGluedChanged;
+           IsSlowed.OnValueChanged += OnIsSlowedChanged;
        }
        
 
@@ -146,6 +158,34 @@ namespace Gameplay.Balls
            localPlayerInputComponent = ballPlayer.Owner.PlayerInput;
            localPlayerInputComponent.actions[jump.name].performed += _ => Jump();
        }
+       
+       public void ChangeAcceleration(float amt, bool reset = false)
+       {
+           if (reset)
+           {
+               Acceleration = stats.Acceleration;
+               return;
+           }
+
+           Acceleration *= amt;
+       }
+
+       public void ChangeMaxSpeed(float amt, bool reset = false)
+       {
+           if (reset)
+           {
+               MaxSpeed = stats.MaxSpeed;
+               return;
+           }
+
+           MaxSpeed *= amt;
+       }
+
+       private void OnIsSlowedChanged(bool old, bool current)
+       {
+       }
+       
+
 
 
 
@@ -189,8 +229,13 @@ namespace Gameplay.Balls
 
            float y = velocity.y;
            velocity.y = 0;
+
+           if (IsSlowed.Value)
+           {
+               velocity /= SnowAuraAbility.SlowAmount;
+           }
             
-           _rb.linearVelocity = Vector3.ClampMagnitude(velocity, Stats.MaxSpeed) + Vector3.up * y; //maintain our Y
+           _rb.linearVelocity = Vector3.ClampMagnitude(velocity, MaxSpeed) + Vector3.up * y; //maintain our Y
        }
         
         

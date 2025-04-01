@@ -1,3 +1,4 @@
+using System;
 using Core.Podium;
 using Cysharp.Threading.Tasks;
 using Gameplay;
@@ -58,6 +59,14 @@ namespace Managers.Local
         
         public FixedString64Bytes PlayerName => _playerName;
 
+        //client id, child id -- who defeated us -- called when we run out of balls -- ONLY LOCALLY FOR THIS PLAYER
+        public event Action<int, int> OnDefeated;
+        
+        
+        //client id, child id -- who we defeated -- called when enemy runs out of balls -- ONLY LOCALLY FOR THIS PLAYER
+        public event Action<int, int> OnEnemyDefeated;
+        
+
         private void Awake()
         {
             rootCanvas.enabled = false;
@@ -95,7 +104,7 @@ namespace Managers.Local
 
         private void TogglePauseState(bool state)
         {
-            pauseCanvas.enabled = state;
+//            pauseCanvas.enabled = state;
         }
 
         private void OnEnable()
@@ -131,6 +140,18 @@ namespace Managers.Local
         {
             Debug.Log("client is returning to main menu!");
             SceneManager.LoadScene("MainMenuNEW");
+        }
+
+        public void OnKilledPlayer(int clientID, int childID, string victimName)
+        {
+            OnEnemyDefeated?.Invoke(clientID, childID);
+
+            if (TryGetComponent(out PlayerHUD hud))
+            {
+                hud.OnKilledPlayer(victimName);
+            }
+
+
         }
         
 

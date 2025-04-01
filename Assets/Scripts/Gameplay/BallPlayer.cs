@@ -47,6 +47,8 @@ namespace Gameplay
         public float Mass => _rb.mass;
 
         private Rigidbody _rb;
+        
+        public Rigidbody Rb => _rb;
 
         public event Action<ulong, int> OnDestroyed;
         public event Action OnDamaged;
@@ -70,6 +72,8 @@ namespace Gameplay
         [SerializeField] private Transform damageNumberSpawnPoint;
 
         public PlayerController Owner { get; private set; }
+
+        private float _maxHealth;
         
         public override void OnNetworkSpawn()
         {
@@ -137,9 +141,11 @@ namespace Gameplay
             
             Physics.SyncTransforms();
 
+            _maxHealth = GetBall.Stats.MaxHealth;
+
             if (IsServer)
             {
-                _currentHealth.Value = GetBall.Stats.MaxHealth;
+                _currentHealth.Value = _maxHealth;
             }
             
 
@@ -325,72 +331,22 @@ namespace Gameplay
             
             Debug.Log("give awards?? not sure what to do here....");
         }
-        
-        
-                /*/
-        [ServerRpc]
-        public void Die_ServerRpc(ulong killer)
+
+        public void RestoreHealth()
         {
-            //previousAttacker.AwardKill();
-            //Instantiate(onDestroy,transform.position,previousAttacker.transform.rotation);
-            //Because it needs to be parent last :(
-            
-            Die(killer);
-        }
-        public void Die(ulong killer)
-        {
-            NetworkGameManager.Instance.PlayParticleGlobally_ServerRpc("Confetti", transform.position,
-                transform.rotation);
-            
-            Die_ClientRpc(killer);
+            _currentHealth.Value = _maxHealth;
         }
 
-        //need to let the local player know when they die so they can respawn themselves :D
-        [ClientRpc]
-        public void Die_ClientRpc(ulong killer)
+        public void IncreaseMaxHealth(float amt)
         {
-            OnDestroyed?.Invoke(killer);
-            ActualDie_ServerRpc(killer);
-        }
-
-        [ServerRpc]
-        public void ActualDie_ServerRpc(ulong killer)
-        {
-            OnDestroyed?.Invoke(killer);
-            transform.GetChild(0).GetComponent<NetworkObject>().Despawn();
-            transform.GetChild(1).GetComponent<NetworkObject>().Despawn();
-            NetworkObject.Despawn();
-
+            _maxHealth *= amt;
         }
         
-
-        [ClientRpc]
-        public void TakeDamage_ClientRpc(float amount, Vector3 direction, ulong attacker)
+        
+        public void SetAbility(AbilityStats ability)
         {
-            print("Check damage: " + amount);
-            if (!IsServer) return;
-
-            _currentHealth.Value -= amount;
-
-            print(name + "Ouchie! I took damage: " + amount + ",  " + direction + ", I have reamining health: " +
-                  _currentHealth);
-
-            if (_currentHealth.Value <= 0)
-            {
-                _previousAttackerID.Value = attacker;
-                _ = MessageManager.Instance.HandleScreenMessage("Died to: <color=#ff000>" + attacker + "</color>", 3f);
-                Debug.LogWarning("TODO: When we die, let's look at our attacker for a bit.");
-                Die_ServerRpc(attacker);
-                return;
-            }
-
-            _rb.AddForce(direction, ForceMode.Impulse);
+            GetAbility = ability;
         }
-        /*/
-                public void SetAbility(AbilityStats ability)
-                {
-                    GetAbility = ability;
-                }
     }
     
     
