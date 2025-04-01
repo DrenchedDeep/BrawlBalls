@@ -45,6 +45,10 @@ namespace Managers.Local
         [field: Header("Customization Click")]
         [field: SerializeField]
         public List<EventReference> Beep { get; private set; }
+        
+        [field: Header("Jump Sound")]
+        [field: SerializeField]
+        public EventReference Jump { get; private set; }
 
         public static FMODEvents instance { get; private set; }
 

@@ -142,6 +142,7 @@ namespace Gameplay.Balls
            }
            
            RigidBody.AddForce(defaultJumpForce * Vector3.up, ForceMode.Impulse);
+           AudioManager.instance.PlayOneShot(FMODEvents.instance.Jump, transform.position);
        }
        
        //CALLED FROM BALL PLAYER: CLIENT ONLY FUNCTION

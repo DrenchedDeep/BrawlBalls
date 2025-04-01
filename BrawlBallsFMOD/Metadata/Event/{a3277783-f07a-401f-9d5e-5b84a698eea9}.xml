@@ -173,6 +173,8 @@
 			<destination>{61a965c8-0358-4f8f-bd76-6105be6fa77c}</destination>
 			<destination>{c3ec1be6-0cb2-4831-885d-02ff68eb100c}</destination>
 			<destination>{55ccad18-f351-49bb-ba01-43a2e4d51774}</destination>
+			<destination>{aaff842a-16d7-44f8-9eb4-b37544a3306b}</destination>
+			<destination>{82669742-8406-435b-aa52-fb9f9a6e1fc6}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{7eaeb7e3-7451-490d-b01a-13ee0568aa1f}">
@@ -233,23 +235,26 @@
 			<value>-0.5</value>
 		</property>
 		<property name="midGain">
-			<value>-74</value>
+			<value>-80</value>
+		</property>
+		<property name="highGain">
+			<value>0.5</value>
 		</property>
 		<property name="lowCrossover">
-			<value>800</value>
+			<value>240</value>
 		</property>
 		<property name="highCrossover">
-			<value>3200</value>
+			<value>5200</value>
 		</property>
 	</object>
 	<object class="DistortionEffect" id="{51efb0a9-9ab7-45e0-9ea4-056db438621a}">
 		<property name="level">
-			<value>0.25</value>
+			<value>0.164999992</value>
 		</property>
 	</object>
 	<object class="ChorusEffect" id="{61a965c8-0358-4f8f-bd76-6105be6fa77c}">
 		<property name="rate">
-			<value>0.859999955</value>
+			<value>0.579999983</value>
 		</property>
 		<property name="depth">
 			<value>17.5</value>
@@ -268,22 +273,86 @@
 	</object>
 	<object class="SFXReverbEffect" id="{55ccad18-f351-49bb-ba01-43a2e4d51774}">
 		<property name="decayTime">
-			<value>2500</value>
+			<value>3200</value>
+		</property>
+		<property name="earlyDelay">
+			<value>23.5</value>
+		</property>
+		<property name="HFReference">
+			<value>4200</value>
 		</property>
 		<property name="HFDecayRatio">
 			<value>43</value>
 		</property>
+		<property name="diffusion">
+			<value>44</value>
+		</property>
+		<property name="lowShelfFrequency">
+			<value>350</value>
+		</property>
 		<property name="lowShelfGain">
-			<value>-10</value>
+			<value>-8</value>
 		</property>
 		<property name="highCut">
-			<value>3600</value>
+			<value>6500</value>
 		</property>
 		<property name="earlyLateMix">
 			<value>6</value>
 		</property>
 		<property name="wetLevel">
-			<value>-16.5</value>
+			<value>-4</value>
+		</property>
+	</object>
+	<object class="PitchShifterEffect" id="{aaff842a-16d7-44f8-9eb4-b37544a3306b}">
+		<property name="pitch">
+			<value>0.669999957</value>
+		</property>
+		<property name="fftSize">
+			<value>900</value>
+		</property>
+		<property name="overlap">
+			<value>1.39999998</value>
+		</property>
+		<property name="maxChannels">
+			<value>0.400000006</value>
+		</property>
+		<relationship name="modulators">
+			<destination>{acfa2c70-c959-498a-b073-727e409368ba}</destination>
+		</relationship>
+	</object>
+	<object class="SFXReverbEffect" id="{82669742-8406-435b-aa52-fb9f9a6e1fc6}">
+		<property name="decayTime">
+			<value>3800</value>
+		</property>
+		<property name="earlyDelay">
+			<value>42</value>
+		</property>
+		<property name="HFReference">
+			<value>2800</value>
+		</property>
+		<property name="HFDecayRatio">
+			<value>55.5</value>
+		</property>
+		<property name="diffusion">
+			<value>86.5</value>
+		</property>
+		<property name="density">
+			<value>90.5</value>
+		</property>
+		<property name="lowShelfFrequency">
+			<value>120</value>
+		</property>
+		<property name="lowShelfGain">
+			<value>-4</value>
+		</property>
+		<property name="highCut">
+			<value>4200</value>
+		</property>
+		<property name="wetLevel">
+			<value>-7</value>
+		</property>
+		<property name="dryLevel">
+			<value>-0.5</value>
 		</property>
 	</object>
 	<object class="AutomationPoint" id="{622611c1-4fca-4b21-803a-4b22fc8d5a59}">
@@ -325,4 +394,12 @@
 		</property>
 	</object>
 	<object class="MixerBusFader" id="{c97d1aa6-0609-4eb8-bced-2130f845e699}" />
+	<object class="RandomizerModulator" id="{acfa2c70-c959-498a-b073-727e409368ba}">
+		<property name="nameOfPropertyBeingModulated">
+			<value>pitch</value>
+		</property>
+		<property name="amount">
+			<value>8</value>
+		</property>
+	</object>
 </objects>

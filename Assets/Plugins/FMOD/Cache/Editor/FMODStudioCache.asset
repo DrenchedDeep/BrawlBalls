@@ -119,10 +119,10 @@ MonoBehaviour:
   Path: BrawlBallsFMOD/Build/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 638788032540246237
+  lastModified: 638790619873825664
   FileSizes:
   - Name: Desktop
-    Value: 4369248
+    Value: 4372832
   Exists: 1
 --- !u!114 &-7943391685654642062
 MonoBehaviour:
@@ -163,7 +163,7 @@ MonoBehaviour:
   Path: BrawlBallsFMOD/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638789849662089089
+  lastModified: 638790613706760970
   FileSizes:
   - Name: Desktop
     Value: 3230
@@ -781,6 +781,7 @@ MonoBehaviour:
   - {fileID: -3001926262332138646}
   - {fileID: 6513718684366387772}
   - {fileID: 4219647437253797732}
+  - {fileID: 281135054876421853}
   EditorParameters:
   - {fileID: 8489258654355211449}
   - {fileID: -8783761867706329071}
@@ -789,8 +790,36 @@ MonoBehaviour:
   - {fileID: -6826461039419286180}
   StringsBanks:
   - {fileID: 7393136385153924571}
-  cacheTime: 638790594973116811
+  cacheTime: 638790627603900754
   cacheVersion: 131846
+--- !u!114 &281135054876421853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Music/Stingers/Death
+  m_EditorClassIdentifier: 
+  Path: event:/Music/Stingers/Death
+  Guid:
+    Data1: 1721715144
+    Data2: 1308261521
+    Data3: 237932674
+    Data4: -571617979
+  Banks:
+  - {fileID: -8512545807301439529}
+  - {fileID: 4726843598664218068}
+  IsStream: 0
+  Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &336609697266231283
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1180,10 +1209,10 @@ MonoBehaviour:
   Path: BrawlBallsFMOD/Build/Desktop/One-Shots.bank
   Name: One-Shots
   StudioPath: bank:/In_Game_SFXs/One-Shots
-  lastModified: 638790594973116811
+  lastModified: 638790627603900754
   FileSizes:
   - Name: Desktop
-    Value: 550688
+    Value: 551200
   Exists: 1
 --- !u!114 &4641892766574539756
 MonoBehaviour:
@@ -1254,10 +1283,10 @@ MonoBehaviour:
   Path: BrawlBallsFMOD/Build/Desktop/UI.bank
   Name: UI
   StudioPath: bank:/In_Game_SFXs/UI
-  lastModified: 638781132804922206
+  lastModified: 638790613709930081
   FileSizes:
   - Name: Desktop
-    Value: 190976
+    Value: 240768
   Exists: 1
 --- !u!114 &5353553635533973037
 MonoBehaviour:
@@ -1406,10 +1435,10 @@ MonoBehaviour:
   Path: BrawlBallsFMOD/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638789849662099037
+  lastModified: 638790613706776064
   FileSizes:
   - Name: Desktop
-    Value: 3454
+    Value: 3502
   Exists: 1
 --- !u!114 &7487246396143731203
 MonoBehaviour:
