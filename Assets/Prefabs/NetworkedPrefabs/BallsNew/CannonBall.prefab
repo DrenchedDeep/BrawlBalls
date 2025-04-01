@@ -11,7 +11,47 @@ PrefabInstance:
     - target: {fileID: -4644840416051989819, guid: 58034890b610adc448f83b4ab0fd9d3b,
         type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 2294072106
+      value: 3720138273
+      objectReference: {fileID: 0}
+    - target: {fileID: -1199622243697985162, guid: 58034890b610adc448f83b4ab0fd9d3b,
+        type: 3}
+      propertyPath: EventPlayTrigger
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: -1199622243697985162, guid: 58034890b610adc448f83b4ab0fd9d3b,
+        type: 3}
+      propertyPath: EventReference.Path
+      value: event:/Ingame_Events/Oneshots/Players/Player_Rocket_Q
+      objectReference: {fileID: 0}
+    - target: {fileID: -1199622243697985162, guid: 58034890b610adc448f83b4ab0fd9d3b,
+        type: 3}
+      propertyPath: OverrideMaxDistance
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: -1199622243697985162, guid: 58034890b610adc448f83b4ab0fd9d3b,
+        type: 3}
+      propertyPath: OverrideMinDistance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -1199622243697985162, guid: 58034890b610adc448f83b4ab0fd9d3b,
+        type: 3}
+      propertyPath: EventReference.Guid.Data1
+      value: -1539189234
+      objectReference: {fileID: 0}
+    - target: {fileID: -1199622243697985162, guid: 58034890b610adc448f83b4ab0fd9d3b,
+        type: 3}
+      propertyPath: EventReference.Guid.Data2
+      value: 1129730234
+      objectReference: {fileID: 0}
+    - target: {fileID: -1199622243697985162, guid: 58034890b610adc448f83b4ab0fd9d3b,
+        type: 3}
+      propertyPath: EventReference.Guid.Data3
+      value: -1295467374
+      objectReference: {fileID: 0}
+    - target: {fileID: -1199622243697985162, guid: 58034890b610adc448f83b4ab0fd9d3b,
+        type: 3}
+      propertyPath: EventReference.Guid.Data4
+      value: -2068877541
       objectReference: {fileID: 0}
     - target: {fileID: 3741352870139435088, guid: 58034890b610adc448f83b4ab0fd9d3b,
         type: 3}

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 674530803571503750}
   - component: {fileID: 7516993613793504534}
   - component: {fileID: 2012349151481706781}
+  - component: {fileID: 1891580366700779185}
   m_Layer: 6
   m_Name: Explosion
   m_TagString: Untagged
@@ -4902,6 +4903,37 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &1891580366700779185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2710251813929130762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -1836038704
+      Data2: 1325187996
+      Data3: -1742362216
+      Data4: -1731523640
+    Path: event:/Ingame_Events/Oneshots/Players/Player_Rocket_Explosion
+  Event: 
+  EventPlayTrigger: 11
+  EventStopTrigger: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1 &4599019968945671713
 GameObject:
   m_ObjectHideFlags: 0
