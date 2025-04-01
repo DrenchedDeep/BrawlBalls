@@ -66,10 +66,11 @@ namespace Gameplay
             NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
         
         public NetworkVariable<int> ChildID { get; private set; } = 
-            new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+            new NetworkVariable<int>(-1, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
         
         [SerializeField] private Transform damageNumberSpawnPoint;
+        [SerializeField] private BallPlayerHUD ballPlayerHUD;
 
         public PlayerController Owner { get; private set; }
 
@@ -88,6 +89,7 @@ namespace Gameplay
             }
 
             _currentHealth.OnValueChanged += OnHealthChanged;
+            ChildID.OnValueChanged += OnChildIDChanged;
 
 
             NetworkGameManager.Instance.OnGameStateUpdated += OnGameStateUpdated;
@@ -98,6 +100,25 @@ namespace Gameplay
             if (gameState == GameState.InGame)
             {
                 _rb.isKinematic = false;
+            }
+        }
+
+        private void OnChildIDChanged(int old, int current)
+        {
+            if (IsOwner)
+            {
+                return;
+            }
+
+            BallPlayerHUD playerHud =
+                Instantiate(ballPlayerHUD.gameObject, transform.position, Quaternion.identity).GetComponent<BallPlayerHUD>();
+            if (playerHud)
+            {
+                playerHud.AttachTo(this);
+                
+                string playerName = NetworkGameManager.Instance.GetPlayerName(OwnerClientId, current);
+                Debug.Log("PLAYER NAME IS: " + playerName);
+                playerHud.SetNameTag(playerName);
             }
         }
 
