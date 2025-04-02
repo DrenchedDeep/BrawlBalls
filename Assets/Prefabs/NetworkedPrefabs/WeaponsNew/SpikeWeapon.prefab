@@ -148,6 +148,7 @@ MonoBehaviour:
   stats: {fileID: 11400000, guid: 755a13f205569034297c454613c7113b, type: 2}
   blockVerticalOrientation: 0
   lookUpWhileNotMoving: 1
+  damageTickRate: 0.2
 --- !u!114 &8506524623235598694
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,9 +166,9 @@ MonoBehaviour:
   AuthorityMode: 1
   TickSyncChildren: 0
   UseUnreliableDeltas: 1
-  SyncPositionX: 1
-  SyncPositionY: 1
-  SyncPositionZ: 1
+  SyncPositionX: 0
+  SyncPositionY: 0
+  SyncPositionZ: 0
   SyncRotAngleX: 1
   SyncRotAngleY: 1
   SyncRotAngleZ: 1
