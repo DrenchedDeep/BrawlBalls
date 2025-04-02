@@ -62,8 +62,6 @@ namespace Gameplay.Spectating
                       playerName);
             
             currentPlayerName.text = playerName;
-        
-
         }
 
         private void OnCurrentSpectatingPlayerDied(ulong killer, int childID)
