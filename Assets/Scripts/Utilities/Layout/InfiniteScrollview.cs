@@ -23,14 +23,14 @@ namespace Utilities.Layout
         [SerializeField] private bool useAnimationCurve;
         [SerializeField] private AnimationCurve animationCurve = new(new Keyframe(0f, 0f), new Keyframe(0.2f, -0.2f), new Keyframe(0.8f, 1.2f), new Keyframe(1f, 1f));
         [SerializeField] private float smoothTime = 0.25f;
-        
+        [SerializeField] private bool wantsOddNumber;
 
         private Vector2 _itemSize;
         private int _numItems;
         private int _numItemsOriginally;
         private float _spacing;
         private bool _isSnapping;
-        private bool _selected;
+        private bool _selected = true;
         private float _offset;
 
         private int _numVisible;
@@ -43,10 +43,11 @@ namespace Utilities.Layout
         private IInfiniteScrollItem[] _items;
 
         private Coroutine _snap;
-
-
+        
         public UnityEvent<IInfiniteScrollItem> onItemHovered;
         public UnityEvent<IInfiniteScrollItem> onItemSelected;
+
+        private int _isForcingOddOffset;
         
         
         
@@ -189,10 +190,10 @@ namespace Utilities.Layout
             // Each item occupies its height plus spacing.
             float itemSlot = _itemSize.y + _spacing;
             // Determine the center of the viewport in the content’s coordinate space.
-            float centerInContent = content.anchoredPosition.y + _viewportHalfSize;
+            float centerInContent = content.anchoredPosition.y + _viewportHalfSize ;
             // Because CreateIllusion() prepends _numVisible cloned items at the top,
             // subtract their total height to get a coordinate relative to the original items.
-            float adjustedCenter = centerInContent - _numVisible * itemSlot;
+            float adjustedCenter = centerInContent - (_numVisible - _isForcingOddOffset) * itemSlot ;
             // Assuming the original first item’s center is at (_itemSize.y / 2),
             // the index of the centered item is:
             int index = Mathf.RoundToInt((adjustedCenter - (_itemSize.y * 0.5f)) / itemSlot) - _numItems/2;
@@ -221,26 +222,37 @@ namespace Utilities.Layout
             
             if (vertical)
             {
-                //Calculate the number of items needs, (totalSpacing * totalItemSize) / (ViewportSize + Padding - Spacing) * 2
-                float desiredItemSize = _spacing + _itemSize.y; // Let's say is 1
-                float currentItemSize = numItems * desiredItemSize; //let's say this is 3
-                float scaledViewportSize = (viewportSize.y + _offset - _spacing); // let's say this is 10.
-                int numNeeded = Mathf.CeilToInt(Mathf.Max(0,(scaledViewportSize - currentItemSize + 1) / desiredItemSize)); // (10-3)/1 == 7
-                _numVisible = Mathf.CeilToInt(scaledViewportSize / desiredItemSize);
+                Debug.Log("Added an item to ensure is ODD: " + wantsOddNumber + " && " + ((numItems & 1) == 0));
+
+                _isForcingOddOffset = 0;
                 
-                
-                for (int i = 0; i < numNeeded; ++i)
+                if (wantsOddNumber && ((numItems & 1) == 0)) // If wants odd and we're even, then create one. if wants even and we're odd, create one.
                 {
-                    
-                    IInfiniteScrollItem clone = Instantiate((MonoBehaviour)_items[i % numItems], content).GetComponent<IInfiniteScrollItem>();
-                    clone?.ListenTo(_items[i % numItems]);
+                    _isForcingOddOffset = 1;
                 }
                 
+                //Calculate the number of items needs, (totalSpacing * totalItemSize) / (ViewportSize + Padding - Spacing) * 2
+                float desiredItemSize = _spacing + _itemSize.y; // Let's say is 1
+                float currentItemSize = (numItems + _isForcingOddOffset) * desiredItemSize; //let's say this is 3
+                float scaledViewportSize = (viewportSize.y + _offset - _spacing); // let's say this is 10.
+                int numNeeded = Mathf.CeilToInt(Mathf.Max(0,(scaledViewportSize - currentItemSize + 1) / desiredItemSize)); // (10-3)/1 == 7
                 
-                content.sizeDelta = new Vector2( content.sizeDelta.x , _itemSize.y * content.childCount + (content.childCount-1) * _spacing + _offset);
+           
+
+                _numVisible = Mathf.CeilToInt(scaledViewportSize / desiredItemSize);
+
+              
+                for (int i = 0; i < numNeeded; ++i)
+                {
+                    IInfiniteScrollItem item = _items[^(i % numItems)];
+                    IInfiniteScrollItem clone = Instantiate((MonoBehaviour)item, content).GetComponent<IInfiniteScrollItem>();
+                    clone?.ListenTo(item);
+                }
+                
+                            
+                content.sizeDelta = new Vector2( content.sizeDelta.x , _itemSize.y * (content.childCount + _isForcingOddOffset) + (content.childCount-1 + _isForcingOddOffset) * _spacing + _offset);
                 _viewportHalfSize = scaledViewportSize / 2;
                 _itemScreenSpacing = (Mathf.CeilToInt(_numVisible / 2f) + 1) * (_itemSize.y + _spacing);
-
 
             }
             else if (horizontal)
@@ -249,10 +261,11 @@ namespace Utilities.Layout
             }
             else
             {
-                Debug.LogError("Content not automatically sized as the object: " + content.name +
-                               " contains no layout group");
-                
+                Debug.LogError("Content not automatically sized as the object: " + content.name + " contains no layout group");
             }
+
+           
+
             
         }
 
@@ -340,7 +353,8 @@ namespace Utilities.Layout
             velocity = Vector2.zero;
             _isSnapping = false;
 
-            if (_currentSelectedNum != _currentItemNum)
+            Debug.Log("We are no longer checking if we've already selected that item.");
+            //if (_currentSelectedNum != _currentItemNum)
             {
                 _items[_currentSelectedNum].OnDeselected();
                 _items[_currentItemNum].OnSelected();
@@ -393,9 +407,11 @@ namespace Utilities.Layout
         }
 
         
-        public void AddRandomForce(float amount)
+        public void AddRandomForce()
         {
-            AddForce(new Vector2(Random.Range(amount / 10, amount) * (Random.Range(0, 2) == 1 ? -1 : 1),Random.Range(amount / 10, amount) * (Random.Range(0, 2) == 1 ? -1 : 1)));
+            print("AddRandomForce");
+
+            AddForce(new Vector2(vertical?0:Random.Range(1000, 10000) * _numItems, vertical?Random.Range(1000, 10000) * _numItems:0));
         }
         /*
 

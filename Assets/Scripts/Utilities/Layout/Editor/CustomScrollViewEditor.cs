@@ -30,6 +30,7 @@ namespace Utilities.Layout.Editor
             EditorGUILayout.PropertyField(serializedObject.FindProperty("m_Viewport"), new GUIContent("Viewport"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("m_Content"), new GUIContent("Content"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("itemTemplate"));
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("wantsOddNumber"));
             
             EditorGUILayout.Space();
             EditorGUILayout.LabelField("Directionality", EditorStyles.boldLabel);
