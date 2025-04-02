@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Loading;
 using LocalMultiplayer;
@@ -8,6 +9,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 using Utilities.Layout;
 using Utilities.UI_General;
 
@@ -21,6 +23,7 @@ namespace Core.Podium
         [SerializeField] private Camera cam;
         
         public PlayerInput localPlayerInputComponent;
+        [SerializeField]  private GraphicRaycaster[] raycasters;
         [SerializeField]  private EventSystem eventSystem;
         [SerializeField]  private BestVirtualCursor cursor;
 
@@ -29,6 +32,8 @@ namespace Core.Podium
         [SerializeField] private InputActionReference select;
         [SerializeField] private InputActionReference press;
 
+        
+        
         public UnityEvent<int> onForwardSelected;
         public UnityEvent<int> onSelectedSide;
 
@@ -90,7 +95,6 @@ namespace Core.Podium
             {
                 onForwardSelected.Invoke(CurForward);
                 _currentPodium = podiums[CurForward];
-
             }
         }
 
@@ -123,17 +127,25 @@ namespace Core.Podium
         private void Update()
         {
 
+        
+            if (!cam)
+            {
+
+                // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
+                Debug.LogError("Why is there no camera?");
+                return;
+            }
+
+            if (IsRotating || IsOverUI())
+            {
+                SelectPodium(null);
+                return;
+            }
+            
+
+            /*
             if (!eventSystem)
             {
-                if (IsRotating || EventSystem.current.IsPointerOverGameObject())
-                    return;
-                if (!cam)
-                {
-                
-                    // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
-                    Debug.LogError("Why is there no camera?");
-                    return;
-                }
                 Ray l = cam.ScreenPointToRay(Pointer.current.position.ReadValue());
                 Debug.DrawRay(l.origin + Vector3.down, l.direction * 1000, Color.red);
 
@@ -146,7 +158,6 @@ namespace Core.Podium
                         SelectPodium(null);
                         return;
                     }
-
 
                     if (!t.TryGetComponent(out Podium p))
                     {
@@ -162,37 +173,19 @@ namespace Core.Podium
                 }
                 return;
             }
+*/
+            
+            //if (IsRotating || eventSystem.IsPointerOverGameObject(localPlayerInputComponent.playerIndex) return;
 
-            if (IsRotating || eventSystem.IsPointerOverGameObject(localPlayerInputComponent.playerIndex))
-                return;
 
-            
-            
-            
-            
-            if (!cam)
-            {
-                
-                // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
-                Debug.LogError("Why is there no camera?");
-                return;
-            }
-            Ray ray;
-            if (!SplitscreenPlayerManager.Instance || SplitscreenPlayerManager.Instance.LocalPlayers.Count <= 1)
-            {
-                //Debug.Log("Stupid way of checking for mouse position");
-                ray = cam.ScreenPointToRay(Pointer.current.position.ReadValue());
-            }
-            else
-            {
-                ray = cam.ScreenPointToRay(cursor.Mouse.position.ReadValue());
-            }
-            
+            var ray = !SplitscreenPlayerManager.Instance || SplitscreenPlayerManager.Instance.LocalPlayers.Count <= 1
+                ? cam.ScreenPointToRay(Pointer.current.position.ReadValue())
+                : cam.ScreenPointToRay(cursor.Mouse.position.ReadValue());
+
             Debug.DrawRay(ray.origin + Vector3.down, ray.direction * 1000, Color.red);
 
             if (Physics.Raycast(ray, out RaycastHit hit, 1000, _podiumLayer))
             {
-                
                 Transform t = hit.transform.parent?.parent;
                 if (!t)
                 {
@@ -217,12 +210,12 @@ namespace Core.Podium
 
         private void SelectForwardCursor(InputAction.CallbackContext ctx)
         {
-            Debug.Log("Pressed on Balls: " + ctx.ReadValueAsButton() +", " + !IsRotating );
-            if (!ctx.ReadValueAsButton() || IsRotating) return;
+            if (!ctx.ReadValueAsButton() || IsRotating || IsOverUI()) return;
+            
+            Debug.Log("Is Over UI: SelectForwardCursor" + IsOverUI());
+            
             if (SplitscreenPlayerManager.Instance && SplitscreenPlayerManager.Instance.LocalPlayers.Count > 1)
             {
-
-                //Debug.Log("How many times did I trip? - stupid way of checking for mouse");
 
                 if (_currentPodium)
                 {
@@ -230,7 +223,6 @@ namespace Core.Podium
                     {
                         onForwardSelected?.Invoke(CurForward);
                         _currentPodium = podiums[CurForward];
-                        Debug.Log("Pressed on Center ball");
 
                         return;
                     }
@@ -240,8 +232,6 @@ namespace Core.Podium
                         ? 1
                         : -1);
                     
-                    Debug.Log("Pressed on side ball");
-
                 }
                 else
                 {
@@ -251,7 +241,6 @@ namespace Core.Podium
                 return;
             }
             
-            // Debug.Log("Pointer location: " + pointerPosition );
             
             // ReSharper disable once Unity.PerformanceCriticalCodeCameraMain
             if (!cam)
@@ -332,6 +321,33 @@ namespace Core.Podium
                 p.SetBall(wheelItem.Prefab);
             }
 
+        }
+        
+        private bool IsOverUI()
+        {
+            PointerEventData pointerEventData;
+            if (cursor.Mouse == null)
+            {
+                pointerEventData = new PointerEventData(eventSystem)
+                {
+                    position = Mouse.current.position.ReadValue() // Read cursor position
+                };
+            }
+            else
+            {
+                pointerEventData = new PointerEventData(eventSystem)
+                {
+                    position = cursor.Mouse.position.ReadValue() // Read cursor position
+                };
+            }
+            List<RaycastResult> l = new ();
+
+            foreach (var raycaster in raycasters)
+            {
+                raycaster.Raycast(pointerEventData, l );
+                if (l.Count > 0) return true;
+            }
+            return false;
         }
     }
 }

@@ -7141,9 +7141,34 @@ PrefabInstance:
       objectReference: {fileID: 7026103147865990931}
     - target: {fileID: 6913585320225767076, guid: de288d77ef9a65347a675edb8cd5e404,
         type: 3}
+      propertyPath: raycaster
+      value: 
+      objectReference: {fileID: 5163166332665329424}
+    - target: {fileID: 6913585320225767076, guid: de288d77ef9a65347a675edb8cd5e404,
+        type: 3}
       propertyPath: eventSystem
       value: 
       objectReference: {fileID: 3482326725282273084}
+    - target: {fileID: 6913585320225767076, guid: de288d77ef9a65347a675edb8cd5e404,
+        type: 3}
+      propertyPath: raycasters.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6913585320225767076, guid: de288d77ef9a65347a675edb8cd5e404,
+        type: 3}
+      propertyPath: 'raycasters.Array.data[0]'
+      value: 
+      objectReference: {fileID: 6382654575605328362}
+    - target: {fileID: 6913585320225767076, guid: de288d77ef9a65347a675edb8cd5e404,
+        type: 3}
+      propertyPath: 'raycasters.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2982244996379667894}
+    - target: {fileID: 6913585320225767076, guid: de288d77ef9a65347a675edb8cd5e404,
+        type: 3}
+      propertyPath: 'raycasters.Array.data[2]'
+      value: 
+      objectReference: {fileID: 6382654575605328362}
     - target: {fileID: 6913585320225767076, guid: de288d77ef9a65347a675edb8cd5e404,
         type: 3}
       propertyPath: localPlayerInputComponent
@@ -9199,6 +9224,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e4d9dd0273d2e4144a1560630adcc21d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2982244996379667894 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3498689119142811085, guid: dbfe6dd2408a4814aaf13bf62bc41bbc,
+    type: 3}
+  m_PrefabInstance: {fileID: 1868649910894426235}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!224 &6639541739597330370 stripped
