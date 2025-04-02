@@ -237,7 +237,7 @@ namespace Gameplay.Balls
         
        private void HandleGround()
        {
-           bool hit = Physics.SphereCast(_rb.position,stats.FootRadius, Vector3.down, out RaycastHit h, stats.FootRange, StaticUtilities.GroundLayers, QueryTriggerInteraction.Ignore);
+           bool hit = Physics.SphereCast(_rb.position,stats.FootRadius * _ballPlayer.transform.localScale.y, Vector3.down, out RaycastHit h, stats.FootRange, StaticUtilities.GroundLayers, QueryTriggerInteraction.Ignore);
 
            if (hit != _isGrounded)
            {

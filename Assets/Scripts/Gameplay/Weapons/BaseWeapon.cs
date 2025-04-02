@@ -32,6 +32,8 @@ namespace Gameplay.Weapons
         private int _currentFireCount;
 
 
+        private bool _canDrop;
+
         public virtual void Start()
         {
             
@@ -49,10 +51,27 @@ namespace Gameplay.Weapons
             Owner = transform.parent?.GetComponent<BallPlayer>();
         }
 
+        public override void OnNetworkSpawn()
+        {
+            base.OnNetworkSpawn();
+
+            if (IsOwner)
+            {
+                _canDrop = false;
+                _ = CanDropDelay();
+            }
+        }
+
         private void LateUpdate()
         {
             if (!IsConnected || !IsOwner) return;
             Rotate();
+        }
+
+        private async UniTask CanDropDelay()
+        {
+            await UniTask.WaitForSeconds(3);
+            _canDrop = true;
         }
 
         private void Rotate()
@@ -191,7 +210,10 @@ namespace Gameplay.Weapons
 
         public void Disconnect(float speed)
         {
-            Disconnect_ServerRpc(speed);
+            if (_canDrop)
+            {
+                Disconnect_ServerRpc(speed);
+            }
         }
     }
 }
