@@ -181,6 +181,9 @@ namespace Managers.Network
 
 
                 OnGameStarting?.Invoke();
+                
+                
+                
                 await WaitForAllClientsToConnect();
                 
                 Debug.Log("Beginning Network loading!");
