@@ -28,8 +28,8 @@ public class SpeedMeter : MonoBehaviour
         float maxSpeed = playerController.CurrentBall.GetBall.MaxSpeed;
 
         float speedPercent = Mathf.Clamp(_currentSpeed / maxSpeed, 0, 1);
-        Debug.Log(speedPercent);
         speedText.text = ((int)_currentSpeed).ToString(CultureInfo.CurrentCulture);
+        
         float angle = Mathf.Lerp(minAngle, maxAngle, speedPercent);
         float shake = Mathf.Sin(Time.time * 50f) * speedPercent;
         
