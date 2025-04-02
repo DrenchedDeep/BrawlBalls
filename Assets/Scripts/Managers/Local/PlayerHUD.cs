@@ -43,6 +43,7 @@ public class PlayerHUD : MonoBehaviour
     private void OnGameStartCountdownDecremented(int value)
     {
         string text = value <= 0 ? "GO!" : value.ToString();
+        Debug.Log("I HATE MY LIFE");
         startingMatchTimerText.text = text;
     }
 

@@ -373,6 +373,7 @@ namespace Managers.Network
              if (playersLeft <= 1)
              {
                  GameState.Value = Network.GameState.EndingGame;
+                 Debug.Log("END GAME EARLY PERCHANCE");
                  _ = EndGameEarlyTask();
              }
          }
@@ -463,6 +464,7 @@ namespace Managers.Network
          private async UniTask EndGameEarlyTask()
          {
              await UniTask.WaitForSeconds(matchOverTimeDuration);
+             Debug.Log("GAME STATE VALUE IS ENDING CINEMATIC RIGHT!?!?!?!?!??!?!?!");
              GameState.Value = Network.GameState.EndingGameCinematic;
          }
     

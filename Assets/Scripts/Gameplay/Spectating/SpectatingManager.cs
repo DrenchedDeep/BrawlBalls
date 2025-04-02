@@ -11,7 +11,7 @@ namespace Gameplay.Spectating
         private PlayerController _localPlayerController;
         [SerializeField] private TextMeshProUGUI currentPlayerName;
 
-        [SerializeField] private GameObject spectatingUI;
+        [SerializeField] private Canvas spectatingUI;
     
         private int _currentIndex;
 
@@ -22,13 +22,13 @@ namespace Gameplay.Spectating
 
         public void StartSpectating()
         {
-            spectatingUI.SetActive(true);
+            spectatingUI.enabled = true;
             SpectateNextPlayer(0);
         }
 
         public void StopSpectating()
         {
-            spectatingUI.SetActive(false);
+            spectatingUI.enabled = false;
         }
     
         public void SpectateNextPlayer(int index)

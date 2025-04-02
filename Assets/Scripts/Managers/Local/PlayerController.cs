@@ -32,6 +32,7 @@ namespace Managers.Local
         [SerializeField] private Canvas spectateCanvas;
         [SerializeField] private Canvas deathCanvas;
         [SerializeField] private Canvas gameOverCanvas;
+        [SerializeField] private Canvas startingGameCanvas;
 
 
         [Header("Controls UI")]
@@ -97,36 +98,44 @@ namespace Managers.Local
             switch (obj)
             {
                 case GameState.WaitingForPlayers:
-                    selectionCanvas.gameObject.SetActive(false);
+                    selectionCanvas.enabled = false;
                     break;
                 
                 case GameState.IntroCinematic:
-                    selectionCanvas.gameObject.SetActive(false);
+                    selectionCanvas.enabled = false;
                     break;
                 
                 case GameState.SelectingBalls:
-                    selectionCanvas.gameObject.SetActive(true);
+                    selectionCanvas.enabled = true;
                     break;
                 
                 case GameState.StartingGame:
-                    selectionCanvas.gameObject.SetActive(false);
+                    selectionCanvas.enabled = false;
+                    startingGameCanvas.enabled = true;
                     break;
                 
                 case GameState.InGame:
-                    gameCanvas.gameObject.SetActive(true);
-                    scoreBoardCanvas.gameObject.SetActive(false);
+                    gameCanvas.enabled = true;
+                    scoreBoardCanvas.enabled = true;
+                    startingGameCanvas.enabled = false;
                     break;
                 
                 case GameState.EndingGame:
-                    spectateCanvas.gameObject.SetActive(false);
-                    deathCanvas.gameObject.SetActive(false);
-                    gameCanvas.gameObject.SetActive(false);
-                    deathCanvas.gameObject.SetActive(false);
-                    gameCanvas.gameObject.SetActive(true);
-                    scoreBoardCanvas.gameObject.SetActive(false);
+                    spectateCanvas.enabled = false;
+                    deathCanvas.enabled = false;
+                    gameCanvas.enabled = false;
+                    deathCanvas.enabled = false;
+                    gameOverCanvas.enabled = true;
+                    scoreBoardCanvas.enabled = false;
                     break;
                 
                 case GameState.EndingGameCinematic:
+                    spectateCanvas.enabled = false;
+                    deathCanvas.enabled = false;
+                    gameCanvas.enabled = false;
+                    deathCanvas.enabled = false;
+                    gameOverCanvas.enabled = false;
+                    scoreBoardCanvas.enabled = false;
                     break;
             }
         }
@@ -145,7 +154,7 @@ namespace Managers.Local
             _livesLeft = 3;
             
             InitializeControls();
-            enabled = false;
+         //   enabled = false;
         }
         
         private void InitializeControls()
@@ -176,9 +185,8 @@ namespace Managers.Local
 
         private void OnGameEnded()
         {
-            Debug.Log("game end?");
-            rootCanvas.enabled = false;
-            respawnUI.SetActive(false);
+            gameCanvas.enabled = false;
+            deathCanvas.enabled = false;
             _spectatingManager.StopSpectating();
             _spectatingManager.enabled = false;
             DisableControls();
@@ -193,7 +201,6 @@ namespace Managers.Local
 
         public void ReturnToMainMenu()
         {
-            Debug.Log("client is returning to main menu!");
             SceneManager.LoadScene("MainMenuNEW");
         }
 
@@ -212,10 +219,13 @@ namespace Managers.Local
 
         private void Update()
         {
-            Vector3 x = cam.transform.forward;
-            x.y = 0;
-            _currentBall.GetBall.Foward.Value = x.normalized;
-            _currentBall.GetBall.MoveDirection.Value = _currentJoyStick.Direction;
+            if (_currentBall)
+            {
+                Vector3 x = cam.transform.forward;
+                x.y = 0;
+                _currentBall.GetBall.Foward.Value = x.normalized;
+                _currentBall.GetBall.MoveDirection.Value = _currentJoyStick.Direction;
+            }
         }
 
         #region Interaction
@@ -254,9 +264,7 @@ namespace Managers.Local
 
         private void SetSteer(Vector2 direction)
         {
-            #if !(UNITY_ANDROID || UNITY_IOS) || UNITY_EDITOR
             if(IsActive) _currentJoyStick.SetInput(direction);
-            #endif
         }
         
         #endregion
@@ -269,8 +277,9 @@ namespace Managers.Local
             SetBall(ballPlayer); 
             SetAbilities(ballPlayer.GetBaseWeapon,ballPlayer.GetAbility);
             
-            enabled = true;
+       //     enabled = true;
             rootCanvas.enabled = true;
+            gameCanvas.enabled = true;
             cam.enabled = true;
             
             _selectionMenu.EndDisplaying();
@@ -292,8 +301,10 @@ namespace Managers.Local
                     cam.InternalUpdateCameraState(Vector3.up, 10);
                 }
             }
-            respawnUI.SetActive(true);
-            rootCanvas.enabled = false;
+
+            deathCanvas.enabled = true;
+            gameCanvas.enabled = false;
+            spectateCanvas.enabled = false;
 
             killedByText.text = (killer == 100) ? "WORLD" : NetworkGameManager.Instance.GetPlayerName(killer, childID);
             DisableControls();
@@ -323,13 +334,13 @@ namespace Managers.Local
             if (_livesLeft <= 0)
             {
                 _spectatingManager.StartSpectating();
-                respawnUI.SetActive(false);
+                deathCanvas.enabled = false;
             }
             else
             {
-                respawnUI.SetActive(false);
+                deathCanvas.enabled = false;
                 rootCanvas.enabled = false;
-                enabled = false;
+          //      enabled = false;
                 cam.enabled = false;
                 _selectionMenu.BeginDisplaying();
             }

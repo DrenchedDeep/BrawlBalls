@@ -92,11 +92,27 @@ namespace Gameplay
             ChildID.OnValueChanged += OnChildIDChanged;
 
 
+          //  NetworkGameManager.Instance.OnGameStateUpdated += OnGameStateUpdated;
+        }
+
+        private void OnEnable()
+        {
             NetworkGameManager.Instance.OnGameStateUpdated += OnGameStateUpdated;
+
+        }
+
+        private void OnDisable()
+        {
+            NetworkGameManager.Instance.OnGameStateUpdated -= OnGameStateUpdated;
+
         }
 
         private void OnGameStateUpdated(GameState gameState)
         {
+            if (!_rb)
+            {
+                _rb = GetComponent<Rigidbody>();
+            }
             if (gameState == GameState.InGame)
             {
                 _rb.isKinematic = false;
