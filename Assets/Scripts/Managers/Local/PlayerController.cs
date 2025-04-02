@@ -17,12 +17,18 @@ using UnityEngine.SceneManagement;
 //Player handles UI, and is the main interface for players...
 namespace Managers.Local
 {
+    
+    
     public class PlayerController : MonoBehaviour
     {
         private BallPlayer _currentBall;
     
-        [Header("Game")]
+        [Header("Canvas Control")]
         [SerializeField] private Canvas rootCanvas;
+        [SerializeField] private Canvas gameCanvas;
+        [SerializeField] private Canvas scoreBoardCanvas;
+        [SerializeField] private Canvas selectionCanvas;
+        [SerializeField] private Canvas pauseCanvas;
 
         [Header("Controls UI")]
         [SerializeField] private AssetStore.Joystick_Pack.Scripts.Base.Joystick halfJoystick;
@@ -40,7 +46,6 @@ namespace Managers.Local
         //Controls for local player...
         [Header("Controls")]
         [SerializeField] private CinemachineCamera cam;
-        [SerializeField] private Canvas pauseCanvas;
         
         
         private PlayerInput _playerInput;
@@ -66,7 +71,32 @@ namespace Managers.Local
         //client id, child id -- who we defeated -- called when enemy runs out of balls -- ONLY LOCALLY FOR THIS PLAYER
         public event Action<int, int> OnEnemyDefeated;
         
+        public GameState GameState { get; private set; } 
+        
 
+        private void OnEnable()
+        {
+            NetworkGameManager.Instance.OnGameStateUpdated += OnGameStateChanged;
+            NetworkGameManager.Instance.OnGameEnd += OnGameEnded;
+            NetworkGameManager.Instance.OnHostDisconnected += OnHostDisconnected;
+        }
+
+        private void OnDisable()
+        {
+            NetworkGameManager.Instance.OnGameStateUpdated -= OnGameStateChanged;
+            NetworkGameManager.Instance.OnGameEnd -= OnGameEnded;
+            NetworkGameManager.Instance.OnHostDisconnected -= OnHostDisconnected;
+        }
+        
+        private void OnGameStateChanged(GameState obj)
+        {
+            switch (obj)
+            {
+                
+            }
+        }
+
+        
         private void Awake()
         {
             rootCanvas.enabled = false;
@@ -107,17 +137,7 @@ namespace Managers.Local
 //            pauseCanvas.enabled = state;
         }
 
-        private void OnEnable()
-        {
-            NetworkGameManager.Instance.OnGameEnd += OnGameEnded;
-            NetworkGameManager.Instance.OnHostDisconnected += OnHostDisconnected;
-        }
 
-        private void OnDisable()
-        {
-            NetworkGameManager.Instance.OnGameEnd -= OnGameEnded;
-            NetworkGameManager.Instance.OnHostDisconnected -= OnHostDisconnected;
-        }
 
         private void OnGameEnded()
         {
@@ -166,19 +186,17 @@ namespace Managers.Local
         #region Interaction
         public void EnableControls()
         {
-            _currentJoyStick.enabled = true;
+            rootCanvas.enabled = true;
             //PlayerControls.EnableControls();
             _playerInput.currentActionMap.Enable();
-           // Cursor.visible = false;
-            //Cursor.lockState = CursorLockMode.Locked;
+           Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
             _playerInput.SwitchCurrentActionMap("Game");
- Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.Confined;
         }
     
         public void DisableControls()
         {
-            _currentJoyStick.enabled = false;
+            rootCanvas.enabled = false;
             TryDoAbility(false);
             TryDoWeapon(false);
             Cursor.visible = true;

@@ -1,13 +1,9 @@
 using System;
-using System.Collections.Generic;
-using Core.Podium;
-using Gameplay.EndGame;
-using Managers.Local;
 using Managers.Network;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Core.Gameplay
+namespace Gameplay
 {
     public class GameStateManager : MonoBehaviour
     {
