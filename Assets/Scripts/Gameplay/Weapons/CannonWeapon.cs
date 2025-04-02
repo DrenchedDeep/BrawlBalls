@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class CannonWeapon : ProjectileWeaponBase
 {
-    private static readonly int Charge = Animator.StringToHash("Charge");
+    private static readonly int Charge = Animator.StringToHash("Charging");
     private static readonly int Launch = Animator.StringToHash("Launch");
 
     [SerializeField] private Parabola parabola;
@@ -21,13 +21,15 @@ public class CannonWeapon : ProjectileWeaponBase
     
     public override void AttackStart()
     {
-        animator.SetTrigger(Charge);
+        animator.SetBool(Charge, true);
         _updateParabola = true;
         parabola.ToggleLineRenderer(true);
     }
 
     public override void AttackEnd()
     {
+        animator.SetBool(Charge, false);
+
         if (_firePower >= minFirePowerBeforeAttack)
         {
             Attack();

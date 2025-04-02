@@ -26,7 +26,6 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _ALPHABLEND_ON
-  - _EMISSION
   m_InvalidKeywords: []
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
@@ -122,7 +121,7 @@ Material:
     - _DistortionStrengthScaled: 0
     - _DstBlend: 1
     - _DstBlendAlpha: 0
-    - _EmissionEnabled: 1
+    - _EmissionEnabled: 0
     - _EnvironmentReflections: 1
     - _FlipbookMode: 0
     - _GlossMapScale: 0
@@ -149,7 +148,7 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _CameraFadeParams: {r: 0, g: Infinity, b: 0, a: 0}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 4.541204, g: 2.9858887, b: 2.0778148, a: 1}
     - _ColorAddSubDiff: {r: 1, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 1.7735851, g: 0, b: 0.056124784, a: 1}
     - _SoftParticleFadeParams: {r: 0, g: 0, b: 0, a: 0}
