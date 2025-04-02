@@ -97,14 +97,19 @@ namespace Gameplay
 
         private void OnEnable()
         {
-            NetworkGameManager.Instance.OnGameStateUpdated += OnGameStateUpdated;
+            if (NetworkGameManager.Instance)
+            {
+                NetworkGameManager.Instance.OnGameStateUpdated += OnGameStateUpdated;
+            }
 
         }
 
         private void OnDisable()
         {
-            NetworkGameManager.Instance.OnGameStateUpdated -= OnGameStateUpdated;
-
+            if (NetworkGameManager.Instance)
+            {
+                NetworkGameManager.Instance.OnGameStateUpdated -= OnGameStateUpdated;
+            }
         }
 
         private void OnGameStateUpdated(GameState gameState)
@@ -133,10 +138,12 @@ namespace Gameplay
                 playerHud.AttachTo(this);
                 
                 string playerName = NetworkGameManager.Instance.GetPlayerName(OwnerClientId, current);
-                Debug.Log("PLAYER NAME IS: " + playerName);
                 playerHud.SetNameTag(playerName);
-                
-                
+
+                OnDestroyed += (id, value) =>
+                {
+                    Destroy(playerHud);
+                };
             }
         }
 
