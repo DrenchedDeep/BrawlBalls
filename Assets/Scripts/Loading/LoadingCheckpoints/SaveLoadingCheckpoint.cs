@@ -1,6 +1,7 @@
 using System;
 using Cysharp.Threading.Tasks;
 using Managers.Local;
+using Managers.Network;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -20,6 +21,18 @@ namespace Loading.LoadingCheckpoints
             LoadingController.Instance.RegisterLoadingComponent(this);
             LoadingController.Instance.BeginLoading();
         }
+
+        private void Start()
+        {
+            LobbySystemManager.Instance.OnGameStarting += OnInstanceOnOnGameStarting;
+        }
+
+        private void OnDestroy()
+        {
+            if(LobbySystemManager.Instance) LobbySystemManager.Instance.OnGameStarting -= OnInstanceOnOnGameStarting;
+        }
+
+        void OnInstanceOnOnGameStarting() => _ = Execute();
 
 
         public async UniTask Execute()

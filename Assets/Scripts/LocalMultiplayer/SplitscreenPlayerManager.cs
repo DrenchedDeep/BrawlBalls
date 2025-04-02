@@ -6,8 +6,6 @@ using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
-using Utilities;
 
 //using Utilities.UI_General;
 
@@ -26,10 +24,8 @@ namespace LocalMultiplayer
         
         [SerializeField] private GameObject mainMenuPrefab;
         [SerializeField] private GameObject inGamePrefab;
-        [SerializeField] private GameObject screenBlockerPrefab;
+        [SerializeField] private GameObject screenBlocker;
         [SerializeField] private GameObject defaultCamera;
-
-        private GameObject _screenBlocker;
         
         //[SerializeField] private InputActionReference leaveGameAction;
         private static readonly List<DataParasite> ActiveParasites = new();
@@ -83,6 +79,8 @@ namespace LocalMultiplayer
         private void OnSceneChanged(Scene newScene, LoadSceneMode loadSceneMode)
         {          
             Debug.Log("We are now in a new scene: " + newScene.name);
+
+            
             _playerInputManager.playerPrefab =newScene.buildIndex < 2 ? mainMenuPrefab : inGamePrefab;
             LocalPlayers.Clear();
             SaveManager.Clear();
@@ -93,8 +91,17 @@ _playerInputManager.DisableJoining();
 Debug.Log("We've disabled controls because you may not join from this scene.")
             }
 #endif
-            Debug.Log("We've loaded a scene, do we know about anyone that currently exists?" + LocalPlayers.Count +"...Data containers: " + (ActiveParasites?.Count ?? 0) +$"Build index: {newScene.buildIndex}");
+           // Debug.Log("We've loaded a scene, do we know about anyone that currently exists?" + LocalPlayers.Count +"...Data containers: " + (ActiveParasites?.Count ?? 0) +$"Build index: {newScene.buildIndex}");
 
+
+           if (ActiveParasites.Count == 0)
+           {
+               defaultCamera.SetActive(true);
+               return;
+           }
+
+            
+            
             if (newScene.buildIndex == 0) return;
             DeployParasites();
 
@@ -154,22 +161,22 @@ Debug.Log("We've disabled controls because you may not join from this scene.")
         {
             if (defaultCamera)
             {
-                Destroy(defaultCamera);
+                defaultCamera.SetActive(false);
             }
 
-            Debug.Log("A player has Joined");
+            Debug.Log("SPLITSCREEN PLAYER MANAGER: A player has joined: "+ _playerInputManager.playerCount, playerInput );
             
             LocalPlayers.Add(playerInput);
 
-            if (LocalPlayers.Count == 3)
+            if (_playerInputManager.playerCount == 3)
             {
-                Debug.Log("I am creating the screen blocker.");
-                _screenBlocker = Instantiate(screenBlockerPrefab);
+                Debug.Log("SPLITSCREEN PLAYER MANAGER: I am creating the screen blocker.");
+                screenBlocker.SetActive(true);
             }
-            else if (_screenBlocker)
+            else 
             {
-                Debug.Log("I am Destroying the screen blocker.");
-                Destroy(_screenBlocker.gameObject);
+                Debug.Log("SPLITSCREEN PLAYER MANAGER: I am Destroying the screen blocker.");
+                screenBlocker.SetActive(false);
             }
             
             if (!LocalHost)

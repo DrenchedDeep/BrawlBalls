@@ -118,7 +118,7 @@ namespace Managers.Network
         {
             int expectedClients = MyLobby.Players.Count;
 
-            int attempts = 20; // Number of retries before timing out
+            int attempts = 10; // Number of retries before timing out
             while (attempts-- > 0)
             {
                 int connectedClients = NetworkManager.Singleton.ConnectedClientsIds.Count;
@@ -145,8 +145,8 @@ namespace Managers.Network
                 Debug.Log("HEARD: Game starting request: " + NetworkManager.ServerClientId + " --> " +
                           MyLobby.Data["RelayCode"].Value);
                 LoadingHelper.Instance.Activate();
-                OnGameStarting?.Invoke();
                 await RelayHandler.Instance.JoinRelay(MyLobby.Data["RelayCode"].Value);
+                OnGameStarting?.Invoke();
                 MyLobby = null;
             }
         }
@@ -180,11 +180,12 @@ namespace Managers.Network
                 });
 
 
-                OnGameStarting?.Invoke();
                 
                 
                 
                 await WaitForAllClientsToConnect();
+                OnGameStarting?.Invoke();
+
                 
                 Debug.Log("Beginning Network loading!");
                 //NOTE: there's a return type here that may be useful
@@ -193,6 +194,8 @@ namespace Managers.Network
             catch (Exception e)
             {
                 Debug.LogError("Failed to start the game: " + e);
+                LoadingHelper.Instance.Deactivate();
+
             }
 
         }
