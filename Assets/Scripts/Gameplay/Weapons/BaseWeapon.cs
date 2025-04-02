@@ -62,7 +62,7 @@ namespace Gameplay.Weapons
             }
         }
 
-        private void LateUpdate()
+        protected virtual void LateUpdate()
         {
             if (!IsConnected || !IsOwner) return;
             Rotate();

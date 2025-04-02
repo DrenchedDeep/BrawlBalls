@@ -65,9 +65,12 @@ Material:
     - _Blend: 0
     - _CastShadows: 0
     - _ClipThreshold: 0
-    - _Cull: 2
+    - _Cull: 0
     - _DstBlend: 10
-    - _Power: 2.2
+    - _Power: 2.26
+    - _PowerA: 16
+    - _PowerB: 2
+    - _Progress: 0
     - _QueueControl: 0
     - _QueueOffset: 0
     - _SrcBlend: 5
@@ -77,6 +80,8 @@ Material:
     - _ZWriteControl: 0
     m_Colors:
     - _Color: {r: 29.508844, g: 3.62493, b: 1.5449653, a: 0}
+    - _ColorA: {r: 0.7490196, g: 0.337574, b: 0.074509814, a: 0}
+    - _ColorB: {r: 20.830183, g: 2.6825545, b: 1.0905852, a: 1}
     - _Speed: {r: -0.1, g: 1, b: 0, a: 0}
     - _Tiling: {r: 1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []

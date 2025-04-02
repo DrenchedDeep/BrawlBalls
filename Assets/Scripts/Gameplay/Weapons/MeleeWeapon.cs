@@ -8,16 +8,20 @@ namespace Gameplay.Weapons
 {
     public class MeleeWeapon : BaseWeapon
     {
+        private static readonly int ProgressID = Shader.PropertyToID("_Progress");
         [SerializeField] private float damageTickRate = 0.2f;
         
         public readonly RaycastHit[] Hits = new RaycastHit[10];
 
         private float _currentTime;
 
+        [SerializeField] private MeshRenderer speedRenderer;
+        private Material _material;
+
         public override void Start()
         {
             base.Start();
-
+            _material = speedRenderer.material;
             _ = CastForwardTask();
         }
 
@@ -37,7 +41,13 @@ namespace Gameplay.Weapons
                 await UniTask.Yield();
             }
         }
-        
+
+        protected override void LateUpdate()
+        {
+            base.LateUpdate();
+            _material.SetFloat(ProgressID, Owner.GetBall.Speed / Owner.GetBall.MaxSpeed);
+        }
+
         //The server should just process this?
         private void CastForward()
         {

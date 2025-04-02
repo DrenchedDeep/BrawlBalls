@@ -126,6 +126,12 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 8506524623235598694}
   m_SourcePrefab: {fileID: 100100000, guid: 2926e2614b1983744a8f07acebd3e9ca, type: 3}
+--- !u!23 &8030403141600288592 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 4248117385561808812, guid: 2926e2614b1983744a8f07acebd3e9ca,
+    type: 3}
+  m_PrefabInstance: {fileID: 6162579456567705852}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &9094987079981747226 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3148583292845083878, guid: 2926e2614b1983744a8f07acebd3e9ca,
@@ -149,6 +155,7 @@ MonoBehaviour:
   blockVerticalOrientation: 0
   lookUpWhileNotMoving: 1
   damageTickRate: 0.2
+  speedRenderer: {fileID: 8030403141600288592}
 --- !u!114 &8506524623235598694
 MonoBehaviour:
   m_ObjectHideFlags: 0
