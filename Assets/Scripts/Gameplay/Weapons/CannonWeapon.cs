@@ -1,78 +1,77 @@
-using System;
-using Gameplay.Weapons;
 using Unity.Netcode;
 using UnityEngine;
 
-public class CannonWeapon : ProjectileWeaponBase
+namespace Gameplay.Weapons
 {
-    private static readonly int Charge = Animator.StringToHash("Charging");
-    private static readonly int Launch = Animator.StringToHash("Launch");
-
-    [SerializeField] private Parabola parabola;
-    [SerializeField] private float minFirePowerBeforeAttack = 0.2f;
-    [SerializeField] private float maxFirePower = 20f;
-    [SerializeField] private float firePowerMultiplier = 2f;
-    [SerializeField] private float chargeRate = 10f; 
-
-    [SerializeField] private Animator animator;
-    
-    private bool _updateParabola;
-    private float _firePower;
-    
-    public override void AttackStart()
+    public class CannonWeapon : ProjectileWeaponBase
     {
-        animator.SetBool(Charge, true);
-        _updateParabola = true;
-        parabola.ToggleLineRenderer(true);
-    }
+        private static readonly int Charge = Animator.StringToHash("Charging");
+        private static readonly int Launch = Animator.StringToHash("Launch");
 
-    public override void AttackEnd()
-    {
-        animator.SetBool(Charge, false);
+        [SerializeField] private Parabola parabola;
+        [SerializeField] private float minFirePowerBeforeAttack = 0.2f;
+        [SerializeField] private float maxFirePower = 20f;
+        [SerializeField] private float firePowerMultiplier = 2f;
+        [SerializeField] private float chargeRate = 10f; 
 
-        if (_firePower >= minFirePowerBeforeAttack)
+        [SerializeField] private Animator animator;
+    
+        private bool _updateParabola;
+        private float _firePower;
+    
+        public override void AttackStart()
         {
-            Attack();
+            animator.SetBool(Charge, true);
+            _updateParabola = true;
+            parabola.ToggleLineRenderer(true);
         }
-        
-        _updateParabola = false;
-        parabola.ToggleLineRenderer(false);
 
-        _firePower = 0.0f;
-    }
-
-    protected override void Attack()
-    {
-        animator.SetTrigger(Launch);
-
-        for (int i = 0; i < projectileWeapons.Length; i++)
+        public override void AttackEnd()
         {
-            //fire locally
-            projectileWeapons[i].Fire(stats, out Vector3 velocity, _firePower * firePowerMultiplier);
-            
-            //tell server to spawn projectiles for every other clients
-            if (NetworkManager.Singleton)
+
+            if (_firePower >= minFirePowerBeforeAttack)
             {
-                Attack_ServerRpc(i, velocity);
+                Attack();
+            }
+            animator.SetBool(Charge, false);
+        
+            _updateParabola = false;
+            parabola.ToggleLineRenderer(false);
+
+            _firePower = 0.0f;
+        }
+
+        protected override void Attack()
+        {
+            animator.SetTrigger(Launch);
+
+            for (int i = 0; i < projectileWeapons.Length; i++)
+            {
+                //fire locally
+                projectileWeapons[i].Fire(stats, out Vector3 velocity, _firePower * firePowerMultiplier);
+            
+                //tell server to spawn projectiles for every other clients
+                if (NetworkManager.Singleton)
+                {
+                    Attack_ServerRpc(i, velocity);
+                }
             }
         }
-    }
     
-    private void Update()
-    {
-        if (IsOwner)
+        private void Update()
         {
-        }
+            if (IsOwner)
+            {
+            }
 
-        if (_updateParabola)
-        {
-            _firePower += Time.deltaTime * chargeRate;
-            _firePower = Mathf.Clamp(_firePower, 0f, maxFirePower);
+            if (_updateParabola)
+            {
+                _firePower += Time.deltaTime * chargeRate;
+                _firePower = Mathf.Clamp(_firePower, 0f, maxFirePower);
+            }
+        
+            parabola.UpdateFirePower(_firePower);
+        
         }
-        
-        Debug.Log(_firePower);
-        
-        parabola.UpdateFirePower(_firePower);
-        
     }
 }
