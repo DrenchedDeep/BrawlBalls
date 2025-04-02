@@ -325,8 +325,11 @@ namespace Core.Podium
         
         private bool IsOverUI()
         {
+                        if (raycasters.Length == 0) return false;
+
+            
             PointerEventData pointerEventData;
-            if (cursor.Mouse == null)
+            if (!cursor || cursor.Mouse is not { added: true })
             {
                 pointerEventData = new PointerEventData(eventSystem)
                 {
@@ -342,11 +345,20 @@ namespace Core.Podium
             }
             List<RaycastResult> l = new ();
 
-            foreach (var raycaster in raycasters)
+            try
             {
-                raycaster.Raycast(pointerEventData, l );
-                if (l.Count > 0) return true;
+                foreach (var raycaster in raycasters)
+                {
+
+                    raycaster.Raycast(pointerEventData, l);
+                    if (l.Count > 0) return true;
+                }
             }
+            catch (Exception e)
+            {
+                Debug.LogWarning("Unity why :( " + e);
+            }
+
             return false;
         }
     }

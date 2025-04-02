@@ -1,7 +1,5 @@
-using System;
 using Gameplay;
 using TMPro;
-using TMPro.Examples;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,7 +10,12 @@ public class BallPlayerHUD : MonoBehaviour
     [SerializeField] private float minDistToShowNameTag = 20;
 
     private BallPlayer _ballPlayer;
-    
+    private Camera _mainCamera;
+    private void Start()
+    {
+        _mainCamera = Camera.main;
+    }
+
     private void LateUpdate()
     {
         if (_ballPlayer)
@@ -20,10 +23,10 @@ public class BallPlayerHUD : MonoBehaviour
             transform.position = _ballPlayer.transform.position;
         }
         
-        if (Camera.main)
+        if (_mainCamera)
         {
-            Vector3 dir = transform.position - Camera.main.transform.position;
-            nameTagText.transform.rotation = Quaternion.LookRotation(nameTagText.transform.position - Camera.main.transform.position);
+            Vector3 dir = transform.position - _mainCamera.transform.position;
+            nameTagText.transform.rotation = Quaternion.LookRotation(nameTagText.transform.position - _mainCamera.transform.position);
 
             nameTagText.gameObject.SetActive(dir.magnitude < minDistToShowNameTag );
         }

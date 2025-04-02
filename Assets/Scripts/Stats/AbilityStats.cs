@@ -58,7 +58,6 @@ namespace Stats
             base.OnValidate();
             if(Ability == null) Debug.LogError($"Ability '{abilityFileName}' not found in factory. Check AbilityStats.cs and or your spelling.");
         }
-        #endif
         protected override string CreateCommonTraits()
         {
             StringBuilder st = new();
@@ -67,5 +66,7 @@ namespace Stats
             
             return st.ToString();
         }
+#endif
+
     }
 }

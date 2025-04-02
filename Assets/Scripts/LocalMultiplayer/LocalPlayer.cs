@@ -32,10 +32,12 @@ namespace LocalMultiplayer
         }
 
 
+        #if !(UNITY_ANDROID || UNITY_IOS)
         private void OnChangedDevice(PlayerInput obj)
         {
             CurrentSpriteActionMap = ResourceManager.Instance.GetActionMap(obj.devices);
             OnDeviceChanged?.Invoke(CurrentSpriteActionMap);
         }
+#endif
     }
 }

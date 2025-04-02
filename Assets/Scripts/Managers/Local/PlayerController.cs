@@ -169,10 +169,11 @@ namespace Managers.Local
             _currentJoyStick.enabled = true;
             //PlayerControls.EnableControls();
             _playerInput.currentActionMap.Enable();
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
+           // Cursor.visible = false;
+            //Cursor.lockState = CursorLockMode.Locked;
             _playerInput.SwitchCurrentActionMap("Game");
-
+ Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.Confined;
         }
     
         public void DisableControls()
@@ -200,7 +201,9 @@ namespace Managers.Local
 
         private void SetSteer(Vector2 direction)
         {
+            #if !(UNITY_ANDROID || UNITY_IOS) || UNITY_EDITOR
             if(IsActive) _currentJoyStick.SetInput(direction);
+            #endif
         }
         
         #endregion

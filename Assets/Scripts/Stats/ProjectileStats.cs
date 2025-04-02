@@ -25,7 +25,7 @@ namespace Stats
         [field: SerializeField] public float EffectDisableTime { get; private set; }
 
 
-
+#if UNITY_EDITOR
         protected override string CreateCommonTraits()
         {
             StringBuilder st = new();
@@ -40,5 +40,6 @@ namespace Stats
 
             return st.ToString();
         }
+        #endif
     }
 }

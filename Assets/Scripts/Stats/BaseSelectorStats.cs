@@ -19,9 +19,11 @@ namespace Stats
         [field: SerializeField] public ERarity Rarity { get; private set; }
         [field: SerializeField] public string Comment { get; private set; }
 
-        [field: SerializeField, TextArea, Tooltip("DO NOT EDIT")] private string doNotEditDescription;
-
-        public string Description => doNotEditDescription;
+        [field: SerializeField, HideInInspector] private string description;
+        [field: SerializeField, HideInInspector] private string statsContext;
+        
+        public string Description => description;
+        public string StatsContext => statsContext;
 
 
 #if UNITY_EDITOR
@@ -44,7 +46,9 @@ namespace Stats
 
             for (int i = 0; i < tags.Length; ++i)
                 sb.Append(tags[i].GetDisplayText());
-            doNotEditDescription = sb.ToString();
+            description = sb.ToString();
+
+            statsContext = CreateCommonTraits();
         }
 #endif
 

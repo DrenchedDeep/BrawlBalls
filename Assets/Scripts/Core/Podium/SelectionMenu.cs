@@ -90,7 +90,7 @@ namespace Core.Podium
                 Debug.Log("is online spawn ball request");
             }
 #else
-                BallHandler.Instance.SpawnBall_ServerRpc(myBall.ball, myBall.weapon, myBall.ability);
+            BallHandler.Instance.SpawnBall_ServerRpc(myBall.ball, myBall.weapon, myBall.ability, playerData.PlayerIndex);
 #endif
             EndDisplaying();
         }

@@ -177,10 +177,10 @@ GameObject:
   - component: {fileID: 519502996448204931}
   - component: {fileID: 7306677775220914895}
   - component: {fileID: 9214930307689600213}
-  - component: {fileID: 7872896048092252528}
   - component: {fileID: 4137182755042373191}
   - component: {fileID: 1390002757957149493}
-  - component: {fileID: 4850343457273576800}
+  - component: {fileID: 8236103921665822744}
+  - component: {fileID: 459220213515264521}
   m_Layer: 5
   m_Name: Ability Button
   m_TagString: Untagged
@@ -260,34 +260,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e53e84c35dbc4442a6f360af15ccedc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  root: {fileID: 7872896048092252528}
+  root: {fileID: 8236103921665822744}
   button: {fileID: 4137182755042373191}
   fillImg: {fileID: 7274748795974148824}
   icon: {fileID: 127131078206292265}
   remainingNum: {fileID: 4337682535067403301}
---- !u!223 &7872896048092252528
-Canvas:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4866531952924339158}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_RenderMode: 2
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
-  m_PixelPerfect: 0
-  m_ReceivesEvents: 1
-  m_OverrideSorting: 0
-  m_OverridePixelPerfect: 0
-  m_SortingBucketNormalizedSize: 0
-  m_VertexColorAlwaysGammaSpace: 1
-  m_AdditionalShaderChannelsFlag: 25
-  m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
-  m_TargetDisplay: 0
 --- !u!114 &4137182755042373191
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -367,7 +344,30 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &4850343457273576800
+--- !u!223 &8236103921665822744
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4866531952924339158}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 1
+  m_AdditionalShaderChannelsFlag: 25
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
+--- !u!114 &459220213515264521
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

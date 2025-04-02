@@ -56,6 +56,7 @@ namespace LocalMultiplayer
             
             Debug.LogWarning("We're doing a temporary check to see if any objects in the scene already have playerInput. In the future, this should not be the case...");
             LocalHost = FindFirstObjectByType<PlayerInput>(FindObjectsInactive.Exclude);
+           
             
         }
 
@@ -88,7 +89,7 @@ namespace LocalMultiplayer
             #if !UNITY_EDITOR
             else {
 _playerInputManager.DisableJoining();
-Debug.Log("We've disabled controls because you may not join from this scene.")
+Debug.Log("We've disabled controls because you may not join from this scene.");
             }
 #endif
            // Debug.Log("We've loaded a scene, do we know about anyone that currently exists?" + LocalPlayers.Count +"...Data containers: " + (ActiveParasites?.Count ?? 0) +$"Build index: {newScene.buildIndex}");

@@ -149,7 +149,7 @@ namespace Gameplay.Balls
        public virtual void Init(BallPlayer ballPlayer)
        {
            SetupJoystick();
-           Debug.LogError("is player input null? " + localPlayerInputComponent);
+           Debug.LogError("is player input null? " + (localPlayerInputComponent == null));
 
            localPlayerInputComponent = ballPlayer.Owner.PlayerInput;
            localPlayerInputComponent.actions[jump.name].performed += _ => Jump();

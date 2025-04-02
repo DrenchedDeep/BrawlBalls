@@ -20,6 +20,7 @@ namespace Stats
         
         private string _commonTraits;
 
+        #if UNITY_EDITOR
         protected override string CreateCommonTraits()
         {
             StringBuilder st = new();
@@ -32,5 +33,6 @@ namespace Stats
             
             return st.ToString();
         }
+        #endif
     }
 }
