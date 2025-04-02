@@ -51,7 +51,7 @@ namespace Gameplay
         public Rigidbody Rb => _rb;
 
         public event Action<ulong, int> OnDestroyed;
-        public event Action OnDamaged;
+        public event Action<float, float> OnDamaged;
         public event Action OnHealed;
 
         
@@ -139,11 +139,6 @@ namespace Gameplay
                 
                 string playerName = NetworkGameManager.Instance.GetPlayerName(OwnerClientId, current);
                 playerHud.SetNameTag(playerName);
-
-                OnDestroyed += (id, value) =>
-                {
-                    Destroy(playerHud);
-                };
             }
         }
 
@@ -151,7 +146,7 @@ namespace Gameplay
         {
             if (old > current)
             {
-                OnDamaged?.Invoke();
+                OnDamaged?.Invoke(current, _maxHealth);
             }
             else
             {

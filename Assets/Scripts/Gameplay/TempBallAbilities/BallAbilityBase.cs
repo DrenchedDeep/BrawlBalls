@@ -43,12 +43,10 @@ public class BallAbilityBase : NetworkBehaviour
             {
                 case BindTo.OnDefeated:
                     Ball.BallPlayer.Owner.OnDefeated += ActivateWrapper;
-                    Debug.Log("???");
                     break;
             
                 case BindTo.OnEnemyDefeated:
                     Ball.BallPlayer.Owner.OnEnemyDefeated += ActivateWrapper;
-                    Debug.Log("?????");
                     break;
             }
         }

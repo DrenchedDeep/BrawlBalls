@@ -16,7 +16,7 @@ public class BallAudio : MonoBehaviour
     {
         ballPlayer.OnDestroyed += OnBallDied;
         ballPlayer.OnDamaged += OnBallTookDamage;
-        ballPlayer.OnHealed += OnBallTookDamage;
+        ballPlayer.OnHealed += OnBallHealed;
     }
 
     /// <summary>
@@ -26,7 +26,7 @@ public class BallAudio : MonoBehaviour
     {
         ballPlayer.OnDestroyed -= OnBallDied;
         ballPlayer.OnDamaged -= OnBallTookDamage;
-        ballPlayer.OnHealed -= OnBallTookDamage;
+        ballPlayer.OnHealed -= OnBallHealed;
     }
     
     /// <summary>
@@ -45,7 +45,7 @@ public class BallAudio : MonoBehaviour
     /// <summary>
     /// DO YOUR FMOD STUFF HERE -- THIS WILL PLAY ON EVERY CLIENT SO EVERYBODY WILL HEAR THE AUDIO... IF U DONT WANT THEM LMK 
     /// </summary>
-    private void OnBallTookDamage()
+    private void OnBallTookDamage(float current, float max)
     {
         
     }

@@ -101,10 +101,12 @@ namespace Managers.Local
             {
                 case GameState.WaitingForPlayers:
                     selectionCanvas.enabled = false;
+                    gameCanvas.enabled = false;
                     break;
                 
                 case GameState.IntroCinematic:
                     selectionCanvas.enabled = false;
+                    gameCanvas.enabled = false;
                     break;
                 
                 case GameState.SelectingBalls:
@@ -114,6 +116,7 @@ namespace Managers.Local
                 case GameState.StartingGame:
                     selectionCanvas.enabled = false;
                     startingGameCanvas.enabled = true;
+                    gameCanvas.enabled = false;
                     break;
                 
                 case GameState.InGame:
@@ -279,9 +282,11 @@ namespace Managers.Local
             SetBall(ballPlayer); 
             SetAbilities(ballPlayer.GetBaseWeapon,ballPlayer.GetAbility);
             
-       //     enabled = true;
-            rootCanvas.enabled = true;
-            gameCanvas.enabled = true;
+            if(NetworkGameManager.Instance.GameState.Value == GameState.InGame)
+            {
+                rootCanvas.enabled = true;
+                gameCanvas.enabled = true;
+            }
             cam.enabled = true;
             
             _selectionMenu.EndDisplaying();
