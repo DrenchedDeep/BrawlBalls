@@ -621,11 +621,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 813013c08dc748e458cc56c708f589f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rootCanvas: {fileID: 437872896007413610}
-  gameCanvas: {fileID: 0}
-  scoreBoardCanvas: {fileID: 0}
-  selectionCanvas: {fileID: 0}
+  rootCanvas: {fileID: 3494742782800924069}
+  gameCanvas: {fileID: 437872896007413610}
+  scoreBoardCanvas: {fileID: 2115382836197783582}
+  selectionCanvas: {fileID: 2785077774888676455}
   pauseCanvas: {fileID: 0}
+  spectateCanvas: {fileID: 2113475639504384868}
+  deathCanvas: {fileID: 5568057460302232122}
+  gameOverCanvas: {fileID: 9204432072511904767}
   halfJoystick: {fileID: 2772883099287957826}
   fullJoystick: {fileID: 3960287224575695603}
   attackAbility: {fileID: 8612296858957851967}
@@ -1458,7 +1461,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -217.92767, y: 74.95117}
+  m_AnchoredPosition: {x: -217.92773, y: 74.95117}
   m_SizeDelta: {x: 2490.75, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &2113475639504384868
@@ -1572,7 +1575,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -217.92767, y: 74.95117}
+  m_AnchoredPosition: {x: -217.92773, y: 74.95117}
   m_SizeDelta: {x: 2490.75, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &2115382836197783582
@@ -1933,7 +1936,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -217.92767, y: 74.95117}
+  m_AnchoredPosition: {x: -217.92773, y: 74.95117}
   m_SizeDelta: {x: 2490.75, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &9204432072511904767
@@ -6071,7 +6074,7 @@ PrefabInstance:
         type: 3}
       propertyPath: canvas
       value: 
-      objectReference: {fileID: 2785077774888676455}
+      objectReference: {fileID: 3494742782800924069}
     - target: {fileID: 5889398997115781836, guid: 779a7511302df614cb99ea3450f35b6b,
         type: 3}
       propertyPath: m_Name

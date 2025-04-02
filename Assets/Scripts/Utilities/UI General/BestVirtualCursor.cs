@@ -13,7 +13,7 @@ namespace Utilities.UI_General
         [SerializeField] private Canvas canvas;
         [SerializeField] private Graphic graphic;
         [SerializeField] private float speed = 400;
-        
+
         private Mouse _mVirtualMouse;
         private PlayerInput _owner;
         private CanvasScaler _scaler;
@@ -65,6 +65,7 @@ namespace Utilities.UI_General
             PlayerInput root  = transform.root.GetComponent<PlayerInput>();
             _rectTransform = graphic.rectTransform;
             
+            Debug.Log(root.transform.name);
             //SplitscreenPlayerManager.Instance.OnPlayerConnected += OnPlayerChanged;
             //SplitscreenPlayerManager.Instance.OnPlayerDisconnected += OnPlayerChanged;
             OnPlayerChanged(root);

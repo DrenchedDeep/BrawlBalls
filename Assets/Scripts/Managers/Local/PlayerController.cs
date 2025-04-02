@@ -29,6 +29,10 @@ namespace Managers.Local
         [SerializeField] private Canvas scoreBoardCanvas;
         [SerializeField] private Canvas selectionCanvas;
         [SerializeField] private Canvas pauseCanvas;
+        [SerializeField] private Canvas spectateCanvas;
+        [SerializeField] private Canvas deathCanvas;
+        [SerializeField] private Canvas gameOverCanvas;
+
 
         [Header("Controls UI")]
         [SerializeField] private AssetStore.Joystick_Pack.Scripts.Base.Joystick halfJoystick;
@@ -92,7 +96,38 @@ namespace Managers.Local
         {
             switch (obj)
             {
+                case GameState.WaitingForPlayers:
+                    selectionCanvas.gameObject.SetActive(false);
+                    break;
                 
+                case GameState.IntroCinematic:
+                    selectionCanvas.gameObject.SetActive(false);
+                    break;
+                
+                case GameState.SelectingBalls:
+                    selectionCanvas.gameObject.SetActive(true);
+                    break;
+                
+                case GameState.StartingGame:
+                    selectionCanvas.gameObject.SetActive(false);
+                    break;
+                
+                case GameState.InGame:
+                    gameCanvas.gameObject.SetActive(true);
+                    scoreBoardCanvas.gameObject.SetActive(false);
+                    break;
+                
+                case GameState.EndingGame:
+                    spectateCanvas.gameObject.SetActive(false);
+                    deathCanvas.gameObject.SetActive(false);
+                    gameCanvas.gameObject.SetActive(false);
+                    deathCanvas.gameObject.SetActive(false);
+                    gameCanvas.gameObject.SetActive(true);
+                    scoreBoardCanvas.gameObject.SetActive(false);
+                    break;
+                
+                case GameState.EndingGameCinematic:
+                    break;
             }
         }
 
