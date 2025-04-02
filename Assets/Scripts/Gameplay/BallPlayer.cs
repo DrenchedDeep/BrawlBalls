@@ -135,6 +135,8 @@ namespace Gameplay
                 string playerName = NetworkGameManager.Instance.GetPlayerName(OwnerClientId, current);
                 Debug.Log("PLAYER NAME IS: " + playerName);
                 playerHud.SetNameTag(playerName);
+                
+                
             }
         }
 

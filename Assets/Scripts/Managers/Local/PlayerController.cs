@@ -62,7 +62,7 @@ namespace Managers.Local
         private const float RespawnTime = 5;
 
         private int _livesLeft;
-
+        
         private SelectionMenu _selectionMenu;
 
         private FixedString64Bytes _playerName;
@@ -78,6 +78,8 @@ namespace Managers.Local
         
         public GameState GameState { get; private set; } 
         
+        public BallPlayer CurrentBall => _currentBall;
+
 
         private void OnEnable()
         {
