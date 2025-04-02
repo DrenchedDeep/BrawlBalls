@@ -5,17 +5,23 @@ using UnityEngine;
 
 public class CannonWeapon : ProjectileWeaponBase
 {
+    private static readonly int Charge = Animator.StringToHash("Charge");
+    private static readonly int Launch = Animator.StringToHash("Launch");
+
     [SerializeField] private Parabola parabola;
     [SerializeField] private float minFirePowerBeforeAttack = 0.2f;
     [SerializeField] private float maxFirePower = 20f;
     [SerializeField] private float firePowerMultiplier = 2f;
     [SerializeField] private float chargeRate = 10f; 
 
+    [SerializeField] private Animator animator;
+    
     private bool _updateParabola;
     private float _firePower;
     
     public override void AttackStart()
     {
+        animator.SetTrigger(Charge);
         _updateParabola = true;
         parabola.ToggleLineRenderer(true);
     }
@@ -35,6 +41,8 @@ public class CannonWeapon : ProjectileWeaponBase
 
     protected override void Attack()
     {
+        animator.SetTrigger(Launch);
+
         for (int i = 0; i < projectileWeapons.Length; i++)
         {
             //fire locally
