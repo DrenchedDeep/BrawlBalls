@@ -21,6 +21,7 @@ namespace Gameplay.Weapons
     
         public override void AttackStart()
         {
+            Debug.Log("ATTACK START!");
             animator.SetBool(Charge, true);
             _updateParabola = true;
             parabola.ToggleLineRenderer(true);

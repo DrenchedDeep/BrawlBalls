@@ -12,8 +12,10 @@ namespace Core.Podium
 
         [SerializeField] private CinemachineCamera cam;
         [SerializeField] private PodiumController podiumController;
-        
 
+        private int _currentIndex;
+        
+        
         private void Awake()
         {
             transform.root.GetComponent<PlayerController>().SetSelectionMenu(this);
@@ -26,8 +28,7 @@ namespace Core.Podium
         {
             if (NetworkGameManager.Instance)
             {
-                NetworkGameManager.Instance.OnAllPlayersJoined += BeginDisplaying;
-                NetworkGameManager.Instance.OnGameEnd += EndDisplaying;
+                NetworkGameManager.Instance.OnGameStateUpdated += OnGameStartedChanged;
                 
             }
             else
@@ -42,10 +43,20 @@ namespace Core.Podium
         {
             if (NetworkGameManager.Instance)
             {
-                NetworkGameManager.Instance.OnGameBegin -= BeginDisplaying;
-                NetworkGameManager.Instance.OnGameEnd -= BeginDisplaying;
+            //    NetworkGameManager.Instance.OnGameStateUpdated -= OnGameStartedChanged;
             }
         }
+
+        private void OnGameStartedChanged(GameState state)
+        {
+            if (state == GameState.InGame)
+            {
+                TrySpawnSelectedBall(_currentIndex);
+                NetworkGameManager.Instance.OnGameStateUpdated -= OnGameStartedChanged;
+
+            }
+        }
+
 
 
         public void BeginDisplaying()
@@ -66,6 +77,16 @@ namespace Core.Podium
         
         public void TrySpawnSelectedBall(int i)
         {
+            _currentIndex = i;
+
+            if (NetworkGameManager.Instance)
+            {
+                if (NetworkGameManager.Instance.GameState.Value != GameState.InGame)
+                {
+                    return;
+                }
+            }
+
             if (!SaveManager.TryGetPlayerData(podiumController.localPlayerInputComponent, out SaveManager.PlayerData playerData))
             {
                 Debug.LogError("This save data does not exist: " + playerData.Username, gameObject);

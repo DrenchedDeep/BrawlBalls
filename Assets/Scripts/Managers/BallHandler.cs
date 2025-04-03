@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Gameplay;
 using Gameplay.Map;
@@ -27,10 +28,7 @@ namespace Managers
             }
             Instance = this;
         }
-    
-
-
-
+        
 
         [ServerRpc(RequireOwnership = false)]
         public void SpawnBall_ServerRpc(string ball, string weapon, string ability, int playerIndex, ServerRpcParams id =default)

@@ -291,16 +291,20 @@ namespace Gameplay
         }
 
         [ClientRpc(RequireOwnership = false)]
-        private void OnDamageTaken_ClientRpc(int damage, Vector3 direction)
+        private void aOnDamageTaken_ClientRpc(int damage, Vector3 direction)
         {
-            HitDamageNumber hitDamageNumber = 
-                ObjectPoolManager.Instance.GetObjectFromPool<HitDamageNumber>("DamageNumber", damageNumberSpawnPoint.position, damageNumberSpawnPoint.rotation);
-
-            if (hitDamageNumber)
+            if (damage > 0)
             {
-                hitDamageNumber.Init(damage);
+                HitDamageNumber hitDamageNumber =
+                    ObjectPoolManager.Instance.GetObjectFromPool<HitDamageNumber>("DamageNumber",
+                        damageNumberSpawnPoint.position, damageNumberSpawnPoint.rotation);
+
+                if (hitDamageNumber)
+                {
+                    hitDamageNumber.Init(damage);
+                }
             }
-            
+
             _rb.AddForce(direction, ForceMode.Impulse);
 
         }

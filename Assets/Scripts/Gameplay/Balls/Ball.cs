@@ -98,7 +98,7 @@ namespace Gameplay.Balls
        [ClientRpc(RequireOwnership = false)]
        public void AddImpulse_ClientRpc(Vector3 velocity)
        {
-           _rb.AddForce(velocity, ForceMode.Impulse);
+           _rb.AddForce(velocity, ForceMode.VelocityChange);
        }
 
        private void SetupJoystick()

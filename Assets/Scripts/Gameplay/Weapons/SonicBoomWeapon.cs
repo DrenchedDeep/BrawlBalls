@@ -10,6 +10,7 @@ public class SonicBoomWeapon : BaseWeapon
     [SerializeField] private Transform fireTransform;
     [SerializeField] private float detectRadius = 0.5f;
     [SerializeField] private float castDistance = 5f;
+    [SerializeField] private float speedBoost = 2000;
     
     protected override void Attack()
     {
@@ -27,9 +28,13 @@ public class SonicBoomWeapon : BaseWeapon
         {
             if (hit.transform.TryGetComponent(out BallPlayer player))
             {
+                Debug.Log("sonic boom hit player: " + player.OwnerClientId);
                 if (player != Owner)
                 {
-                    player.GetBall.AddImpulse_ServerRpc(direction * 300);
+                    Debug.Log("is not my owner");
+
+                    player.TakeDamage_ServerRpc(new DamageProperties(0, direction * speedBoost, Owner.OwnerClientId, Owner.ChildID.Value));
+                //    player.GetBall.AddImpulse_ServerRpc(direction * speedBoost);
                 }
             }
         }

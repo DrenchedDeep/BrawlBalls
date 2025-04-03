@@ -149,7 +149,7 @@ namespace Managers.Local
         
         private void Awake()
         {
-            rootCanvas.enabled = false;
+        //    rootCanvas.enabled = false;
             _playerInput = GetComponent<PlayerInput>();
             _spectatingManager = GetComponent<SpectatingManager>();
             
@@ -249,7 +249,7 @@ namespace Managers.Local
     
         public void DisableControls()
         {
-            rootCanvas.enabled = false;
+            gameCanvas.enabled = false;
             TryDoAbility(false);
             TryDoWeapon(false);
             Cursor.visible = true;
@@ -287,11 +287,8 @@ namespace Managers.Local
             SetAbilities(ballPlayer.GetBaseWeapon,ballPlayer.GetAbility);
             
             //TODO: Investigate
-            if(NetworkGameManager.Instance.GameState.Value == GameState.InGame)
-            {
-                rootCanvas.enabled = true;
-                gameCanvas.enabled = true;
-            }
+            rootCanvas.enabled = true;
+            gameCanvas.enabled = true;
             cam.enabled = true;
             
             _selectionMenu.EndDisplaying();

@@ -384,7 +384,9 @@ namespace Managers.Network
              if (_players.Count == NetworkManager.ConnectedClients.Count)
              {
                  //if all players have joined, play the intro cinematic
-                 GameState.Value = Network.GameState.SelectingBalls;
+                 GameState.Value = Network.GameState.StartingGame;
+                 _matchCancelTokenSource =  new CancellationTokenSource();
+                 _ = ManagerMatchTimer(_matchCancelTokenSource.Token);
              }
          }
 
@@ -606,6 +608,7 @@ namespace Managers.Network
              }
              /*/
              
+             /*/
              if (GameState.Value == Network.GameState.SelectingBalls)
              {
                  _ballsSpawned++;
@@ -617,6 +620,7 @@ namespace Managers.Network
                      _ = ManagerMatchTimer(_matchCancelTokenSource.Token);
                  }
              }
+             /*/
          }
     
          //ideally particles shouldn't be spawned with RPC'S, they should be spawned with replicated variables... atleast in unreal, not sure in this.. so leaving it as is for now.
