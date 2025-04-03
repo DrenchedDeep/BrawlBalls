@@ -16,7 +16,7 @@ MonoBehaviour:
     type: 3}
   <Rarity>k__BackingField: 0
   <Comment>k__BackingField: Float like a soccerball, string like a spike.
-  doNotEditDescription: '<color=#98FB98>+ Can be fired to create a permanaent obstacle</color>
+  description: '<color=#98FB98>+ Can be fired to create a permanaent obstacle</color>
 
     <color=#98FB98>+
     Very easy to use</color>
@@ -25,6 +25,18 @@ MonoBehaviour:
     speed)</color>
 
     <color=#FFA07A>- Long ability cooldown</color>
+
+'
+  statsContext: '<sprite=8>18
+
+    <sprite=8>1
+
+    <sprite=9>10
+
+    <sprite=10>30
+
+    <sprite=11>Hits
+    Team
 
 '
   tags:
@@ -36,10 +48,10 @@ MonoBehaviour:
     information: Damage based on force (mass * speed)
   - traitType: -1
     information: Long ability cooldown
-  <Damage>k__BackingField: 15
+  <Damage>k__BackingField: 18
   <Mass>k__BackingField: 1
-  <ForceMultiplier>k__BackingField: 50
-  <MaxRange>k__BackingField: 8
+  <ForceMultiplier>k__BackingField: 30
+  <MaxRange>k__BackingField: 10
   <MaxRadius>k__BackingField: 0.4
   <ChargeUpTime>k__BackingField: 0
   <Ammo>k__BackingField: 0

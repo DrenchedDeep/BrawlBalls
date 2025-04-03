@@ -17,26 +17,37 @@ MonoBehaviour:
   <Rarity>k__BackingField: 2
   <Comment>k__BackingField: Mutually assured destruction... Is this really the best
     choice?
-  doNotEditDescription: "<color=#90EE90>+ Massive Explosion on use</color>\n<color=#90EE90>+
-    Does insane damage to everything</color>\n<color=#FFFFFF>\u2022 Once activation
-    begins it cannot be stopped</color>\n<color=#FFFFFF>\u2022 Long charge up time</color>\n<color=#FF6961>-
+  description: "<color=#47a647>+ BOOM!</color>\n<color=#47a647>+ AOE damage</color>\n<color=#FFFFFF>\u2022
+    Single activation</color>\n<color=#FFA07A>- Long charge</color>\n<color=#d14c45>-
     Does insane damage to everything</color>\n"
+  statsContext: '<sprite=8>20
+
+    <sprite=8>1.2
+
+    <sprite=9>0
+
+    <sprite=10>0
+
+    <sprite=11>Hits
+    Team
+
+'
   tags:
   - traitType: 2
-    information: Massive Explosion on use
+    information: BOOM!
   - traitType: 2
-    information: Does insane damage to everything
+    information: AOE damage
   - traitType: 0
-    information: Once activation begins it cannot be stopped
-  - traitType: 0
-    information: Long charge up time
+    information: Single activation
+  - traitType: -1
+    information: Long charge
   - traitType: -2
     information: Does insane damage to everything
   <Damage>k__BackingField: 20
   <Mass>k__BackingField: 1.2
   <ForceMultiplier>k__BackingField: 0
   <MaxRange>k__BackingField: 0
-  <MaxRadius>k__BackingField: 10
+  <MaxRadius>k__BackingField: 20
   <ChargeUpTime>k__BackingField: 0
   <Ammo>k__BackingField: 0
   <Ability>k__BackingField: {fileID: 11400000, guid: ba4567cf8dcff1b48b9a3a391d327c76,
