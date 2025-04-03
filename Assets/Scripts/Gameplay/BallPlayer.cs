@@ -283,9 +283,8 @@ namespace Gameplay
 
             if (_currentHealth.Value <= 0)
             {
-                _ = MessageManager.Instance.HandleScreenMessage("Died to: <color=#ff000>" + damageInfo.Attacker + "</color>", 3f);
+            //    _ = MessageManager.Instance.HandleScreenMessage("Died to: <color=#ff000>" + damageInfo.Attacker + "</color>", 3f);
                 Die_Server(damageInfo.Attacker, damageInfo.ChildID);
-                return;
             }
             
         }

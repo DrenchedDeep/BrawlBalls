@@ -307,6 +307,7 @@ namespace Managers.Network
                      {
                          BallPlayerInfo newInfo = Players[i];
                          newInfo.UpdateScore(1);
+                         Debug.Log("Updated Score");
                          Players[i] = newInfo;
                          break;
                      }

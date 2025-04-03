@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
@@ -37,12 +38,16 @@ namespace Utilities.Hover
 
         public UnityEvent onBeginHold;
         public UnityEvent onEndHold;
-        
-        
-        
-        
+
+
+        private void OnMouseDown()
+        {
+            Debug.Log("AHHH");
+        }
+
         public void OnPointerDown(PointerEventData eventData)
         {
+            Debug.Log("POINTER DOWN");
             if (!Interactable) return;
             if(!IsPressed) onBeginHold.Invoke();
             IsPressed = true;
