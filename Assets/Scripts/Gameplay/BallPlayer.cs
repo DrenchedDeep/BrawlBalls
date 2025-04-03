@@ -291,7 +291,7 @@ namespace Gameplay
         }
 
         [ClientRpc(RequireOwnership = false)]
-        private void aOnDamageTaken_ClientRpc(int damage, Vector3 direction)
+        private void OnDamageTaken_ClientRpc(int damage, Vector3 direction)
         {
             if (damage > 0)
             {
