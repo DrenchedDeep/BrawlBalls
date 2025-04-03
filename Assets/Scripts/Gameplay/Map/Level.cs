@@ -115,13 +115,11 @@ namespace Gameplay.Map
                 var ball = BallHandler.ActiveBalls[index];
                 if (!ball.IsAlive)
                 {
-                    Debug.Log("ball isnt alive??");
                     return;
                 }
 
                 if (ball.transform.position.y < bottomY)
                 {
-                    Debug.Log("Player died from falling out of map, atteker is 0?");
                     ball.Die_Server(100, -1);
                 }
             }

@@ -125,6 +125,10 @@ namespace Gameplay
             {
                 _rb.isKinematic = false;
             }
+            else
+            {
+                _rb.isKinematic = true;
+            }
         }
 
         private void OnChildIDChanged(int old, int current)
@@ -275,9 +279,6 @@ namespace Gameplay
             
             _currentHealth.Value -= damageInfo.Damage;
             
-            print(name + "Ouchie! I took damage: " + damageInfo.Damage + ",  " + damageInfo.Direction + ", I have reamining health: " +
-                  _currentHealth);
-
             OnDamageTaken_ClientRpc((int)damageInfo.Damage, damageInfo.Direction);
             _previousAttackerID.Value = damageInfo.Attacker;
 

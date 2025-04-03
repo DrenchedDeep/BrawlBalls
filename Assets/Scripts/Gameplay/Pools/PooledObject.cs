@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
@@ -6,11 +7,15 @@ namespace Gameplay.Pools
 {
     public class PooledObject : MonoBehaviour
     {
+        
+        
         public event Action OnTakenFromPoolEvent;
         public event Action OnReturnedToPoolEvent;
 
 
         protected string PoolName;
+        
+        protected CancellationTokenSource PoolCancellation;
     
         public virtual void InitPoolObject(string poolName)
         {
@@ -22,16 +27,21 @@ namespace Gameplay.Pools
             OnTakenFromPoolEvent?.Invoke();
         }
     
-        public async UniTask ReturnToPoolTask(float time = 1f)
+        public async UniTask ReturnToPoolTask(CancellationTokenSource cancellationTokenSource, float time = 1f)
         {
             await UniTask.WaitForSeconds(time);
-            if (!enabled) return;
+            
+            if (cancellationTokenSource.IsCancellationRequested)
+            {
+                return;
+            }
+            
             ReturnToPool();
         }
 
         public virtual void ReturnToPool()
         {
-            OnReturnedToPoolEvent?.Invoke();
+        //    OnReturnedToPoolEvent?.Invoke();
             ObjectPoolManager.Instance.ReturnToPool(PoolName, gameObject);
         }
     }

@@ -87,7 +87,6 @@ namespace Gameplay.Object_Scripts
         {
             if (collisionType == ECollisionType.Trigger)
             {
-                Debug.Log("trigger enter!");
                 int layer = 1 << other.gameObject.layer;
                 print(layer + ", " + StaticUtilities.PlayerLayers);
                 if ((layer & StaticUtilities.PlayerLayers) == 0) return; // If it's not a player, we can't hit it...
@@ -104,7 +103,6 @@ namespace Gameplay.Object_Scripts
         {
             if (collisionType == ECollisionType.Collision)
             {
-                Debug.Log("trigger enter!");
                 int layer = 1 << other.gameObject.layer;
                 print(layer + ", " + StaticUtilities.PlayerLayers);
                 if ((layer & StaticUtilities.PlayerLayers) == 0) return; // If it's not a player, we can't hit it...

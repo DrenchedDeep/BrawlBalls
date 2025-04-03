@@ -23,6 +23,7 @@ namespace Stats
 
         [field: SerializeField] public ProjectileDamageType DamageType { get; private set; }
         [field: SerializeField] public float EffectDisableTime { get; private set; }
+        [field: SerializeField] public string HitVfxPoolName { get; private set; }
 
 
 #if UNITY_EDITOR

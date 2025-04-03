@@ -23,7 +23,7 @@ namespace Gameplay.Object_Scripts
         }
 
 
-        [ServerRpc]
+        [ServerRpc(RequireOwnership = false)]
         private void ToggleState_ServerRpc(bool state)
         {
             if(!state) collectionParticle.Play();

@@ -108,7 +108,8 @@ namespace Gameplay.Pools
                 Debug.LogWarning($"Cannot return projectile of unknown type: {poolName}");
                 return;
             }
-        
+
+            Debug.Log("Return?");
             poolObject.gameObject.SetActive(false);
             poolObject.transform.SetParent(transform);
             Pool[poolName].Enqueue(poolObject);

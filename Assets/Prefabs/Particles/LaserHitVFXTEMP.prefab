@@ -9792,7 +9792,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4295827361776348877}
-  - component: {fileID: 7832112108548811645}
+  - component: {fileID: 9128016559053636344}
   m_Layer: 0
   m_Name: LaserHitVFXTEMP
   m_TagString: Untagged
@@ -9817,7 +9817,7 @@ Transform:
   - {fileID: 9175265445385893418}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7832112108548811645
+--- !u!114 &9128016559053636344
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9826,10 +9826,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 7309123499325781923}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43ec792d08316364fa8dcf7079318b6e, type: 3}
+  m_Script: {fileID: 11500000, guid: 40ad955a5a7290a4382b8f136b4b7002, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifeTime: 1
+  particles:
+  - {fileID: 602450612777288164}
+  - {fileID: 8193194636210344529}
 --- !u!1001 &4418519059318416545
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9898,6 +9900,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e0f1214c316f2124091f506d7b89ff50, type: 3}
+--- !u!198 &8193194636210344529 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 5541020391105083120, guid: e0f1214c316f2124091f506d7b89ff50,
+    type: 3}
+  m_PrefabInstance: {fileID: 4418519059318416545}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &9217474197033353107 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4808349473090034482, guid: e0f1214c316f2124091f506d7b89ff50,

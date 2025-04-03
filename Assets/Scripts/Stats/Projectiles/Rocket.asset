@@ -14,14 +14,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Icon>k__BackingField: {fileID: 0}
   <Rarity>k__BackingField: 0
-  <Description>k__BackingField: 'Rocket
+  <Comment>k__BackingField: 
+  description: 
+  statsContext: '<sprite=8>10
+
+    <sprite=8>0
+
+    <sprite=9>80
+
+    <sprite=10>100
+
+    <sprite=11>Hits
+    Team
 
 '
-  <Damage>k__BackingField: 60
+  tags: []
+  <Damage>k__BackingField: 10
   <Mass>k__BackingField: 0
-  <ForceMultiplier>k__BackingField: 0
-  <MaxRange>k__BackingField: 150
-  <MaxRadius>k__BackingField: 150
+  <ForceMultiplier>k__BackingField: 100
+  <MaxRange>k__BackingField: 80
+  <MaxRadius>k__BackingField: 60
   <ChargeUpTime>k__BackingField: 0
   <Ammo>k__BackingField: 0
   <Ability>k__BackingField: {fileID: 0}
@@ -37,3 +49,4 @@ MonoBehaviour:
   <DoDamageAfterCollision>k__BackingField: 1
   <DamageType>k__BackingField: 1
   <EffectDisableTime>k__BackingField: 3
+  <HitVfxPoolName>k__BackingField: ExplosionHit

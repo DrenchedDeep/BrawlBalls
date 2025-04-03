@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using Gameplay.Pools;
 using Managers.Local;
@@ -74,14 +75,17 @@ namespace Gameplay.Weapons
                 _ => throw new ArgumentOutOfRangeException() // Default.
             };
 
-            _ = ReturnToPoolTask(stats.MaxLifetime);
+            PoolCancellation = new CancellationTokenSource();
+
+            _ = ReturnToPoolTask(PoolCancellation, stats.MaxLifetime);
         }
 
         //dummy init, essentially tell it to destroy itself and to not calculate damage
         public void Init()
         {
             CanDoDamage = false;
-            _ = ReturnToPoolTask(stats.MaxLifetime);
+            PoolCancellation = new CancellationTokenSource();
+            _ = ReturnToPoolTask(PoolCancellation, stats.MaxLifetime);
         }
         
 
@@ -106,7 +110,6 @@ namespace Gameplay.Weapons
         {
             Debug.Log("Returning to pool");
             _rigidbody.isKinematic = true;
-            enabled = false;
             foreach (var ps in _particleSystems)
             {
                 ps.Stop();
@@ -120,7 +123,8 @@ namespace Gameplay.Weapons
             await UniTask.WaitForSeconds(stats.EffectDisableTime);
             Debug.Log("Returning to pool successful");
 
-            base.ReturnToPool();
+            base.ReturnToPool(); 
+            enabled = false;
         }
 
         private void OnEnable()
@@ -148,10 +152,10 @@ namespace Gameplay.Weapons
                     CastForward_SphereCast();
                 }
 
-                ReturnToPool();
-                Instantiate(hitVFX, transform.position,
-                    Quaternion.LookRotation(-transform.forward, Vector3.up));
+                ObjectPoolManager.Instance.GetObjectFromPool<PooledParticle>
+                    (stats.HitVfxPoolName, transform.position, Quaternion.LookRotation(-transform.forward, Vector3.up));
 
+                ReturnToPool();
             }
         }
 
@@ -167,7 +171,6 @@ namespace Gameplay.Weapons
                 {
                     float dmg = stats.Damage;
                 //    dmg *= _owner.Mass * _owner.GetBall.Speed;
-                    print("Doing damage: " + dmg);
 
                     DamageProperties damageProperties;
                     damageProperties.Damage = Mathf.Max(0, dmg);
@@ -177,8 +180,8 @@ namespace Gameplay.Weapons
                     b.TakeDamage_ServerRpc(damageProperties);
                 }
 
-                GameObject hitVfx = Instantiate(hitVFX, hit.point, Quaternion.LookRotation(-forward, Vector3.up));
-                Debug.Log("projectile hit: " + hit.transform.gameObject.name);
+                ObjectPoolManager.Instance.GetObjectFromPool<PooledParticle>
+                    (stats.HitVfxPoolName, transform.position, Quaternion.LookRotation(-transform.forward, Vector3.up));
                 ReturnToPool();
             }
         }
@@ -188,17 +191,13 @@ namespace Gameplay.Weapons
             Vector3 pos = transform.position;
             Collider[] cols = Physics.OverlapSphere(pos, stats.MaxRadius, StaticUtilities.PlayerLayers);
             
-            #if UNITY_EDITOR
-            
-            DebugExtensions.DebugWireSphere(pos, Color.red, stats.MaxRadius, 5f, PreviewCondition.Both, false);
-            #endif
+
             foreach (Collider c in cols)
             {
-                Debug.Log(c.gameObject.name);
                 Vector3 ePos = c.ClosestPoint(pos);
                 Vector3 dir = ePos - pos;
-                float damage = ParticleManager.EvalauteExplosiveDistance(dir.magnitude / 10) * 200;
-
+                float damage = ParticleManager.EvalauteExplosiveDistance(dir.magnitude / 100) * stats.Damage;
+                Debug.Log("percent for damage:" + dir.magnitude / 100);
                 DamageProperties damageProperties;
                 damageProperties.Damage = damage;
                 damageProperties.Direction = damage * dir;
@@ -206,7 +205,10 @@ namespace Gameplay.Weapons
                 damageProperties.ChildID = _owner.Owner.PlayerInput.playerIndex;
 
 
-                c.attachedRigidbody.GetComponent<BallPlayer>().TakeDamage_ServerRpc(damageProperties);
+                if (c.attachedRigidbody && c.attachedRigidbody.GetComponent<BallPlayer>())
+                {
+                    c.attachedRigidbody.GetComponent<BallPlayer>().TakeDamage_ServerRpc(damageProperties);
+                }
             }
         }
     }

@@ -34,8 +34,6 @@ namespace Gameplay.UI
                 return;
             }
             
-            Debug.Log($"Binding Ability {ability.name}", gameObject);
-
 
             _boundAbility = ability;
             _ball = owner;
