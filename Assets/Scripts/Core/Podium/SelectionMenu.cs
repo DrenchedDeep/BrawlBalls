@@ -13,7 +13,7 @@ namespace Core.Podium
         [SerializeField] private CinemachineCamera cam;
         [SerializeField] private PodiumController podiumController;
 
-        private int _currentIndex;
+        private int _currentIndex = 1;
         
         
         private void Awake()

@@ -30,8 +30,11 @@ namespace Gameplay.Weapons
         protected override void OnChargeStop()
         {
             base.OnChargeStop();
+            Debug.Log(_currentChargeUp);
+            Debug.Log(minFirePowerBeforeAttack);
             if (_currentChargeUp >= minFirePowerBeforeAttack)
             {
+                Debug.Log("Attack2");
                 Attack();
             }
             animator.SetBool(Charge, false);

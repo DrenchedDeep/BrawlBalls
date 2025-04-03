@@ -106,11 +106,13 @@ namespace Gameplay.Weapons
         }
         public void AttackEnd()
         {
+            Debug.Log("attack end");
             if (stats.FireOnRelease)
             {
-                _currentChargeUp = 0;
+                Debug.Log("attack hi");
                 OnChargeStop();
-                Attack();
+                _currentChargeUp = 0;
+              //  Attack();
             }
             else if (IsChargingUp)
             {
