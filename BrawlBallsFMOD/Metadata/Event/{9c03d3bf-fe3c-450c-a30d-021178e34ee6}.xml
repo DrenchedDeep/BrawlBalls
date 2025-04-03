@@ -5,7 +5,7 @@
 			<value>Fire</value>
 		</property>
 		<property name="outputFormat">
-			<value>1</value>
+			<value>2</value>
 		</property>
 		<relationship name="folder">
 			<destination>{bf82eedd-4c9e-4651-9696-3a9d7511392a}</destination>
@@ -180,7 +180,14 @@
 			<destination>{c1f18814-343e-42a4-9511-52c4696ccbee}</destination>
 		</relationship>
 	</object>
-	<object class="MixerBusPanner" id="{2a45ad8a-88f6-48b6-b9e7-f8872f98bbe1}" />
+	<object class="MixerBusPanner" id="{2a45ad8a-88f6-48b6-b9e7-f8872f98bbe1}">
+		<property name="surroundStereoSeparation">
+			<value>52</value>
+		</property>
+		<property name="overridingOutputFormat">
+			<value>2</value>
+		</property>
+	</object>
 	<object class="MixerBusFader" id="{306576d7-e46d-4853-813b-1b933b50de34}" />
 	<object class="MixerBusEffectChain" id="{a98a5224-b047-48cc-bea8-37e1965db7f8}">
 		<relationship name="effects">

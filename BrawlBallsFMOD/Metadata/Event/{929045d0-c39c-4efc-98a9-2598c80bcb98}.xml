@@ -5,7 +5,7 @@
 			<value>Player_Rocket_Explosion</value>
 		</property>
 		<property name="outputFormat">
-			<value>1</value>
+			<value>2</value>
 		</property>
 		<relationship name="folder">
 			<destination>{505364cd-1b5b-4b38-8f46-442b05f1d056}</destination>
@@ -100,9 +100,14 @@
 		<relationship name="effects">
 			<destination>{0b3837c8-894a-4260-8598-cad9611a1100}</destination>
 			<destination>{df094efe-1ea5-40d4-b9db-ab1a9fb0c365}</destination>
+			<destination>{da9d4006-5e79-4ae2-bc89-0ca30bd1003b}</destination>
 		</relationship>
 	</object>
-	<object class="MixerBusPanner" id="{70b16a57-806a-471b-b8f2-ed01e9ed8805}" />
+	<object class="MixerBusPanner" id="{70b16a57-806a-471b-b8f2-ed01e9ed8805}">
+		<property name="overridingOutputFormat">
+			<value>2</value>
+		</property>
+	</object>
 	<object class="SingleSound" id="{a8d9e1db-7cf1-4332-943a-c030ce07b110}">
 		<relationship name="audioFile">
 			<destination>{a4a1ec78-1ad9-4aed-9267-693d493b25b0}</destination>
@@ -127,4 +132,24 @@
 		</property>
 	</object>
 	<object class="MixerBusFader" id="{df094efe-1ea5-40d4-b9db-ab1a9fb0c365}" />
+	<object class="SpatialiserEffect" id="{da9d4006-5e79-4ae2-bc89-0ca30bd1003b}">
+		<property name="minimumDistance">
+			<value>0.900000036</value>
+		</property>
+		<property name="maximumDistance">
+			<value>700</value>
+		</property>
+		<property name="overrideRange">
+			<value>true</value>
+		</property>
+		<property name="extentMode">
+			<value>1</value>
+		</property>
+		<property name="soundSize">
+			<value>42</value>
+		</property>
+		<property name="minimumExtent">
+			<value>96</value>
+		</property>
+	</object>
 </objects>

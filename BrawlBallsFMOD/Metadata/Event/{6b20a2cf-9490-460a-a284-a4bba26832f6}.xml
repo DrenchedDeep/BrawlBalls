@@ -5,7 +5,7 @@
 			<value>Player_Death_1</value>
 		</property>
 		<property name="outputFormat">
-			<value>1</value>
+			<value>2</value>
 		</property>
 		<relationship name="folder">
 			<destination>{505364cd-1b5b-4b38-8f46-442b05f1d056}</destination>
@@ -99,9 +99,17 @@
 	<object class="MixerBusEffectChain" id="{934ab400-3ee0-4eba-beeb-7e19a3edfc3d}">
 		<relationship name="effects">
 			<destination>{8d0563fc-d980-4056-a870-32cb8241f7a0}</destination>
+			<destination>{66d03591-68dc-41a7-b6c7-8b7e13946a68}</destination>
 		</relationship>
 	</object>
-	<object class="MixerBusPanner" id="{0c45419a-e8df-4747-a9cf-790919bbf038}" />
+	<object class="MixerBusPanner" id="{0c45419a-e8df-4747-a9cf-790919bbf038}">
+		<property name="surroundStereoSeparation">
+			<value>100</value>
+		</property>
+		<property name="overridingOutputFormat">
+			<value>2</value>
+		</property>
+	</object>
 	<object class="SingleSound" id="{ffcb16d9-2eb1-40c2-85eb-32510b46ee9f}">
 		<relationship name="audioFile">
 			<destination>{e874f27d-5df8-4968-a4cc-5a29029ac820}</destination>
@@ -109,4 +117,21 @@
 	</object>
 	<object class="MixerBusFader" id="{06d9218f-3533-40df-825d-2c7f06165a51}" />
 	<object class="MixerBusFader" id="{8d0563fc-d980-4056-a870-32cb8241f7a0}" />
+	<object class="SpatialiserEffect" id="{66d03591-68dc-41a7-b6c7-8b7e13946a68}">
+		<property name="maximumDistance">
+			<value>200</value>
+		</property>
+		<property name="overrideRange">
+			<value>true</value>
+		</property>
+		<property name="extentMode">
+			<value>1</value>
+		</property>
+		<property name="soundSize">
+			<value>22</value>
+		</property>
+		<property name="minimumExtent">
+			<value>40</value>
+		</property>
+	</object>
 </objects>

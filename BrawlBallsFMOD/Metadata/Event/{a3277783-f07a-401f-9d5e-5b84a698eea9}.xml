@@ -5,7 +5,7 @@
 			<value>Player_Jump</value>
 		</property>
 		<property name="outputFormat">
-			<value>0</value>
+			<value>2</value>
 		</property>
 		<relationship name="folder">
 			<destination>{505364cd-1b5b-4b38-8f46-442b05f1d056}</destination>
@@ -175,11 +175,15 @@
 			<destination>{55ccad18-f351-49bb-ba01-43a2e4d51774}</destination>
 			<destination>{aaff842a-16d7-44f8-9eb4-b37544a3306b}</destination>
 			<destination>{82669742-8406-435b-aa52-fb9f9a6e1fc6}</destination>
+			<destination>{f7414de2-1636-4f67-800c-8293fc36b77c}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{7eaeb7e3-7451-490d-b01a-13ee0568aa1f}">
+		<property name="surroundStereoSeparation">
+			<value>24</value>
+		</property>
 		<property name="overridingOutputFormat">
-			<value>0</value>
+			<value>2</value>
 		</property>
 	</object>
 	<object class="MixerBusFader" id="{6e36ca90-bd57-4606-aa44-63b702ec26bc}" />
@@ -322,7 +326,7 @@
 	</object>
 	<object class="SFXReverbEffect" id="{82669742-8406-435b-aa52-fb9f9a6e1fc6}">
 		<property name="decayTime">
-			<value>3800</value>
+			<value>2600</value>
 		</property>
 		<property name="earlyDelay">
 			<value>42</value>
@@ -353,6 +357,17 @@
 		</property>
 		<property name="dryLevel">
 			<value>-0.5</value>
+		</property>
+	</object>
+	<object class="SpatialiserEffect" id="{f7414de2-1636-4f67-800c-8293fc36b77c}">
+		<property name="extentMode">
+			<value>1</value>
+		</property>
+		<property name="soundSize">
+			<value>4</value>
+		</property>
+		<property name="minimumExtent">
+			<value>10</value>
 		</property>
 	</object>
 	<object class="AutomationPoint" id="{622611c1-4fca-4b21-803a-4b22fc8d5a59}">

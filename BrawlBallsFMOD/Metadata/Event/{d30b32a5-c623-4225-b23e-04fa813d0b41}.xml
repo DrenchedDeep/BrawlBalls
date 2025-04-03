@@ -5,7 +5,7 @@
 			<value>Item_Coin</value>
 		</property>
 		<property name="outputFormat">
-			<value>1</value>
+			<value>2</value>
 		</property>
 		<relationship name="folder">
 			<destination>{7bb87806-3afb-41d0-acc9-0745b738a1f1}</destination>
@@ -102,6 +102,7 @@
 			<destination>{4e911e60-d536-4c64-8689-655bb9436498}</destination>
 			<destination>{de8f0c19-804a-47ac-8c6a-df594ef596b7}</destination>
 			<destination>{d39b388e-35f1-4110-91a7-b87a5d5cdf61}</destination>
+			<destination>{a65b23ad-f83b-4053-ab53-a247791c64a2}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{3768ad58-85a5-490a-b730-2391cceca0ed}" />
@@ -161,6 +162,14 @@
 		</property>
 		<property name="wetLevel">
 			<value>-25.5</value>
+		</property>
+	</object>
+	<object class="SpatialiserEffect" id="{a65b23ad-f83b-4053-ab53-a247791c64a2}">
+		<property name="maximumDistance">
+			<value>70</value>
+		</property>
+		<property name="overrideRange">
+			<value>true</value>
 		</property>
 	</object>
 	<object class="RandomizerModulator" id="{84c44328-3000-4582-be57-dc11a7ea3ec2}">

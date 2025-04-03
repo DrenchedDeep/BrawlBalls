@@ -5,7 +5,7 @@
 			<value>RockRumbles</value>
 		</property>
 		<property name="outputFormat">
-			<value>1</value>
+			<value>2</value>
 		</property>
 		<relationship name="folder">
 			<destination>{bf82eedd-4c9e-4651-9696-3a9d7511392a}</destination>
@@ -101,7 +101,14 @@
 			<destination>{614d2b48-af64-4fff-9cbb-571de46ac183}</destination>
 		</relationship>
 	</object>
-	<object class="MixerBusPanner" id="{3b1fdbb4-9ae3-406d-aa62-77f836c1a5d8}" />
+	<object class="MixerBusPanner" id="{3b1fdbb4-9ae3-406d-aa62-77f836c1a5d8}">
+		<property name="surroundStereoSeparation">
+			<value>100</value>
+		</property>
+		<property name="overridingOutputFormat">
+			<value>2</value>
+		</property>
+	</object>
 	<object class="SingleSound" id="{1da57d59-4b9a-404b-b59c-a983377f7f2f}">
 		<relationship name="audioFile">
 			<destination>{b0a0afc1-ecff-440b-afc0-1d3c7637bd55}</destination>

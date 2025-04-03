@@ -5,7 +5,7 @@
 			<value>BuildingDestructions_1</value>
 		</property>
 		<property name="outputFormat">
-			<value>1</value>
+			<value>2</value>
 		</property>
 		<relationship name="folder">
 			<destination>{bf82eedd-4c9e-4651-9696-3a9d7511392a}</destination>
@@ -101,7 +101,14 @@
 			<destination>{a0daaf6b-0493-495d-924f-0d855be1ad4f}</destination>
 		</relationship>
 	</object>
-	<object class="MixerBusPanner" id="{918eedaa-19ef-48f5-8b40-05b2014a3237}" />
+	<object class="MixerBusPanner" id="{918eedaa-19ef-48f5-8b40-05b2014a3237}">
+		<property name="surroundStereoSeparation">
+			<value>136</value>
+		</property>
+		<property name="overridingOutputFormat">
+			<value>2</value>
+		</property>
+	</object>
 	<object class="SingleSound" id="{b6594a6c-8581-47cf-9d93-51da5c2f9673}">
 		<relationship name="audioFile">
 			<destination>{c97f0863-640a-45cd-ac00-992667e43651}</destination>

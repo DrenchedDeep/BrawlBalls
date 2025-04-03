@@ -5,7 +5,7 @@
 			<value>Player_Lazer_Q</value>
 		</property>
 		<property name="outputFormat">
-			<value>1</value>
+			<value>2</value>
 		</property>
 		<relationship name="folder">
 			<destination>{505364cd-1b5b-4b38-8f46-442b05f1d056}</destination>
@@ -99,9 +99,17 @@
 	<object class="MixerBusEffectChain" id="{7c3d5742-b0de-4b6f-b2d7-c7c899f7505c}">
 		<relationship name="effects">
 			<destination>{0f903d6c-52b7-4fcb-8928-ed05985e9108}</destination>
+			<destination>{5bf30802-b467-4c26-baad-2c7c572bf7cb}</destination>
 		</relationship>
 	</object>
-	<object class="MixerBusPanner" id="{c6ba432a-c74a-4f7c-b525-11dde10fa3fc}" />
+	<object class="MixerBusPanner" id="{c6ba432a-c74a-4f7c-b525-11dde10fa3fc}">
+		<property name="surroundStereoSeparation">
+			<value>34</value>
+		</property>
+		<property name="overridingOutputFormat">
+			<value>2</value>
+		</property>
+	</object>
 	<object class="SingleSound" id="{43a81c01-4f6a-4940-93a5-653635779a6d}">
 		<relationship name="audioFile">
 			<destination>{fded349a-e173-46ff-9f0a-37e0766f21a9}</destination>
@@ -109,4 +117,21 @@
 	</object>
 	<object class="MixerBusFader" id="{a341abf1-6ec1-4c95-96eb-42ae5e47fd7d}" />
 	<object class="MixerBusFader" id="{0f903d6c-52b7-4fcb-8928-ed05985e9108}" />
+	<object class="ObjectSpatialiserEffect" id="{5bf30802-b467-4c26-baad-2c7c572bf7cb}">
+		<property name="maximumDistance">
+			<value>95</value>
+		</property>
+		<property name="overrideRange">
+			<value>true</value>
+		</property>
+		<property name="extentMode">
+			<value>1</value>
+		</property>
+		<property name="soundSize">
+			<value>46</value>
+		</property>
+		<property name="minimumExtent">
+			<value>80</value>
+		</property>
+	</object>
 </objects>
