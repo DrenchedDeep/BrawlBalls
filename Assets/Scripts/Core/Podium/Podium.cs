@@ -19,7 +19,7 @@ namespace Core.Podium
     [DefaultExecutionOrder(100)]
     public class Podium : MonoBehaviour, ISelectHandler, IDeselectHandler
         {
-            [SerializeField] private MeshRenderer meshRenderer;
+            [SerializeField] private Renderer meshRenderer;
             [SerializeField] private Transform ballPoint;
             [SerializeField] private Canvas canvas;
             [SerializeField] private Image abilityIcon;
@@ -135,10 +135,10 @@ namespace Core.Podium
                 
          
                 
-                _ballMaterial = b.GetComponent<MeshRenderer>().material;
+                _ballMaterial = b.GetComponent<Renderer>().material;
                 _ = TransitionMaterial(_ballMaterial, StaticUtilities.AppearPercentID, 1,0);
 
-                MeshRenderer[] mesh = w.GetComponentsInChildren<MeshRenderer>();
+                Renderer[] mesh = w.GetComponentsInChildren<Renderer>();
                 _weaponMaterial = new Material[mesh.Length];
                 for (int i = 0; i < mesh.Length; i++)
                 {
@@ -204,7 +204,7 @@ namespace Core.Podium
                 _weaponObject.GetComponentInChildren<BaseWeapon>().enabled = false;
                 
                 
-                MeshRenderer[] mesh = _weaponObject.GetComponentsInChildren<MeshRenderer>();
+                Renderer[] mesh = _weaponObject.GetComponentsInChildren<Renderer>();
                 _weaponMaterial = new Material[mesh.Length];
                 for (int i = 0; i < mesh.Length; i++)
                 {
@@ -228,7 +228,7 @@ namespace Core.Podium
 
                 Destroy(_ballObject.GetComponentInChildren<NetworkObject>());
 
-                _ballMaterial = _ballObject.GetComponent<MeshRenderer>().material;
+                _ballMaterial = _ballObject.GetComponent<Renderer>().material;
                 _ = TransitionMaterial(_ballMaterial, StaticUtilities.FlashPercentID, 1,0);
                 
                 _ballObject.layer = gameObject.layer;
