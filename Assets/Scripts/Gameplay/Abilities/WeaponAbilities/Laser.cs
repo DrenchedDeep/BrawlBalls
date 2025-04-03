@@ -7,7 +7,7 @@ namespace Gameplay.Abilities.WeaponAbilities
         //override if need be :P
         public override bool CanUseAbility(BallPlayer owner)
         {
-            return !owner.GetBaseWeapon.IsChargingUp || !owner.GetBaseWeapon.IsRecharging;
+            return owner.GetBaseWeapon.CanAttack();
         }
 
         public override void ExecuteAbility(BallPlayer owner)

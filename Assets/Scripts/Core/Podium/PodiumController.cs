@@ -124,7 +124,7 @@ namespace Core.Podium
             }
         }
 
-        private void Update()
+        private void LateUpdate()
         {
 
         

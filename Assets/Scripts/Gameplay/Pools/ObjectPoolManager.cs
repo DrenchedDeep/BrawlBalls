@@ -73,7 +73,6 @@ namespace Gameplay.Pools
             {
                 if (!Pool[poolName].TryDequeue(out GameObject obj))
                 {
-                    Debug.LogError("The pool was empty, it must be too small... Do we implement dynamic pool spawning?");
                     return null;
                 }
 
@@ -96,6 +95,7 @@ namespace Gameplay.Pools
                 Debug.LogError($"Pooled object does not have a component of type {typeof(T)}.");
                 return null;
             }
+            Debug.LogError("The pool was empty, it must be too small... Do we implement dynamic pool spawning?");
 
             return null;
         }

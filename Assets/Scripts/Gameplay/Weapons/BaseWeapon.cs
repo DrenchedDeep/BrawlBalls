@@ -21,24 +21,20 @@ namespace Gameplay.Weapons
         protected bool IsConnected = true;
     
         public bool IsChargingUp { get; private set; }
-        public bool IsRecharging { get; private set; }
+
 
         public WeaponStats Stats => stats;
         public AbilityStats GetAbility => stats.Ability;
         
         private readonly CancellationTokenSource _chargeUpCancelToken = new();
-        private readonly CancellationTokenSource _rechargeCancelToken = new();
 
-        private int _currentFireCount;
-
-
+        protected float _currentChargeUp;
         private bool _canDrop;
 
         public virtual void Start()
         {
             
             CurDamage = stats.Damage;
-            _currentFireCount = stats.Ammo;
             /*/
 #if UNITY_EDITOR
             enabled = (!NetworkManager.Singleton || IsOwner || IsServer);
@@ -101,88 +97,75 @@ namespace Gameplay.Weapons
 
 
 
-        public virtual void AttackStart()
+        #region Input
+        public void AttackStart()
         {
-            if (_currentFireCount <= 0 || IsRecharging)
+            Debug.Log("Trying to attack: " + CanAttack());
+            if (!CanAttack()) return;
+            _ = AttackChargeUp();
+        }
+        public void AttackEnd()
+        {
+            if (stats.FireOnRelease)
             {
-                return;
-            }
-            
-            if (Stats.ChargeUpTime > 0)
-            {
-                if (!IsChargingUp)
-                {
-                    _ = AttackChargeUp();
-                }
-            }
-            else
-            {
+                _currentChargeUp = 0;
+                OnChargeStop();
                 Attack();
             }
-        }
-
-        protected virtual void Attack()
-        {
-            _currentFireCount--;
-        }
-
-        public virtual  void AttackEnd()
-        {
-            if (IsChargingUp)
+            else if (IsChargingUp)
             {
                 _chargeUpCancelToken.Cancel();
-                IsChargingUp = false;
+               
+                OnChargeStop();
             }
-            
-            if (!IsRecharging)
-            {
-                _ = AttackReCharge(_rechargeCancelToken.Token);
-            }
-
+            IsChargingUp = false;
         }
+
+        public virtual bool CanAttack()
+        {
+            return !IsChargingUp;
+        }
+        #endregion
+
+   
 
         private async UniTask AttackChargeUp()
         {
-            Debug.Log("uni task charge up");
             IsChargingUp = true;
-            await UniTask.WaitForSeconds(stats.ChargeUpTime);
-            Debug.Log("uni task charge up 2");
+            Debug.Log("Beginning charge up");
 
-            Attack();
-
-            /*/
-            if (!token.IsCancellationRequested)
+            OnChargeStart();
+            
+            while (_currentChargeUp < Stats.ChargeUpTime)
             {
-                Attack();
-                Debug.Log("charge up complete");
+                float dt = Time.deltaTime;
+                _currentChargeUp += dt;
+                ChargeUpTick(dt);
+                await UniTask.Yield();
             }
-            /*/
 
+            if (stats.FireOnRelease)
+                return;
+            
+            _currentChargeUp = 0;
             IsChargingUp = false;
-        }
-        
-        private async UniTask AttackReCharge(CancellationToken token)
-        {
-            IsRecharging = true;
-            while (_currentFireCount < stats.Ammo)
-            {
-                _currentFireCount++;
-                Debug.Log("fire count: " + _currentFireCount);
-                await UniTask.WaitForSeconds(stats.ChargeUpTime, cancellationToken: token);
-            }
+            Debug.Log("Executing attack");
 
-            IsRecharging = false;
+            OnChargeStop();
+            
+            Attack();
         }
+
+        protected virtual void Attack() { }
+        protected virtual void ChargeUpTick(float deltaTime) { }
+        protected virtual void OnChargeStart() { }
+        protected virtual void OnChargeStop() { }
         
-        public float GetAmmoPercentage() => _currentFireCount / (float)stats.Ammo;
+
+
 
         
-        public float MultiplyDamage(int i)
-        {
-            CurDamage *= i;
-            return CurDamage;
-        }
-        
+
         
         
         #if UNITY_EDITOR

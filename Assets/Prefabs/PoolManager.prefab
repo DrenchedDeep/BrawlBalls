@@ -45,11 +45,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectPools:
-  - poolSize: 25
+  - poolSize: 40
     poolObject: {fileID: 8484350451414044832, guid: b14d43898b759d24a9f6cbb5fb98de36,
       type: 3}
     poolName: DamageNumber
-  - poolSize: 25
+  - poolSize: 120
     poolObject: {fileID: 7027781302294092562, guid: 93dc1212d0415ff4f88d8d4651e872bf,
       type: 3}
     poolName: LaserProjectile

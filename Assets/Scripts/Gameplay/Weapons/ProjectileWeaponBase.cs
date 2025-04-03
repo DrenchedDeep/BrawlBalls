@@ -1,48 +1,133 @@
 using System;
-using Gameplay.Weapons;
+using System.Collections;
+using System.Threading;
+using Cysharp.Threading.Tasks;
+using Stats;
 using Unity.Netcode;
 using UnityEngine;
 
-public class ProjectileWeaponBase : BaseWeapon
+namespace Gameplay.Weapons
 {
-    [SerializeField] protected ProjectileWeapon[] projectileWeapons;
-
-    public override void Start()
+    public class ProjectileWeaponBase : BaseWeapon
     {
-        base.Start();
-
-        foreach (ProjectileWeapon wpn in projectileWeapons)
-        {
-            wpn.Init(Owner);
-        }
-    }
-
-    protected override void Attack()
-    {
-        base.Attack();
+        [SerializeField] protected ProjectileWeapon[] projectileWeapons;
+        private readonly CancellationTokenSource _rechargeCancelToken = new();
+        [SerializeField] ParticleSystem chargingParticles;
         
-        for (int i = 0; i < projectileWeapons.Length; i++)
+        public bool IsRecharging { get; private set; }
+        
+        public override void Start()
         {
-            //fire locally
-            projectileWeapons[i].Fire(stats, out Vector3 velocity);
-            
-            //tell server to spawn projectiles for every other clients
-            if (NetworkManager.Singleton)
+            base.Start();
+
+            foreach (ProjectileWeapon wpn in projectileWeapons)
             {
-                Attack_ServerRpc(i, velocity);
+                wpn.Init(Owner);
             }
         }
-    }
-    
-    [ServerRpc(RequireOwnership = false)]
-    protected void Attack_ServerRpc(int index, Vector3 velocity) => Attack_ClientRpc(index, velocity);
 
-    [ClientRpc(RequireOwnership = false)]
-    protected void Attack_ClientRpc(int index, Vector3 velocity)
-    {
-        if (!IsOwner)
+        protected override void Attack()
         {
-            projectileWeapons[index].FireDummy(stats, velocity);
+            //Use IEnumerator in case we are destroyed.
+            StartCoroutine(AttackReCharge());
+        }
+
+
+        private IEnumerator AttackReCharge()
+        {
+            IsRecharging = true;
+            var x = ((ProjectileWeaponStats)stats);
+            int n = x.BurstAmount;
+            WaitForSeconds s = new WaitForSeconds(x.RefireTime);
+
+            for (int i = 0; i < n; ++i)
+            {
+                Debug.Log("Waitin for refire: " + i);
+                Fire();
+                yield return s;
+            }
+
+            IsRecharging = false;
+        }
+
+        public override bool CanAttack()
+        {
+            return base.CanAttack() && !IsRecharging;
+        }
+
+        protected virtual void Fire()
+        {
+            ProjectileWeaponStats ps = (ProjectileWeaponStats)stats;
+            for (int i = 0; i < projectileWeapons.Length; i++)
+            {
+                //fire locally
+                Vector3[] vels =projectileWeapons[i].Fire(ps);
+                
+                //tell server to spawn projectiles for every other clients
+                if (NetworkManager.Singleton)
+                {
+                    Attack_ServerRpc(i, vels);
+                }
+            }
+        }
+
+        protected override void OnChargeStart()
+        {
+            chargingParticles.Play();
+        }
+
+        protected override void OnChargeStop()
+        {
+            chargingParticles.Stop();
+        }
+
+        //GPT generated
+        private void OnDrawGizmosSelected()
+        {
+            for (int t = 0; t< projectileWeapons.Length; t++)
+            {
+                Vector3 origin = projectileWeapons[t].FiringPoint.position;
+                Vector3 forward = projectileWeapons[t].FiringPoint.forward ;
+                float spread = ((ProjectileWeaponStats)stats).Spread;
+
+                // Directions with spread applied
+                Vector3[] directions =
+                {
+                    Quaternion.Euler(0, 0, 0) * forward, // Forward
+                    Quaternion.Euler(-spread, 0, 0) * forward, // Up
+                    Quaternion.Euler(spread, 0, 0) * forward, // Down
+                    Quaternion.Euler(0, spread, 0) * forward, // Right
+                    Quaternion.Euler(0, -spread, 0) * forward // Left
+                };
+
+                Color[] colors = { Color.white, Color.green, Color.red, Color.blue, Color.yellow };
+
+                for (int i = 0; i < directions.Length; i++)
+                {
+                    Gizmos.color = colors[i];
+                    Gizmos.DrawRay(origin, directions[i] * 15);
+
+                    // Optional: draw angle using dot product
+                    float angle = Vector3.Angle(forward, directions[i]);
+                    Debug.Log(
+                        $"Direction {i} angle from forward: {angle:F2}° (Dot: {Vector3.Dot(forward.normalized, directions[i].normalized):F2})");
+                }
+            }
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        protected void Attack_ServerRpc(int index, Vector3[] projectileVelocities) => Attack_ClientRpc(index, projectileVelocities);
+
+        [ClientRpc(RequireOwnership = false)]
+        protected void Attack_ClientRpc(int weaponIndex, Vector3[] projectileVelocities)
+        {
+            if (!IsOwner)
+            {
+                foreach (Vector3 velocity in projectileVelocities)
+                {
+                    projectileWeapons[weaponIndex].FireDummy(stats, velocity);
+                }
+            }
         }
     }
 }

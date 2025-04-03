@@ -272,7 +272,6 @@ namespace Managers.Local
 
         private void SetSteer(Vector2 direction)
         {
-            Debug.Log("Setting Steer Vector: " + direction);
             if(IsActive) _currentJoyStick.SetInput(direction);
         }
         

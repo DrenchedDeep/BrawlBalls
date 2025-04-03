@@ -7,7 +7,7 @@ namespace Gameplay.Weapons
 {
     public class ProjectileWeapon : NetworkBehaviour
     {
-        [SerializeField] private Transform firingPoint;
+        [field: SerializeField] public Transform FiringPoint { get; private set; }
         [SerializeField] private ParticleSystem muzzleFlash;
 
         private BallPlayer _ballPlayer;
@@ -21,26 +21,33 @@ namespace Gameplay.Weapons
         /**
          * CLIENT FUNCTION: WERE DOING CLIENT AUTH FOR NOW SO CLIENTS WILL SPAWN THEIR OWN "REAL" PROJECTILE AND TELL THE SERVER WHAT THEY HIT
          */
-        public void Fire(WeaponStats stats, out Vector3 velocity, float inVelocity = 0)
+        public Vector3[] Fire(ProjectileWeaponStats stats, float inVelocity = 1)
         {
-            if (stats is not ProjectileWeaponStats projectileWeaponStats)
+
+            for (int i = 0; i < stats.ShotgunAmount; ++i)
             {
-                velocity = Vector3.zero;
-                return;
+                Projectile projectile = ObjectPoolManager.Instance.GetObjectFromPool<Projectile>(stats.ProjectilePoolName, FiringPoint.position, FiringPoint.rotation);
+
+                
+                // Generate a random rotation within the spread angle
+                Quaternion spreadRotation = Quaternion.Euler(
+                    Random.Range(-stats.Spread, stats.Spread), // Random pitch (up/down)
+                    Random.Range(-stats.Spread, stats.Spread), // Random yaw (left/right)
+                    0 // No roll needed
+                );
+
+                // Apply spread to the forward direction
+                Vector3 spreadDirection = spreadRotation * FiringPoint.forward;
+
+                // Initialize projectile with spread
+                projectile.Init(_ballPlayer, spreadDirection * inVelocity);
             }
-            
-            Projectile projectile = ObjectPoolManager.Instance.GetObjectFromPool<Projectile>(projectileWeaponStats.ProjectilePoolName,
-                firingPoint.position, firingPoint.rotation);
-            
-            projectile.Init(_ballPlayer, out velocity);
-            if (inVelocity > 0)
-            {
-                projectile.OverrideVelocity(firingPoint.forward * inVelocity);
-                velocity = firingPoint.forward * inVelocity;
-            }
+
+            Vector3[] vec = new Vector3[stats.ShotgunAmount];
         
             PlayMuzzleFlash();
-
+            
+            return vec;
         }
 
         public void FireDummy(WeaponStats stats, Vector3 velocity)
@@ -52,7 +59,7 @@ namespace Gameplay.Weapons
                 return;
             }
             
-            Projectile projectile = ObjectPoolManager.Instance.GetObjectFromPool<Projectile>(projectileWeaponStats.ProjectilePoolName, firingPoint.position, firingPoint.rotation);
+            Projectile projectile = ObjectPoolManager.Instance.GetObjectFromPool<Projectile>(projectileWeaponStats.ProjectilePoolName, FiringPoint.position, FiringPoint.rotation);
             projectile.Init();
             projectile.OverrideVelocity(velocity);
             PlayMuzzleFlash();

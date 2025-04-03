@@ -117,18 +117,8 @@ namespace Gameplay
 
         private void OnGameStateUpdated(GameState gameState)
         {
-            if (!_rb)
-            {
-                _rb = GetComponent<Rigidbody>();
-            }
-            if (gameState == GameState.InGame)
-            {
-                _rb.isKinematic = false;
-            }
-            else
-            {
-                _rb.isKinematic = true;
-            }
+            _rb ??= GetComponent<Rigidbody>();
+            _rb.isKinematic = gameState != GameState.InGame;
         }
 
         private void OnChildIDChanged(int old, int current)

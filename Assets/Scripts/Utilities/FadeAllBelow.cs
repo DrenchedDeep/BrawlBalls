@@ -62,6 +62,7 @@ namespace Utilities
        
              public void FadeAway()
              {
+                Debug.Log("fading away object: " + name, gameObject);
                 if (_actionRoutine != null)
                 {
                    _currentTransitionTime = transitionDuration - _currentTransitionTime;

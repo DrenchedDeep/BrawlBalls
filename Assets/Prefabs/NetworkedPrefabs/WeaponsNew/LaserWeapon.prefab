@@ -133,7 +133,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  firingPoint: {fileID: 1417429241974556096}
+  <FiringPoint>k__BackingField: {fileID: 1417429241974556096}
   muzzleFlash: {fileID: 7086061761506971831}
 --- !u!1 &4131068003629978167
 GameObject:
@@ -9948,6 +9948,106 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3577512457232758521}
   m_LocalEulerAnglesHint: {x: -2, y: 0, z: 0}
+--- !u!1001 &4465550194567125274
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2572524548296858198}
+    m_Modifications:
+    - target: {fileID: 780168434615592863, guid: 23a1c834b291def45bd42cc233430507,
+        type: 3}
+      propertyPath: m_Name
+      value: LaserSuckin
+      objectReference: {fileID: 0}
+    - target: {fileID: 6401905780918525857, guid: 23a1c834b291def45bd42cc233430507,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.077
+      objectReference: {fileID: 0}
+    - target: {fileID: 6401905780918525857, guid: 23a1c834b291def45bd42cc233430507,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6401905780918525857, guid: 23a1c834b291def45bd42cc233430507,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.136
+      objectReference: {fileID: 0}
+    - target: {fileID: 6401905780918525857, guid: 23a1c834b291def45bd42cc233430507,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.99984777
+      objectReference: {fileID: 0}
+    - target: {fileID: 6401905780918525857, guid: 23a1c834b291def45bd42cc233430507,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.01745245
+      objectReference: {fileID: 0}
+    - target: {fileID: 6401905780918525857, guid: 23a1c834b291def45bd42cc233430507,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6401905780918525857, guid: 23a1c834b291def45bd42cc233430507,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6401905780918525857, guid: 23a1c834b291def45bd42cc233430507,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6401905780918525857, guid: 23a1c834b291def45bd42cc233430507,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6401905780918525857, guid: 23a1c834b291def45bd42cc233430507,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7162828889094599808, guid: 23a1c834b291def45bd42cc233430507,
+        type: 3}
+      propertyPath: ShapeModule.radius.value
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7162828889094599808, guid: 23a1c834b291def45bd42cc233430507,
+        type: 3}
+      propertyPath: ShapeModule.radiusThickness
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7162828889094599808, guid: 23a1c834b291def45bd42cc233430507,
+        type: 3}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7162828889094599808, guid: 23a1c834b291def45bd42cc233430507,
+        type: 3}
+      propertyPath: VelocityModule.speedModifier.scalar
+      value: 2
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 23a1c834b291def45bd42cc233430507, type: 3}
+--- !u!198 &6818353983723810202 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 7162828889094599808, guid: 23a1c834b291def45bd42cc233430507,
+    type: 3}
+  m_PrefabInstance: {fileID: 4465550194567125274}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7287089581050201787 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6401905780918525857, guid: 23a1c834b291def45bd42cc233430507,
+    type: 3}
+  m_PrefabInstance: {fileID: 4465550194567125274}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5136442723980805060
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10130,6 +10230,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 3577512457232758521}
+    - targetCorrespondingSourceObject: {fileID: 7276477809331067282, guid: 2926e2614b1983744a8f07acebd3e9ca,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7287089581050201787}
     - targetCorrespondingSourceObject: {fileID: 3395530006498236565, guid: 2926e2614b1983744a8f07acebd3e9ca,
         type: 3}
       insertIndex: -1
@@ -10171,7 +10275,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  firingPoint: {fileID: 5326118471794846804}
+  <FiringPoint>k__BackingField: {fileID: 5326118471794846804}
   muzzleFlash: {fileID: 418518318487135597}
 --- !u!4 &2572524548296858198 stripped
 Transform:
@@ -10210,6 +10314,7 @@ MonoBehaviour:
   projectileWeapons:
   - {fileID: 4666300241086489076}
   - {fileID: 5293880368781701098}
+  chargingParticles: {fileID: 6818353983723810202}
 --- !u!114 &1625207597710526785
 MonoBehaviour:
   m_ObjectHideFlags: 0

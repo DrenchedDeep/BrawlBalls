@@ -48,14 +48,21 @@ namespace Gameplay.Weapons
 
             _rigidbody.useGravity = false;
         }
-        
+
+
+        public void Init(BallPlayer owner, Vector3 direction, float addSpeed = 1)
+        {
+            transform.forward = direction;
+            Init(owner, addSpeed);
+        }
 
         //owner calls this function... they can setup velocity & the velocity is passed down to other clients
-        public void Init(BallPlayer owner, out Vector3 velocity)
+        public void Init(BallPlayer owner, float addSpeed = 1)
         {
+            
             enabled = true;
             
-            _initialVelocity = transform.forward * stats.InitialVelocity;
+            _initialVelocity = transform.forward * (stats.InitialVelocity+addSpeed);
             _owner = owner;
             CanDoDamage = true;
 
@@ -66,7 +73,6 @@ namespace Gameplay.Weapons
 
             _rigidbody.isKinematic = false;
             _rigidbody.linearVelocity = _initialVelocity;
-            velocity = _initialVelocity;
 
             _castMode = stats.DamageType switch
             {
@@ -78,6 +84,7 @@ namespace Gameplay.Weapons
             PoolCancellation = new CancellationTokenSource();
 
             _ = ReturnToPoolTask(PoolCancellation, stats.MaxLifetime);
+
         }
 
         //dummy init, essentially tell it to destroy itself and to not calculate damage

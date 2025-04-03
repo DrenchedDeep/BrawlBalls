@@ -1,7 +1,6 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Managers.Local;
-using Managers.Network;
 using RotaryHeart.Lib.PhysicsExtension;
 using Unity.Netcode;
 using UnityEngine;
@@ -12,8 +11,6 @@ namespace Gameplay.Weapons
     public class TheButtonWeapon : BaseWeapon
     {
         private static readonly int IsBlowingUp = Animator.StringToHash("IsBlowingUp");
-        [SerializeField] private float buttonHoldTime = 3f;
-        [SerializeField] private float explosionRadius = 15;
         [SerializeField] private AnimationCurve damageFallOffCurve;
         [SerializeField] private ParticleSystem nukeParticle;
     
@@ -22,24 +19,35 @@ namespace Gameplay.Weapons
         private Animator _animator;
         private float _currentTime;
         private bool _isHoldingDown;
+        private bool _isLockedDown;
 
-        private NetworkVariable<float> crackPercent = new NetworkVariable<float>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+        private readonly NetworkVariable<float> _crackPercent = new NetworkVariable<float>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
-        public override void AttackStart()
+        protected override void OnChargeStart()
         {
+            Debug.Log("Nuclear button Pressed");
+            _cancellationTokenSource?.Cancel();
             _cancellationTokenSource = new CancellationTokenSource();
             _ = ButtonCountdown(_cancellationTokenSource.Token);
+            
             _isHoldingDown = true;
             _animator.SetBool(IsBlowingUp, true);
         }
 
-        public override void AttackEnd()
+        protected override void OnChargeStop()
         {
+            if (_isLockedDown) return;
+            
+            Debug.Log("Nuclear button unpressed");
+
+            
             _isHoldingDown = false;
-            _cancellationTokenSource.Cancel();
-            crackPercent.Value = 0;       
+            _crackPercent.Value = 0;       
             _animator.SetBool(IsBlowingUp, false);
 
+            _cancellationTokenSource?.Cancel();
+            _cancellationTokenSource = new CancellationTokenSource();
+            _ = ButtonUndo(_cancellationTokenSource.Token);
         }
 
         public override void Start()
@@ -48,7 +56,7 @@ namespace Gameplay.Weapons
             Owner.OnDestroyed += OnDeath;
             _material = Owner.GetBall.GetComponent<MeshRenderer>().material;
             _animator = GetComponent<Animator>();
-            crackPercent.OnValueChanged += OnValueChanged;
+            _crackPercent.OnValueChanged += OnValueChanged;
         }
 
         private void OnValueChanged(float previousvalue, float newvalue)
@@ -60,27 +68,49 @@ namespace Gameplay.Weapons
         private async UniTask ButtonCountdown(CancellationToken token)
         {
             
-        Debug.Log("start!");
-        while (_currentTime < buttonHoldTime)
+        while (_currentTime < stats.ChargeUpTime)
         {
             _currentTime += Time.deltaTime;
-            
-            crackPercent.Value = _currentTime / buttonHoldTime;
-            
+
+            _crackPercent.Value = _currentTime / stats.ChargeUpTime;
+
             await UniTask.Yield();
-            
+
             if (token.IsCancellationRequested)
             {
                 return;
             }
         }
+        _animator.SetBool(IsBlowingUp, false);
+        _isHoldingDown = false;
+        _isLockedDown = false;
         Explode_ServerRpc();
+        }
+
+        private async UniTask ButtonUndo(CancellationToken token)
+        {
+            while (_currentTime >0 )
+            {
+                _currentTime -= Time.deltaTime;
+
+                _crackPercent.Value = _currentTime / stats.ChargeUpTime;
+
+                await UniTask.Yield();
+
+                if (token.IsCancellationRequested)
+                {
+                    return;
+                }
+            }
+
+            _currentTime = 0;
         }
 
         void OnDeath(ulong killer, int childID)
         {
             if (_isHoldingDown)
             {
+                _animator.SetBool(IsBlowingUp, false);
                 Explode_ServerRpc();
             }
         }
@@ -88,11 +118,15 @@ namespace Gameplay.Weapons
         [ServerRpc(RequireOwnership = false)]
         public void Explode_ServerRpc()
         {
-            DamageProperties damageProperties = new DamageProperties(1000, transform.forward, Owner.OwnerClientId, Owner.ChildID.Value);
-            Collider[] results = Physics.OverlapSphere(transform.position, explosionRadius, stats.HitLayers);
+            Debug.Log("Nuclear Explosion");
+
+            
+            Playback_ClientRPC(transform.position);
+
+            Collider[] results = Physics.OverlapSphere(transform.position, stats.MaxRadius, stats.HitLayers);
 
 #if UNITY_EDITOR
-            DebugExtensions.DebugWireSphere(transform.position, Color.red, explosionRadius, 5, PreviewCondition.Both);
+            DebugExtensions.DebugWireSphere(transform.position, Color.red, stats.MaxRadius, 5, PreviewCondition.Both);
 #endif
         
             foreach (Collider col in results)
@@ -100,34 +134,42 @@ namespace Gameplay.Weapons
                 if (col.transform.parent && col.transform.parent.TryGetComponent(out BallPlayer ballPlayer))
                 {
                     
-#if UNITY_EDITOR
-                    Debug.DrawLine(transform.position, col.transform.position, Color.green, 5);
-#endif
-                    
-                    float dist = (Owner.transform.position - col.transform.position).magnitude;
+
+                    Vector3 direction = col.transform.position - Owner.transform.position;
+                    float dist = (direction).magnitude;
                     Debug.Log("HIT: " + col.gameObject.name + " with a distance of: " + dist);
-                    ballPlayer.TakeDamage_ServerRpc(damageProperties);
+                    
+#if UNITY_EDITOR
+                    Debug.DrawLine(transform.position,  direction.normalized * dist, Color.green, 5);
+#endif
+                    float eval = 1 - damageFallOffCurve.Evaluate(dist / stats.MaxRadius);
+                    ballPlayer.TakeDamage_ServerRpc( new DamageProperties( eval * stats.Damage, direction * (eval * stats.ForceMultiplier), Owner.OwnerClientId, Owner.ChildID.Value));
                 }
             }
         
             //NetworkGameManager.Instance.PlayParticleGlobally_ServerRpc("Explosion", transform.position, transform.rotation);
-            Owner.TakeDamage_ServerRpc(damageProperties);
-            Playback_ClientRPC(transform.position);
+            Owner.TakeDamage_ServerRpc(new DamageProperties( stats.Damage, Vector3.up * stats.ForceMultiplier, Owner.OwnerClientId, Owner.ChildID.Value));
         }
 
         [ClientRpc]
         private void Playback_ClientRPC(Vector3 location)
         {
-            ParticleSystem ps = Instantiate(nukeParticle, location, Quaternion.identity);
+            Debug.Log("Playing Nuclear Particle");
+            ParticleSystem ps = Instantiate(nukeParticle, location, Quaternion.Euler(-90,0,0));
             Destroy(ps.gameObject, ps.main.duration);
         }
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.gameObject.GetComponent<BallPlayer>())
+            Rigidbody rb = other.attachedRigidbody;
+            if (rb && rb.TryGetComponent(out BallPlayer b) && transform.parent != rb.transform)
             {
-                Explode_ServerRpc();
+                Debug.Log("Something has collided with me!");
+                _isLockedDown = true;
+                AttackStart();
             }
         }
+        
+        
     }
 }

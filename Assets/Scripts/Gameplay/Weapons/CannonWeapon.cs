@@ -1,4 +1,3 @@
-using Unity.Netcode;
 using UnityEngine;
 
 namespace Gameplay.Weapons
@@ -17,20 +16,21 @@ namespace Gameplay.Weapons
         [SerializeField] private Animator animator;
     
         private bool _updateParabola;
-        private float _firePower;
     
-        public override void AttackStart()
+        protected override void OnChargeStart()
         {
+            base.OnChargeStart();
             Debug.Log("ATTACK START!");
+            _currentChargeUp  = 0.0f;
             animator.SetBool(Charge, true);
             _updateParabola = true;
             parabola.ToggleLineRenderer(true);
         }
 
-        public override void AttackEnd()
+        protected override void OnChargeStop()
         {
-
-            if (_firePower >= minFirePowerBeforeAttack)
+            base.OnChargeStop();
+            if (_currentChargeUp >= minFirePowerBeforeAttack)
             {
                 Attack();
             }
@@ -39,40 +39,19 @@ namespace Gameplay.Weapons
             _updateParabola = false;
             parabola.ToggleLineRenderer(false);
 
-            _firePower = 0.0f;
+            _currentChargeUp = 0.0f;
         }
 
         protected override void Attack()
         {
             animator.SetTrigger(Launch);
 
-            for (int i = 0; i < projectileWeapons.Length; i++)
-            {
-                //fire locally
-                projectileWeapons[i].Fire(stats, out Vector3 velocity, _firePower * firePowerMultiplier);
-            
-                //tell server to spawn projectiles for every other clients
-                if (NetworkManager.Singleton)
-                {
-                    Attack_ServerRpc(i, velocity);
-                }
-            }
+            base.Attack();
         }
     
-        private void Update()
+        protected override void ChargeUpTick(float deltaTime)
         {
-            if (IsOwner)
-            {
-            }
-
-            if (_updateParabola)
-            {
-                _firePower += Time.deltaTime * chargeRate;
-                _firePower = Mathf.Clamp(_firePower, 0f, maxFirePower);
-            }
-        
-            parabola.UpdateFirePower(_firePower);
-        
+            parabola.UpdateFirePower(Mathf.Min(_currentChargeUp * chargeRate, maxFirePower));
         }
     }
 }

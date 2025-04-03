@@ -18,15 +18,15 @@ MonoBehaviour:
   <Comment>k__BackingField: Mutually assured destruction... Is this really the best
     choice?
   description: "<color=#47a647>+ BOOM!</color>\n<color=#47a647>+ AOE damage</color>\n<color=#FFFFFF>\u2022
-    Single activation</color>\n<color=#FFA07A>- Long charge</color>\n<color=#d14c45>-
-    Does insane damage to everything</color>\n"
-  statsContext: '<sprite=8>20
+    Does insane damage to everything</color>\n<color=#FFA07A>- Long charge</color>\n<color=#FFA07A>-
+    Heavy</color>\n"
+  statsContext: '<sprite=8>500
 
-    <sprite=8>1.2
+    <sprite=8>40
 
     <sprite=9>0
 
-    <sprite=10>0
+    <sprite=10>100
 
     <sprite=11>Hits
     Team
@@ -38,17 +38,17 @@ MonoBehaviour:
   - traitType: 2
     information: AOE damage
   - traitType: 0
-    information: Single activation
+    information: Does insane damage to everything
   - traitType: -1
     information: Long charge
-  - traitType: -2
-    information: Does insane damage to everything
-  <Damage>k__BackingField: 20
-  <Mass>k__BackingField: 1.2
-  <ForceMultiplier>k__BackingField: 0
+  - traitType: -1
+    information: Heavy
+  <Damage>k__BackingField: 500
+  <Mass>k__BackingField: 40
+  <ForceMultiplier>k__BackingField: 100
   <MaxRange>k__BackingField: 0
   <MaxRadius>k__BackingField: 20
-  <ChargeUpTime>k__BackingField: 0
+  <ChargeUpTime>k__BackingField: 3
   <Ammo>k__BackingField: 0
   <Ability>k__BackingField: {fileID: 11400000, guid: ba4567cf8dcff1b48b9a3a391d327c76,
     type: 2}
