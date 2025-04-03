@@ -240,11 +240,9 @@ namespace Managers.Local
             rootCanvas.enabled = true;
             //PlayerControls.EnableControls();
             _playerInput.currentActionMap.Enable();
-          // Cursor.visible = false;
-         //   Cursor.lockState = CursorLockMode.Locked;
+           Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
             
-            Cursor.visible = true;
-            Cursor.lockState = CursorLockMode.None;
             
             _playerInput.SwitchCurrentActionMap("Game");
         }

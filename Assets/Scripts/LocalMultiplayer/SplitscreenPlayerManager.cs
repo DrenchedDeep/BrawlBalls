@@ -139,6 +139,8 @@ Debug.Log("We've disabled controls because you may not join from this scene.");
                     playerIndex: player.PlayerIndex, 
                     pairWithDevices: devices.ToArray()));
             }
+            
+            Debug.LogWarning("We are intentionally disconnecting everyone");
             ActiveParasites.Clear();
         }
 
