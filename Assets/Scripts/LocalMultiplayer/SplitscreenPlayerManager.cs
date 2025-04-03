@@ -81,27 +81,27 @@ namespace LocalMultiplayer
         {          
             Debug.Log("We are now in a new scene: " + newScene.name);
 
+            defaultCamera.gameObject.SetActive(true);
             
             _playerInputManager.playerPrefab =newScene.buildIndex < 2 ? mainMenuPrefab : inGamePrefab;
             LocalPlayers.Clear();
             SaveManager.Clear();
             if(newScene.buildIndex == 1) _playerInputManager.EnableJoining();
-            #if !UNITY_EDITOR
+#if !UNITY_EDITOR
             else {
 _playerInputManager.DisableJoining();
+Debug.Log("We've disabled controls because you may not join from this scene.")
 Debug.Log("We've disabled controls because you may not join from this scene.");
+            }
+            
+#else
+            else if(ActiveParasites.Count != 0){
+                _playerInputManager.DisableJoining();
+                Debug.Log("We've disabled controls because you may not join from this scene.");
             }
 #endif
            // Debug.Log("We've loaded a scene, do we know about anyone that currently exists?" + LocalPlayers.Count +"...Data containers: " + (ActiveParasites?.Count ?? 0) +$"Build index: {newScene.buildIndex}");
-
-
-           if (ActiveParasites.Count == 0)
-           {
-               defaultCamera.SetActive(true);
-               return;
-           }
-
-            
+           
             
             if (newScene.buildIndex == 0) return;
             DeployParasites();
@@ -125,6 +125,9 @@ Debug.Log("We've disabled controls because you may not join from this scene.");
                 {
                     //InputSystem.DisableDevice(x);
                     if (!x.native) {
+                        Debug.Log("Excluding: " + x.name);
+                        if(x.added) InputSystem.DisableDevice(x);
+
                         InputSystem.RemoveDevice(x);
                         continue; // Skip virtual mice
                     }
@@ -149,7 +152,7 @@ Debug.Log("We've disabled controls because you may not join from this scene.");
             {
                 if(LocalPlayers.Count == 0)
                 {
-                    Debug.Log("Game should be shutting down");
+                    Debug.Log("There are no players... Possibly transitioning?");
                     return;
                 }
                 LocalHost = LocalPlayers[0];

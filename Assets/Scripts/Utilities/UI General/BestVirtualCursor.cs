@@ -46,7 +46,7 @@ namespace Utilities.UI_General
             }
             
             
-            TryAddDevice();
+            //TryAddDevice();
 
             SplitscreenPlayerManager.Instance.OnClientsUpdated += OnRectTransformDimensionsChange;
         }
@@ -75,7 +75,7 @@ namespace Utilities.UI_General
             PlayerInput root  = transform.root.GetComponent<PlayerInput>();
             _rectTransform = graphic.rectTransform;
             
-            Debug.Log(root.transform.name);
+            Debug.Log("VIrtual Cursor attaching to: " + root.transform.name, root.gameObject);
             //SplitscreenPlayerManager.Instance.OnPlayerConnected += OnPlayerChanged;
             //SplitscreenPlayerManager.Instance.OnPlayerDisconnected += OnPlayerChanged;
             OnPlayerChanged(root);
@@ -90,14 +90,17 @@ namespace Utilities.UI_General
         {
             if (_mVirtualMouse == null)
             {
-                _mVirtualMouse = (Mouse)InputSystem.AddDevice("VirtualMouse");
+                _mVirtualMouse = (Mouse)InputSystem.AddDevice( "VirtualMouse", transform.root.name+"_VirtualMouse");
                 Debug.Log("Creating Virtual Mouse");
+                
             }
+            /*
             else if (!_mVirtualMouse.added)
             {
                 InputSystem.AddDevice(_mVirtualMouse);
                 Debug.Log("Adding virtual mouse");
             }
+            */
         }
 
         private void HandleInteract(InputAction.CallbackContext obj)
@@ -147,7 +150,11 @@ namespace Utilities.UI_General
                 _ => graphic.color
             };
             SetVisibility();
+            
+            //Required for UI interaction.
             InputUser.PerformPairingWithDevice(_mVirtualMouse.device, _owner.user);
+            
+            
             OnRectTransformDimensionsChange();
             
             _owner.onDeviceLost += OnPlayerChanged;
