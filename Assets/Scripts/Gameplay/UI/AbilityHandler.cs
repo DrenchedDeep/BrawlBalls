@@ -12,7 +12,6 @@ namespace Gameplay.UI
     public class AbilityHandler : MonoBehaviour
     {
         //These should be serialized to prevent issues with setting...
-        [SerializeField] private Canvas root;
         [SerializeField] private UIHoldReleaseButton button;
         [SerializeField] private Image fillImg;
         [SerializeField] private Image icon;
@@ -29,7 +28,6 @@ namespace Gameplay.UI
         public void SetAbility(AbilityStats ability, BallPlayer owner)
         {
             bool x = ability;
-            root.enabled = x;
 
             if (!x)
             {
@@ -58,7 +56,6 @@ namespace Gameplay.UI
             if (_capacity == 0)
             {
                 button.Interactable = false;
-                root.enabled = false;
                 Debug.Log($"Ability is out of charges! {_boundAbility.name}", gameObject);
             }
             else

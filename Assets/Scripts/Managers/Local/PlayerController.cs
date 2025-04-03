@@ -111,6 +111,7 @@ namespace Managers.Local
                 
                 case GameState.SelectingBalls:
                     selectionCanvas.enabled = true;
+                    gameCanvas.enabled = false;
                     break;
                 
                 case GameState.StartingGame:
@@ -239,8 +240,12 @@ namespace Managers.Local
             rootCanvas.enabled = true;
             //PlayerControls.EnableControls();
             _playerInput.currentActionMap.Enable();
-           Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Locked;
+          // Cursor.visible = false;
+         //   Cursor.lockState = CursorLockMode.Locked;
+            
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+            
             _playerInput.SwitchCurrentActionMap("Game");
         }
     
@@ -269,6 +274,7 @@ namespace Managers.Local
 
         private void SetSteer(Vector2 direction)
         {
+            Debug.Log("Setting Steer Vector: " + direction);
             if(IsActive) _currentJoyStick.SetInput(direction);
         }
         
@@ -282,6 +288,7 @@ namespace Managers.Local
             SetBall(ballPlayer); 
             SetAbilities(ballPlayer.GetBaseWeapon,ballPlayer.GetAbility);
             
+            //TODO: Investigate
             if(NetworkGameManager.Instance.GameState.Value == GameState.InGame)
             {
                 rootCanvas.enabled = true;
@@ -309,9 +316,9 @@ namespace Managers.Local
                 }
             }
 
-            deathCanvas.enabled = true;
-            gameCanvas.enabled = false;
-            spectateCanvas.enabled = false;
+            //deathCanvas.enabled = true;
+            //gameCanvas.enabled = false;
+            //spectateCanvas.enabled = false;
 
             killedByText.text = (killer == 100) ? "WORLD" : NetworkGameManager.Instance.GetPlayerName(killer, childID);
             DisableControls();
@@ -341,12 +348,12 @@ namespace Managers.Local
             if (_livesLeft <= 0)
             {
                 _spectatingManager.StartSpectating();
-                deathCanvas.enabled = false;
+                //deathCanvas.enabled = false;
             }
             else
             {
-                deathCanvas.enabled = false;
-                rootCanvas.enabled = false;
+                //deathCanvas.enabled = false;
+                //rootCanvas.enabled = false;
           //      enabled = false;
                 cam.enabled = false;
                 _selectionMenu.BeginDisplaying();

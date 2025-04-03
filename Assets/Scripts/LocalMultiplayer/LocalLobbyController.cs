@@ -13,7 +13,7 @@ namespace LocalMultiplayer
     {
         [SerializeField] private GameObject[] hostOnlyObjects;
         [SerializeField] private PlayerCard[] playerCards;
-        [SerializeField] private Button beginGameButton;
+        [SerializeField] private GameObject beginGameButtonGroup;
         [SerializeField] private Button startSearchButton;
         [SerializeField] private Button stopSearchButton;
 
@@ -53,15 +53,9 @@ namespace LocalMultiplayer
 
             bool x = IsCouchCoopHost();
             startSearchButton.gameObject.SetActive(x);
-            beginGameButton.gameObject.SetActive(false);
+            beginGameButtonGroup.SetActive(false);
             stopSearchButton.gameObject.SetActive(false);
             
-            if (x)
-            {
-                beginGameButton.onClick.AddListener(LobbySystemManager.Instance.StartGame);
-                startSearchButton.onClick.AddListener(LobbySystemManager.Instance.QuickPlay);
-                stopSearchButton.onClick.AddListener(LobbySystemManager.Instance.LeaveLobby);
-            }
 
             foreach (var obj in hostOnlyObjects)
             {
@@ -76,7 +70,7 @@ namespace LocalMultiplayer
         {
             Debug.Log("We are disabling input...");
             Debug.LogWarning("There's no active handling for if a player disconnects during this state.");
-            beginGameButton.interactable = false;
+            beginGameButtonGroup.SetActive(false);
             startSearchButton.gameObject.SetActive(false);
             stopSearchButton.gameObject.SetActive(false);
         }
@@ -104,8 +98,7 @@ namespace LocalMultiplayer
             
             Debug.Log("Is local player host? " + LobbySystemManager.Instance.IsHost() +" && " + IsCouchCoopHost());
             
-            beginGameButton.gameObject.SetActive(isHost);
-            beginGameButton.interactable = isHost;
+            beginGameButtonGroup.SetActive(isHost);
 
             if (lobby == null) return;
             
@@ -147,14 +140,21 @@ namespace LocalMultiplayer
         public bool IsCouchCoopHost() => SplitscreenPlayerManager.Instance.LocalHost.playerIndex == _localPlayer.input.playerIndex;
         
         
+        
+        
+        
+        
         public void StartFindingMatch()
         {
+            if (!IsCouchCoopHost()) return;
             Debug.Log("StartFindingMatch", gameObject);
             LobbySystemManager.Instance.QuickPlay();
         }
 
         public void StopFindingMatch()
         {
+            if (!IsCouchCoopHost()) return;
+
             Debug.Log("StopFindingMatch", gameObject);
             LobbySystemManager.Instance.LeaveLobby();
 
@@ -162,9 +162,20 @@ namespace LocalMultiplayer
 
         public void ForceStartMatch()
         {
+            if (!IsCouchCoopHost()) return;
+            
             Debug.Log("ForceStartMatch", gameObject);
             LobbySystemManager.Instance.StartGame();
-
         }
+        
+        public void ForceStartMatch(string mapName)
+        {
+            if (!IsCouchCoopHost()) return;
+            
+            Debug.Log("ForceStartMatch: " + beginGameButtonGroup, gameObject);
+            LobbySystemManager.Instance.StartGame(mapName);
+        }
+        
+        
     }
 }

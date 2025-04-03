@@ -30,14 +30,24 @@ namespace Utilities.UI_General
         protected override void OnEnable()
         {
             base.OnEnable();
-            TryAddDevice();
     
             if (_owner)
             {
+                if (_owner.currentControlScheme != "Controller")
+                {
+                    Debug.Log("Destroying cursor as we're not using a controller");
+                    Destroy(gameObject);
+                    return;
+                }
+                
                 _owner.onDeviceLost += OnPlayerChanged;
                 _owner.onDeviceRegained += OnPlayerChanged;
                 
             }
+            
+            
+            TryAddDevice();
+
             SplitscreenPlayerManager.Instance.OnClientsUpdated += OnRectTransformDimensionsChange;
         }
 

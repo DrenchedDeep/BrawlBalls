@@ -155,14 +155,16 @@ namespace Managers.Network
 
         public async void StartGame()
         {
+            StartGame(inRotationMaps[Random.Range(0, inRotationMaps.Length)]);
+        }
+
+        public async void StartGame(string map)
+        {
             if (!IsHost()) return;
             
             try
             {
                 LoadingHelper.Instance.Activate();
-
-
-                string map = inRotationMaps[Random.Range(0, inRotationMaps.Length)];
                 
                 Debug.Log("Starting game!");
 

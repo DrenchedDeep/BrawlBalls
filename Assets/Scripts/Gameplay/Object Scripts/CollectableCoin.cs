@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
@@ -56,11 +55,9 @@ namespace Gameplay.Object_Scripts
             
         }
 
-    
-
-        protected override void OnTriggerEnter(Collider other)
+        protected override void OnCollection(Rigidbody rb, BallPlayer ballPlayer)
         {
-            other.transform.parent.TryGetComponent(out _owner);
+            _owner = ballPlayer;
             
             //What if the owner dies? We probably need to cache a cancellation token.
 
@@ -79,7 +76,7 @@ namespace Gameplay.Object_Scripts
             constraint.constraintActive = true;
             constraint.SetSources(new List<ConstraintSource>(){s});
         }
-        
+
         private void OnOwnerKilled(ulong killer, int childID)
         {
             if (_owner)

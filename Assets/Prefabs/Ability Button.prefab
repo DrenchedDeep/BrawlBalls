@@ -179,8 +179,6 @@ GameObject:
   - component: {fileID: 9214930307689600213}
   - component: {fileID: 4137182755042373191}
   - component: {fileID: 1390002757957149493}
-  - component: {fileID: 8236103921665822744}
-  - component: {fileID: 459220213515264521}
   m_Layer: 5
   m_Name: Ability Button
   m_TagString: Untagged
@@ -260,7 +258,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e53e84c35dbc4442a6f360af15ccedc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  root: {fileID: 8236103921665822744}
   button: {fileID: 4137182755042373191}
   fillImg: {fileID: 7274748795974148824}
   icon: {fileID: 127131078206292265}
@@ -283,10 +280,34 @@ MonoBehaviour:
   disabledColor: {r: 0.4528302, g: 0.4528302, b: 0.4528302, a: 0.59607846}
   onBeginHold:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 9214930307689600213}
+        m_TargetAssemblyTypeName: Gameplay.UI.AbilityHandler, Assembly-CSharp
+        m_MethodName: StartUsingAbility
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onEndHold:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 9214930307689600213}
+        m_TargetAssemblyTypeName: Gameplay.UI.AbilityHandler, Assembly-CSharp
+        m_MethodName: StopUsingAbility
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1390002757957149493
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -344,46 +365,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!223 &8236103921665822744
-Canvas:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4866531952924339158}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_RenderMode: 2
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
-  m_PixelPerfect: 0
-  m_ReceivesEvents: 1
-  m_OverrideSorting: 0
-  m_OverridePixelPerfect: 0
-  m_SortingBucketNormalizedSize: 0
-  m_VertexColorAlwaysGammaSpace: 1
-  m_AdditionalShaderChannelsFlag: 25
-  m_UpdateRectTransformForStandalone: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
-  m_TargetDisplay: 0
---- !u!114 &459220213515264521
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4866531952924339158}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
 --- !u!1 &5164629871535679953
 GameObject:
   m_ObjectHideFlags: 0

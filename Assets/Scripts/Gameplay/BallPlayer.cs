@@ -97,11 +97,14 @@ namespace Gameplay
 
         private void OnEnable()
         {
-            if (NetworkGameManager.Instance)
+            if (!NetworkGameManager.Instance)
+            {
+                enabled = false;
+            }
+            else
             {
                 NetworkGameManager.Instance.OnGameStateUpdated += OnGameStateUpdated;
             }
-
         }
 
         private void OnDisable()
