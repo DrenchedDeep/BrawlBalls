@@ -16,12 +16,21 @@ MonoBehaviour:
     type: 3}
   <Rarity>k__BackingField: 0
   <Comment>k__BackingField: Prepare for the beat down
-  doNotEditDescription: '<color=#90EE90>+ Pushes all enemies away</color>
+  description: '<color=#47a647>+ Pushes all enemies away</color>
 
     <color=#98FB98>+
     Does not affect team mates</color>
 
-    <color=#FF6961>- Does no damage</color>
+    <color=#d14c45>- Does no damage</color>
+
+'
+  statsContext: '<sprite=8>0
+
+    <sprite=8>1.5
+
+    <sprite=9>5
+
+    <sprite=10>10000
 
 '
   tags:
@@ -33,7 +42,7 @@ MonoBehaviour:
     information: Does no damage
   <Damage>k__BackingField: 0
   <Mass>k__BackingField: 1.5
-  <ForceMultiplier>k__BackingField: 10
+  <ForceMultiplier>k__BackingField: 10000
   <MaxRange>k__BackingField: 5
   <MaxRadius>k__BackingField: 3
   <ChargeUpTime>k__BackingField: 0

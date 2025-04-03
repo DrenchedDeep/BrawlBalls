@@ -58,12 +58,17 @@ namespace Gameplay.Weapons
             bool hitWall = Physics.Raycast(position, forward, out RaycastHit wallCheck, stats.MaxRange, StaticUtilities.GroundLayers);
             float dist = hitWall?wallCheck.distance:stats.MaxRange;
 
-            int hitCount = Physics.SphereCastNonAlloc(position, stats.MaxRadius, forward, Hits, dist, StaticUtilities.EnemyLayer, PreviewCondition.Editor, 0.1f, Color.green, Color.red);
+            int hitCount = Physics.SphereCastNonAlloc(position, stats.MaxRadius, forward, Hits, dist,
+                stats.HitLayers, PreviewCondition.Editor, 0.1f, Color.green, Color.red);
             
             for (int i = 0; i < hitCount; ++i)
             {
                 Rigidbody n = Hits[i].rigidbody;
-                if (n && n.TryGetComponent(out BallPlayer b) && b != Owner)
+                n.TryGetComponent(out BallPlayer b);
+                Debug.Log("Owner Child ID: " + (int)Owner.ChildID.Value);
+                Debug.Log("Hit Child ID: " + (int)b.ChildID.Value);
+
+                if (n && CanDamage(b))
                 {
                     //FIX this doesn't consider speed...
                     float dmg = CurDamage;
@@ -85,5 +90,15 @@ namespace Gameplay.Weapons
             }
         }
 
+        // in theory this should work :P
+        private bool CanDamage(BallPlayer b)
+        {
+            if (b.OwnerClientId == Owner.OwnerClientId)
+            {
+                return b.ChildID.Value != Owner.ChildID.Value;
+            }
+            
+            return true;
+        }
     }
 }

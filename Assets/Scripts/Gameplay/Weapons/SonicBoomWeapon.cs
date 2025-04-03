@@ -29,7 +29,7 @@ public class SonicBoomWeapon : BaseWeapon
             if (hit.transform.TryGetComponent(out BallPlayer player))
             {
                 Debug.Log("sonic boom hit player: " + player.OwnerClientId);
-                if (player != Owner)
+                if (CanDamage(player))
                 {
                     Debug.Log("is not my owner");
 
@@ -38,6 +38,16 @@ public class SonicBoomWeapon : BaseWeapon
                 }
             }
         }
+    }
+    
+    private bool CanDamage(BallPlayer b)
+    {
+        if (b.OwnerClientId == Owner.OwnerClientId)
+        {
+            return b.ChildID.Value != Owner.ChildID.Value;
+        }
+            
+        return true;
     }
     
 }
