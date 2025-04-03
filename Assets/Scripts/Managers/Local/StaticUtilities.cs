@@ -16,6 +16,7 @@ namespace Managers.Local
         public static readonly int SecondaryColorID = Shader.PropertyToID("_SecondaryColor");
         public static readonly int FlashPercentID = Shader.PropertyToID("_FlashPercent");
         public static readonly int AppearPercentID = Shader.PropertyToID("_AppearPercent");
+        public static readonly int CrackPercentID = Shader.PropertyToID("_CrackPercent");
         
         #endregion
         
