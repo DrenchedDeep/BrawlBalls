@@ -1,3 +1,4 @@
+using Managers.Local;
 using UnityEngine;
 
 namespace Gameplay.Abilities.WeaponAbilities
@@ -12,6 +13,7 @@ namespace Gameplay.Abilities.WeaponAbilities
 
         public override void ExecuteAbility(BallPlayer owner)
         {
+            AudioManager.instance.PlayOneShot(FMODEvents.instance.LaserQ, owner.transform.position);
             owner.GetBaseWeapon.AttackStart();
         }
 
