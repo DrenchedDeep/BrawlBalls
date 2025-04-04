@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using FMODUnity;
 using UnityEngine;
 
 namespace Managers.Local
@@ -29,6 +30,7 @@ namespace Managers.Local
         public static Material GlueBallMat => Pm.glueBallMat;
         public static Material ProtectMat => Pm.protectMat;
         private static readonly Dictionary<string, ParticleSystem> Particles = new();
+        private static readonly Dictionary<string, EventReference> PairedEvents = new();
 
         public enum ECollectableType
         {
@@ -50,8 +52,10 @@ namespace Managers.Local
                 return;
             }
 
+         
             Pm = this;
             Particles.Clear();
+            PairedEvents.Clear();
             Transform parent = transform.GetChild(1);
             int n = parent.childCount;
             for(int i =0; i < n; ++i)
@@ -60,6 +64,8 @@ namespace Managers.Local
                 print("Registed particle: " + t.name);
                 Particles.Add(t.name, t.GetComponent<ParticleSystem>());
             }
+            PairedEvents.Add("Confetti",FMODEvents.instance.confettiExplosion);
+            PairedEvents.Add("Explosion",FMODEvents.instance.marbleExplosion);
         
 
 
@@ -70,6 +76,8 @@ namespace Managers.Local
             print("Invoking particle: " + id + " at position: " + position + " rotation: " + rotation);
             Particles[id].transform.SetPositionAndRotation(position, rotation);
             Particles[id].Play();
+            Debug.LogWarning("Invoking particle: GABE REMEMBER TO IMPROVE THIS A LOT.");
+            RuntimeManager.PlayOneShot(PairedEvents[id], position);
         }
     }
 

@@ -17,9 +17,20 @@ MonoBehaviour:
   <Rarity>k__BackingField: 1
   <Comment>k__BackingField: After they left, my ball froze over. My ball has become
     so brittle and cold. Will it ever thaw?
-  doNotEditDescription: "<color=#90EE90>+ Very fast</color>\n<color=#FFFFFF>\u2022
-    Low bounce</color>\n<color=#FFA07A>- No Friction</color>\n<color=#FFA07A>- Low
-    health</color>\n"
+  description: "<color=#47a647>+ Very fast</color>\n<color=#FFFFFF>\u2022 Low bounce</color>\n<color=#FFA07A>-
+    No Friction</color>\n<color=#FFA07A>- Low health</color>\n<color=#d14c45>- Terrible
+    Acceleration</color>\n"
+  statsContext: '<sprite=0>60
+
+    <sprite=4>80
+
+    <sprite=1>100
+
+    <sprite=2>2
+
+    <sprite=3>25
+
+'
   tags:
   - traitType: 2
     information: Very fast
@@ -29,10 +40,12 @@ MonoBehaviour:
     information: No Friction
   - traitType: -1
     information: Low health
-  <MaxHealth>k__BackingField: 100
-  <MaxSpeed>k__BackingField: 45
+  - traitType: -2
+    information: Terrible Acceleration
+  <MaxHealth>k__BackingField: 60
+  <MaxSpeed>k__BackingField: 100
   <AngularDrag>k__BackingField: 2
-  <Acceleration>k__BackingField: 45
+  <Acceleration>k__BackingField: 25
   <Mass>k__BackingField: 80
   <FootRange>k__BackingField: 3
   <FootRadius>k__BackingField: 0.2

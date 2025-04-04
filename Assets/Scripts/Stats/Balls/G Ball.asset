@@ -16,10 +16,21 @@ MonoBehaviour:
     type: 3}
   <Rarity>k__BackingField: 3
   <Comment>k__BackingField: IT IS HIM
-  doNotEditDescription: "<color=#90EE90>+ IT IS HIM</color>\n<color=#90EE90>+ Excellent
-    Handling</color>\n<color=#90EE90>+ On enemy destroyed: shoot lasers</color>\n<color=#90EE90>+
-    On enemy destroyed: refresh all abilities and weapons</color>\n<color=#FFFFFF>\u2022
-    On enemy destroyed: become more massive</color>\n"
+  description: "<color=#47a647>+ IT IS HIM</color>\n<color=#47a647>+ Excellent Handling</color>\n<color=#47a647>+
+    On enemy destroyed: shoot lasers</color>\n<color=#47a647>+ On enemy destroyed:
+    refresh all abilities and weapons</color>\n<color=#FFFFFF>\u2022 On enemy destroyed:
+    become more massive</color>\n"
+  statsContext: '<sprite=0>150
+
+    <sprite=4>120
+
+    <sprite=1>40
+
+    <sprite=2>2
+
+    <sprite=3>100
+
+'
   tags:
   - traitType: 2
     information: IT IS HIM
@@ -31,10 +42,10 @@ MonoBehaviour:
     information: 'On enemy destroyed: refresh all abilities and weapons'
   - traitType: 0
     information: 'On enemy destroyed: become more massive'
-  <MaxHealth>k__BackingField: 100
-  <MaxSpeed>k__BackingField: 45
+  <MaxHealth>k__BackingField: 150
+  <MaxSpeed>k__BackingField: 40
   <AngularDrag>k__BackingField: 2
-  <Acceleration>k__BackingField: 45
-  <Mass>k__BackingField: 80
+  <Acceleration>k__BackingField: 100
+  <Mass>k__BackingField: 120
   <FootRange>k__BackingField: 3
   <FootRadius>k__BackingField: 0.2

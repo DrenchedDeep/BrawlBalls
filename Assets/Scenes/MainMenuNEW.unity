@@ -411,6 +411,16 @@ PrefabInstance:
       propertyPath: m_hasFontAssetChanged
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3519254026107005650, guid: 0c95167445fa4334fa383cffdae17200,
+        type: 3}
+      propertyPath: TriggerModule.enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3519254026107005650, guid: 0c95167445fa4334fa383cffdae17200,
+        type: 3}
+      propertyPath: TriggerModule.primitives.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3885355149854194630, guid: 0c95167445fa4334fa383cffdae17200,
         type: 3}
       propertyPath: m_RootOrder
@@ -490,6 +500,10 @@ PrefabInstance:
     - {fileID: 7572229431554653630, guid: 0c95167445fa4334fa383cffdae17200, type: 3}
     m_RemovedGameObjects:
     - {fileID: 2337101641982631107, guid: 0c95167445fa4334fa383cffdae17200, type: 3}
+    - {fileID: 2320918464011438888, guid: 0c95167445fa4334fa383cffdae17200, type: 3}
+    - {fileID: 8553018753188083758, guid: 0c95167445fa4334fa383cffdae17200, type: 3}
+    - {fileID: 8658856349059488653, guid: 0c95167445fa4334fa383cffdae17200, type: 3}
+    - {fileID: 8231638385787687399, guid: 0c95167445fa4334fa383cffdae17200, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0c95167445fa4334fa383cffdae17200, type: 3}

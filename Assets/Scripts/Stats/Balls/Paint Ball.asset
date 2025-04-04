@@ -16,9 +16,20 @@ MonoBehaviour:
     type: 3}
   <Rarity>k__BackingField: 0
   <Comment>k__BackingField: This ball is sure to leave a mark
-  doNotEditDescription: "<color=#98FB98>+ On destroyed: leave behind a glue pile,
-    slowing enemies down</color>\n<color=#98FB98>+ Good Handling</color>\n<color=#FFFFFF>\u2022
+  description: "<color=#98FB98>+ On destroyed: leave behind a glue pile, slowing
+    enemies down</color>\n<color=#98FB98>+ Good Handling</color>\n<color=#FFFFFF>\u2022
     Low Mass</color>\n<color=#FFA07A>- Low Health</color>\n"
+  statsContext: '<sprite=0>75
+
+    <sprite=4>65
+
+    <sprite=1>50
+
+    <sprite=2>1
+
+    <sprite=3>25
+
+'
   tags:
   - traitType: 1
     information: 'On destroyed: leave behind a glue pile, slowing enemies down'
@@ -29,7 +40,7 @@ MonoBehaviour:
   - traitType: -1
     information: Low Health
   <MaxHealth>k__BackingField: 75
-  <MaxSpeed>k__BackingField: 40
+  <MaxSpeed>k__BackingField: 50
   <AngularDrag>k__BackingField: 1
   <Acceleration>k__BackingField: 25
   <Mass>k__BackingField: 65

@@ -22,7 +22,7 @@ namespace Gameplay.Weapons
         private bool _isHoldingDown;
         private bool _isLockedDown;
 
-        private readonly NetworkVariable<float> _crackPercent = new NetworkVariable<float>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+        private readonly NetworkVariable<float> _crackPercent = new NetworkVariable<float>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
         protected override void OnChargeStart()
         {
@@ -73,8 +73,12 @@ namespace Gameplay.Weapons
         public override void OnDestroy()
         {
             base.OnDestroy();
-            
-            _cancellationTokenSource.Cancel();
+
+            if (_cancellationTokenSource != null)
+            {
+                _cancellationTokenSource.Cancel();
+                _cancellationTokenSource.Dispose();
+            }
         }
 
         private async UniTask ButtonCountdown(CancellationToken token)
@@ -177,6 +181,7 @@ namespace Gameplay.Weapons
 
         private void OnTriggerEnter(Collider other)
         {
+            if (!enabled) return;
             Rigidbody rb = other.attachedRigidbody;
             if (rb && rb.TryGetComponent(out BallPlayer b) && transform.parent != rb.transform)
             {

@@ -70,10 +70,12 @@ namespace Managers.Local
         {
             if (instance != null)
             {
-                Debug.LogError("More than one FMODEvents found.");
+                Destroy(instance.gameObject);
+                return;
             }
 
             instance = this;
+            DontDestroyOnLoad(instance);
         }
 
         public void PlayEvent(string command)

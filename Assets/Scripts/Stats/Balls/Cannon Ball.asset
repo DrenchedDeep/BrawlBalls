@@ -16,9 +16,20 @@ MonoBehaviour:
     type: 3}
   <Rarity>k__BackingField: 2
   <Comment>k__BackingField: Polly want a cracker?
-  doNotEditDescription: "<color=#90EE90>+ Moderate explosion on death</color>\n<color=#98FB98>+
+  description: "<color=#47a647>+ Moderate explosion on death</color>\n<color=#98FB98>+
     Great health</color>\n<color=#FFFFFF>\u2022 Very heavy</color>\n<color=#FFFFFF>\u2022
     Does not bounce</color>\n"
+  statsContext: '<sprite=0>150
+
+    <sprite=4>150
+
+    <sprite=1>40
+
+    <sprite=2>1
+
+    <sprite=3>30
+
+'
   tags:
   - traitType: 2
     information: Moderate explosion on death
@@ -29,9 +40,9 @@ MonoBehaviour:
   - traitType: 0
     information: Does not bounce
   <MaxHealth>k__BackingField: 150
-  <MaxSpeed>k__BackingField: 30
+  <MaxSpeed>k__BackingField: 40
   <AngularDrag>k__BackingField: 1
-  <Acceleration>k__BackingField: 40
-  <Mass>k__BackingField: 95
+  <Acceleration>k__BackingField: 30
+  <Mass>k__BackingField: 150
   <FootRange>k__BackingField: 3
   <FootRadius>k__BackingField: 0.2

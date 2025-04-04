@@ -19,7 +19,6 @@ namespace Gameplay.Abilities.BallAbility
             if (!IsServer) return; // Only the server should be able to handle this logic.
         
             NetworkGameManager.Instance.PlayParticleGlobally_ServerRpc("Explosion", transform.position, transform.rotation);
-            AudioManager.instance.PlayOneShot(FMODEvents.instance.marbleExplosion, transform.position);
         
             Vector3 pos = transform.position;
             Collider[] cols = Physics.OverlapSphere(pos, 10, StaticUtilities.PlayerLayers);

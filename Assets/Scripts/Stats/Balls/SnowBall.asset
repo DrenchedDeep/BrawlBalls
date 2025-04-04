@@ -17,9 +17,21 @@ MonoBehaviour:
   <Rarity>k__BackingField: 1
   <Comment>k__BackingField: If you put two snowballs on top of eachother, and a pumpkin
     on top you become a snow golem!
-  doNotEditDescription: "<color=#98FB98>+ On destroyed: create a storm slowing all
-    in a large area</color>\n<color=#FFFFFF>\u2022 Low Mass</color>\n<color=#FFFFFF>\u2022
-    Low Bounce</color>\n<color=#FFFFFF>\u2022 On enemy destroyed: become more massive</color>\n"
+  description: "<color=#98FB98>+ On destroyed: create a storm slowing all in a large
+    area</color>\n<color=#FFFFFF>\u2022 Low Mass</color>\n<color=#FFFFFF>\u2022 Low
+    Bounce</color>\n<color=#FFFFFF>\u2022 On enemy destroyed: become more massive</color>\n<color=#FFA07A>-
+    Low Health</color>\n"
+  statsContext: '<sprite=0>70
+
+    <sprite=4>80
+
+    <sprite=1>45
+
+    <sprite=2>2
+
+    <sprite=3>35
+
+'
   tags:
   - traitType: 1
     information: 'On destroyed: create a storm slowing all in a large area'
@@ -29,10 +41,12 @@ MonoBehaviour:
     information: Low Bounce
   - traitType: 0
     information: 'On enemy destroyed: become more massive'
-  <MaxHealth>k__BackingField: 100
+  - traitType: -1
+    information: Low Health
+  <MaxHealth>k__BackingField: 70
   <MaxSpeed>k__BackingField: 45
   <AngularDrag>k__BackingField: 2
-  <Acceleration>k__BackingField: 45
+  <Acceleration>k__BackingField: 35
   <Mass>k__BackingField: 80
   <FootRange>k__BackingField: 3
   <FootRadius>k__BackingField: 0.2

@@ -17,19 +17,35 @@ MonoBehaviour:
   <Rarity>k__BackingField: 2
   <Comment>k__BackingField: Legend says, the family jewels were melted to forge this
     ball.
-  doNotEditDescription: "<color=#90EE90>+ Tokens and Diamonds collected are doubled</color>\n<color=#FFFFFF>\u2022
-    On Collection: become more massive</color>\n<color=#FFA07A>- Poor Handling</color>\n"
+  description: "<color=#47a647>+ Tokens and Diamonds collected are doubled</color>\n<color=#FFFFFF>\u2022
+    Very high health</color>\n<color=#FFFFFF>\u2022 VERY HEAVY</color>\n<color=#FFA07A>-
+    Poor Handling</color>\n<color=#FFA07A>- Poor Handling</color>\n"
+  statsContext: '<sprite=0>225
+
+    <sprite=4>200
+
+    <sprite=1>40
+
+    <sprite=2>2
+
+    <sprite=3>30
+
+'
   tags:
   - traitType: 2
     information: Tokens and Diamonds collected are doubled
   - traitType: 0
-    information: 'On Collection: become more massive'
+    information: Very high health
+  - traitType: 0
+    information: VERY HEAVY
   - traitType: -1
     information: Poor Handling
-  <MaxHealth>k__BackingField: 100
-  <MaxSpeed>k__BackingField: 35
+  - traitType: -1
+    information: Poor Handling
+  <MaxHealth>k__BackingField: 225
+  <MaxSpeed>k__BackingField: 40
   <AngularDrag>k__BackingField: 2
   <Acceleration>k__BackingField: 30
-  <Mass>k__BackingField: 100
+  <Mass>k__BackingField: 200
   <FootRange>k__BackingField: 3
   <FootRadius>k__BackingField: 0.2

@@ -17,10 +17,21 @@ MonoBehaviour:
   <Rarity>k__BackingField: 0
   <Comment>k__BackingField: The mighty soccer ball. Natural predator of all other
     balls.
-  doNotEditDescription: "<color=#98FB98>+ Great Handling</color>\n<color=#98FB98>+
-    Improved Air control</color>\n<color=#98FB98>+ Fast</color>\n<color=#FFFFFF>\u2022
-    Balanced Ball</color>\n<color=#98FB98>+ On enemy destroyed: Gain a speed boost
-    for a short period</color>\n"
+  description: "<color=#98FB98>+ Great Handling</color>\n<color=#98FB98>+ Improved
+    Air control</color>\n<color=#98FB98>+ Fast</color>\n<color=#98FB98>+ On enemy
+    destroyed: Gain a speed boost for a short period</color>\n<color=#FFFFFF>\u2022
+    Balanced Ball</color>\n"
+  statsContext: '<sprite=0>100
+
+    <sprite=4>80
+
+    <sprite=1>55
+
+    <sprite=2>2
+
+    <sprite=3>55
+
+'
   tags:
   - traitType: 1
     information: Great Handling
@@ -28,14 +39,14 @@ MonoBehaviour:
     information: Improved Air control
   - traitType: 1
     information: Fast
-  - traitType: 0
-    information: Balanced Ball
   - traitType: 1
     information: 'On enemy destroyed: Gain a speed boost for a short period'
+  - traitType: 0
+    information: Balanced Ball
   <MaxHealth>k__BackingField: 100
-  <MaxSpeed>k__BackingField: 45
+  <MaxSpeed>k__BackingField: 55
   <AngularDrag>k__BackingField: 2
-  <Acceleration>k__BackingField: 45
+  <Acceleration>k__BackingField: 55
   <Mass>k__BackingField: 80
   <FootRange>k__BackingField: 3
   <FootRadius>k__BackingField: 0.2
