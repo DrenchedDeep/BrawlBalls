@@ -947,7 +947,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.000091552734}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &7623449159334715823
@@ -2224,7 +2224,7 @@ MonoBehaviour:
   CollisionTag: 
   Parameter: Death
   TriggerEvent: 19
-  Value: 0
+  Value: 1
 --- !u!1 &2575277314884923386
 GameObject:
   m_ObjectHideFlags: 0
@@ -8770,6 +8770,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2218904388916759451, guid: a073c37fe8ee93f4aae7fd3f518c2516,
+        type: 3}
+      propertyPath: Value
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3978806230897209340, guid: a073c37fe8ee93f4aae7fd3f518c2516,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -10519,6 +10524,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2218904388916759451, guid: a073c37fe8ee93f4aae7fd3f518c2516,
+        type: 3}
+      propertyPath: Value
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3978806230897209340, guid: a073c37fe8ee93f4aae7fd3f518c2516,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -11229,6 +11239,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2218904388916759451, guid: a073c37fe8ee93f4aae7fd3f518c2516,
+        type: 3}
+      propertyPath: Value
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3978806230897209340, guid: a073c37fe8ee93f4aae7fd3f518c2516,
         type: 3}

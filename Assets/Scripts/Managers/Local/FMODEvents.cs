@@ -32,6 +32,8 @@ namespace Managers.Local
         
         [field: Header("Abilities")]
         [field: SerializeField]
+        public EventReference Use { get; private set; }
+        [field: SerializeField]
         public EventReference RocketQ { get; private set; }
         [field: SerializeField]
         public EventReference StickyQ { get; private set; }

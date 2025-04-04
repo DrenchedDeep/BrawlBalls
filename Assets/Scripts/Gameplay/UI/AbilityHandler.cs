@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using Managers.Local;
 using Stats;
 using TMPro;
 using UnityEngine;
@@ -112,6 +113,7 @@ namespace Gameplay.UI
         public void StartUsingAbility()
         {
             _wantsToUseAbility = true;
+            AudioManager.instance.PlayOneShot(FMODEvents.instance.Use, transform.position);
             _ = AbilityExecutionLoop(_cancellationTokenSource.Token);
         }
 
