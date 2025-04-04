@@ -118,6 +118,8 @@
 			<destination>{85e5cb25-ea71-46f0-981e-0e8bece1b297}</destination>
 			<destination>{26ce6850-b2f0-4d70-903b-c75f85f3160d}</destination>
 			<destination>{ec7ef9ef-ad9c-4add-8fba-d0762e17cda7}</destination>
+			<destination>{d478c79b-8ba9-4342-8815-feb5d323d42c}</destination>
+			<destination>{e510a155-4c2f-4e19-aec1-032ac621dc54}</destination>
 			<destination>{de301707-89e4-42de-9108-6844c87b9d4a}</destination>
 		</relationship>
 	</object>
@@ -163,18 +165,40 @@
 			<value>100</value>
 		</property>
 	</object>
+	<object class="CompressorEffect" id="{d478c79b-8ba9-4342-8815-feb5d323d42c}">
+		<property name="gain">
+			<value>2.5</value>
+		</property>
+	</object>
+	<object class="LimiterEffect" id="{e510a155-4c2f-4e19-aec1-032ac621dc54}">
+		<property name="ceiling">
+			<value>-0.800000012</value>
+		</property>
+		<property name="release">
+			<value>7</value>
+		</property>
+	</object>
 	<object class="SpatialiserEffect" id="{de301707-89e4-42de-9108-6844c87b9d4a}">
 		<property name="distanceRolloffType">
 			<value>2</value>
+		</property>
+		<property name="minimumDistance">
+			<value>8.19999981</value>
+		</property>
+		<property name="maximumDistance">
+			<value>45</value>
+		</property>
+		<property name="overrideRange">
+			<value>true</value>
 		</property>
 		<property name="extentMode">
 			<value>1</value>
 		</property>
 		<property name="soundSize">
-			<value>16.5</value>
+			<value>11</value>
 		</property>
 		<property name="minimumExtent">
-			<value>46</value>
+			<value>54</value>
 		</property>
 	</object>
 	<object class="AutomationPoint" id="{00d60ea6-feaf-4b01-a76b-e58b4535090f}">

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7767067476028164420}
   - component: {fileID: 6642772633964335891}
   - component: {fileID: 4114097423753462374}
+  - component: {fileID: -2335107916001261778}
   m_Layer: 0
   m_Name: NewJump
   m_TagString: Untagged
@@ -4891,3 +4892,34 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &-2335107916001261778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 909161309793442252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -1557694589
+      Data2: 1075835002
+      Data3: -2074386787
+      Data4: -1443981146
+    Path: event:/Ingame_Events/Oneshots/Players/Player_Jump
+  Event: 
+  EventPlayTrigger: 1
+  EventStopTrigger: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
