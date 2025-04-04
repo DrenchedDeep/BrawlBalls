@@ -74,9 +74,9 @@ namespace Gameplay.Map
                 /*/
 
 
-            NetworkGameManager.Instance.AddTimedEvent(30, SpawnCoin);
-            NetworkGameManager.Instance.AddTimedEvent(120, SpawnCoin);
-            NetworkGameManager.Instance.AddTimedEvent(210, SpawnCoin);
+         //   NetworkGameManager.Instance.AddTimedEvent(30, SpawnCoin);
+          //  NetworkGameManager.Instance.AddTimedEvent(120, SpawnCoin);
+          //  NetworkGameManager.Instance.AddTimedEvent(210, SpawnCoin);
 
         }
         

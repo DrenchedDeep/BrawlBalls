@@ -288,6 +288,7 @@ namespace Managers.Local
             //TODO: Investigate
             rootCanvas.enabled = true;
             gameCanvas.enabled = true;
+            deathCanvas.enabled = false;
             cam.enabled = true;
             
             _selectionMenu.EndDisplaying();
@@ -309,8 +310,9 @@ namespace Managers.Local
                     cam.InternalUpdateCameraState(Vector3.up, 10);
                 }
             }
-
-            //deathCanvas.enabled = true;
+            
+            
+            deathCanvas.enabled = true;
             //gameCanvas.enabled = false;
             //spectateCanvas.enabled = false;
 
@@ -339,10 +341,11 @@ namespace Managers.Local
             _livesLeft--;
             NetworkGameManager.Instance.FuckingLazyWayToDoThis_ServerRpc(NetworkGameManager.Instance.NetworkManager.LocalClientId, PlayerInput.playerIndex);
 
+            deathCanvas.enabled = false;
+
             if (_livesLeft <= 0)
             {
                 _spectatingManager.StartSpectating();
-                //deathCanvas.enabled = false;
             }
             else
             {

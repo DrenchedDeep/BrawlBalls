@@ -1,3 +1,5 @@
+using System;
+using Cysharp.Threading.Tasks;
 using Gameplay.Map;
 using Managers.Local;
 using Managers.Network;
@@ -14,6 +16,8 @@ namespace Gameplay.Spectating
         [SerializeField] private Canvas spectatingUI;
     
         private int _currentIndex;
+        private bool _checkForBall;
+        private float _checkForTime;
 
         private void Awake()
         {
@@ -33,12 +37,22 @@ namespace Gameplay.Spectating
     
         public void SpectateNextPlayer(int index)
         {
+            if (spectatingUI.enabled)
+            {
+                spectatingUI.enabled = true;
+            }
             
             Debug.LogWarning("This should not use FindObjectsByType, we should instead be updating an array whenever a new BallPlayer is spawned / destroyed. This function currently will lag by just mashing left or right");
 
             //IM LAZY ASF BABY LETS GOOO!!
             BallPlayer[] allBalls = FindObjectsByType<BallPlayer>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
 
+            if (allBalls.Length <= 0)
+            {
+                _checkForBall = true;
+                return;
+            }
+            
             if (allBalls[_currentIndex])
             {
                 allBalls[_currentIndex].OnDestroyed -= OnCurrentSpectatingPlayerDied;
@@ -62,6 +76,27 @@ namespace Gameplay.Spectating
                       playerName);
             
             currentPlayerName.text = playerName;
+        }
+
+
+        private void Update()
+        {
+            if (_checkForBall)
+            {
+                _checkForTime += Time.deltaTime;
+
+                if (_checkForTime >= 1f)
+                {
+                    BallPlayer[] allBalls = FindObjectsByType<BallPlayer>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
+
+                    if (allBalls.Length > 0)
+                    {
+                        SpectateNextPlayer(0);
+                        _checkForBall = false;
+                        _checkForTime = 0;
+                    }
+                }
+            }
         }
 
         private void OnCurrentSpectatingPlayerDied(ulong killer, int childID)

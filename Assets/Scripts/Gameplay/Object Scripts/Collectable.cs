@@ -11,8 +11,25 @@ namespace Gameplay.Object_Scripts
         [SerializeField] protected ParticleSystem collectionParticle;
         [SerializeField] private GameObject visibility;
 
+        private NetworkVariable<bool> _isVisible = new NetworkVariable<bool>(true,
+            NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+        
+        public override void OnNetworkSpawn()
+        {
+            base.OnNetworkSpawn();
+            
+            _isVisible.OnValueChanged += OnIsVisibleChanged;
+        }
+
+        private void OnIsVisibleChanged(bool old, bool current)
+        {
+            if(!current) collectionParticle.Play();
+            visibility.SetActive(current);
+        }
+
         protected void Award(BallPlayer getComponent)
         {
+            Debug.Log("Award!");
             // Award this collectable type to the owner.
             getComponent.GiveAward(collectableType);
 
@@ -26,8 +43,7 @@ namespace Gameplay.Object_Scripts
         [ServerRpc(RequireOwnership = false)]
         private void ToggleState_ServerRpc(bool state)
         {
-            if(!state) collectionParticle.Play();
-            visibility.SetActive(state);
+            _isVisible.Value = state;
         }
 
         protected virtual void OnTriggerEnter(Collider other)
