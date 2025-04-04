@@ -59,7 +59,7 @@ namespace Gameplay.Weapons
                 return;
             }
             
-            Debug.Log("Creating Dummy: " + ps.ProjectilePoolName);
+            Debug.Log("Creating Dummy: " + ps.ProjectilePoolName + $", At location {FiringPoint.position}, At velocity {velocity}, with rotation: {FiringPoint.rotation}");
             
             Projectile projectile = ObjectPoolManager.Instance.GetObjectFromPool<Projectile>(ps.ProjectilePoolName, FiringPoint.position, FiringPoint.rotation);
             projectile.Init();

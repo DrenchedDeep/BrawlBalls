@@ -117,9 +117,9 @@ namespace Gameplay.Weapons
         {
             if (!IsOwner)
             {
-                foreach (Vector3 velocity in projectileVelocities)
+                foreach (Vector3 vector in projectileVelocities)
                 {
-                    projectileWeapons[weaponIndex].FireDummy(stats, velocity);
+                    projectileWeapons[weaponIndex].FireDummy(stats, vector);
                 }
             }
         }

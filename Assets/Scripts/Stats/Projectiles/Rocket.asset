@@ -33,7 +33,7 @@ MonoBehaviour:
   <Mass>k__BackingField: 5
   <ForceMultiplier>k__BackingField: 100
   <MaxRange>k__BackingField: 0
-  <MaxRadius>k__BackingField: 5
+  <MaxRadius>k__BackingField: 10
   <ChargeUpTime>k__BackingField: 0
   <Ability>k__BackingField: {fileID: 0}
   <HitLayers>k__BackingField:
@@ -41,12 +41,12 @@ MonoBehaviour:
     m_Bits: 4294967295
   <FireOnRelease>k__BackingField: 0
   <InitialVelocity>k__BackingField: 8
-  <GravMult>k__BackingField: 8
+  <GravMult>k__BackingField: 12
   <BallVelocityAffectsProjectileVelocity>k__BackingField: 1
   <MaxLifetime>k__BackingField: 5
   <IsHomingProjectile>k__BackingField: 0
   <IsAffectedByGravity>k__BackingField: 0
-  <RotateTowardsVelocity>k__BackingField: 0
+  <RotateTowardsVelocity>k__BackingField: 1
   <DoDamageAfterCollision>k__BackingField: 1
   <DamageType>k__BackingField: 1
   <EffectDisableTime>k__BackingField: 3

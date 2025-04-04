@@ -95,11 +95,11 @@ namespace Gameplay.Weapons
         }
         
 
-        public void OverrideVelocity(Vector3 velocity, bool useInitialVelocity=true, bool faceVelocity = true)
+        public void OverrideVelocity(Vector3 directionVector, bool useInitialVelocity=true, bool faceVelocity = true)
         {
             _rigidbody.isKinematic = false;
-            _rigidbody.linearVelocity = velocity * (useInitialVelocity? stats.InitialVelocity:1);
-            if(faceVelocity) transform.forward = velocity.normalized;
+            _rigidbody.linearVelocity = directionVector * (useInitialVelocity? stats.InitialVelocity:1);
+            if(faceVelocity) transform.forward = directionVector;
 
         }
 
