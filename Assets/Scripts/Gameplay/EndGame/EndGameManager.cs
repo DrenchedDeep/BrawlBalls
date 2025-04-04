@@ -85,7 +85,7 @@ namespace Gameplay.EndGame
 
         private IEnumerator LeaveGame()
         {
-            yield return new WaitForSeconds(20f);
+            yield return new WaitForSeconds(10f);
             
             NetworkGameManager.Instance.ReturnToMainMenu();
             

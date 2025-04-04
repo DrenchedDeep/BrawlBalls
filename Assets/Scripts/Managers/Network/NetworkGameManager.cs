@@ -413,14 +413,6 @@ namespace Managers.Network
 
          public void ReturnToMainMenu()
          {
-             if (IsServer)
-             {
-                 foreach (var client in NetworkManager.ConnectedClients)
-                 {
-                     NetworkManager.DisconnectClient(client.Key);
-                 }
-             }
-
              NetworkManager.Singleton.Shutdown();
              SceneManager.LoadScene("MainMenuNEW");
          }
