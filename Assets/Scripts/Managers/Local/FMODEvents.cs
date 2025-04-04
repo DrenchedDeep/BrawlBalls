@@ -25,14 +25,22 @@ namespace Managers.Local
         public EventReference soccerExplosion { get; private set; }
         
         [field: SerializeField]
-        public EventReference canonExplosion { get; private set; }
+        public EventReference marbleExplosion { get; private set; }
         
         [field: SerializeField]
         public EventReference paintballExplosion { get; private set; }
         
         [field: Header("Abilities")]
         [field: SerializeField]
-        public EventReference RocketExplosion { get; private set; }
+        public EventReference RocketQ { get; private set; }
+        [field: SerializeField]
+        public EventReference StickyQ { get; private set; }
+        [field: SerializeField]
+        public EventReference LaserQ { get; private set; }
+        [field: SerializeField]
+        public EventReference SoundWaveQ { get; private set; }
+        [field: SerializeField]
+        public EventReference SpikeQ { get; private set; }
 
         [field: Header("Spawn Ball")]
         [field: SerializeField]

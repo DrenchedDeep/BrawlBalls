@@ -119,7 +119,7 @@ MonoBehaviour:
   Path: BrawlBallsFMOD/Build/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 638791313423584708
+  lastModified: 638790619873825664
   FileSizes:
   - Name: Desktop
     Value: 4372832
@@ -148,6 +148,60 @@ MonoBehaviour:
   IsGlobal: 1
   Labels: []
   Exists: 1
+--- !u!114 &-6900838247449235743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Ingame_Events/Oneshots/Players/Player_PreNuke
+  m_EditorClassIdentifier: 
+  Path: event:/Ingame_Events/Oneshots/Players/Player_PreNuke
+  Guid:
+    Data1: -579065147
+    Data2: 1084228419
+    Data3: -1169099379
+    Data4: 816969382
+  Banks:
+  - {fileID: 4618208537171737765}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 1977
+--- !u!114 &-6866075406012651384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Ingame_Events/Oneshots/Players/Player_Marble_Explosion
+  m_EditorClassIdentifier: 
+  Path: event:/Ingame_Events/Oneshots/Players/Player_Marble_Explosion
+  Guid:
+    Data1: -1322694607
+    Data2: 1143085764
+    Data3: -680525656
+    Data4: 2012856705
+  Banks:
+  - {fileID: 4618208537171737765}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &-6826461039419286180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163,7 +217,7 @@ MonoBehaviour:
   Path: BrawlBallsFMOD/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638792407966458591
+  lastModified: 638793156083153292
   FileSizes:
   - Name: Desktop
     Value: 3230
@@ -332,6 +386,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &-4845766468277595681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Ingame_Events/Oneshots/Players/Player_SoundWave_Q
+  m_EditorClassIdentifier: 
+  Path: event:/Ingame_Events/Oneshots/Players/Player_SoundWave_Q
+  Guid:
+    Data1: 49596144
+    Data2: 1143987784
+    Data3: 1768510383
+    Data4: 283746664
+  Banks:
+  - {fileID: 4618208537171737765}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 781
 --- !u!114 &-4807516852843027987
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -402,6 +483,33 @@ MonoBehaviour:
   - {fileID: 4618208537171737765}
   IsStream: 0
   Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-4288461864836220722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Ingame_Events/Oneshots/Players/Player_Sticky_Q
+  m_EditorClassIdentifier: 
+  Path: event:/Ingame_Events/Oneshots/Players/Player_Sticky_Q
+  Guid:
+    Data1: -2108551733
+    Data2: 1076692522
+    Data3: -780221517
+    Data4: 1682198907
+  Banks:
+  - {fileID: 4618208537171737765}
+  IsStream: 0
+  Is3D: 1
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
@@ -478,12 +586,12 @@ MonoBehaviour:
   Banks:
   - {fileID: 4618208537171737765}
   IsStream: 0
-  Is3D: 0
+  Is3D: 1
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 0
+  Length: 2464
 --- !u!114 &-3049617304555883325
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -511,6 +619,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &-3040376611956016632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Ingame_Events/Oneshots/Players/Player_Spike_Q
+  m_EditorClassIdentifier: 
+  Path: event:/Ingame_Events/Oneshots/Players/Player_Spike_Q
+  Guid:
+    Data1: 1608732036
+    Data2: 1118854363
+    Data3: 803870856
+    Data4: 613889319
+  Banks:
+  - {fileID: 4618208537171737765}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 535
 --- !u!114 &-3001926262332138646
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -811,6 +946,14 @@ MonoBehaviour:
   - {fileID: 281135054876421853}
   - {fileID: -3115436468785596904}
   - {fileID: 4011316084299072096}
+  - {fileID: -6866075406012651384}
+  - {fileID: 5215425775872057233}
+  - {fileID: 2443904204358151383}
+  - {fileID: -4288461864836220722}
+  - {fileID: 8339255037099954644}
+  - {fileID: -6900838247449235743}
+  - {fileID: -3040376611956016632}
+  - {fileID: -4845766468277595681}
   EditorParameters:
   - {fileID: 8489258654355211449}
   - {fileID: -8783761867706329071}
@@ -819,7 +962,7 @@ MonoBehaviour:
   - {fileID: -6826461039419286180}
   StringsBanks:
   - {fileID: 7393136385153924571}
-  cacheTime: 638792407966529471
+  cacheTime: 638793161715571602
   cacheVersion: 131846
 --- !u!114 &281135054876421853
 MonoBehaviour:
@@ -981,6 +1124,33 @@ MonoBehaviour:
   IsGlobal: 1
   Labels: []
   Exists: 1
+--- !u!114 &2443904204358151383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Ingame_Events/Oneshots/Players/Player_PaintBall_Explosion
+  m_EditorClassIdentifier: 
+  Path: event:/Ingame_Events/Oneshots/Players/Player_PaintBall_Explosion
+  Guid:
+    Data1: -1106451128
+    Data2: 1332920723
+    Data3: 192445078
+    Data4: -819648529
+  Banks:
+  - {fileID: 4618208537171737765}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &2473392753528669784
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1265,10 +1435,10 @@ MonoBehaviour:
   Path: BrawlBallsFMOD/Build/Desktop/One-Shots.bank
   Name: One-Shots
   StudioPath: bank:/In_Game_SFXs/One-Shots
-  lastModified: 638792407966529471
+  lastModified: 638793161715571602
   FileSizes:
   - Name: Desktop
-    Value: 557216
+    Value: 651264
   Exists: 1
 --- !u!114 &4641892766574539756
 MonoBehaviour:
@@ -1339,11 +1509,38 @@ MonoBehaviour:
   Path: BrawlBallsFMOD/Build/Desktop/UI.bank
   Name: UI
   StudioPath: bank:/In_Game_SFXs/UI
-  lastModified: 638791313423674109
+  lastModified: 638790613709930081
   FileSizes:
   - Name: Desktop
     Value: 240768
   Exists: 1
+--- !u!114 &5215425775872057233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Ingame_Events/Oneshots/Players/Player_Soccer_Explosion
+  m_EditorClassIdentifier: 
+  Path: event:/Ingame_Events/Oneshots/Players/Player_Soccer_Explosion
+  Guid:
+    Data1: 1139341874
+    Data2: 1233577935
+    Data3: 243023775
+    Data4: 1519365495
+  Banks:
+  - {fileID: 4618208537171737765}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
 --- !u!114 &5353553635533973037
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1491,10 +1688,10 @@ MonoBehaviour:
   Path: BrawlBallsFMOD/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638792407966473760
+  lastModified: 638793156083173512
   FileSizes:
   - Name: Desktop
-    Value: 3580
+    Value: 3950
   Exists: 1
 --- !u!114 &7487246396143731203
 MonoBehaviour:
@@ -1574,6 +1771,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &8339255037099954644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Ingame_Events/Oneshots/Players/Player_Portal_Q
+  m_EditorClassIdentifier: 
+  Path: event:/Ingame_Events/Oneshots/Players/Player_Portal_Q
+  Guid:
+    Data1: 829481372
+    Data2: 1171018213
+    Data3: -565018438
+    Data4: -86493829
+  Banks:
+  - {fileID: 4618208537171737765}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 804
 --- !u!114 &8355572703777982528
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1719,7 +1943,7 @@ MonoBehaviour:
   Path: BrawlBallsFMOD/Build/Desktop/Ambience.bank
   Name: Ambience
   StudioPath: bank:/In_Game_SFXs/Ambience
-  lastModified: 638792407966443286
+  lastModified: 638792384562051300
   FileSizes:
   - Name: Desktop
     Value: 1495776

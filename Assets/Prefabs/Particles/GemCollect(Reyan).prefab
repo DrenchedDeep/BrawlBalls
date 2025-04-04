@@ -4929,6 +4929,7 @@ GameObject:
   - component: {fileID: 5824586568840229200}
   - component: {fileID: 5436025792807876141}
   - component: {fileID: 4230341411382142510}
+  - component: {fileID: -3096167754827994564}
   m_Layer: 0
   m_Name: GemCollect(Reyan)
   m_TagString: Untagged
@@ -9820,6 +9821,37 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &-3096167754827994564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3987198906024097333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -754240859
+      Data2: 1109771811
+      Data3: -100385102
+      Data4: 1091255681
+    Path: event:/Ingame_Events/Oneshots/Items/Item_Coin
+  Event: 
+  EventPlayTrigger: 1
+  EventStopTrigger: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1 &5336028349618503828
 GameObject:
   m_ObjectHideFlags: 0

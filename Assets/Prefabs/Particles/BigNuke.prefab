@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3651963604158643418}
   - component: {fileID: 5298546212203176450}
   - component: {fileID: 4989708030803137621}
+  - component: {fileID: 8463045098093333149}
   m_Layer: 0
   m_Name: BigNuke
   m_TagString: Untagged
@@ -4913,6 +4914,37 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &8463045098093333149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3178831799291026819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 2117475678
+      Data2: 1220232512
+      Data3: 991069599
+      Data4: 1963845647
+    Path: event:/Ingame_Events/Oneshots/Players/Player_Nuke
+  Event: 
+  EventPlayTrigger: 1
+  EventStopTrigger: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
 --- !u!1 &3919615453733906008
 GameObject:
   m_ObjectHideFlags: 0
