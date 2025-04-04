@@ -7,6 +7,8 @@ namespace Stats
     {
         [field: SerializeField] public BaseSelectorStats Stats { get; private set; }
         [field: SerializeField] public GameObject Prefab { get; private set; }
-        
+
+        [field: SerializeField] public bool IsLocked { get; private set; }
+
     }
 }

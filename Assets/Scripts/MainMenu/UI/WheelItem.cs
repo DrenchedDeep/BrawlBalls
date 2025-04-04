@@ -22,6 +22,7 @@ namespace MainMenu.UI
         [SerializeField] private TextMeshProUGUI titleText;
         [SerializeField] private Image icon;
         [SerializeField] private Image backing;
+        [SerializeField] private Image isLocked;
 
         private ShopItemStats _itemStats;
         private bool _isSelected;
@@ -140,6 +141,7 @@ namespace MainMenu.UI
             ResourceManager.Instance.GetRarityInformation(stats.Stats.Rarity, out _, out Sprite rarityIcon);
 
             backing.sprite = rarityIcon;
+            isLocked.enabled = stats.IsLocked;
 
         }
 

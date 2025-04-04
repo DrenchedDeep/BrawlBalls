@@ -90,8 +90,6 @@ namespace LocalMultiplayer
 #if !UNITY_EDITOR
             else {
 _playerInputManager.DisableJoining();
-Debug.Log("We've disabled controls because you may not join from this scene.")
-Debug.Log("We've disabled controls because you may not join from this scene.");
             }
             
 #else

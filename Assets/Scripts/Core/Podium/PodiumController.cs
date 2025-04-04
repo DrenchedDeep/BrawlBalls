@@ -300,6 +300,12 @@ namespace Core.Podium
             
             //... Validate?
 
+            if (wheelItem.IsLocked)
+            {
+                Debug.LogWarning("Tried to select a locked item");
+                return;
+            }
+            
             Podium p = podiums[CurForward];
 
             if (wheelItem.Stats is WeaponStats)
