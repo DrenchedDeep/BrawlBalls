@@ -40,10 +40,10 @@ namespace Gameplay.Weapons
                 );
 
                 // Apply spread to the forward direction
-                vec[i] = spreadRotation * FiringPoint.forward * inVelocity;
-                
+                Vector3 forward = spreadRotation * FiringPoint.forward;
+                vec[i] = forward * inVelocity;
                 // Initialize projectile with spread
-                projectile.Init(_ballPlayer, vec[i]);
+                projectile.Init(_ballPlayer, forward, inVelocity);
             }
 
         
