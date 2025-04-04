@@ -5,6 +5,8 @@ namespace Gameplay.Object_Scripts
 {
     public class CaltropObject : PlaceableObject
     {
+        
+        private Rigidbody _rigidbody;
 
         public override void OnNetworkSpawn()
         {
@@ -14,13 +16,17 @@ namespace Gameplay.Object_Scripts
             {
                 return;
             }
-            Rigidbody rb = GetComponent<Rigidbody>();
+            _rigidbody = GetComponent<Rigidbody>();
+            
+            _rigidbody.AddForce(Vector3.up * 10, ForceMode.Impulse);
+            _rigidbody.AddTorque(Random.insideUnitSphere * 10, ForceMode.Impulse);
+        }
 
-            int i = Random.Range(0, 3);
-      //      rb.AddForce(Quaternion.AngleAxis((i * 25) * ((i&1)==0?-1:1), axis) * new Vector3(0,150,0), ForceMode.Impulse);
-
-            rb.AddForce(Vector3.up * 10, ForceMode.Impulse);
-            rb.AddTorque(Random.insideUnitSphere * 10, ForceMode.Impulse);
+        protected override void OnCollisionEnter(Collision collision)
+        {
+            base.OnCollisionEnter(collision);
+            
+           // _rigidbody.isKinematic = true;
         }
 
         protected override void OnHit(BallPlayer hit)

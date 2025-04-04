@@ -59,7 +59,6 @@ namespace Gameplay.Weapons
         //owner calls this function... they can setup velocity & the velocity is passed down to other clients
         public void Init(BallPlayer owner, float addSpeed = 0)
         {
-            
             enabled = true;
             
             _initialVelocity = transform.forward * (stats.InitialVelocity+addSpeed);

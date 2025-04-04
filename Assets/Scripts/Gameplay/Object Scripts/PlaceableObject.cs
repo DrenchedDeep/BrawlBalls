@@ -99,7 +99,7 @@ namespace Gameplay.Object_Scripts
 
         }
 
-        private void OnCollisionEnter(Collision other)
+        protected virtual void OnCollisionEnter(Collision other)
         {
             if (collisionType == ECollisionType.Collision)
             {
