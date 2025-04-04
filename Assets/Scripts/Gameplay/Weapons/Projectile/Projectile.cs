@@ -50,14 +50,14 @@ namespace Gameplay.Weapons
         }
 
 
-        public void Init(BallPlayer owner, Vector3 direction, float addSpeed = 1)
+        public void Init(BallPlayer owner, Vector3 direction, float addSpeed = 0)
         {
             transform.forward = direction;
             Init(owner, addSpeed);
         }
 
         //owner calls this function... they can setup velocity & the velocity is passed down to other clients
-        public void Init(BallPlayer owner, float addSpeed = 1)
+        public void Init(BallPlayer owner, float addSpeed = 0)
         {
             
             enabled = true;
@@ -96,11 +96,16 @@ namespace Gameplay.Weapons
         }
         
 
-        public void OverrideVelocity(Vector3 velocity) => _rigidbody.linearVelocity = velocity;
+        public void OverrideVelocity(Vector3 velocity, bool useInitialVelocity=true, bool faceVelocity = true)
+        {
+            _rigidbody.linearVelocity = velocity * (useInitialVelocity? stats.InitialVelocity:1);
+            if(faceVelocity) transform.forward = velocity.normalized;
+
+        }
 
         private void FixedUpdate()
         {
-            _rigidbody.AddForce(Physics.gravity * gravMult * Time.fixedDeltaTime, ForceMode.Force);
+            _rigidbody.AddForce(Physics.gravity * (gravMult * Time.fixedDeltaTime), ForceMode.Force);
             
             
             if (stats.RotateTowardsVelocity)

@@ -95,7 +95,7 @@ namespace Gameplay.Pools
                 Debug.LogError($"Pooled object does not have a component of type {typeof(T)}.");
                 return null;
             }
-            Debug.LogError("The pool was empty, it must be too small... Do we implement dynamic pool spawning?");
+            Debug.LogError("The pool was empty, it must be too small... Do we implement dynamic pool spawning?: "+ poolName);
 
             return null;
         }

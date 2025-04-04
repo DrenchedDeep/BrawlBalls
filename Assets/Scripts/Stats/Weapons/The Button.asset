@@ -28,9 +28,6 @@ MonoBehaviour:
 
     <sprite=10>100
 
-    <sprite=11>Hits
-    Team
-
 '
   tags:
   - traitType: 2
@@ -47,11 +44,11 @@ MonoBehaviour:
   <Mass>k__BackingField: 40
   <ForceMultiplier>k__BackingField: 100
   <MaxRange>k__BackingField: 0
-  <MaxRadius>k__BackingField: 20
+  <MaxRadius>k__BackingField: 25
   <ChargeUpTime>k__BackingField: 3
-  <Ammo>k__BackingField: 0
   <Ability>k__BackingField: {fileID: 11400000, guid: ba4567cf8dcff1b48b9a3a391d327c76,
     type: 2}
   <HitLayers>k__BackingField:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 507968
+  <FireOnRelease>k__BackingField: 0

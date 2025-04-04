@@ -27,7 +27,7 @@ MonoBehaviour:
     Requires Line of Sight</color>
 
 '
-  statsContext: '<sprite=8>10
+  statsContext: '<sprite=8>8
 
     <sprite=8>15
 
@@ -48,19 +48,20 @@ MonoBehaviour:
     information: Cannot Damage Teammates
   - traitType: -1
     information: Requires Line of Sight
-  <Damage>k__BackingField: 10
+  <Damage>k__BackingField: 8
   <Mass>k__BackingField: 15
   <ForceMultiplier>k__BackingField: 0
   <MaxRange>k__BackingField: 25
   <MaxRadius>k__BackingField: 0
-  <ChargeUpTime>k__BackingField: 0.2
+  <ChargeUpTime>k__BackingField: 0.3
   <Ability>k__BackingField: {fileID: 11400000, guid: 725729b57116c8a4cb22a83d9bdad642,
     type: 2}
   <HitLayers>k__BackingField:
     serializedVersion: 2
     m_Bits: 321
+  <FireOnRelease>k__BackingField: 0
   <ProjectilePoolName>k__BackingField: LaserProjectile
   <BurstAmount>k__BackingField: 3
   <ShotgunAmount>k__BackingField: 3
   <RefireTime>k__BackingField: 0.1
-  <Spread>k__BackingField: 7
+  <Spread>k__BackingField: 10

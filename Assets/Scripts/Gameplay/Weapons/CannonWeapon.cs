@@ -1,3 +1,5 @@
+using Stats;
+using Unity.Netcode;
 using UnityEngine;
 
 namespace Gameplay.Weapons
@@ -43,6 +45,22 @@ namespace Gameplay.Weapons
             parabola.ToggleLineRenderer(false);
 
             _currentChargeUp = 0.0f;
+        }
+
+        protected override void Fire()
+        {
+            ProjectileWeaponStats ps = (ProjectileWeaponStats)stats;
+            for (int i = 0; i < projectileWeapons.Length; i++)
+            {
+                //fire locally
+                Vector3[] vels =projectileWeapons[i].Fire(ps, _currentChargeUp * chargeRate * firePowerMultiplier );
+                
+                //tell server to spawn projectiles for every other clients
+                if (NetworkManager.Singleton)
+                {
+                    Attack_ServerRpc(i, vels);
+                }
+            }
         }
 
         protected override void Attack()

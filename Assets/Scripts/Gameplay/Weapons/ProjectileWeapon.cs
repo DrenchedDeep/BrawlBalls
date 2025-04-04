@@ -24,6 +24,9 @@ namespace Gameplay.Weapons
         public Vector3[] Fire(ProjectileWeaponStats stats, float inVelocity = 1)
         {
 
+            Vector3[] vec = new Vector3[stats.ShotgunAmount];
+
+            
             for (int i = 0; i < stats.ShotgunAmount; ++i)
             {
                 Projectile projectile = ObjectPoolManager.Instance.GetObjectFromPool<Projectile>(stats.ProjectilePoolName, FiringPoint.position, FiringPoint.rotation);
@@ -37,13 +40,12 @@ namespace Gameplay.Weapons
                 );
 
                 // Apply spread to the forward direction
-                Vector3 spreadDirection = spreadRotation * FiringPoint.forward;
-
+                vec[i] = spreadRotation * FiringPoint.forward * inVelocity;
+                
                 // Initialize projectile with spread
-                projectile.Init(_ballPlayer, spreadDirection * inVelocity);
+                projectile.Init(_ballPlayer, vec[i]);
             }
 
-            Vector3[] vec = new Vector3[stats.ShotgunAmount];
         
             PlayMuzzleFlash();
             
@@ -52,14 +54,14 @@ namespace Gameplay.Weapons
 
         public void FireDummy(WeaponStats stats, Vector3 velocity)
         {
-            ProjectileWeaponStats projectileWeaponStats = stats as ProjectileWeaponStats;
-
-            if (!projectileWeaponStats)
+            if (stats is not  ProjectileWeaponStats ps)
             {
                 return;
             }
             
-            Projectile projectile = ObjectPoolManager.Instance.GetObjectFromPool<Projectile>(projectileWeaponStats.ProjectilePoolName, FiringPoint.position, FiringPoint.rotation);
+            Debug.Log("Creating Dummy: " + ps.ProjectilePoolName);
+            
+            Projectile projectile = ObjectPoolManager.Instance.GetObjectFromPool<Projectile>(ps.ProjectilePoolName, FiringPoint.position, FiringPoint.rotation);
             projectile.Init();
             projectile.OverrideVelocity(velocity);
             PlayMuzzleFlash();

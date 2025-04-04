@@ -60,10 +60,6 @@ namespace LocalMultiplayer
             
         }
 
-        private void Start()
-        {
-            LobbySystemManager.Instance.OnGameStarting += CreateDataParasites;
-        }
 
         private void CreateDataParasites()
         {
@@ -79,6 +75,10 @@ namespace LocalMultiplayer
 
         private void OnSceneChanged(Scene newScene, LoadSceneMode loadSceneMode)
         {          
+            //TEMPORARY, WE ARE INTENTIONALLY REMOVING ALL CLIENTS
+            if(LobbySystemManager.Instance) LobbySystemManager.Instance.OnGameStarting += CreateDataParasites;
+
+            
             Debug.Log("We are now in a new scene: " + newScene.name);
 
             defaultCamera.gameObject.SetActive(true);
@@ -107,6 +107,8 @@ Debug.Log("We've disabled controls because you may not join from this scene.");
             DeployParasites();
 
 
+        
+            
         }
 
         private void OnDestroy()

@@ -66,6 +66,7 @@ namespace Gameplay.Weapons
                 //tell server to spawn projectiles for every other clients
                 if (NetworkManager.Singleton)
                 {
+                    Debug.Log($"I am asking the server to fire {vels.Length} dummies");
                     Attack_ServerRpc(i, vels);
                 }
             }
@@ -106,11 +107,6 @@ namespace Gameplay.Weapons
                 {
                     Gizmos.color = colors[i];
                     Gizmos.DrawRay(origin, directions[i] * 15);
-
-                    // Optional: draw angle using dot product
-                    float angle = Vector3.Angle(forward, directions[i]);
-                    Debug.Log(
-                        $"Direction {i} angle from forward: {angle:F2}° (Dot: {Vector3.Dot(forward.normalized, directions[i].normalized):F2})");
                 }
             }
         }
@@ -125,6 +121,7 @@ namespace Gameplay.Weapons
             {
                 foreach (Vector3 velocity in projectileVelocities)
                 {
+                    Debug.Log($"Firing Dummy with velocity {velocity}");
                     projectileWeapons[weaponIndex].FireDummy(stats, velocity);
                 }
             }

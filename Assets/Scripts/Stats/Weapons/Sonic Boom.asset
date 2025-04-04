@@ -30,7 +30,7 @@ MonoBehaviour:
 
     <sprite=9>5
 
-    <sprite=10>10000
+    <sprite=10>1E+08
 
 '
   tags:
@@ -42,13 +42,13 @@ MonoBehaviour:
     information: Does no damage
   <Damage>k__BackingField: 0
   <Mass>k__BackingField: 1.5
-  <ForceMultiplier>k__BackingField: 10000
+  <ForceMultiplier>k__BackingField: 100000000
   <MaxRange>k__BackingField: 5
   <MaxRadius>k__BackingField: 3
   <ChargeUpTime>k__BackingField: 0
-  <Ammo>k__BackingField: 1
   <Ability>k__BackingField: {fileID: 11400000, guid: 2ec90043fea1fae45affb88af40e50b1,
     type: 2}
   <HitLayers>k__BackingField:
     serializedVersion: 2
     m_Bits: 64
+  <FireOnRelease>k__BackingField: 0

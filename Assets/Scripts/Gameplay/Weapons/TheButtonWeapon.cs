@@ -21,7 +21,7 @@ namespace Gameplay.Weapons
         private bool _isHoldingDown;
         private bool _isLockedDown;
 
-        private readonly NetworkVariable<float> _crackPercent = new NetworkVariable<float>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+        private readonly NetworkVariable<float> _crackPercent = new NetworkVariable<float>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
         protected override void OnChargeStart()
         {
