@@ -4,16 +4,13 @@ using UnityEngine;
 
 public class PooledParticle : PooledObject
 { 
-   [SerializeField] private ParticleSystem[] particles;
+   [SerializeField] private ParticleSystem particle;
   
   
   
    public override void OnTakenFromPool()
    {
-      foreach (ParticleSystem particle in particles)
-      {
-        particle.Play();
-      }
+      particle.Play();
       PoolCancellation = new CancellationTokenSource();
       _ = ReturnToPoolTask(PoolCancellation);
    }

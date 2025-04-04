@@ -19,13 +19,13 @@ MonoBehaviour:
   description: "<color=#47a647>+ Moderate explosion on collision</color>\n<color=#FFFFFF>\u2022
     Charge up for further distance</color>\n<color=#FFFFFF>\u2022 Heavy</color>\n<color=#FFA07A>-
     Long cooldown period</color>\n"
-  statsContext: '<sprite=8>45
+  statsContext: '<sprite=8>0
 
-    <sprite=8>3
+    <sprite=8>25
 
     <sprite=9>50
 
-    <sprite=10>2
+    <sprite=10>0
 
     <sprite=11>Hits
     Team
@@ -40,9 +40,9 @@ MonoBehaviour:
     information: Heavy
   - traitType: -1
     information: Long cooldown period
-  <Damage>k__BackingField: 45
-  <Mass>k__BackingField: 3
-  <ForceMultiplier>k__BackingField: 2
+  <Damage>k__BackingField: 0
+  <Mass>k__BackingField: 25
+  <ForceMultiplier>k__BackingField: 0
   <MaxRange>k__BackingField: 50
   <MaxRadius>k__BackingField: 300
   <ChargeUpTime>k__BackingField: 2

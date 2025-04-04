@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using Gameplay.Balls;
 using Gameplay.Pools;
 using Managers.Local;
 using RotaryHeart.Lib.PhysicsExtension;
@@ -18,7 +19,6 @@ namespace Gameplay.Weapons
     {
         [SerializeField] private float ballVelocityIncreaseAmt = 1;
         [SerializeField] private GameObject hitVFX;
-        [SerializeField] private float gravMult = 1;
         [SerializeField] private ProjectileStats stats;
 
         private BallPlayer _owner;
@@ -98,6 +98,7 @@ namespace Gameplay.Weapons
 
         public void OverrideVelocity(Vector3 velocity, bool useInitialVelocity=true, bool faceVelocity = true)
         {
+            _rigidbody.isKinematic = false;
             _rigidbody.linearVelocity = velocity * (useInitialVelocity? stats.InitialVelocity:1);
             if(faceVelocity) transform.forward = velocity.normalized;
 
@@ -105,7 +106,7 @@ namespace Gameplay.Weapons
 
         private void FixedUpdate()
         {
-            _rigidbody.AddForce(Physics.gravity * (gravMult * Time.fixedDeltaTime), ForceMode.Force);
+            _rigidbody.AddForce(Physics.gravity * (stats.GravMult * Time.fixedDeltaTime), ForceMode.Force);
             
             
             if (stats.RotateTowardsVelocity)
@@ -120,7 +121,6 @@ namespace Gameplay.Weapons
         }
         public override async void ReturnToPool()
         {
-            Debug.Log("Returning to pool");
             _rigidbody.isKinematic = true;
             foreach (var ps in _particleSystems)
             {
@@ -133,7 +133,6 @@ namespace Gameplay.Weapons
             }
             if(_trailRenderer) _trailRenderer.emitting = false;
             await UniTask.WaitForSeconds(stats.EffectDisableTime);
-            Debug.Log("Returning to pool successful");
 
             base.ReturnToPool(); 
             enabled = false;
@@ -216,10 +215,10 @@ namespace Gameplay.Weapons
                 damageProperties.Attacker = _owner.OwnerClientId;
                 damageProperties.ChildID = _owner.Owner.PlayerInput.playerIndex;
 
-
-                if (c.attachedRigidbody && c.attachedRigidbody.GetComponent<BallPlayer>())
+                Rigidbody rb = c.attachedRigidbody;
+                if (rb &&rb.TryGetComponent(out BallPlayer bp))
                 {
-                    c.attachedRigidbody.GetComponent<BallPlayer>().TakeDamage_ServerRpc(damageProperties);
+                    bp.TakeDamage_ServerRpc(damageProperties);
                 }
             }
         }

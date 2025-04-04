@@ -1,3 +1,4 @@
+using System;
 using Stats;
 using Unity.Netcode;
 using UnityEngine;
@@ -16,34 +17,35 @@ namespace Gameplay.Weapons
         [SerializeField] private float chargeRate = 10f; 
 
         [SerializeField] private Animator animator;
-    
-        private bool _updateParabola;
-    
+
+        [SerializeField] private ProjectileStats TEMP_ProjectileStast;
+
+        private void Awake()
+        {
+            parabola.BindProjectile(TEMP_ProjectileStast);
+            Debug.LogError("TODO AFTER GAMECON: Optimize pool.");
+        }
+
         protected override void OnChargeStart()
         {
             base.OnChargeStart();
-            Debug.Log("ATTACK START!");
             _currentChargeUp  = 0.0f;
             animator.SetBool(Charge, true);
-            _updateParabola = true;
             parabola.ToggleLineRenderer(true);
         }
 
         protected override void OnChargeStop()
         {
             base.OnChargeStop();
-            Debug.Log(_currentChargeUp);
-            Debug.Log(minFirePowerBeforeAttack);
+            Debug.Log($"Rocket charge stop: _currentChargeUp:{_currentChargeUp}, minFirePowerBeforeAttack:{minFirePowerBeforeAttack}");
             if (_currentChargeUp >= minFirePowerBeforeAttack)
             {
-                Debug.Log("Attack2");
+                Debug.Log("Rocket RELEASE attack");
                 Attack();
+                return;
             }
             animator.SetBool(Charge, false);
-        
-            _updateParabola = false;
             parabola.ToggleLineRenderer(false);
-
             _currentChargeUp = 0.0f;
         }
 
@@ -53,7 +55,8 @@ namespace Gameplay.Weapons
             for (int i = 0; i < projectileWeapons.Length; i++)
             {
                 //fire locally
-                Vector3[] vels =projectileWeapons[i].Fire(ps, _currentChargeUp * chargeRate * firePowerMultiplier );
+                Debug.Log($"Launching Rocket with velocity: {parabola.FirePower }*{ parabola.PS.InitialVelocity} = {parabola.FirePower * parabola.PS.InitialVelocity}");
+                Vector3[] vels =projectileWeapons[i].Fire(ps, parabola.FirePower * parabola.PS.InitialVelocity);
                 
                 //tell server to spawn projectiles for every other clients
                 if (NetworkManager.Singleton)
@@ -65,6 +68,9 @@ namespace Gameplay.Weapons
 
         protected override void Attack()
         {
+            animator.SetBool(Charge, false);
+            parabola.ToggleLineRenderer(false);
+            _currentChargeUp = 0.0f;
             animator.SetTrigger(Launch);
 
             base.Attack();
@@ -72,7 +78,7 @@ namespace Gameplay.Weapons
     
         protected override void ChargeUpTick(float deltaTime)
         {
-            parabola.UpdateFirePower(Mathf.Min(_currentChargeUp * chargeRate, maxFirePower));
+            parabola.FirePower=(Mathf.Min(_currentChargeUp * chargeRate, maxFirePower));
         }
     }
 }
