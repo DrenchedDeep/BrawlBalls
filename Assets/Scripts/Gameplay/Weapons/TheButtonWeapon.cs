@@ -64,6 +64,12 @@ namespace Gameplay.Weapons
             _material.SetFloat(StaticUtilities.CrackPercentID, newvalue);
         }
 
+        public override void OnDestroy()
+        {
+            base.OnDestroy();
+            
+            _cancellationTokenSource.Cancel();
+        }
 
         private async UniTask ButtonCountdown(CancellationToken token)
         {
@@ -80,6 +86,10 @@ namespace Gameplay.Weapons
             {
                 return;
             }
+        }
+        if (token.IsCancellationRequested)
+        {
+            return;
         }
         _animator.SetBool(IsBlowingUp, false);
         _isHoldingDown = false;
