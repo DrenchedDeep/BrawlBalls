@@ -105,15 +105,12 @@ namespace Core.Podium
             try
             {
                 Debug.Log("We're spawning these balls!");
-                Debug.Log("CENTER");
                 podiums[1].CreateBall(1);
                 //podiums[1].ForceActivate();
                 await UniTask.Delay(100);
-                Debug.Log("LEFT");
                 podiums[0].CreateBall(0);
                 //podiums[0].ForceActivate();
                 await UniTask.Delay(100);
-                Debug.Log("RIGHT");
                 podiums[2].CreateBall(2);
                 //podiums[2].ForceActivate();
             }
@@ -260,7 +257,6 @@ namespace Core.Podium
 
                 if (!t || !t.TryGetComponent(out Podium p))
                 {
-                    Debug.Log("I selected nothing");
                     return;
                 }
                
@@ -268,17 +264,14 @@ namespace Core.Podium
                 {
                     if (podiums[CurForward].CanInteract)
                     {        
-                        Debug.Log("I selected the forward one!");
                         onForwardSelected?.Invoke(CurForward);
                     }
                     return;
                 }
-                Debug.Log("I Selected the side one!");
                 onSelectedSide.Invoke(t.localPosition.x > podiums[CurForward].transform.localPosition.x ? 1:-1);
             }
             else
             {
-                Debug.Log("I selected nothing");
                 SelectPodium(null);
             }
             

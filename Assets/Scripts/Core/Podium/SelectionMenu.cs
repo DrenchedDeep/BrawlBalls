@@ -13,7 +13,6 @@ namespace Core.Podium
         [SerializeField] private CinemachineCamera cam;
         [SerializeField] private PodiumController podiumController;
 
-        private int _currentIndex = 1;
         
         
         private void Awake()
@@ -33,7 +32,6 @@ namespace Core.Podium
             }
             else
             {
-                Debug.LogWarning("Dude what :/", gameObject);
                 BeginDisplaying();
             }
 
@@ -51,7 +49,7 @@ namespace Core.Podium
         {
             if (state == GameState.InGame)
             {
-                TrySpawnSelectedBall(_currentIndex);
+                TrySpawnSelectedBall(podiumController.CurForward);
                 NetworkGameManager.Instance.OnGameStateUpdated -= OnGameStartedChanged;
 
             }
@@ -77,8 +75,6 @@ namespace Core.Podium
         
         public void TrySpawnSelectedBall(int i)
         {
-            _currentIndex = i;
-
             if (NetworkGameManager.Instance)
             {
                 if (NetworkGameManager.Instance.GameState.Value != GameState.InGame)
