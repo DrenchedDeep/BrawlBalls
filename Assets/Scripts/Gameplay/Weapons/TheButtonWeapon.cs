@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Managers.Local;
@@ -50,12 +51,17 @@ namespace Gameplay.Weapons
             _ = ButtonUndo(_cancellationTokenSource.Token);
         }
 
+        private void Awake()
+        {
+            _animator = GetComponent<Animator>();
+        }
+
         public override void Start()
         {
             base.Start();
             Owner.OnDestroyed += OnDeath;
             _material = Owner.GetBall.GetComponent<MeshRenderer>().material;
-            _animator = GetComponent<Animator>();
+   
             _crackPercent.OnValueChanged += OnValueChanged;
         }
 
