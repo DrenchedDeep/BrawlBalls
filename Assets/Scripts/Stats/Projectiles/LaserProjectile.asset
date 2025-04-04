@@ -16,7 +16,7 @@ MonoBehaviour:
   <Rarity>k__BackingField: 0
   <Comment>k__BackingField: 
   description: 
-  statsContext: '<sprite=8>30
+  statsContext: '<sprite=8>8
 
     <sprite=8>0
 
@@ -29,18 +29,19 @@ MonoBehaviour:
 
 '
   tags: []
-  <Damage>k__BackingField: 30
+  <Damage>k__BackingField: 8
   <Mass>k__BackingField: 0
   <ForceMultiplier>k__BackingField: 0
   <MaxRange>k__BackingField: 3
   <MaxRadius>k__BackingField: 0.05
   <ChargeUpTime>k__BackingField: 0
-  <Ammo>k__BackingField: 0
   <Ability>k__BackingField: {fileID: 0}
   <HitLayers>k__BackingField:
     serializedVersion: 2
     m_Bits: 4294967295
+  <FireOnRelease>k__BackingField: 0
   <InitialVelocity>k__BackingField: 150
+  <GravMult>k__BackingField: 1
   <BallVelocityAffectsProjectileVelocity>k__BackingField: 0
   <MaxLifetime>k__BackingField: 3
   <IsHomingProjectile>k__BackingField: 0

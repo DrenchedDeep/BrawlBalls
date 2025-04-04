@@ -14,6 +14,8 @@ namespace Stats
         }
 
         [field: SerializeField] public float InitialVelocity { get; private set; }
+        [field: SerializeField] public float GravMult { get; private set; } = 1;
+
         [field: SerializeField] public bool  BallVelocityAffectsProjectileVelocity { get; private set; }
         [field: SerializeField] public float MaxLifetime { get; private set; }
         [field: SerializeField] public bool  IsHomingProjectile { get; private set; }

@@ -65,9 +65,6 @@ namespace Gameplay.Weapons
             {
                 Rigidbody n = Hits[i].rigidbody;
                 n.TryGetComponent(out BallPlayer b);
-                Debug.Log("Owner Child ID: " + (int)Owner.ChildID.Value);
-                Debug.Log("Hit Child ID: " + (int)b.ChildID.Value);
-
                 if (n && CanDamage(b))
                 {
                     //FIX this doesn't consider speed...

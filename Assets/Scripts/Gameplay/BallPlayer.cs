@@ -80,11 +80,11 @@ namespace Gameplay
         {
             base.OnNetworkSpawn();
 
-            
+            _rb = GetComponent<Rigidbody>();
+
             //default this to impossible number
             if (IsServer)
             {
-//                _currentHealth.Value = GetBall.Stats.MaxHealth;
                 _previousAttackerID.Value = 200; 
             }
 
@@ -179,10 +179,10 @@ namespace Gameplay
             
             Physics.SyncTransforms();
 
-            _maxHealth = GetBall.Stats.MaxHealth;
 
             if (IsServer)
             {
+                _maxHealth = GetBall.Stats.MaxHealth;
                 _currentHealth.Value = _maxHealth;
             }
             
@@ -221,7 +221,6 @@ namespace Gameplay
             Owner.BindTo(this);
             
             
-            Debug.Log("We are now initialized", gameObject);
             GetAbility = ResourceManager.Abilities[abilityId];
             GetBall = GetComponentInChildren<Ball>();
             GetBaseWeapon = GetComponentInChildren<BaseWeapon>();
@@ -255,18 +254,19 @@ namespace Gameplay
             {
                 return;
             }
-
+            
             if (NetworkGameManager.Instance.GameState.Value > GameState.InGame)
             {
                 return;
             }
-
+            
             //if were protected :D
             if (GetBall.IsProtected.Value)
             {
                 return;
             }
             
+            Debug.Log("took damage");
             _currentHealth.Value -= damageInfo.Damage;
             
             OnDamageTaken_ClientRpc((int)damageInfo.Damage, damageInfo.Direction);

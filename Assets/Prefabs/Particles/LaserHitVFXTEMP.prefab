@@ -9829,9 +9829,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40ad955a5a7290a4382b8f136b4b7002, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  particles:
-  - {fileID: 602450612777288164}
-  - {fileID: 8193194636210344529}
+  particle: {fileID: 602450612777288164}
 --- !u!1001 &4418519059318416545
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9900,12 +9898,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e0f1214c316f2124091f506d7b89ff50, type: 3}
---- !u!198 &8193194636210344529 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 5541020391105083120, guid: e0f1214c316f2124091f506d7b89ff50,
-    type: 3}
-  m_PrefabInstance: {fileID: 4418519059318416545}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &9217474197033353107 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4808349473090034482, guid: e0f1214c316f2124091f506d7b89ff50,

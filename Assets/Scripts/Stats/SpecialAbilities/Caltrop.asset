@@ -16,8 +16,13 @@ MonoBehaviour:
     type: 3}
   <Rarity>k__BackingField: 0
   <Comment>k__BackingField: You are not a ninja monkey, don't get ideas.
-  doNotEditDescription: "<color=#98FB98>+ Deploy 3 caltrops</color>\n<color=#FFFFFF>\u2022
+  description: "<color=#98FB98>+ Deploy 3 caltrops</color>\n<color=#FFFFFF>\u2022
     Caltrops hurt based on force</color>\n<color=#FFA07A>- Only one usage</color>\n"
+  statsContext: '<sprite=5>5
+
+    <sprite=7>1.0
+
+'
   tags:
   - traitType: 1
     information: Deploy 3 caltrops
@@ -25,6 +30,6 @@ MonoBehaviour:
     information: Caltrops hurt based on force
   - traitType: -1
     information: Only one usage
-  <Capacity>k__BackingField: 0
+  <Capacity>k__BackingField: 5
   <Cooldown>k__BackingField: 1
   abilityFileName: Caltrop

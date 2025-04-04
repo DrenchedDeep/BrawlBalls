@@ -42,7 +42,6 @@ namespace Gameplay.Weapons
 
             for (int i = 0; i < n; ++i)
             {
-                Debug.Log("Waitin for refire: " + i);
                 Fire();
                 yield return s;
             }
@@ -66,7 +65,6 @@ namespace Gameplay.Weapons
                 //tell server to spawn projectiles for every other clients
                 if (NetworkManager.Singleton)
                 {
-                    Debug.Log($"I am asking the server to fire {vels.Length} dummies");
                     Attack_ServerRpc(i, vels);
                 }
             }
@@ -121,7 +119,6 @@ namespace Gameplay.Weapons
             {
                 foreach (Vector3 velocity in projectileVelocities)
                 {
-                    Debug.Log($"Firing Dummy with velocity {velocity}");
                     projectileWeapons[weaponIndex].FireDummy(stats, velocity);
                 }
             }

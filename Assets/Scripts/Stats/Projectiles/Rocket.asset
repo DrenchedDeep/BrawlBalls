@@ -16,9 +16,9 @@ MonoBehaviour:
   <Rarity>k__BackingField: 0
   <Comment>k__BackingField: 
   description: 
-  statsContext: '<sprite=8>0
+  statsContext: '<sprite=8>1
 
-    <sprite=8>0
+    <sprite=8>5
 
     <sprite=9>80
 
@@ -29,8 +29,8 @@ MonoBehaviour:
 
 '
   tags: []
-  <Damage>k__BackingField: 0
-  <Mass>k__BackingField: 0
+  <Damage>k__BackingField: 1
+  <Mass>k__BackingField: 5
   <ForceMultiplier>k__BackingField: 100
   <MaxRange>k__BackingField: 80
   <MaxRadius>k__BackingField: 60
@@ -40,7 +40,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   <FireOnRelease>k__BackingField: 0
-  <InitialVelocity>k__BackingField: 150
+  <InitialVelocity>k__BackingField: 5
+  <GravMult>k__BackingField: 1
   <BallVelocityAffectsProjectileVelocity>k__BackingField: 0
   <MaxLifetime>k__BackingField: 5
   <IsHomingProjectile>k__BackingField: 0

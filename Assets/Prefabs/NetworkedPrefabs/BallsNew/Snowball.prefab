@@ -86,10 +86,6 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 8860454120768479501}
-    - targetCorrespondingSourceObject: {fileID: 7088929046452687094, guid: 58034890b610adc448f83b4ab0fd9d3b,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 4758915246368665578}
   m_SourcePrefab: {fileID: 100100000, guid: 58034890b610adc448f83b4ab0fd9d3b, type: 3}
 --- !u!1 &4819322826168763760 stripped
 GameObject:
@@ -112,22 +108,6 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   stats: {fileID: 11400000, guid: 0c2e90150e27ea844ad90a15c7138380, type: 2}
   localPlayerInputComponent: {fileID: 0}
-  jump: {fileID: 0}
+  jump: {fileID: 8566638868233455419, guid: d208d53a1c1765d458b57f71735f2219, type: 3}
   scaleByMass: 0
   defaultJumpForce: 1500
---- !u!114 &4758915246368665578
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4819322826168763760}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d97a59065f9fb8449dbe0953c3f4b28, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  bindTo: 0
-  slowTime: 5
-  slowRadius: 20
