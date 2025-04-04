@@ -17,6 +17,8 @@ GameObject:
   - component: {fileID: 7149782838034612417}
   - component: {fileID: 2218904388916759451}
   - component: {fileID: 8708500109376885141}
+  - component: {fileID: 192621057471379148}
+  - component: {fileID: 5296373761383715216}
   m_Layer: 15
   m_Name: Map
   m_TagString: Untagged
@@ -263,6 +265,68 @@ MonoBehaviour:
   Event: 
   EventPlayTrigger: 19
   EventStopTrigger: 0
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
+--- !u!114 &192621057471379148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5310198874678257607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -59718730
+      Data2: 1244010379
+      Data3: 43132306
+      Data4: -1164094562
+    Path: event:/Ingame_Events/UI/Maps/City
+  Event: 
+  EventPlayTrigger: 17
+  EventStopTrigger: 18
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 20
+--- !u!114 &5296373761383715216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5310198874678257607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: -959256210
+      Data2: 1328636602
+      Data3: 948236459
+      Data4: 1092808201
+    Path: event:/Ingame_Events/UI/Maps/Moon
+  Event: 
+  EventPlayTrigger: 17
+  EventStopTrigger: 18
   AllowFadeout: 1
   TriggerOnce: 0
   Preload: 0

@@ -348,13 +348,13 @@ MonoBehaviour:
     Data4: 1092808201
   Banks:
   - {fileID: 4726843598664218068}
-  IsStream: 0
+  IsStream: 1
   Is3D: 0
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 0
+  Length: 75857
 --- !u!114 &-5381575562253778251
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -776,6 +776,7 @@ MonoBehaviour:
     Data4: -649892836
   Banks:
   - {fileID: 8863628385748998373}
+  - {fileID: 4726843598664218068}
   IsStream: 1
   Is3D: 0
   IsOneShot: 1
@@ -1020,7 +1021,7 @@ MonoBehaviour:
   - {fileID: -6826461039419286180}
   StringsBanks:
   - {fileID: 7393136385153924571}
-  cacheTime: 638793177205742141
+  cacheTime: 638793183413219225
   cacheVersion: 131846
 --- !u!114 &281135054876421853
 MonoBehaviour:
@@ -1308,11 +1309,11 @@ MonoBehaviour:
   - {fileID: 4726843598664218068}
   IsStream: 0
   Is3D: 0
-  IsOneShot: 1
+  IsOneShot: 0
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 0
+  Length: 2823
 --- !u!114 &3761435631548901221
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1594,10 +1595,10 @@ MonoBehaviour:
   Path: BrawlBallsFMOD/Build/Desktop/UI.bank
   Name: UI
   StudioPath: bank:/In_Game_SFXs/UI
-  lastModified: 638793177205742141
+  lastModified: 638793183413219225
   FileSizes:
   - Name: Desktop
-    Value: 247200
+    Value: 1287328
   Exists: 1
 --- !u!114 &5215425775872057233
 MonoBehaviour:
