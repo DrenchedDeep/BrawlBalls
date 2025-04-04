@@ -197,7 +197,7 @@ namespace Gameplay.Weapons
         {
             if (_canDrop)
             {
-                Disconnect_ServerRpc(speed);
+        //        Disconnect_ServerRpc(speed);
             }
         }
     }
