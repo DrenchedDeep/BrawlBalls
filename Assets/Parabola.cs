@@ -44,7 +44,7 @@ public class Parabola : MonoBehaviour
     {
         List<Vector3> points = new List<Vector3>();
         Vector3 startPosition = firePoint.position;
-        Vector3 startVelocity = firePoint.forward * (FirePower * PS.InitialVelocity);
+        Vector3 startVelocity = firePoint.forward * (PS.CHEESE*FirePower * PS.InitialVelocity);
         Vector3 currentPosition = startPosition;
         Vector3 currentVelocity = startVelocity;
         float timeStep = 0.05f;

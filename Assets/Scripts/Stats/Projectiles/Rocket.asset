@@ -16,11 +16,11 @@ MonoBehaviour:
   <Rarity>k__BackingField: 0
   <Comment>k__BackingField: 
   description: 
-  statsContext: '<sprite=8>1
+  statsContext: '<sprite=8>40
 
     <sprite=8>5
 
-    <sprite=9>80
+    <sprite=9>0
 
     <sprite=10>100
 
@@ -29,25 +29,26 @@ MonoBehaviour:
 
 '
   tags: []
-  <Damage>k__BackingField: 1
+  <Damage>k__BackingField: 40
   <Mass>k__BackingField: 5
   <ForceMultiplier>k__BackingField: 100
-  <MaxRange>k__BackingField: 80
-  <MaxRadius>k__BackingField: 60
+  <MaxRange>k__BackingField: 0
+  <MaxRadius>k__BackingField: 5
   <ChargeUpTime>k__BackingField: 0
   <Ability>k__BackingField: {fileID: 0}
   <HitLayers>k__BackingField:
     serializedVersion: 2
     m_Bits: 4294967295
   <FireOnRelease>k__BackingField: 0
-  <InitialVelocity>k__BackingField: 5
-  <GravMult>k__BackingField: 1
-  <BallVelocityAffectsProjectileVelocity>k__BackingField: 0
+  <InitialVelocity>k__BackingField: 8
+  <GravMult>k__BackingField: 5
+  <BallVelocityAffectsProjectileVelocity>k__BackingField: 1
   <MaxLifetime>k__BackingField: 5
   <IsHomingProjectile>k__BackingField: 0
   <IsAffectedByGravity>k__BackingField: 0
-  <RotateTowardsVelocity>k__BackingField: 1
+  <RotateTowardsVelocity>k__BackingField: 0
   <DoDamageAfterCollision>k__BackingField: 1
   <DamageType>k__BackingField: 1
   <EffectDisableTime>k__BackingField: 3
   <HitVfxPoolName>k__BackingField: ExplosionHit
+  <CHEESE>k__BackingField: 3

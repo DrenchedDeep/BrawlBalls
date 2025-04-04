@@ -50,19 +50,18 @@ namespace Gameplay.Weapons
         }
 
 
-        public void Init(BallPlayer owner, Vector3 direction, float addSpeed = 0)
+        public void Init(BallPlayer owner, Vector3 direction, float multSpeed = 1)
         {
             transform.forward = direction;
-            Init(owner, addSpeed);
+            Init(owner, multSpeed);
         }
 
         //owner calls this function... they can setup velocity & the velocity is passed down to other clients
-        public void Init(BallPlayer owner, float addSpeed = 0)
+        public void Init(BallPlayer owner, float multSpeed = 1)
         {
-            
             enabled = true;
             
-            _initialVelocity = transform.forward * (stats.InitialVelocity+addSpeed);
+            _initialVelocity = transform.forward * (stats.InitialVelocity*multSpeed);
             _owner = owner;
             CanDoDamage = true;
 
@@ -181,8 +180,6 @@ namespace Gameplay.Weapons
                 if (n && n.TryGetComponent(out BallPlayer b) && b != _owner)
                 {
                     float dmg = stats.Damage;
-                //    dmg *= _owner.Mass * _owner.GetBall.Speed;
-
                     DamageProperties damageProperties;
                     damageProperties.Damage = Mathf.Max(0, dmg);
                     damageProperties.Direction = forward * (dmg * stats.ForceMultiplier);

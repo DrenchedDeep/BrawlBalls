@@ -56,7 +56,7 @@ namespace Gameplay.Weapons
             {
                 //fire locally
                 Debug.Log($"Launching Rocket with velocity: {parabola.FirePower }*{ parabola.PS.InitialVelocity} = {parabola.FirePower * parabola.PS.InitialVelocity}");
-                Vector3[] vels =projectileWeapons[i].Fire(ps, parabola.FirePower * parabola.PS.InitialVelocity);
+                Vector3[] vels =projectileWeapons[i].Fire(ps, parabola.FirePower);
                 
                 //tell server to spawn projectiles for every other clients
                 if (NetworkManager.Singleton)
