@@ -6649,93 +6649,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1046115781504077895, guid: 0c95167445fa4334fa383cffdae17200,
-        type: 3}
-      propertyPath: m_AdditionalShaderChannelsFlag
-      value: -7
-      objectReference: {fileID: 0}
-    - target: {fileID: 1402550595094210036, guid: 0c95167445fa4334fa383cffdae17200,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 126
-      objectReference: {fileID: 0}
-    - target: {fileID: 1968248954129409223, guid: 0c95167445fa4334fa383cffdae17200,
-        type: 3}
-      propertyPath: hull
-      value: 
-      objectReference: {fileID: 1330454626440751674, guid: a2fa67be0af162a469820c06e2d08840,
-        type: 3}
-    - target: {fileID: 1968248954129409223, guid: 0c95167445fa4334fa383cffdae17200,
-        type: 3}
-      propertyPath: 'ballIds.Array.data[4]'
-      value: 
-      objectReference: {fileID: 8860454120768479501, guid: db50a856ef289b94a93a84b5e497204d,
-        type: 3}
-    - target: {fileID: 1968248954129409223, guid: 0c95167445fa4334fa383cffdae17200,
-        type: 3}
-      propertyPath: 'summonableObjects.Array.data[9]'
-      value: 
-      objectReference: {fileID: 1069242074289061600, guid: 9542cfd4678875347996a07d41e49bda,
-        type: 3}
-    - target: {fileID: 2038865066373797910, guid: 0c95167445fa4334fa383cffdae17200,
-        type: 3}
-      propertyPath: m_Name
-      value: SystemMessageCanvas
-      objectReference: {fileID: 0}
-    - target: {fileID: 2038865066373797910, guid: 0c95167445fa4334fa383cffdae17200,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2038865066373797910, guid: 0c95167445fa4334fa383cffdae17200,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2039361876247955078, guid: 0c95167445fa4334fa383cffdae17200,
-        type: 3}
-      propertyPath: m_text
-      value: '
-
-'
-      objectReference: {fileID: 0}
-    - target: {fileID: 2039361876247955078, guid: 0c95167445fa4334fa383cffdae17200,
-        type: 3}
-      propertyPath: m_fontAsset
-      value: 
-      objectReference: {fileID: 11400000, guid: 90c7e4399c32ea745bee70f450819e8c,
-        type: 2}
-    - target: {fileID: 2039361876247955078, guid: 0c95167445fa4334fa383cffdae17200,
-        type: 3}
-      propertyPath: m_sharedMaterial
-      value: 
-      objectReference: {fileID: -68237348521736519, guid: 90c7e4399c32ea745bee70f450819e8c,
-        type: 2}
-    - target: {fileID: 2039361876247955078, guid: 0c95167445fa4334fa383cffdae17200,
-        type: 3}
-      propertyPath: m_TextStyleHashCode
-      value: -1183493901
-      objectReference: {fileID: 0}
-    - target: {fileID: 2039361876247955078, guid: 0c95167445fa4334fa383cffdae17200,
-        type: 3}
-      propertyPath: m_hasFontAssetChanged
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2337101641982631107, guid: 0c95167445fa4334fa383cffdae17200,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 126
-      objectReference: {fileID: 0}
-    - target: {fileID: 3770785128846882878, guid: 0c95167445fa4334fa383cffdae17200,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 126
-      objectReference: {fileID: 0}
-    - target: {fileID: 3885355149854194630, guid: 0c95167445fa4334fa383cffdae17200,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 3885355149854194630, guid: 0c95167445fa4334fa383cffdae17200,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6786,41 +6699,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3901349334446479230, guid: 0c95167445fa4334fa383cffdae17200,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 126
-      objectReference: {fileID: 0}
-    - target: {fileID: 4059640391922677481, guid: 0c95167445fa4334fa383cffdae17200,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 126
-      objectReference: {fileID: 0}
-    - target: {fileID: 5940154957662416850, guid: 0c95167445fa4334fa383cffdae17200,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 126
-      objectReference: {fileID: 0}
-    - target: {fileID: 7385373163484285287, guid: 0c95167445fa4334fa383cffdae17200,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 126
-      objectReference: {fileID: 0}
-    - target: {fileID: 7752007493114321623, guid: 0c95167445fa4334fa383cffdae17200,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -104
-      objectReference: {fileID: 0}
-    - target: {fileID: 8144892827304562292, guid: 0c95167445fa4334fa383cffdae17200,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8175318232294515424, guid: 0c95167445fa4334fa383cffdae17200,
-        type: 3}
-      propertyPath: 'summonObjects.Array.data[8]'
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 8484073505452147864, guid: 0c95167445fa4334fa383cffdae17200,
         type: 3}
       propertyPath: GlobalObjectIdHash
@@ -6831,14 +6709,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: SystemManager
       objectReference: {fileID: 0}
-    - target: {fileID: 8592049705725697368, guid: 0c95167445fa4334fa383cffdae17200,
-        type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 126
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects:
-    - {fileID: 2337101641982631107, guid: 0c95167445fa4334fa383cffdae17200, type: 3}
+    m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0c95167445fa4334fa383cffdae17200, type: 3}

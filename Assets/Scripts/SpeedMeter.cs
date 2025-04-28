@@ -1,9 +1,7 @@
-using System;
 using System.Globalization;
 using Managers.Local;
 using TMPro;
 using UnityEngine;
-using MathF = System.MathF;
 
 public class SpeedMeter : MonoBehaviour
 {
@@ -16,7 +14,7 @@ public class SpeedMeter : MonoBehaviour
 
     private float _currentSpeed;
 
-    private void Update()
+    private void LateUpdate()
     {
         if (!playerController.CurrentBall)
         {

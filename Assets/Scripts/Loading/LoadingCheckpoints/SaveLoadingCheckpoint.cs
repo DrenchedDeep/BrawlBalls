@@ -24,6 +24,13 @@ namespace Loading.LoadingCheckpoints
 
         private void Start()
         {
+            if (!LobbySystemManager.Instance)
+            {
+                Debug.LogWarning("No lobby system found. Disabling Save Loading Checkpoint.", gameObject);
+                enabled = false;
+                return;
+            }
+
             LobbySystemManager.Instance.OnGameStarting += OnInstanceOnOnGameStarting;
         }
 

@@ -111,7 +111,7 @@ namespace Gameplay.Balls
        {
            //if (_rb.isKinematic) return;
            #if UNITY_EDITOR
-           if (IsOwner || !NetworkManager.Singleton)
+           if (!NetworkManager.Singleton || IsOwner)
            {
                HandleMovement();
                HandleGround();
@@ -123,7 +123,6 @@ namespace Gameplay.Balls
                HandleGround();
            }
            #endif
-  
 
            UpdateState();
        }

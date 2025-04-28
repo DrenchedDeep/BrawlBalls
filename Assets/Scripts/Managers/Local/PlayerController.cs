@@ -283,6 +283,9 @@ namespace Managers.Local
             _currentBall = ballPlayer; 
             
             SetBall(ballPlayer); 
+            
+            
+            
             SetAbilities(ballPlayer.GetBaseWeapon,ballPlayer.GetAbility);
             
             //TODO: Investigate
@@ -368,6 +371,7 @@ namespace Managers.Local
 
         private void SetAbilities(BaseWeapon w, AbilityStats ballPlayerGetAbility)
         {
+            Debug.Log("What's null? is it the weapon? " + (w == null) +",  is it the UI?? " + (attackAbility == null) +", is it the current ball? " + (_currentBall == null));
             attackAbility.SetAbility(w.GetAbility, _currentBall);
             specialAbility.SetAbility(ballPlayerGetAbility, _currentBall);
         }

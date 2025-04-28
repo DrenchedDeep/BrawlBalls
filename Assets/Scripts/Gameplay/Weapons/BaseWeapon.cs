@@ -60,7 +60,11 @@ namespace Gameplay.Weapons
 
         protected virtual void LateUpdate()
         {
+            #if UNITY_EDITOR
+            if (!IsConnected || (NetworkManager.Singleton && !IsOwner)) return;
+            #else
             if (!IsConnected || !IsOwner) return;
+            #endif            
             Rotate();
         }
 

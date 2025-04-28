@@ -218,7 +218,7 @@ namespace Core.Podium
                 {
                     if (_currentPodium == podiums[CurForward] && podiums[CurForward].CanInteract)
                     {
-                        onForwardSelected?.Invoke(CurForward);
+                        onForwardSelected.Invoke(CurForward);
                         _currentPodium = podiums[CurForward];
 
                         return;
@@ -264,7 +264,7 @@ namespace Core.Podium
                 {
                     if (podiums[CurForward].CanInteract)
                     {        
-                        onForwardSelected?.Invoke(CurForward);
+                        onForwardSelected.Invoke(CurForward);
                     }
                     return;
                 }

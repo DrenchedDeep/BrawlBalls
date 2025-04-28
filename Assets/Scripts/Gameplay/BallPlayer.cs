@@ -37,7 +37,7 @@ namespace Gameplay
             ChildID = childID;
         }
     }
-    
+
     public class BallPlayer : NetworkBehaviour, IDamageAble
     {
         public Ball GetBall { get; private set; }
@@ -47,14 +47,14 @@ namespace Gameplay
         public float Mass => _rb.mass;
 
         private Rigidbody _rb;
-        
+
         public Rigidbody Rb => _rb;
 
         public event Action<ulong, int> OnDestroyed;
         public event Action<float, float> OnDamaged;
         public event Action OnHealed;
 
-        
+
         //getters for NetworkedVariables
         public float CurrentHealth => _currentHealth.Value;
         public ulong PreviousAttackerID => _previousAttackerID.Value;
@@ -64,18 +64,18 @@ namespace Gameplay
 
         private readonly NetworkVariable<ulong> _previousAttackerID = new NetworkVariable<ulong>(0,
             NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
-        
-        public NetworkVariable<int> ChildID { get; private set; } = 
+
+        public NetworkVariable<int> ChildID { get; private set; } =
             new NetworkVariable<int>(-1, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
-        
+
         [SerializeField] private Transform damageNumberSpawnPoint;
         [SerializeField] private BallPlayerHUD ballPlayerHUD;
 
         public PlayerController Owner { get; private set; }
 
         private float _maxHealth;
-        
+
         public override void OnNetworkSpawn()
         {
             base.OnNetworkSpawn();
@@ -85,14 +85,14 @@ namespace Gameplay
             //default this to impossible number
             if (IsServer)
             {
-                _previousAttackerID.Value = 200; 
+                _previousAttackerID.Value = 200;
             }
 
             _currentHealth.OnValueChanged += OnHealthChanged;
             ChildID.OnValueChanged += OnChildIDChanged;
 
 
-          //  NetworkGameManager.Instance.OnGameStateUpdated += OnGameStateUpdated;
+            //  NetworkGameManager.Instance.OnGameStateUpdated += OnGameStateUpdated;
         }
 
         private void OnEnable()
@@ -129,11 +129,12 @@ namespace Gameplay
             }
 
             BallPlayerHUD playerHud =
-                Instantiate(ballPlayerHUD.gameObject, transform.position, Quaternion.identity).GetComponent<BallPlayerHUD>();
+                Instantiate(ballPlayerHUD.gameObject, transform.position, Quaternion.identity)
+                    .GetComponent<BallPlayerHUD>();
             if (playerHud)
             {
                 playerHud.AttachTo(this);
-                
+
                 string playerName = NetworkGameManager.Instance.GetPlayerName(OwnerClientId, current);
                 playerHud.SetNameTag(playerName);
             }
@@ -150,100 +151,87 @@ namespace Gameplay
                 OnHealed?.Invoke();
             }
         }
-        
+
         public void Initialize(string abilityID, int playerIndex)
         {
             //server should know bout these aswell
-            GetBall = GetComponentInChildren<Ball>();
-            GetBaseWeapon = GetComponentInChildren<BaseWeapon>();
+            if (IsServer)
+            {
+                GetBall = GetComponentInChildren<Ball>();
+                GetBaseWeapon = GetComponentInChildren<BaseWeapon>();
+            }
+
             //GetBall.Init(this);
             Initialize_ClientRpc(abilityID, playerIndex);
-            
+
         }
 
 
         [ClientRpc]
         public void Initialize_ClientRpc(string abilityId, int playerIndex)
         {
-            GetAbility = ResourceManager.Abilities[abilityId];
-            GetBall = GetComponentInChildren<Ball>();
-            GetBaseWeapon = GetComponentInChildren<BaseWeapon>();
-            
+             StepOneBind(abilityId);
+
             if (IsOwner)
             {
-                Owner = SaveManager.FindPlayerByID(playerIndex).LocalInput.GetComponent<PlayerController>();
-                ChildID.Value = Owner.PlayerInput.playerIndex;
-                Owner.BindTo(this);
-                GetBall.Init(this);
+                InitBind(playerIndex);
             }
-            
-            Physics.SyncTransforms();
-
 
             if (IsServer)
             {
                 _maxHealth = GetBall.Stats.MaxHealth;
                 _currentHealth.Value = _maxHealth;
             }
-            
 
-            _rb = GetComponent<Rigidbody>();
-            _rb.interpolation = RigidbodyInterpolation.Interpolate;
-            if (NetworkGameManager.Instance.GameState.Value == GameState.SelectingBalls ||
-                NetworkGameManager.Instance.GameState.Value == GameState.StartingGame)
-            {
-                _rb.isKinematic = true;
-            }
-            else
-            {
-                _rb.isKinematic = false;
-            }
-            
-            _rb.mass = GetBall.Stats.Mass + GetBaseWeapon.Stats.Mass;
-
-            gameObject.layer = IsOwner ? StaticUtilities.LocalBallLayerLiteral : StaticUtilities.EnemyLayerLiteral;
-
-            foreach (Transform child in transform)
-            {
-                child.gameObject.layer = gameObject.layer;
-            }
-
+            PhysicsBind();
             
         }
 
-
-        #if UNITY_EDITOR
-        public void Initialize_Offline(string abilityId, int playerIndex)
+        private void InitBind(int playerIndex)
         {
-            if (NetworkManager.Singleton != null) return;
-        
             Owner = SaveManager.FindPlayerByID(playerIndex).LocalInput.GetComponent<PlayerController>();
+            ChildID.Value = Owner.PlayerInput.playerIndex;
             Owner.BindTo(this);
-            
-            
+            GetBall.Init(this);
+        }
+
+        private void StepOneBind(string abilityId)
+        {
             GetAbility = ResourceManager.Abilities[abilityId];
             GetBall = GetComponentInChildren<Ball>();
             GetBaseWeapon = GetComponentInChildren<BaseWeapon>();
-            
-            GetBall.Init(this);
+        }
 
+        private void PhysicsBind()
+        {
+            Physics.SyncTransforms();
             _rb = GetComponent<Rigidbody>();
-            _rb.mass = GetBall.Stats.Mass + GetBaseWeapon.Stats.Mass;
             _rb.interpolation = RigidbodyInterpolation.Interpolate;
-            _rb.isKinematic = false;
+            _rb.isKinematic = NetworkGameManager.Instance.GameState.Value == GameState.SelectingBalls || NetworkGameManager.Instance.GameState.Value == GameState.StartingGame;
+            _rb.mass = GetBall.Stats.Mass + GetBaseWeapon.Stats.Mass;
             
             gameObject.layer = IsOwner ? StaticUtilities.LocalBallLayerLiteral : StaticUtilities.EnemyLayerLiteral;
-
-            
             foreach (Transform child in transform)
             {
                 child.gameObject.layer = gameObject.layer;
             }
-            
+        }
 
-            _currentHealth.Value = GetBall.Stats.MaxHealth;
+
+#if UNITY_EDITOR
+        public void Initialize_Offline(string abilityId, int playerIndex)
+        {
+            Debug.Log("Beginning offline Initialization");
             
-            
+            if (NetworkManager.Singleton != null) return;
+
+            StepOneBind(abilityId);
+            InitBind(playerIndex);
+
+            PhysicsBind();
+
+            _maxHealth = GetBall.Stats.MaxHealth;
+            _currentHealth.Value = _maxHealth;
         }
         #endif
 

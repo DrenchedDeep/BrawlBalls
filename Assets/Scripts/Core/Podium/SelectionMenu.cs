@@ -79,6 +79,7 @@ namespace Core.Podium
             {
                 if (NetworkGameManager.Instance.GameState.Value != GameState.InGame)
                 {
+                    Debug.LogWarning("Failed to spawn ball, we're not in the game state: " + NetworkGameManager.Instance.GameState.Value);
                     return;
                 }
             }

@@ -164,10 +164,21 @@ namespace Managers.Network
                  Destroy(gameObject);
                  return;
              }
-             Instance = this; 
-        }
+             Instance = this;
 
-         public override void OnNetworkSpawn()
+
+
+        }
+#if UNITY_EDITOR
+
+        private void Start()
+        {
+            GameState.Value = Network.GameState.InGame;
+            Debug.Log("Game is now beginning in testing mode");
+            OnGameBegin?.Invoke();
+        }
+#endif
+        public override void OnNetworkSpawn()
          {
              base.OnNetworkSpawn();
 
