@@ -17,6 +17,7 @@ namespace Gameplay.Abilities.SpecialAbilities
                     owner.transform.position + Vector3.one * 6, Quaternion.identity);
             }
             
+            AudioManager.instance.PlayOneShot(FMODEvents.instance.CaltropsQ, owner.transform.position);
             //  SpawnCaltrops_ServerRpc("Caltrop", owner.transform.position + Vector3.one * 6,  Quaternion.identity, owner.GetBall.Velocity.normalized, 150);
         }
 

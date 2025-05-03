@@ -1,6 +1,6 @@
+using Managers.Local;
 using Managers.Network;
 using Unity.Mathematics;
-using UnityEngine;
 
 namespace Gameplay.Abilities.SpecialAbilities
 {
@@ -11,6 +11,7 @@ namespace Gameplay.Abilities.SpecialAbilities
         public override void ExecuteAbility(BallPlayer owner)
         {
             NetworkGameManager.Instance.SpawnObjectGlobally_ServerRpc("Portal", owner.transform.position, quaternion.identity);
+            AudioManager.instance.PlayOneShot(FMODEvents.instance.PortalQ[0], owner.transform.position);;
         }
 
         public override void CancelAbility(BallPlayer owner)

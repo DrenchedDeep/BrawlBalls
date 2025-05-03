@@ -127,6 +127,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e589167818eb81046b6d66afd484d6b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <Movements>k__BackingField:
+  - Guid:
+      Data1: -499388664
+      Data2: 1332227238
+      Data3: 68525451
+      Data4: -27939102
+    Path: event:/Ingame_Events/Oneshots/Players/BallMovements/GavinBall_Movement
+  - Guid:
+      Data1: -1237490563
+      Data2: 1302175969
+      Data3: -2136618057
+      Data4: -6618157
+    Path: event:/Ingame_Events/Oneshots/Players/BallMovements/MarbleBall_Movement
+  - Guid:
+      Data1: 907568841
+      Data2: 1232754432
+      Data3: -893844087
+      Data4: -389828765
+    Path: event:/Ingame_Events/Oneshots/Players/BallMovements/PaintBall_Movement
+  - Guid:
+      Data1: -1164792330
+      Data2: 1103717893
+      Data3: 1680802731
+      Data4: 872336288
+    Path: event:/Ingame_Events/Oneshots/Players/BallMovements/SoccerBall_Movement
   <musicReference>k__BackingField:
     Guid:
       Data1: -1865796239
@@ -211,6 +236,46 @@ MonoBehaviour:
       Data3: 803870856
       Data4: 613889319
     Path: event:/Ingame_Events/Oneshots/Players/Player_Spike_Q
+  <ProtectionQ>k__BackingField:
+    Guid:
+      Data1: -1911016040
+      Data2: 1207562654
+      Data3: 1066605226
+      Data4: 400128082
+    Path: event:/Ingame_Events/Oneshots/Players/Player_Protection_Q
+  <CaltropsQ>k__BackingField:
+    Guid:
+      Data1: 1208530698
+      Data2: 1208672794
+      Data3: 1121116547
+      Data4: -625896402
+    Path: event:/Ingame_Events/Oneshots/Players/Player_Caltrops_Q
+  <PortalQ>k__BackingField:
+  - Guid:
+      Data1: 1190873872
+      Data2: 1178173854
+      Data3: 137447090
+      Data4: 797413547
+    Path: event:/Ingame_Events/Oneshots/Players/Player_Portal_Q_Place
+  - Guid:
+      Data1: 829481372
+      Data2: 1171018213
+      Data3: -565018438
+      Data4: -86493829
+    Path: event:/Ingame_Events/Oneshots/Players/Player_Portal_Q
+  <Explosions>k__BackingField:
+  - Guid:
+      Data1: 2117475678
+      Data2: 1220232512
+      Data3: 991069599
+      Data4: 1963845647
+    Path: event:/Ingame_Events/Oneshots/Players/Player_Nuke
+  - Guid:
+      Data1: -1836038704
+      Data2: 1325187996
+      Data3: -1742362216
+      Data4: -1731523640
+    Path: event:/Ingame_Events/Oneshots/Players/Player_Rocket_Explosion
   <spawnBall>k__BackingField:
   - Guid:
       Data1: 733086153

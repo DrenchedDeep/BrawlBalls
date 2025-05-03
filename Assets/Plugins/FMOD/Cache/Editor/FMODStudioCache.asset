@@ -217,7 +217,7 @@ MonoBehaviour:
   Path: BrawlBallsFMOD/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638793177205361160
+  lastModified: 638818310698368494
   FileSizes:
   - Name: Desktop
     Value: 3230
@@ -270,6 +270,33 @@ MonoBehaviour:
   IsGlobal: 0
   Labels: []
   Exists: 1
+--- !u!114 &-6409835285847227301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Ingame_Events/Oneshots/Players/Player_Caltrops_Q
+  m_EditorClassIdentifier: 
+  Path: event:/Ingame_Events/Oneshots/Players/Player_Caltrops_Q
+  Guid:
+    Data1: 1208530698
+    Data2: 1208672794
+    Data3: 1121116547
+    Data4: -625896402
+  Banks:
+  - {fileID: 4618208537171737765}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 544
 --- !u!114 &-6073172545283880933
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -328,6 +355,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 12731
+--- !u!114 &-5606932139413062187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Ingame_Events/Oneshots/Players/Player_Portal_Q_Place
+  m_EditorClassIdentifier: 
+  Path: event:/Ingame_Events/Oneshots/Players/Player_Portal_Q_Place
+  Guid:
+    Data1: 1190873872
+    Data2: 1178173854
+    Data3: 137447090
+    Data4: 797413547
+  Banks:
+  - {fileID: 4618208537171737765}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 571
 --- !u!114 &-5487754131743578891
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -408,6 +462,33 @@ MonoBehaviour:
   - {fileID: 4726843598664218068}
   IsStream: 0
   Is3D: 0
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 20
+  Length: 0
+--- !u!114 &-4896066604529677411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Ingame_Events/Oneshots/Players/Player_Protection_Q
+  m_EditorClassIdentifier: 
+  Path: event:/Ingame_Events/Oneshots/Players/Player_Protection_Q
+  Guid:
+    Data1: -1911016040
+    Data2: 1207562654
+    Data3: 1066605226
+    Data4: 400128082
+  Banks:
+  - {fileID: 4618208537171737765}
+  IsStream: 0
+  Is3D: 1
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
@@ -696,7 +777,8 @@ MonoBehaviour:
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
-  Parameters: []
+  Parameters:
+  - {fileID: -1056753031847895313}
   MinDistance: 1
   MaxDistance: 20
   Length: 0
@@ -775,8 +857,8 @@ MonoBehaviour:
     Data3: 137363113
     Data4: -649892836
   Banks:
-  - {fileID: 8863628385748998373}
   - {fileID: 4726843598664218068}
+  - {fileID: 8863628385748998373}
   IsStream: 1
   Is3D: 0
   IsOneShot: 1
@@ -835,6 +917,30 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &-1056753031847895313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/SoccerBall_Movement/Death
+  m_EditorClassIdentifier: 
+  Name: Death
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 1911881671
+    data2: 3285038078
+  Type: 0
+  IsGlobal: 1
+  Labels: []
+  Exists: 1
 --- !u!114 &-778222523285118342
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -934,7 +1040,7 @@ MonoBehaviour:
   Banks:
   - {fileID: 8863628385748998373}
   IsStream: 0
-  Is3D: 0
+  Is3D: 1
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
@@ -1013,6 +1119,9 @@ MonoBehaviour:
   - {fileID: -5487754131743578891}
   - {fileID: 3340257051756992938}
   - {fileID: -418073757497052642}
+  - {fileID: -6409835285847227301}
+  - {fileID: -5606932139413062187}
+  - {fileID: -4896066604529677411}
   EditorParameters:
   - {fileID: 8489258654355211449}
   - {fileID: -8783761867706329071}
@@ -1021,7 +1130,7 @@ MonoBehaviour:
   - {fileID: -6826461039419286180}
   StringsBanks:
   - {fileID: 7393136385153924571}
-  cacheTime: 638793192592473058
+  cacheTime: 638818327405574028
   cacheVersion: 131846
 --- !u!114 &281135054876421853
 MonoBehaviour:
@@ -1521,10 +1630,10 @@ MonoBehaviour:
   Path: BrawlBallsFMOD/Build/Desktop/One-Shots.bank
   Name: One-Shots
   StudioPath: bank:/In_Game_SFXs/One-Shots
-  lastModified: 638793192592473058
+  lastModified: 638818327405574028
   FileSizes:
   - Name: Desktop
-    Value: 651552
+    Value: 659520
   Exists: 1
 --- !u!114 &4641892766574539756
 MonoBehaviour:
@@ -1732,6 +1841,30 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 0
+--- !u!114 &6972393341853838409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecb8ef7f94ca804a8ab72049b86782e, type: 3}
+  m_Name: parameter:/GavinBall_Movement/Parameter 1
+  m_EditorClassIdentifier: 
+  Name: Parameter 1
+  StudioPath: 
+  Min: 0
+  Max: 1
+  Default: 0
+  ID:
+    data1: 512914206
+    data2: 3367905946
+  Type: 0
+  IsGlobal: 0
+  Labels: []
+  Exists: 1
 --- !u!114 &7208942366039824265
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1774,10 +1907,10 @@ MonoBehaviour:
   Path: BrawlBallsFMOD/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638793177205376496
+  lastModified: 638818310698378536
   FileSizes:
   - Name: Desktop
-    Value: 4124
+    Value: 4320
   Exists: 1
 --- !u!114 &7487246396143731203
 MonoBehaviour:
@@ -2037,7 +2170,8 @@ MonoBehaviour:
   IsStream: 0
   Is3D: 0
   IsOneShot: 1
-  Parameters: []
+  Parameters:
+  - {fileID: 6972393341853838409}
   MinDistance: 1
   MaxDistance: 20
   Length: 0
@@ -2056,10 +2190,10 @@ MonoBehaviour:
   Path: BrawlBallsFMOD/Build/Desktop/Ambience.bank
   Name: Ambience
   StudioPath: bank:/In_Game_SFXs/Ambience
-  lastModified: 638792384562051300
+  lastModified: 638818309866817742
   FileSizes:
   - Name: Desktop
-    Value: 1495776
+    Value: 1495968
   Exists: 1
 --- !u!114 &8945699506501672728
 MonoBehaviour:

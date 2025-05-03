@@ -72,6 +72,9 @@
 		</relationship>
 	</object>
 	<object class="EventMixerMaster" id="{56195f22-9978-4b1d-98d5-8f91df91ee7d}">
+		<property name="volume">
+			<value>6.5</value>
+		</property>
 		<relationship name="effectChain">
 			<destination>{92b30531-b868-491a-9cab-f8566118c36e}</destination>
 		</relationship>
@@ -149,7 +152,7 @@
 			<value>140</value>
 		</property>
 		<property name="feedback">
-			<value>52.5</value>
+			<value>59.5</value>
 		</property>
 		<property name="level">
 			<value>-16</value>
@@ -160,7 +163,7 @@
 			<value>0.74000001</value>
 		</property>
 		<property name="mix">
-			<value>93</value>
+			<value>78</value>
 		</property>
 	</object>
 	<object class="SFXReverbEffect" id="{5a96d3b3-f73c-4c4f-af80-e29487c01f85}">
@@ -218,7 +221,7 @@
 	</object>
 	<object class="AutomationPoint" id="{8f2ecaf8-dbdc-4f0d-ab1a-d4191ed5e5e6}">
 		<property name="position">
-			<value>0.20214366677010434</value>
+			<value>0.20410633322989566</value>
 		</property>
 		<property name="value">
 			<value>1</value>

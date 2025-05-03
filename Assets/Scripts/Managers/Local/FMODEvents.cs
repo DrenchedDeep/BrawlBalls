@@ -9,6 +9,12 @@ namespace Managers.Local
         private float pitchModu = 0f;
         private float timer = 15;
 
+        [field:Header("Ball Movement Events")]
+        [field:SerializeField]
+        public List<EventReference> Movements { get; private set; }
+        
+        // Order: GavinBall, MarbleBall, PaintballBall, SoccerBall
+        
         [field: Header("BGM")]
         [field: SerializeField]
         public EventReference musicReference { get; private set; }
@@ -43,6 +49,16 @@ namespace Managers.Local
         public EventReference SoundWaveQ { get; private set; }
         [field: SerializeField]
         public EventReference SpikeQ { get; private set; }
+        [field: SerializeField]
+        public EventReference ProtectionQ { get; private set; }
+        [field: SerializeField]
+        public EventReference CaltropsQ { get; private set; }
+        [field:SerializeField]
+        public List<EventReference> PortalQ { get; private set; }
+        
+        [field: Header("Ball Explosions")]
+        [field: SerializeField]
+        public List<EventReference> Explosions { get; private set; }
 
         [field: Header("Spawn Ball")]
         [field: SerializeField]

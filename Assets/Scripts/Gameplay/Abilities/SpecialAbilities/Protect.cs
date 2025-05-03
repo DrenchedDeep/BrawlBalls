@@ -11,8 +11,10 @@ namespace Gameplay.Abilities.SpecialAbilities
 
         public override void ExecuteAbility(BallPlayer owner)
         {
-            Debug.LogWarning("We're not tracking the immortality timer. Will this cause issues?");
+            Debug.LogWarning("We're not tracking the immortality timer. Will this cause issues? (IMMORTALITY!)");
             _ = ImmortalityTimer(owner);
+            
+            AudioManager.instance.PlayOneShot(FMODEvents.instance.ProtectionQ, owner.transform.position);
         }
 
         public override void CancelAbility(BallPlayer owner)

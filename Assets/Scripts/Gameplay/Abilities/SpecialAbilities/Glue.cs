@@ -1,3 +1,4 @@
+using FMODUnity;
 using Managers.Local;
 using Managers.Network;
 using UnityEngine;
@@ -16,6 +17,7 @@ namespace Gameplay.Abilities.SpecialAbilities
         {
             Physics.Raycast(owner.transform.position, Vector3.down, out var hit, 5, StaticUtilities.GroundLayers);
             NetworkGameManager.Instance.SpawnObjectGlobally_ServerRpc("Glue", hit.point, Quaternion.identity);
+            AudioManager.instance.PlayOneShot(FMODEvents.instance.StickyQ, hit.point);
         }
 
         public override void CancelAbility(BallPlayer owner)
